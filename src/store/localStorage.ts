@@ -1,4 +1,4 @@
-export const cacheTime = 1000 * 60 * 60;
+export const cacheTime = 1000 * 60 * 60 * 24 * 7;
 
 // Вспомогательная функция для получения кэша из localStorage
 export const getCache = (key: string) => {

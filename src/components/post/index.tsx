@@ -11,7 +11,9 @@ export default function Post({
     body,
     author,
     likes,
-    game
+    game,
+    date_created,
+    date_updated
 }: PostProps) {
     return (
         <div className="post">
@@ -43,7 +45,8 @@ export default function Post({
                 </div>
             )}
             <div className="post_footer">
-                <p className="post_footer__date">{dayjs(new Date()).format("HH:mm DD.MM.YYYY")}</p>
+                <p className="post_footer__date">{dayjs(date_created).format("HH:mm DD.MM.YYYY")}</p>
+                <p className="post_footer__date">{date_updated && `(Изм. ${dayjs(date_updated)?.format("HH:mm DD.MM.YYYY")})`}</p>
             </div>
         </div>
     )

@@ -28,16 +28,22 @@
     &_context {
         display: grid;
         gap: 1em;
-        grid-template-columns: min(100%, 800px) 5em 1fr;
+        grid-template-columns: min(100%, 800px) minmax(350px, 1fr);
+        grid-auto-columns: auto;
+
+        @media (max-width: calc(800px + 350px + 3em)) {
+            grid-template-columns: 1fr;
+        }
     }
 
     &_nav {
         display: flex;
-        flex-direction: column;
-        width: 5em;
+        flex-direction: row;
+        height: 5em;
         gap: 1em;
         .game.compact {
             aspect-ratio: 1;
+            width: 5em;
             height: inherit;
         }
     }
@@ -46,6 +52,63 @@
         display: flex;
         gap: 1em;
         flex-direction: column;
+        width: 100%;
+
+        &__form {
+            display: flex;
+            gap: 1em;
+            flex-direction: row;
+            width: 100%;
+            flex-wrap: nowrap;
+
+            &_error {
+                color: #FF3131;
+            }
+        }
+
+        &__deleted {
+            font-size: 12pt;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        &__controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1em;
+
+            p {
+                color: #E07F72;
+                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        &__sub {
+            display: flex;
+            gap: 1em;
+            flex-direction: column;
+            margin-left: 1em;
+            padding-left: 1em;
+            border-left: .15em solid #73944149;
+
+            &_open {
+                width: 100%;
+                text-align: center;
+                cursor: pointer;
+                padding: .5em 1em;
+                transition: background .15s ease, color .15s ease;
+                background: #F2F2F2;
+                border-radius: 1em;
+                &:hover {
+                    background: #fff;
+                    text-decoration: underline;
+                    color: #E07F72;
+                }
+            }
+        }
     }
 
     &_body {
@@ -53,7 +116,6 @@
         flex-direction: column;
         gap: 1em;
         width: 100%;
-        max-width: 800px;
         iframe {
             width: 100%;
             aspect-ratio: 16/9;
@@ -61,7 +123,6 @@
             outline: 0;
             border-radius: 1em;
             box-shadow: inset 0 .15em .15em rgba(0, 0, 0, .15);
-            max-width: 800px;
         }
         &__tags {
             display: flex;
@@ -117,6 +178,12 @@
         &__description {
             font-weight: 400;
             font-size: 12pt;
+        }
+        &__empty {
+            text-align: center;
+            font-weight: 400;
+            font-size: 12pt;
+            font-style: italic;
         }
     }
 }
