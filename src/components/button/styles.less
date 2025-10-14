@@ -1,0 +1,49 @@
+.button {
+    padding: .5em 1.5em;
+    font-size: 1.25em;
+    border: 0;
+    outline: 0;
+    border-radius: 1em;
+    cursor: pointer;
+
+    box-shadow: 0 .15em .15em rgba(0, 0, 0, .15);
+
+    &.default {
+        background: #E07F72;
+        color: #fff;
+    }
+    &.clear {
+        background: transparent;
+        color: #000;
+
+        img {
+            filter: invert(1);
+        }
+    }
+    &.danger {
+        background: #fff;
+        color: #FF3131;
+    }
+
+    &:disabled {
+        background: #F2F2F2;
+        color: #0000006c;
+        cursor: not-allowed;
+    }
+
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1em;
+    img {
+        height: 1em;
+        aspect-ratio: 1;
+    }
+    
+}
+
+a[href]:has(.button) {
+    text-decoration: none !important;
+}

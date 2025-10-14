@@ -1,0 +1,26 @@
+{
+  "name": "Название проекта",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.9.0",
+    "@types/react": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.3",
+    "dayjs": "^1.11.18",
+    "hex-to-css-filter": "^6.0.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-hook-form": "^7.63.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.9.1",
+    "vite": "^7.1.6",
+    "web.comet": "^1.0.1-forms"
+  }
+}
