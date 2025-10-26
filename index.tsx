@@ -5,16 +5,16 @@ import {
     createBrowserRouter
 } from "react-router-dom";
 import { Provider } from "react-redux";
-import Store from "./src/store";
+import Store from "@/store";
 
 import * as Pages from "@/pages";
-import "@/styles/main.less";
+import "@/styles/index.less";
 
 const routers = createBrowserRouter([
     {
         path: "/",
         Component: Pages.Content,
-        errorElement: <Pages.Error />,
+        errorElement: <Pages.ErrorPage />,
         children: [
             {
                 index: true,
@@ -37,7 +37,7 @@ const routers = createBrowserRouter([
     {
         path: "/oauth",
         Component: Pages.oAuth,
-        errorElement: <Pages.Error />,
+        errorElement: <Pages.ErrorPage />,
         children: [
             {
                 index: true,
@@ -51,7 +51,10 @@ const routers = createBrowserRouter([
     }
 ]);
 
-createRoot(document.getElementById("app")).render(
+const app: HTMLElement | null = document.getElementById("app");
+if (!app)
+    throw new Error("Контейнер #app не найден");
+createRoot(app).render(
     <Provider store={Store}>
         <RouterProvider
             router={routers}

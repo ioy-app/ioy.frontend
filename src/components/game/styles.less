@@ -15,6 +15,8 @@
         }
     }
 
+    
+
     .game_avatar {
         display: flex;
         box-sizing: border-box;
@@ -25,10 +27,13 @@
         border-radius: .5em;
 
         cursor: pointer;
-        transition: box-shadow .2s ease;
+        transition: box-shadow .15s ease;
 
-        box-shadow: 0 .15em .15em rgba(0, 0, 0, .15);
-        &:hover { box-shadow: 0 .15em .35em rgba(0, 0, 0, .35); }
+        box-shadow: var(--shadow);
+
+        &:hover {
+            box-shadow: inset var(--shadow);
+        }
         
         img {
             width: 100%;
@@ -75,5 +80,20 @@
                 border-radius: 1em;
             }
         }
+    }
+}
+
+@keyframes animShuffle {
+    from {
+        transform: rotate(0);
+    }
+    25% {
+        transform: rotate(5deg);
+    }
+    75% {
+        transform: rotate(-5deg);
+    }
+    to {
+        transform: rotate(0);
     }
 }

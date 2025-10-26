@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.less";
-import UserProps from "./interface";
+import { UserProps } from "@/types";
 import { Profile } from "../../icons";
 import { useNavigate } from "react-router-dom";
 
@@ -27,7 +27,7 @@ export default function User({
             }}
         >
             <div className="user_avatar">
-                <img src={dataSource && dataSource.avatar && dataSource.avatar || Profile} />
+                <img src={Profile} />
             </div>
             {!compact && (
                 <>

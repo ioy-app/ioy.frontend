@@ -4,30 +4,25 @@ import * as Icons from "@/icons";
 
 import "./styles.less";
 
-import { fetchHomePageContent, clearCache } from "../../store/HomePageContent";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import User from "../user";
 import Search from "./search";
 import Button from "../button";
 
 export default function Header() {
     const navigator = useNavigate();
-    const dispatch = useDispatch();
 
     const [ isOpenSearch, setOpenSearch ] = useState<boolean>(false);
     const [ searchValue, setSearchValue ] = useState<string>("");
 
-    const { info, token } = useSelector(state => state?.login);
+    const { id, token, login, loading } = useSelector(state => state?.login);
 
 
     return (
         <header className="header">
             <div className="header_title">
-                <button onClick={() => {
-                    dispatch(fetchHomePageContent());
-                    navigator("/");
-                }}>
+                <button onClick={() => navigator("/")}>
                     <img
                         src={Icons.Logo}
                         className="logo"
@@ -57,14 +52,6 @@ export default function Header() {
                 </div>
             </div>
             <nav>
-                <NavLink to="/stories">
-                    <button>
-                        <img
-                            src={Icons.List}
-                            className="nav__icon logo"
-                        />
-                    </button>
-                </NavLink>
                 <NavLink to="/jams">
                     <button>
                         <img
@@ -73,16 +60,26 @@ export default function Header() {
                         />
                     </button>
                 </NavLink>
-                { token ? (
-                    <NavLink to={`/u/${info?.login}`}>
-                        <button>
-                            <User compact/>
-                        </button>
-                    </NavLink>
-                ) : (
-                    <NavLink to="/oauth">
-                        <Button>Вход</Button>
-                    </NavLink>
+                {loading ? <p>Загрузка...</p> : 
+                    (token ? (
+                        <>
+                            <NavLink to="/stories">
+                                <button>
+                                    <img
+                                        src={Icons.List}
+                                        className="nav__icon logo"
+                                    />
+                                </button>
+                            </NavLink>
+                            <button>
+                                <User dataSource={{ id, login }} link compact />
+                            </button>
+                        </>
+                    ) : (
+                        <NavLink to="/oauth">
+                            <Button>Вход</Button>
+                        </NavLink>
+                    )
                 )}
                 
             </nav>

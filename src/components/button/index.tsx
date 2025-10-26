@@ -8,13 +8,13 @@ export default function Button({
     onClick
 }: {
     children: ReactNode;
-    type?: string;
+    type?: "default" | "primary" | "second" | "danger" | "clear";
     disabled?: boolean;
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }) {
     return (
         <button
-            className={`button ${type || "default"}`}
+            className={`button ${type}`}
             disabled={disabled}
             onClick={onClick}
         >

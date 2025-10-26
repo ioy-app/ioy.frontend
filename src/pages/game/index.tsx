@@ -10,6 +10,7 @@ import * as Icons from "@/icons";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import Comment from "./comment";
+import fetchAPI from "@/api";
 
 export default function Game() {
     const params = useParams();
@@ -18,7 +19,8 @@ export default function Game() {
     const [ comments, setComments ] = useState([]);
     const { id } = params;
     const iframe = useRef(null);
-    const { info, token } = useSelector(state => state?.login);
+    const info = useSelector(state => state?.login);
+    const { token } = info;
     const [ searchParams, setSearchParams ] = useSearchParams();
 
     const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue, watch } = useForm({
@@ -32,12 +34,8 @@ export default function Game() {
         try {
             clearErrors();
             if (!data?.comment) throw "Пустое сообщение";
-            const response = await fetch(`/api/comments/${id}`, {
+            const response = await fetchAPI(`/api/v1/comments/${id}`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
                 body: JSON.stringify(data)
             });
             const json = await response.json();
@@ -102,7 +100,7 @@ export default function Game() {
         (async () => {
             setLoading(true);
             try {
-                const response = await fetch(`/api/games/${id}`),
+                const response = await fetchAPI(`/api/v1/games/${id}`),
                       json = await response.json();
                 if (!response.ok)
                     throw json?.msg;
@@ -120,7 +118,7 @@ export default function Game() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch(`/api/comments/${id}?${searchParams.toString()}`),
+                const response = await fetchAPI(`/api/v1/comments/${id}?${searchParams.toString()}`),
                       json = await response.json();
                 if (!response.ok)
                     throw json?.msg;
@@ -136,7 +134,7 @@ export default function Game() {
     return (
         <div className="gamepage">
             <div className="gamepage_header">
-                <img className="gamepage_header__avatar" src={`/api/games/${id}/icon`} />
+                <img className="gamepage_header__avatar" src={`/api/v1/games/${id}/icon`} />
                 <div>
                     <h1>{data?.title}</h1>
                     <p>{data?.version}</p>
@@ -146,7 +144,7 @@ export default function Game() {
                 <div className="gamepage_body">
                     <iframe
                         ref={iframe}
-                        src={`/api/games/${id}/game`}
+                        src={`/api/v1/games/${id}/game`}
                         className="gamepage_body__game"
                         allowFullScreen
                     />
@@ -208,7 +206,7 @@ export default function Game() {
                             key={i}
                             onSubmit={async (data) => {
                                 try {
-                                    const response = await fetch(`/api/comments/${id}`, {
+                                    const response = await fetchAPI(`/api/v1/comments/${id}`, {
                                         method: "POST",
                                         headers: {
                                             "Content-Type": "application/json",
@@ -240,7 +238,7 @@ export default function Game() {
                             }}
                             onEdit={async (data) => {
                                 try {
-                                    const response = await fetch(`/api/comments/${data?.isEdit}`, {
+                                    const response = await fetchAPI(`/api/v1/comments/${data?.isEdit}`, {
                                         method: "PUT",
                                         headers: {
                                             "Content-Type": "application/json",
@@ -266,7 +264,7 @@ export default function Game() {
                             }}
                             onDelete={async (msg_id: number) => {
                                 try {
-                                    const response = await fetch(`/api/comments/${msg_id}`, {
+                                    const response = await fetchAPI(`/api/v1/comments/${msg_id}`, {
                                         method: "DELETE",
                                         headers: {
                                             "Content-Type": "application/json",

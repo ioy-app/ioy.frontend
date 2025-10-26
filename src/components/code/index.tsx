@@ -3,37 +3,42 @@ import { Button, Input } from "..";
 import { useForm } from "react-hook-form";
 
 import "./styles.less";
-import { fetchoAuthLogin } from "@/store/oAuthLogin";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import fetchAPI from "@/api";
 
 export default function Code({
     onSubmit,
     onCancel,
     className
+}: {
+    onSubmit: (data: Record<string, any>) => void;
+    onCancel: () => void;
+    className?: string;
 }) {
-    const inputRefs = useRef([]);
-    const { register, handleSubmit, setValue, getValues, formState: { errors }, setError, clearErrors } = useForm();
-    const submit = async (data) => {
+    const inputRefs: any = useRef([]);
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        getValues,
+        formState: { errors },
+        setError,
+        clearErrors
+    } = useForm();
+    const submit = async (data: Record<string, any>) => {
         clearErrors();
         try {
-            const response = await fetch("/api/codes", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+            const response = await fetchAPI("/api/v1/codes", {
+                method: "POST",
                 body: JSON.stringify({
                     code: data?.code?.join("")
                 })
             });
             
             const json = await response.json();
-            console.log(json);
             if (!response?.ok)
                 throw json?.msg;
 
             onSubmit && onSubmit(json);
-            
         }
         catch(err) {
             setError("fetch", { message: err });
@@ -69,16 +74,14 @@ export default function Code({
         }
     };
 
-    console.log(errors);
-
     return (
-        <form onSubmit={handleSubmit(submit)} className={className}>
-            <div className="code_header">
-                <p className="code_header__title">Подтвердите действие</p>
-                <p className="code_header__description">Введите код, который пришел на вашу почту для подтверждения дейтсвия</p>
+        <form onSubmit={handleSubmit(submit)} className={`${className || ""} form`}>
+            <div className="form_header">
+                <p className="text title center">Подтвердите действие</p>
             </div>
+            <p className="text center">Введите код, который пришел на вашу почту для подтверждения дейтсвия</p>
             <div className="code_body">
-                {Array(6).fill(1).map((_: any, i: number) => (
+                {Array.from({ length: 6 }, (_: any, i: number) => (
                     <Input
                         key={i}
                         {...register(`code.${i}`)}
@@ -113,12 +116,15 @@ export default function Code({
                     />
                 ))}
             </div>
-            <div className="code_controls">
-                {errors?.fetch && <p className="code_controls__error">{errors?.fetch?.message}</p>}
-                <Button onClick={(e) => {
-                    e.preventDefault();
-                    onCancel && onCancel();
-                }}>
+            <div className="form_footer">
+                {errors?.fetch && <p className="text danger">{errors?.fetch?.message}</p>}
+                <Button
+                    type="primary"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        onCancel && onCancel();
+                    }}
+                >
                     Назад
                 </Button>
             </div>

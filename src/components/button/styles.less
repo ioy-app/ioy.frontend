@@ -1,49 +1,58 @@
 .button {
-    padding: .5em 1.5em;
-    font-size: 1.25em;
-    border: 0;
-    outline: 0;
-    border-radius: 1em;
-    cursor: pointer;
-
-    box-shadow: 0 .15em .15em rgba(0, 0, 0, .15);
-
-    &.default {
-        background: #E07F72;
-        color: #fff;
-    }
-    &.clear {
-        background: transparent;
-        color: #000;
-
-        img {
-            filter: invert(1);
-        }
-    }
-    &.danger {
-        background: #fff;
-        color: #FF3131;
-    }
-
-    &:disabled {
-        background: #F2F2F2;
-        color: #0000006c;
-        cursor: not-allowed;
-    }
-
-    
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    gap: 1em;
+    gap: var(--size-gap);
+    padding: calc(var(--size-padding) * .5) calc(var(--size-padding) * 1.25);
+    font-size: var(--size-text-default);
+    border: 0;
+    outline: 0;
+    border-radius: var(--size-border-radius);
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: box-shadow .15s ease;
+
+    &.default {
+        background: var(--clr-bg-default);
+        color: var(--clr-text-default);
+    }
+
+    &.primary {
+        background: var(--clr-primary);
+        color: var(--clr-primary-text);
+    }
+
+    &.second {
+        background: var(--clr-second);
+        color: var(--clr-second-text);
+    }
+
+    &.danger {
+        background: var(--clr-danger);
+        color: var(--clr-danger-text);
+    }
+
+    &.clear {
+        background: transparent;
+        color: var(--clr-text-default);
+        img { filter: invert(1); }
+    }
+
+    &:disabled {
+        background: var(--clr-disabled);
+        color: var(--clr-disabled-text);
+        cursor: not-allowed;
+    }
+    
+    &:hover {
+        box-shadow: inset var(--shadow);
+    }
+
     img {
         height: 1em;
         aspect-ratio: 1;
     }
-    
 }
 
-a[href]:has(.button) {
-    text-decoration: none !important;
-}
+a[href]:has(.button) { text-decoration: none !important; }

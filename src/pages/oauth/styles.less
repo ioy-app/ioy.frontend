@@ -18,40 +18,12 @@
         animation-duration: .25s;
 
         .oauth_form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1em;
             width: calc(50% - .5em);
             max-width: 500px;
             padding: 1em;
 
-            h1 {
-                font-size: 1.75em;
-                font-weight: 400;
-                text-align: center;
-                width: 100%;
-
-                overflow: hidden;
-                text-wrap: nowrap;
-                text-overflow: ellipsis;
-                animation-name: animDialog;
-                animation-duration: .5s;
-            }
-
-            .oauth_form__actions {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                gap: 1em;
-                width: 100%;
-                animation-name: animActions;
-                animation-duration: .5s;
-
-                .oauth_form__actions_message {
-                    color: #f00;
-                }
+            .oauth_form__actions_message {
+                color: var(--clr-danger-text);
             }
 
             .input_label {

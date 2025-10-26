@@ -1,8 +1,10 @@
 import React from "react";
 
+import "./styles.less";
+
 export default function Checkbox(props) {
     return (
-        <label>
+        <label className="checkbox">
             <input
                 type="checkbox"
                 name={props.name}

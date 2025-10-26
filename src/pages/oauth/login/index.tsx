@@ -7,6 +7,7 @@ import confPackage from "@/../package.json";
 import { Input, Button, Code } from "@/components";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../../store/login";
+import { oauth_login } from "@/api/routes/oauth";
 
 export default function Login() {
     const navigator = useNavigate();
@@ -17,16 +18,10 @@ export default function Login() {
 
     
     const submit = async (prevState, data: FormData) => {
-        const result = await fetch("/api/oauth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: data.get("email")
-            })
+        const result = await oauth_login({
+            email: data.get("email")
         });
-
+        
         if (!result?.ok) {
             const json = await result.json();
             return {
@@ -37,10 +32,11 @@ export default function Login() {
         setFormCode(true);
         return { success: true }
     }
-    const [ Form, handleSubmit, isPending ] = useActionState(submit, { success: null, message: '' });
+    const [ Form, handleSubmit, isPending ] = useActionState(submit, {
+        success: null,
+        message: ""
+    });
 
-    
-    
     useEffect(() => {
         if (token)
             navigator("/");
@@ -49,8 +45,10 @@ export default function Login() {
     return (
         <div className="oauth_content">
             {!isCodeForm ? (
-                <form className="oauth_form" action={handleSubmit}>
-                    <h1>Вход в систему</h1>
+                <form className="oauth_form form" action={handleSubmit}>
+                    <div className="form_header">
+                        <p className="text title center">Вход в систему</p>
+                    </div>
                     <Input
                         label="Эл. почта"
                         name="email"
@@ -58,9 +56,12 @@ export default function Login() {
                         type="email"
                         disabled={isPending}
                     />
-                    <div className="oauth_form__actions">
+                    <div className="form_footer">
                         {!Form.success && !isPending && <p className="oauth_form__actions_message">{Form.message}</p>}
-                        <Button disabled={isPending}>
+                        <Button
+                            disabled={isPending}
+                            type="second"
+                        >
                             {isPending ? "Проверка..." : "Войти"}
                         </Button>
                     </div>

@@ -7,6 +7,7 @@ import confPackage from "@/../package.json";
 
 import { Input, Button } from "@/components";
 import { Checkbox } from "../../../components";
+import { oauth_reg } from "@/api/routes/oauth";
 
 export default function Reg() {
     const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
@@ -14,13 +15,8 @@ export default function Reg() {
     const submit = async (data) => {
         try {
             clearErrors("valid");
-            const response = await fetch("/api/oauth/reg", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
+            const response = await oauth_reg(data);
+            
             const json = await response.json();
             if (!response.ok)
                 throw json?.msg || "Неизвестная ошибка";
@@ -37,15 +33,10 @@ export default function Reg() {
     return (
         <div className="oauth_content" onSubmit={handleSubmit(submit)}>
             
-            <form className="oauth_form">
-                <h1>Регистрация</h1>
-                <Input
-                    label="Эл. почта"
-                    name="email"
-                    placeholder="Введите эл.почту..."
-                    type="email"
-                    {...register("email")}
-                />
+            <form className="oauth_form form">
+                <div className="form_header">
+                    <p className="text title center">Регистрация</p>
+                </div>
                 <Input
                     label="Логин"
                     name="login"
@@ -53,14 +44,23 @@ export default function Reg() {
                     type="text"
                     {...register("login")}
                 />
+                <Input
+                    label="Эл. почта"
+                    name="email"
+                    placeholder="Введите эл.почту..."
+                    type="email"
+                    {...register("email")}
+                />
                 <Checkbox
                     name="rules"
                     placeholder="Я ознакомился(-ась) и согласен(-а) с правилами сайта!"
                     {...register("rule")}
                 />
-                <div className="oauth_form__actions">
+                <div className="form_footer">
                     {errors.valid && <p className="oauth_form__actions_message">{errors.valid.message} </p>}
-                    <Button>
+                    <Button
+                        type="second"
+                    >
                         Создать
                     </Button>
                 </div>

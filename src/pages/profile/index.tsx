@@ -7,33 +7,43 @@ import "./styles.less";
 
 
 import { clearLogin } from "../../store/login";
+import { UserProps } from "@/types";
+import { StoreProps } from "@/store";
+import * as Icons from "@/icons";
+
+import Games from "./games";
+import Edit from "./edit";
+
+import fetchAPI from "@/api";
+import { users_details, users_subscribe } from "@/api/routes/users";
 
 
 export default function Profile() {
     const dispatch = useDispatch();
     const navigator = useNavigate();
-    const { token } = useSelector(state => state?.login);
+    const { token } = useSelector((state: StoreProps) => state.login);
     const params = useParams();
     const [ isLoading, setLoading ] = useState<boolean>(true);
-    const [ data, setData ] = useState(null);
+    const [ isEdit, setEdit ] = useState<boolean>(false);
+    const [ data, setData ] = useState<UserProps | null>(null);
     const [ update, forceUpdate ] = useReducer((x: number) => x + 1, 0);
     const { login } = params;
 
-
     const handleSubscribe = async () => {
         try {
-            const response = await fetch(`/api/users/${login}/subscribe`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            }), json = await response.json();
+            if (!data)
+                throw new Error("Пользователь не найден");
+
+            const response: Response = await users_subscribe(login);
+            const json = await response.json();
+
             if (!response.ok)
                 throw json.msg;
 
+            if (!data.controls)
+                throw new Error("Нет авторизации");
             data.controls.is_subscribe = json?.status == "created" ? true : false;
-            data.subscribers = parseInt(data.subscribers) + (json?.status == "created" ? 1 : -1);
+            data.subscribers = data.subscribers + (json?.status == "created" ? 1 : -1);
 
             setData(data);
 
@@ -54,18 +64,17 @@ export default function Profile() {
         setLoading(true);
         (async () => {
             try {
-                const response = await fetch(`/api/users/${login}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
+                const response = await users_details(login);
 
-                const json = await response.json();
-                if (!response.ok)
+                
+                if (!response.ok) {
+                    const json = await response.json();
                     throw json.msg;
+                }
 
+                const json: UserProps = await response.json();
+
+                console.log(json, "!");
                 setData(json);
             }
             catch(err) {
@@ -75,26 +84,72 @@ export default function Profile() {
                 setLoading(false);
             }
         })();
-    }, [ login ]);
+    }, [ login, token ]);
 
     if (isLoading)
         return (
             <p>Загрузка...</p>
-        )
+        );
+
+    if (!data)
+        return (
+            <p>Пользователя не существует</p>
+        );
+
+    if (isEdit)
+        return (
+            <Edit data={data} onClose={() => setEdit(false)} />
+        );
     
     return (
-        <div className="profile" key={update}>
-            <div className="profile_header">
+        <div className="profile">
+            <div className="profile_header" key={update}>
                 <User dataSource={data}/>
-                <p className="profile_header__title">{data?.login}</p>
-                <p className="profile_header__subscribes">{data?.subscribers} подписчиков</p>
+                <p className="text title">{data?.login}</p>
                 
+                <div className="profile_header__description">
+                    {data?.description?.map(({ type, content }) => {
+                        switch(type) {
+                            case "main":
+                                return (
+                                    <p className="profile_header__description_main text">
+                                        {content}
+                                    </p>
+                                )
+                            break;
+                            default: {
+                                const icons = {
+                                    "telegram": Icons.SocialTelegram,
+                                    "youtube": Icons.SocialYoutube,
+                                    "gamejolt": Icons.SocialGameJolt,
+                                    "itch": Icons.SocialItch,
+                                    "steam": Icons.SocialSteam,
+                                    "appstore": Icons.SocialAppStore,
+                                    "google-play": Icons.SocialGooglePlay
+                                }
+                                return (
+                                    <a
+                                        className="profile_header__description_link"
+                                        href={content}
+                                        target="_blank"
+                                    >
+                                        <img src={icons[type]} />
+                                    </a>
+                                )
+                            } break;
+                        }
+                        
+                        return null;
+                    })}
+                </div>
+                <p className="text">{data?.subscribers} подписчиков</p>
                 {token && <div className="profile_header__controls">
                     {(data?.controls?.is_me) ? (
                         <>
-                            <Button>
-                                Редактировать
-                            </Button>
+                            <Button
+                                type="primary"
+                                onClick={() => setEdit(true)}
+                            >Редактировать</Button>
                             <Button
                                 type="danger"
                                 onClick={handleLogout}
@@ -106,15 +161,18 @@ export default function Profile() {
                         <>
                             <Button
                                 onClick={handleSubscribe}
-                                type={data?.controls?.is_subscribe ? "danger" : null}
+                                type={data?.controls?.is_subscribe ? "danger" : "second"}
                             >
                                 {data?.controls?.is_subscribe ? "Отписаться" : "Подписаться"}
                             </Button>
+                            
                         </>
                     )}
                 </div>}
             </div>
-            
+            <div className="profile_body">
+                <Games />
+            </div>
         </div>
     );
 }

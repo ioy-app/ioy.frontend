@@ -1,9 +1,10 @@
+import fetchAPI from "@/api";
 import { useState, useEffect } from "react";
 
 export default function useAPI<T>(
     url: string,
-    callback: (data: T) => T,
     request: RequestInit,
+    callback: (data: T) => T,
     filter=[]
 ) {
     const [ data, setData ] = useState<T | null>(null)
@@ -15,17 +16,19 @@ export default function useAPI<T>(
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch(url, request),
+                const response = await fetchAPI(url, request),
                       json = await response.json();
                 if (!response.ok)
                     throw new Error(json.msg);
 
-                setData(callback(json));
+                if (callback)
+                    setData(callback(json));
+                else setData(json)
             }
             catch(err: T | Error) { setError(err); }
             finally { setLoading(false); }
         })();
-    }, [ fetch, ...filter ]);
+    }, [ url, ...filter ]);
 
     return [ data, isLoading, error ];
 }

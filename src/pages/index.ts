@@ -3,7 +3,7 @@ import Stories from "./stories";
 import Content from "./content";
 import Profile from "./profile";
 import Game from "./game";
-import Error from "./error";
+import ErrorPage from "./error";
 
 import oAuth, {
     Login as oAuthLogin,
@@ -19,5 +19,5 @@ export {
     oAuthReg,
     Profile,
     Game,
-    Error
+    ErrorPage
 }

@@ -1,5 +1,5 @@
 {
-  "name": "Название проекта",
+  "name": "web.platform",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -15,12 +15,18 @@
     "@vitejs/plugin-react": "^5.0.3",
     "dayjs": "^1.11.18",
     "hex-to-css-filter": "^6.0.0",
+    "path": "^0.12.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.63.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.1",
-    "vite": "^7.1.6",
-    "web.comet": "^1.0.1-forms"
+    "ua-parser-js": "^2.0.6",
+    "vite": "^7.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@types/react-dom": "^19.2.2",
+    "typescript": "^5.9.3"
   }
 }

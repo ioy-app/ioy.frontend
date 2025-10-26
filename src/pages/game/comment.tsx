@@ -24,7 +24,8 @@ export default function Comment({
     const [ update, forceUpdate ] = useReducer((x: number) => x + 1, 0);
 
 
-    const { info, token } = useSelector(state => state?.login);
+    const info = useSelector(state => state?.login);
+    const { token } = info;
     const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue, watch } = useForm({
         defaultValues: {
             comment: null,
@@ -119,6 +120,7 @@ export default function Comment({
                             setForm((prev: boolean) => !prev);
                             setOpen(true);
                             setValue("isEdit", false);
+                            setValue("comment", null);
                         }}>Ответить</p>
                         {info && info?.id != author?.id && !localDelete && <p>Пожаловаться</p>}
                         {info && info?.id == author?.id && !localDelete && (
@@ -175,12 +177,13 @@ export default function Comment({
                         )}
                         
                     </div>
-                    {!isForm && (
+                    {!isForm && token && (
                         <div className="gamepage_comments__controls">
                             <p onClick={() => {
                                 setForm((prev: boolean) => !prev);
                                 setOpen(true);
                                 setValue("isEdit", false);
+                                setValue("comment", null);
                             }}>Ответить</p>
                         </div>
                     )}

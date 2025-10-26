@@ -4,6 +4,7 @@ import GameProps from "./interface";
 import "./styles.less";
 import User from "../user";
 import { useNavigate } from "react-router-dom";
+import { Routes } from "@/api";
 
 export default function Game({
     dataSource,
@@ -22,7 +23,7 @@ export default function Game({
             navigate(`/g/${dataSource?.id}`);
         }}>
             <div className="game_avatar">
-                <img src={`/api/games/${dataSource.id}/icon`} />
+                <img src={Routes.games.icon(dataSource.id)} />
             </div>
         </div>
     )

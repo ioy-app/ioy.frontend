@@ -9,6 +9,14 @@ import Empty from "./empty.svg";
 import Like from "./like.svg";
 import Fullscreen from "./fullscreen.svg";
 
+import SocialTelegram from "./social/telegram.svg";
+import SocialAppStore from "./social/appstore.svg";
+import SocialGameJolt from "./social/gamejolt.svg";
+import SocialGooglePlay from "./social/googleplay.svg";
+import SocialItch from "./social/itch.svg";
+import SocialSteam from "./social/steam.svg";
+import SocialYoutube from "./social/youtube.svg";
+
 export {
     Logo,
     Search,
@@ -19,5 +27,12 @@ export {
     LoginScreen,
     Empty,
     Like,
-    Fullscreen
+    Fullscreen,
+    SocialTelegram,
+    SocialAppStore,
+    SocialGameJolt,
+    SocialGooglePlay,
+    SocialItch,
+    SocialSteam,
+    SocialYoutube
 }
