@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.less";
 import { UserProps } from "@/types";
 import { Profile } from "../../icons";
@@ -8,14 +8,18 @@ export default function User({
     dataSource,
     compact=true,
     link,
+    preview,
     onClick
 }: {
     dataSource: UserProps;
     compact?: boolean;
     link?: boolean;
+    preview: FileList;
     onClick?: () => void;
 }) {
     const navigate = useNavigate();
+    const [ isError, setError ] = useState<boolean>(false);
+    
 
     return (
         <div
@@ -27,7 +31,10 @@ export default function User({
             }}
         >
             <div className="user_avatar">
-                <img src={Profile} />
+                <img
+                    src={isError ? Profile : (preview || `/api/v1/users/${dataSource?.login}/avatar`)}
+                    onError={() => setError(true)}
+                />
             </div>
             {!compact && (
                 <>

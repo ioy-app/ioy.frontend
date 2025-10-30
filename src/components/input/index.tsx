@@ -2,7 +2,6 @@ import React from "react";
 import "./styles.less";
 
 export default function Input(props) {
-    
     return (
         <label className="input_label">
             {props.label && <p className="input_label__title">{props.label}:</p>}

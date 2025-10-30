@@ -8,7 +8,6 @@ import { UAParser } from "ua-parser-js";
 export default function Sessions() {
     const [ isLoading, setLoading ] = useState<boolean>(true);
     const [ sessions, setSessions ] = useState(null);
-    const [ update, forceUpdate ] = useReducer((x: number) => x + 1, 0);
 
     useEffect(() => {
         (async () => {
@@ -26,13 +25,13 @@ export default function Sessions() {
                 setSessions(json);
             }
             catch(err) {
-                console.log(err);
+                console.log("!!!!", err);
             }
             finally {
                 setLoading(false);
             }
         })();
-    }, [ update ]);
+    }, []);
 
     const handleRemoveSession = async (id: number) => {
         try {
@@ -43,8 +42,6 @@ export default function Sessions() {
                 const json = await response.json();
                 throw new Error(json?.msg);
             }
-
-            forceUpdate();
         }
         catch(err) {
             console.log(err);

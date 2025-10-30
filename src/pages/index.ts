@@ -1,7 +1,7 @@
 import Home from "./home";
 import Stories from "./stories";
 import Content from "./content";
-import Profile from "./profile";
+import Profile, { ProfileEdit } from "./profile";
 import Game from "./game";
 import ErrorPage from "./error";
 
@@ -18,6 +18,7 @@ export {
     oAuthLogin,
     oAuthReg,
     Profile,
+    ProfileEdit,
     Game,
     ErrorPage
 }

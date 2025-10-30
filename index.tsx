@@ -29,6 +29,10 @@ const routers = createBrowserRouter([
                 element: <Pages.Profile />
             },
             {
+                path: "/u/:login/edit",
+                element: <Pages.ProfileEdit />
+            },
+            {
                 path: "/g/:id",
                 element: <Pages.Game />
             }

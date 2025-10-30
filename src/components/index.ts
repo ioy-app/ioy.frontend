@@ -6,6 +6,8 @@ import Input from "./input";
 import Button from "./button";
 import Checkbox from "./checkbox";
 import Code from "./code";
+import Tabs from "./tabs";
+import File from "./file";
 
 export {
     Header,
@@ -15,5 +17,7 @@ export {
     Input,
     Button,
     Checkbox,
-    Code
+    Code,
+    Tabs,
+    File
 }

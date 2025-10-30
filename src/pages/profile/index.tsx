@@ -1,12 +1,9 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { User, Button } from "@/components";
 
 import "./styles.less";
-
-
-import { clearLogin } from "../../store/login";
 import { UserProps } from "@/types";
 import { StoreProps } from "@/store";
 import * as Icons from "@/icons";
@@ -14,17 +11,19 @@ import * as Icons from "@/icons";
 import Games from "./games";
 import Edit from "./edit";
 
-import fetchAPI from "@/api";
+import fetchAPI, { Routes } from "@/api";
 import { users_details, users_subscribe } from "@/api/routes/users";
+
 
 
 export default function Profile() {
     const dispatch = useDispatch();
+    const location = useLocation();
     const navigator = useNavigate();
     const { token } = useSelector((state: StoreProps) => state.login);
     const params = useParams();
     const [ isLoading, setLoading ] = useState<boolean>(true);
-    const [ isEdit, setEdit ] = useState<boolean>(false);
+    const [ isEdit, setEdit ] = useState<boolean>(location.pathname.includes("edit"));
     const [ data, setData ] = useState<UserProps | null>(null);
     const [ update, forceUpdate ] = useReducer((x: number) => x + 1, 0);
     const { login } = params;
@@ -53,10 +52,6 @@ export default function Profile() {
             console.log(err);
         }
     }
-    const handleLogout = () => {
-        dispatch(clearLogin());
-        navigator("/");
-    }
 
     
 
@@ -73,8 +68,6 @@ export default function Profile() {
                 }
 
                 const json: UserProps = await response.json();
-
-                console.log(json, "!");
                 setData(json);
             }
             catch(err) {
@@ -94,11 +87,6 @@ export default function Profile() {
     if (!data)
         return (
             <p>Пользователя не существует</p>
-        );
-
-    if (isEdit)
-        return (
-            <Edit data={data} onClose={() => setEdit(false)} />
         );
     
     return (
@@ -146,16 +134,20 @@ export default function Profile() {
                 {token && <div className="profile_header__controls">
                     {(data?.controls?.is_me) ? (
                         <>
+                            <Button type="second">
+                                Новая игра
+                            </Button>
+                            
                             <Button
                                 type="primary"
-                                onClick={() => setEdit(true)}
-                            >Редактировать</Button>
-                            <Button
-                                type="danger"
-                                onClick={handleLogout}
+                                onClick={() => navigator(`/u/${login}/edit`)}
                             >
-                                Выйти из аккаунта
+                                Настройки
                             </Button>
+                            <Button>
+                                Статистика
+                            </Button>
+                            
                         </>
                     ) : (
                         <>
@@ -175,4 +167,8 @@ export default function Profile() {
             </div>
         </div>
     );
+}
+
+export {
+    Edit as ProfileEdit
 }

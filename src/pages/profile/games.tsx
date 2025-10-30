@@ -43,19 +43,21 @@ export default function Games() {
         );
 
     return (
-        <div className="block">
-            <div className="block_header">
-                <p className="text title">Игры</p>
+        data?.length > 0 && (
+            <div className="block">
+                <div className="block_header">
+                    <p className="text title">Игры</p>
+                </div>
+                <div className="block_body">
+                    {data.map((game) => (
+                        <Game
+                            dataSource={{
+                                id: game.id
+                            }}
+                        />
+                    ))}
+                </div>
             </div>
-            <div className="block_body">
-                {data.map((game) => (
-                    <Game
-                        dataSource={{
-                            id: game.id
-                        }}
-                    />
-                ))}
-            </div>
-        </div>
+        )
     )
 }
