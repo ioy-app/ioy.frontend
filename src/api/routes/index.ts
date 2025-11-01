@@ -23,6 +23,8 @@ interface UsersProps {
     games: (login: string) => string;
     jams: (login: string) => string;
     avatar: (login: string) => string;
+    subscribers: (login: string) => string;
+    favorites: (login: string) => string;
 }
 
 interface oAuthProps {
@@ -34,6 +36,8 @@ interface GamesProps {
     list: string;
     details: (id: number) => string;
     icon: (id: number) => string;
+    game: (id: number) => string;
+    subscribe: (id: number) => string;
 }
 
 interface RoutesProps {
@@ -59,7 +63,9 @@ const Routes: RoutesProps = {
         subscribe: (login: string) => `${path}/users/${login}/subscribe`,
         games: (login: string) => `${path}/users/${login}/games`,
         jams: (login: string) => `${path}/users/${login}/jams`,
-        avatar: (login: string) => `${path}/users/${login}/avatar`
+        avatar: (login: string) => `${path}/users/${login}/avatar`,
+        subscribers: (login: string) => `${path}/users/${login}/subscribers`,
+        favorites: (login: string) => `${path}/users/${login}/favorites`
     },
     oauth: {
         login: `${path}/oauth/login`,
@@ -68,7 +74,9 @@ const Routes: RoutesProps = {
     games: {
         list: `${path}/games`,
         details: (id: number) => `${path}/games/${id}`,
-        icon: (id: number) => `${path}/games/${id}/icon`
+        icon: (id: number) => `${path}/games/${id}/icon`,
+        subscribe: (id: number) => `${path}/games/${id}/subscribe`,
+        game: (id: number) => `${path}/games/${id}/game`
     }
 }
 

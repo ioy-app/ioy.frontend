@@ -1,5 +1,5 @@
-import { Button, Checkbox, File, Input, Tabs, User } from "@/components";
-import { useAPI } from "@/hooks";
+import { Button, Checkbox, File, Input, Spin, Tabs, User } from "@/components";
+import { useAPI, useNotify } from "@/hooks";
 import * as Icons from "@/icons";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,7 @@ import { UAParser } from "ua-parser-js";
 import Sessions from "./sessions";
 
 import { useSelector, useDispatch } from "react-redux";
-import { clearLogin } from "../../store/login";
+import { changeLogin, clearLogin } from "../../store/login";
 import { profile_logout } from "@/api/routes/profile";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -19,6 +19,8 @@ export default function Edit() {
     const [ isLoading, setLoading ] = useState<boolean>(true);
     const [ data, setData ] = useState<UserProps | null>(null);
     const params = useParams();
+
+    const { notify } = useNotify();
 
     const { login } = params;
 
@@ -34,21 +36,31 @@ export default function Edit() {
                 ...fd,
                 avatar: fd?.avatar?.[0]
             });
-            console.log(response);
+            const json = await response.json();
+            if (!response.ok)
+                throw json.msg;
+
+            notify("Изменения сохранены", "success");
+            dispatch(changeLogin(json));
+            navigator(`/u/${json.login}`);
+            
         }
-        catch(err) {
-            console.log(err);
-        }
+        catch(err) { notify(err.toString(), "error"); }
         finally {
             setLoading(false);
         }
-        console.log(fd);
     }
 
     const handleLogout = async () => {
+        console.log("1");
         await profile_logout();
+        console.log("2")
         dispatch(clearLogin());
+        console.log("3");
+        notify("Вы вышли из аккаунта", "info");
+        console.log("4");
         navigator("/");
+        console.log("5");
     }
 
     const avatar = watch("avatar");
@@ -86,123 +98,113 @@ export default function Edit() {
                 
                 setData(json);
             }
-            catch(err) {
-                console.log(err);
-            }
-            finally {
-                setLoading(false);
-            }
+            catch(err) { notify(err.toString(), "error"); }
+            finally { setLoading(false); }
         })();
     }, [ login ]);
 
-    if (isLoading)
-        return (
-            <p>Загрузка...</p>
-        );
-
-    if (!data)
-        return (
-            <p>Пользователя не существует</p>
-        );
-
     return (
-        <form className="profile edit" onSubmit={handleSubmit(submit)}>
-            <div className="profile_header">
-                <User dataSource={data} preview={handlePreview} />
-                <p className="text title">Настройки</p>
-                <File
-                    label="Аватар"
-                    accept="image/*"
-                    {...register("avatar")}
-                />
-                <Input
-                    placeholder="Логин"
-                    label="Логин"
-                    {...register("login")}
-                />
-                <Input
-                    placeholder="Описание"
-                    label="Осн. описание"
-                    {...register("description.0.content")}
-                />
-                <Tabs
-                    style={{ marginTop: "calc(var(--size-padding) * 2)" }}
-                    headers={[
-                        {
-                            label: "Приватность",
-                            value: "privacy"
-                        },
-                        {
-                            label: "Безопасность",
-                            value: "security"
-                        }
-                    ]}
-                    content={{
-                        privacy: (
-                            <>
-                                <p className="text title">Отображение на странице</p>
-                                <div className="profile_header__block edit">
-                                    <Checkbox
-                                        placeholder="Сохраненные игры"
-                                        {...register("privacy.favorites")}
+        <Spin loading={isLoading}>
+            <form className="profile edit" onSubmit={handleSubmit(submit)}>
+                <div className="profile_header">
+                    <User dataSource={data} preview={handlePreview} />
+                    <p className="text title">Настройки</p>
+                    <File
+                        label="Аватар"
+                        accept="image/*"
+                        {...register("avatar")}
+                    />
+                    <Input
+                        placeholder="Логин"
+                        label="Логин"
+                        {...register("login")}
+                    />
+                    <Input
+                        placeholder="Описание"
+                        label="Осн. описание"
+                        {...register("description.0.content")}
+                    />
+                    <Tabs
+                        style={{ marginTop: "calc(var(--size-padding) * 2)" }}
+                        headers={[
+                            {
+                                label: "Приватность",
+                                value: "privacy"
+                            },
+                            {
+                                label: "Безопасность",
+                                value: "security"
+                            }
+                        ]}
+                        content={{
+                            privacy: (
+                                <>
+                                    <p className="text title">Отображение на странице</p>
+                                    <div className="profile_header__block edit">
+                                        <Checkbox
+                                            placeholder="Собственные игры"
+                                            {...register("privacy.games")}
+                                        />
+                                        <Checkbox
+                                            placeholder="Подписки на авторов"
+                                            {...register("privacy.subscribers")}
+                                        />
+                                        <Checkbox
+                                            placeholder="Мне понравилось"
+                                            {...register("privacy.likes")}
+                                        />
+                                        <Checkbox
+                                            placeholder="Избранное"
+                                            {...register("privacy.favorites")}
+                                        />
+                                    </div>
+                                </>
+                            ),
+                            security: (
+                                <>
+                                    <p className="text title">Почтовый адрес</p>
+                                    <Input
+                                        placeholder="Введите почту..."
+                                        label="Текущая почта"
+                                        {...register("email.current")}
                                     />
-                                    <Checkbox
-                                        placeholder="Подписки на авторов"
-                                        {...register("privacy.subscribes")}
+                                    <Input
+                                        placeholder="Введите почту..."
+                                        label="Новая почта"
+                                        {...register("email.new")}
                                     />
-                                    <Checkbox
-                                        placeholder="Собственные игры"
-                                        {...register("privacy.games")}
-                                    />
-                                    <Checkbox
-                                        placeholder="Мне понравилось"
-                                        {...register("privacy.likes")}
-                                    />
-                                </div>
-                            </>
-                        ),
-                        security: (
-                            <>
-                                <p className="text title">Почтовый адрес</p>
-                                <Input
-                                    placeholder="Введите почту..."
-                                    label="Текущая почта"
-                                    {...register("email.current")}
-                                />
-                                <Input
-                                    placeholder="Введите почту..."
-                                    label="Новая почта"
-                                    {...register("email.new")}
-                                />
-                                <Sessions />
-                            </>
-                        )
+                                    <Sessions />
+                                </>
+                            )
+                        }}
+                    />
+                    <div className="profile_header__controls end">
+                        <Button
+                            type="clear"
+                            htmlType="button"
+                            onClick={() => navigator(`/u/${data?.login}`)}
+                        >
+                            Отмена
+                        </Button>
+                        <Button type="second" htmlType="submit">
+                            Сохранить
+                        </Button>
+                    </div>
+                </div>
+                <div
+                    style={{
+                        marginTop: "calc(var(--size-padding) * 3)"
                     }}
-                />
-                <div className="profile_header__controls end">
+                >
                     <Button
-                        type="clear"
-                        onClick={() => navigator(`/u/${data?.login}`)}
+                        htmlType="button"
+                        type="danger"
+                        onClick={handleLogout}
                     >
-                        Отмена
-                    </Button>
-                    <Button type="second">
-                        Сохранить
+                        Выйти из аккаунта
                     </Button>
                 </div>
-            </div>
-            <div
-                style={{
-                    marginTop: "calc(var(--size-padding) * 3)"
-                }}
-            >
-                <Button
-                    type="danger"
-                    onClick={handleLogout}
-                >
-                    Выйти из аккаунта
-                </Button>
-            </div>
-        </form>
+            </form>
+        </Spin>
     );
 }

@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 
 import "./styles.less";
-import { User } from "@/components";
+import { Spin, User } from "@/components";
 import GameComponents from "@/components/game";
 import { Button, Input, Post } from "../../components";
 import * as Icons from "@/icons";
@@ -11,10 +11,13 @@ import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import Comment from "./comment";
 import fetchAPI from "@/api";
+import { useNotify } from "@/hooks";
+import { games_subscribe } from "@/api/routes/games";
 
 export default function Game() {
     const params = useParams();
     const [ isLoading, setLoading ] = useState<boolean>(true);
+    const [ isControlLoading, setControlLoading ] = useState<boolean>(false);
     const [ data, setData ] = useState(null);
     const [ comments, setComments ] = useState([]);
     const { id } = params;
@@ -22,6 +25,7 @@ export default function Game() {
     const info = useSelector(state => state?.login);
     const { token } = info;
     const [ searchParams, setSearchParams ] = useSearchParams();
+    const { notify } = useNotify();
 
     const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue, watch } = useForm({
         defaultValues: {
@@ -29,6 +33,28 @@ export default function Game() {
             answer_id: null
         }
     });
+
+    const handleFavorite = async (e) => {
+        try {
+            setControlLoading(true);
+            const response = await games_subscribe(id);
+            const json = await response.json();
+
+            if (!response.ok)
+                throw json?.msg;
+
+            if (!data.controls)
+                throw new Error("Нет авторизации");
+
+            data.controls.is_subscribe = json?.status == "created" ? true : false;
+            data.subscribers = data.subscribers + (json?.status == "created" ? 1 : -1);
+
+            notify(json?.status == "created" ? "Вы сохранили игру" : "Вы отписались от игры", json?.status == "created" ? "success" : "warning");
+            setData(data);
+        }
+        catch(err) { notify(err.toString(), "error"); }
+        finally { setControlLoading(false); }
+    }
 
     const submit = async (data) => {
         try {
@@ -106,6 +132,7 @@ export default function Game() {
                     throw json?.msg;
 
                 setData(json);
+                console.log(json);
                 document.title = json?.title;
             }
             catch(err) {
@@ -132,170 +159,176 @@ export default function Game() {
     }, [ id, searchParams ]);
 
     return (
-        <div className="gamepage">
-            <div className="gamepage_header">
-                <img className="gamepage_header__avatar" src={`/api/v1/games/${id}/icon`} />
-                <div>
-                    <h1>{data?.title}</h1>
-                    <p>{data?.version}</p>
+        <Spin loading={isLoading}>
+            <div className="gamepage">
+                <div className="gamepage_header">
+                    <img className="gamepage_header__avatar" src={`/api/v1/games/${id}/icon`} />
+                    <div>
+                        <h1>{data?.title}</h1>
+                        <p>{data?.version}</p>
+                    </div>
                 </div>
-            </div>
-            <div className="gamepage_context">
-                <div className="gamepage_body">
-                    <iframe
-                        ref={iframe}
-                        src={`/api/v1/games/${id}/game`}
-                        className="gamepage_body__game"
-                        allowFullScreen
-                    />
-                    <div className="gamepage_body__controls">
-                        <div className="gamepage_body__controls_date">
-                            {data?.date_created && <p>{dayjs(data?.date_created).format("HH:mm DD.MM.YYYY")}</p>}
-                            {data?.date_updated && <p>(Изм. {dayjs(data?.date_updated).format("HH:mm DD.MM.YYYY")})</p>}
-                        </div>
-                        <div className="gamepage_body__controls_buttons">
-                            <Button type="clear">
-                                <img src={Icons.Like}/>
-                            </Button>
-                            <Button type="clear">
-                                <img src={Icons.Favorite}/>
-                            </Button>
-                            <Button type="clear" onClick={handleFullScreen}>
-                                <img src={Icons.Fullscreen}/>
-                            </Button>
-                        </div>
-                    </div>
-                    <p className="gamepage_body__description">{data?.description}</p>
-                    <div className="gamepage_body__tags">
-                        {data?.tags.map((tag: string) => (
-                            <p className="gamepage_body__tags_tag">{tag}</p>
-                        ))}
-                    </div>
-                    
-                    <div className="gamepage_body__authors">
-                        <p className="gamepage_body__title">{data?.authors_data?.length > 1 ? "Авторы" : "Автор"}</p>
-                        {data?.authors_data?.map(profile => (
-                            <User dataSource={profile} compact={false} link />
-                        ))}
-                    </div>
-                    
-                </div>
-                
-                <div className="gamepage_comments" key={comments}>
-                    <div className="gamepage_nav">
-                        {data?.recomendator?.map(game => <GameComponents dataSource={game} />)}
-                    </div>
-                    {token && !watch("answer_id") && (
-                        <>
-                            <form className="gamepage_comments__form" onSubmit={handleSubmit(submit)}>
-                                <Input
-                                    type="text"
-                                    placeholder="Ваш комментарий..."
-                                    {...register("comment")}
-                                    disabled={watch("answer_id")}
-                                />
-                                <Button disabled={watch("answer_id")}>OK</Button>
-                            </form>
-                            {errors?.comment && <p className="gamepage_comments__form_error">{errors?.comment?.message}</p>}
-                        </>
-                    )}
-                    <p className="gamepage_body__title">Комментарии ({comments?.length && comments[0]?.total || 0})</p>
-                    {comments?.map((comment, i) => (
-                        <Comment
-                            {...comment}
-                            key={i}
-                            onSubmit={async (data) => {
-                                try {
-                                    const response = await fetchAPI(`/api/v1/comments/${id}`, {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                            "Authorization": `Bearer ${token}`
-                                        },
-                                        body: JSON.stringify({
-                                            comment: data?.comment,
-                                            answer_id: comment?.id
-                                        })
-                                    });
-                                    const json = await response.json();
-
-                                    if (!response.ok)
-                                        throw json?.msg;
-
-                                    return {
-                                        id: json.id,
-                                        comment: data?.comment,
-                                        author: {
-                                            id: info?.id,
-                                            login: info?.login
-                                        },
-                                        date_created: new Date()
-                                    }
-                                }
-                                catch(err) {
-                                    console.log(err);
-                                }
-                            }}
-                            onEdit={async (data) => {
-                                try {
-                                    const response = await fetchAPI(`/api/v1/comments/${data?.isEdit}`, {
-                                        method: "PUT",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                            "Authorization": `Bearer ${token}`
-                                        },
-                                        body: JSON.stringify({
-                                            comment: data?.comment
-                                        })
-                                    });
-                                    const json = await response.json();
-
-                                    if (!response.ok)
-                                        throw json?.msg;
-
-                                    return {
-                                        id: data?.isEdit,
-                                        comment: data?.comment
-                                    }
-                                }
-                                catch(err) {
-                                    console.log(err);
-                                }
-                            }}
-                            onDelete={async (msg_id: number) => {
-                                try {
-                                    const response = await fetchAPI(`/api/v1/comments/${msg_id}`, {
-                                        method: "DELETE",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                            "Authorization": `Bearer ${token}`
-                                        }
-                                    });
-                                    const json = await response.json();
-
-                                    if (!response.ok)
-                                        throw json?.msg;
-
-                                    return true;
-                                }
-                                catch(err) {
-                                    console.log(err);
-                                }
-                            }}
+                <div className="gamepage_context">
+                    <div className="gamepage_body">
+                        <iframe
+                            ref={iframe}
+                            src={`/api/v1/games/${id}/game`}
+                            className="gamepage_body__game"
+                            allowFullScreen
                         />
-                    ))}
-                    {(searchParams.get("limit") - 0 || 3) < comments?.at(0)?.total && <div
-                        className="gamepage_comments__sub_open"
-                        onClick={() => {
-                            searchParams.set("limit", ((searchParams.get("limit") - 0) || 3) + 3);
-                            setSearchParams(searchParams);
-                        }}
-                    >
-                        Загрузить еще
-                    </div>}
-                    {!comments?.length && <p className="gamepage_body__empty">Нет комментариев</p>}
+                        <div className="gamepage_body__controls">
+                            <div className="gamepage_body__controls_date">
+                                {data?.date_created && <p>{dayjs(data?.date_created).format("HH:mm DD.MM.YYYY")}</p>}
+                                {data?.date_updated && <p>(Изм. {dayjs(data?.date_updated).format("HH:mm DD.MM.YYYY")})</p>}
+                            </div>
+                            <div className="gamepage_body__controls_buttons">
+                                <Button type="clear" disabled={isControlLoading}>
+                                    <img src={Icons.Like}/>
+                                </Button>
+                                <Button
+                                    type={data?.controls?.is_subscribe ? "primary" : "clear"}
+                                    onClick={handleFavorite}
+                                    disabled={isControlLoading}
+                                >
+                                    <img src={Icons.Favorite}/>
+                                </Button>
+                                <Button type="clear" onClick={handleFullScreen}>
+                                    <img src={Icons.Fullscreen}/>
+                                </Button>
+                            </div>
+                        </div>
+                        <p className="gamepage_body__description">{data?.description}</p>
+                        <div className="gamepage_body__tags">
+                            {data?.tags.map((tag: string) => (
+                                <p className="gamepage_body__tags_tag">{tag}</p>
+                            ))}
+                        </div>
+                        
+                        <div className="gamepage_body__authors">
+                            <p className="gamepage_body__title">{data?.authors_data?.length > 1 ? "Авторы" : "Автор"}</p>
+                            {data?.authors_data?.map(profile => (
+                                <User dataSource={profile} compact={false} link />
+                            ))}
+                        </div>
+                        
+                    </div>
+                    
+                    <div className="gamepage_comments" key={comments}>
+                        <div className="gamepage_nav">
+                            {data?.recomendator?.map(game => <GameComponents dataSource={game} />)}
+                        </div>
+                        {token && !watch("answer_id") && (
+                            <>
+                                <form className="gamepage_comments__form" onSubmit={handleSubmit(submit)}>
+                                    <Input
+                                        type="text"
+                                        placeholder="Ваш комментарий..."
+                                        {...register("comment")}
+                                        disabled={watch("answer_id")}
+                                    />
+                                    <Button disabled={watch("answer_id")}>OK</Button>
+                                </form>
+                                {errors?.comment && <p className="gamepage_comments__form_error">{errors?.comment?.message}</p>}
+                            </>
+                        )}
+                        <p className="gamepage_body__title">Комментарии ({comments?.length && comments[0]?.total || 0})</p>
+                        {comments?.map((comment, i) => (
+                            <Comment
+                                {...comment}
+                                key={i}
+                                onSubmit={async (data) => {
+                                    try {
+                                        const response = await fetchAPI(`/api/v1/comments/${id}`, {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                                "Authorization": `Bearer ${token}`
+                                            },
+                                            body: JSON.stringify({
+                                                comment: data?.comment,
+                                                answer_id: comment?.id
+                                            })
+                                        });
+                                        const json = await response.json();
+
+                                        if (!response.ok)
+                                            throw json?.msg;
+
+                                        return {
+                                            id: json.id,
+                                            comment: data?.comment,
+                                            author: {
+                                                id: info?.id,
+                                                login: info?.login
+                                            },
+                                            date_created: new Date()
+                                        }
+                                    }
+                                    catch(err) {
+                                        console.log(err);
+                                    }
+                                }}
+                                onEdit={async (data) => {
+                                    try {
+                                        const response = await fetchAPI(`/api/v1/comments/${data?.isEdit}`, {
+                                            method: "PUT",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                                "Authorization": `Bearer ${token}`
+                                            },
+                                            body: JSON.stringify({
+                                                comment: data?.comment
+                                            })
+                                        });
+                                        const json = await response.json();
+
+                                        if (!response.ok)
+                                            throw json?.msg;
+
+                                        return {
+                                            id: data?.isEdit,
+                                            comment: data?.comment
+                                        }
+                                    }
+                                    catch(err) {
+                                        console.log(err);
+                                    }
+                                }}
+                                onDelete={async (msg_id: number) => {
+                                    try {
+                                        const response = await fetchAPI(`/api/v1/comments/${msg_id}`, {
+                                            method: "DELETE",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                                "Authorization": `Bearer ${token}`
+                                            }
+                                        });
+                                        const json = await response.json();
+
+                                        if (!response.ok)
+                                            throw json?.msg;
+
+                                        return true;
+                                    }
+                                    catch(err) {
+                                        console.log(err);
+                                    }
+                                }}
+                            />
+                        ))}
+                        {(searchParams.get("limit") - 0 || 3) < comments?.at(0)?.total && <div
+                            className="gamepage_comments__sub_open"
+                            onClick={() => {
+                                searchParams.set("limit", ((searchParams.get("limit") - 0) || 3) + 3);
+                                setSearchParams(searchParams);
+                            }}
+                        >
+                            Загрузить еще
+                        </div>}
+                        {!comments?.length && <p className="gamepage_body__empty">Нет комментариев</p>}
+                    </div>
                 </div>
             </div>
-        </div>
+        </Spin>
     )
 }

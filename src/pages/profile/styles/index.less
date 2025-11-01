@@ -1,3 +1,5 @@
+@import "./content.less";
+
 .profile {
     display: flex;
     justify-content: center;
@@ -114,6 +116,12 @@
                 border-right: 0;
             }
         }
+    }
+
+    &_body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--size-gap);
     }
 }
 

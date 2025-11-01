@@ -8,6 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "date": "2025",
   "description": "",
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",
@@ -27,6 +28,11 @@
   "devDependencies": {
     "@types/node": "^24.7.2",
     "@types/react-dom": "^19.2.2",
+    "framer-motion": "^12.23.24",
+    "install": "^0.13.0",
+    "less": "^4.4.2",
+    "npm": "^11.6.2",
+    "react-transition-group": "^4.4.5",
     "typescript": "^5.9.3"
   }
 }

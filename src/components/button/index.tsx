@@ -1,24 +1,32 @@
-import React, { MouseEventHandler, ReactNode } from "react";
+import React from "react";
 import "./styles.less";
 
-export default function Button({
+const Button: React.FC = ({
     children,
-    type="default",
     disabled,
-    onClick
-}: {
-    children: ReactNode;
-    type?: "default" | "primary" | "second" | "danger" | "clear";
+    htmlType,
+    onClick,
+    type="default"
+} : {
+    /** Содержимое кнопки */
+    children: string | React.ReactElement;
+    /** Отключение */
     disabled?: boolean;
-    onClick?: MouseEventHandler<HTMLButtonElement>;
-}) {
-    return (
-        <button
-            className={`button ${type}`}
-            disabled={disabled}
-            onClick={onClick}
-        >
-            {children}
-        </button>
-    )
-}
+    /** Тип кнопки внутри формы */
+    htmlType?: "submit" | "reset" | "button";
+    /** Событие нажатия на кнопку */
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    /** Стиль кнопки  */
+    type?: "default" | "primary" | "second" | "danger" | "clear";
+}) => (
+    <button
+        className={`button ${type}`}
+        disabled={disabled}
+        onClick={onClick}
+        type={htmlType}
+    >
+        {children}
+    </button>
+);
+
+export default Button;

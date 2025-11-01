@@ -8,10 +8,12 @@ import { Input, Button, Code } from "@/components";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../../store/login";
 import { oauth_login } from "@/api/routes/oauth";
+import { useNotify } from "@/hooks";
 
 export default function Login() {
     const navigator = useNavigate();
     const dispatch = useDispatch();
+    const { notify } = useNotify();
 
     const { token } = useSelector(state => state.login);
     const [ isCodeForm, setFormCode ] = useState<boolean>(false);
@@ -69,6 +71,7 @@ export default function Login() {
             ) : (
                 <Code
                     onSubmit={async (data) => {
+                        notify(`Добро пожаловать, ${data?.login}`, "success");
                         dispatch(setLogin(data));
                         navigator("/");
                     }}

@@ -21,8 +21,6 @@ export default async function fetchAPI(
         obj.headers["Content-Type"] = "application/json";
     }
 
-    console.log(obj);
-
     const result = await fetch(path, {
         ...obj,
         credentials: "include"
@@ -33,7 +31,6 @@ export default async function fetchAPI(
             case 401: {
                 const result_refresh = await fetch(Routes.profile.refresh, { method: "POST" }),
                 json_refresh = await result_refresh.json();
-                console.log(json_refresh);
                 if (!result_refresh.ok) {
                     
                     dispatch(setToken(null));

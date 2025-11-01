@@ -13,22 +13,21 @@ export default function Home() {
         return localData;
     });
 
-    if (isLoading)
-        return (<p>Загрузка...</p>);
+    const repeatArray = (arr, n) => [].concat(...Array(n).fill(arr));
 
     return (
-        <>
+        <Components.Spin loading={isLoading}>
             <div className="grid">
-                {data?.games?.map((game, index) => (<Components.Game dataSource={game} key={index} />))}
+                {repeatArray(data?.games, 5)?.map((game, index) => (<Components.Game dataSource={game} key={index} />))}
             </div>
             <div className="tags">
-                <p># Популярные теги</p>
+                <p className="text title"># Популярные теги</p>
                 <div className="content">
                     {data?.tags?.map((tag, index) => (
-                        <p key={index}>{tag}</p>
+                        <p className="text" key={index}>{tag}</p>
                     ))}
                 </div>
             </div>
-        </>
+        </Components.Spin>
     );
 }

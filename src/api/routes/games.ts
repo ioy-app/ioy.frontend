@@ -7,5 +7,10 @@ export const games_list = () =>
 export const games_details = (id: number) =>
     fetchAPI(Routes.games.details(id));
 
+export const games_subscribe = (id: number) =>
+    fetchAPI(Routes.games.subscribe(id), {
+        method: "POST"
+    });
+
 export const games_icon = (id: number) =>
     fetchAPI(Routes.games.icon(id));

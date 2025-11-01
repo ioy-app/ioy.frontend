@@ -51,6 +51,9 @@ const authSlice = createSlice({
             state.token = null;
             state.login = null;
         },
+        changeLogin: (state, { payload }) => {
+            state.login = payload.login;
+        },
         getMe: (state) => {
             (async () => {
                 try {
@@ -90,5 +93,5 @@ const authSlice = createSlice({
     }
 });
 
-export const { setLogin, clearLogin, setToken, getMe } = authSlice.actions;
+export const { setLogin, clearLogin, setToken, getMe, changeLogin } = authSlice.actions;
 export default authSlice.reducer;

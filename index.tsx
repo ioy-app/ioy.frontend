@@ -9,6 +9,7 @@ import Store from "@/store";
 
 import * as Pages from "@/pages";
 import "@/styles/index.less";
+import { NotifyProvider } from "@/hooks";
 
 const routers = createBrowserRouter([
     {
@@ -60,8 +61,10 @@ if (!app)
     throw new Error("Контейнер #app не найден");
 createRoot(app).render(
     <Provider store={Store}>
-        <RouterProvider
-            router={routers}
-        />
+        <NotifyProvider>
+            <RouterProvider
+                router={routers}
+            />
+        </NotifyProvider>
     </Provider>
 );

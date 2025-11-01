@@ -1,3 +1,48 @@
+// Размеры устройств (примерные значения — подстрой под проект)
+@mobile-max: 540px;
+@tablet-min:      481px;
+@tablet-max:      1024px;
+@desktop-min:     1025px;
+
+// Плотность пикселей для Retina
+@retina-dpr: 2;
+
+// Мобильные устройства (до @mobile-max)
+.mobile(@rules) {
+  @media (max-width: @mobile-max) {
+    @rules();
+  }
+}
+
+// Планшеты (от @tablet-min до @tablet-max)
+.tablet(@rules) {
+  @media (min-width: @tablet-min) and (max-width: @tablet-max) {
+    @rules();
+  }
+}
+
+// Только вертикальная ориентация
+.portrait(@rules) {
+  @media (orientation: portrait) {
+    @rules();
+  }
+}
+
+// Только горизонтальная ориентация
+.landscape(@rules) {
+  @media (orientation: landscape) {
+    @rules();
+  }
+}
+
+// Retina / HiDPI дисплеи
+.retina(@rules) {
+  @media (-webkit-min-device-pixel-ratio: @retina-dpr),
+         (min-resolution: ~"@{retina-dpr}dppx") {
+    @rules();
+  }
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 * {
     font-family: "Roboto";
@@ -66,4 +111,14 @@ body {
     font-size: var(--size-text-default);
     font-weight: var(--weight-text-default);
     color: var(--clr-text-default)
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    main {
+        flex: 1;
+    }
 }

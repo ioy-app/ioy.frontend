@@ -1,6 +1,6 @@
 import { sessions_delete, sessions_list } from "@/api/routes/sessions";
-import { Button } from "@/components";
-import { useAPI } from "@/hooks";
+import { Button, Spin } from "@/components";
+import { useAPI, useNotify } from "@/hooks";
 import dayjs from "dayjs";
 import { useEffect, useReducer, useState } from "react";
 import { UAParser } from "ua-parser-js";
@@ -8,6 +8,7 @@ import { UAParser } from "ua-parser-js";
 export default function Sessions() {
     const [ isLoading, setLoading ] = useState<boolean>(true);
     const [ sessions, setSessions ] = useState(null);
+    const { notify } = useNotify();
 
     useEffect(() => {
         (async () => {
@@ -17,19 +18,13 @@ export default function Sessions() {
                 const response = await sessions_list();
                 const json = await response.json();
                 
-                if (!response.ok) {
-                    throw new Error(json?.msg);
-                    
-                }
-
+                if (!response.ok)
+                    throw new Error(json?.msg);   
+                
                 setSessions(json);
             }
-            catch(err) {
-                console.log("!!!!", err);
-            }
-            finally {
-                setLoading(false);
-            }
+            catch(err) { notify(err.toString(), "error"); }
+            finally { setLoading(false); }
         })();
     }, []);
 
@@ -43,17 +38,12 @@ export default function Sessions() {
                 throw new Error(json?.msg);
             }
         }
-        catch(err) {
-            console.log(err);
-        }
+        catch(err) { notify(err.toString(), "error"); }
         finally { setLoading(false); }
     }
-
-    if (isLoading)
-        return <p>Загрузка...</p>;
-
+    
     return (
-        <>
+        <Spin loading={isLoading}>
             <p className="profile_header__title edit">Активные сессии</p>
             {!sessions?.length && <p>Список пуст</p>}
             {sessions?.map((session, i) => {
@@ -84,6 +74,6 @@ export default function Sessions() {
                     </div>
                 )
             })}
-        </>
+        </Spin>
     )
 }

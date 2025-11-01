@@ -1,0 +1,42 @@
+.wp_notifies {
+    --width: max(50%, 300px);
+    position: fixed;
+    top: 0;
+    left: calc(50% - var(--width) * .5);
+    width: var(--width);
+    z-index: 500;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--size-gap);
+    padding: var(--size-padding);
+
+    &__notify {
+        padding: calc(var(--size-padding) * .5) calc(var(--size-padding));
+        
+        font-size: var(--size-text-default);
+        font-weight: var(--weight-text-default);
+        width: 100%;
+        border-radius: var(--size-border-radius);
+        box-shadow: var(--shadow);
+
+        &.info {
+            background: var(--clr-bg-primary);
+            color: var(--clr-text-default);
+        }
+        &.success {
+            background: var(--clr-second);
+            color: var(--clr-second-text);
+        }
+        &.warning {
+            background: var(--clr-primary);
+            color: var(--clr-primary-text);
+        }
+        &.error {
+            background: var(--clr-danger);
+            color: var(--clr-danger-text);
+        }
+    }
+}
