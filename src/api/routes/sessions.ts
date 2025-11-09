@@ -1,10 +1,29 @@
 import Routes from ".";
 import fetchAPI from "..";
 
-export const sessions_list = () =>
+/**
+ * Просмотр всех активных сессий
+ * @returns {Promise<Response>}
+*/
+export const sessions_list = (): Promise<Response> =>
     fetchAPI(Routes.sessions.list as string);
 
-export const sessions_delete = (id: number) =>
+/**
+ * Удаление активной сессии по ID
+ * 
+ * @param {number} id ID
+ * @returns {Promise<Response>}
+*/
+export const sessions_delete = (id: number): Promise<Response> =>
     fetchAPI(Routes.sessions.details(id), {
+        method: "DELETE"
+    });
+
+/**
+ * Удаление всех активных сессий
+ * @returns {Promise<Response>}
+*/
+export const sessions_delete_all = (): Promise<Response> =>
+    fetchAPI(Routes.sessions.list as string, {
         method: "DELETE"
     });

@@ -9,7 +9,8 @@ import Store from "@/store";
 
 import * as Pages from "@/pages";
 import "@/styles/index.less";
-import { NotifyProvider } from "@/hooks";
+import { ModalProvider, NotifyProvider } from "@/hooks";
+import "@/i18n";
 
 const routers = createBrowserRouter([
     {
@@ -38,21 +39,6 @@ const routers = createBrowserRouter([
                 element: <Pages.Game />
             }
         ]
-    },
-    {
-        path: "/oauth",
-        Component: Pages.oAuth,
-        errorElement: <Pages.ErrorPage />,
-        children: [
-            {
-                index: true,
-                element: <Pages.oAuthLogin />
-            },
-            {
-                path: "reg",
-                element: <Pages.oAuthReg />
-            }
-        ]
     }
 ]);
 
@@ -62,9 +48,11 @@ if (!app)
 createRoot(app).render(
     <Provider store={Store}>
         <NotifyProvider>
-            <RouterProvider
-                router={routers}
-            />
+            <ModalProvider>
+                <RouterProvider
+                    router={routers}
+                />
+            </ModalProvider>
         </NotifyProvider>
     </Provider>
 );

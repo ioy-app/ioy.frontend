@@ -1,0 +1,14 @@
+{
+    "subscribers_one": "{{count}} подписчик",
+    "subscribers_few": "{{count}} подписчика",
+    "subscribers_many": "{{count}} подписчиков",
+    "subscribers_other": "{{count}} подписчиков",
+    "success": {
+        "subscribe": "Вы подписались на {{login}}",
+        "unsubscribe": "Вы отписались от {{login}}"
+    },
+    "errors": {
+        "exists": "Пользователя {{login}} не существует",
+        "denied": "Нет доступа"
+    }
+}

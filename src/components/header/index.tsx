@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import User from "../user";
 import Input from "../input";
 import Spin from "../spin";
+import { useModal } from "@/hooks";
+import { oAuth, oAuthLogin, oAuthReg } from "@/pages";
 
 export default function Header() {
     const navigator = useNavigate();
@@ -17,6 +19,8 @@ export default function Header() {
     const [ searchValue, setSearchValue ] = useState<string>("");
 
     const { id, token, login, loading } = useSelector(state => state?.login);
+
+    const { modal } = useModal(); 
 
 
     return (
@@ -55,7 +59,7 @@ export default function Header() {
                         />
                     </button>
                 </NavLink>
-                <Spin loading={loading}>
+                <Spin loading={loading} key={login}>
                     {token ? (
                         <>
                             <NavLink to="/stories" key="stories">
@@ -71,11 +75,21 @@ export default function Header() {
                             </button>
                         </>
                     ) : (
-                        <NavLink to="/oauth" key="user">
-                            <button>
-                                <User compact />
-                            </button>
-                        </NavLink>
+                        <button
+                            key="user"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                modal(
+                                    oAuth,
+                                    "info",
+                                    () => (<></>)
+                                )
+                            }}
+                        >
+                            <User
+                                compact
+                            />
+                        </button>
                     )}
                 </Spin>
             </nav>

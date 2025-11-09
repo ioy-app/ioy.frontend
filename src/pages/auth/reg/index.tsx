@@ -7,7 +7,7 @@ import confPackage from "@/../package.json";
 
 import { Input, Button } from "@/components";
 import { Checkbox } from "../../../components";
-import { oauth_reg } from "@/api/routes/oauth";
+import { auth_reg } from "@/api/routes/auth";
 
 export default function Reg() {
     const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
@@ -15,7 +15,7 @@ export default function Reg() {
     const submit = async (data) => {
         try {
             clearErrors("valid");
-            const response = await oauth_reg(data);
+            const response = await auth_reg(data);
             
             const json = await response.json();
             if (!response.ok)
@@ -35,6 +35,7 @@ export default function Reg() {
             
             <form className="oauth_form form">
                 <div className="form_header">
+                    <img src={Icons.Logo} />
                     <p className="text title center">Регистрация</p>
                 </div>
                 <Input
@@ -47,7 +48,7 @@ export default function Reg() {
                 <Input
                     label="Эл. почта"
                     name="email"
-                    placeholder="Введите эл.почту..."
+                    placeholder="Введите эл. почту..."
                     type="email"
                     {...register("email")}
                 />
@@ -65,15 +66,6 @@ export default function Reg() {
                     </Button>
                 </div>
             </form>
-            <div className="oauth_banner">
-                <div className="oauth_dialog">
-                    <p>
-                        Или <NavLink to="/oauth">войти?</NavLink>
-                    </p>
-                </div>
-                <img src={Icons.Logo} />
-                <h1><NavLink to="/">{confPackage.name}</NavLink></h1>
-            </div>
         </div>
     )
 }

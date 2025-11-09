@@ -1,0 +1,52 @@
+.wp_modals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 400;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: transparent;
+    pointer-events: none;
+
+    transition: background .15s ease;
+
+    &__show {
+        pointer-events: visible;
+        background: rgba(0, 0, 0, .75);
+    }
+    &__body_show {
+        overflow: hidden;
+        max-height: 100vh;
+    }
+
+    &__modal {
+        display: flex;
+        flex-direction: column;
+        gap: var(--size-gap);
+
+        border-radius: var(--size-border-radius);
+        padding: var(--size-padding);
+        width: fit-content;
+        min-width: 300px;
+        max-width: calc(100vw - var(--size-padding) * 2);
+        max-height: calc(100vh - var(--size-padding) * 2);
+        overflow: hidden;
+        overflow-y: auto;
+        background: var(--clr-bg-primary);
+        z-index: 1;
+        box-shadow: var(--shadow);
+        &_footer {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            gap: var(--size-gap);
+            justify-content: flex-end;
+            align-items: center;
+        }
+    }
+}

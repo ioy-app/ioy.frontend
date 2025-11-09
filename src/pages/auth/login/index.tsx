@@ -7,11 +7,13 @@ import confPackage from "@/../package.json";
 import { Input, Button, Code } from "@/components";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../../store/login";
-import { oauth_login } from "@/api/routes/oauth";
+import { auth_login } from "@/api/routes/auth";
 import { useNotify } from "@/hooks";
 
-export default function Login() {
-    const navigator = useNavigate();
+export default function Login({
+    onClose
+}) {
+    //const navigator = useNavigate();
     const dispatch = useDispatch();
     const { notify } = useNotify();
 
@@ -20,7 +22,7 @@ export default function Login() {
 
     
     const submit = async (prevState, data: FormData) => {
-        const result = await oauth_login({
+        const result = await auth_login({
             email: data.get("email")
         });
         
@@ -39,9 +41,9 @@ export default function Login() {
         message: ""
     });
 
-    useEffect(() => {
-        if (token)
-            navigator("/");
+     useEffect(() => {
+         if (token)
+             onClose();
     }, []);
 
     return (
@@ -49,6 +51,7 @@ export default function Login() {
             {!isCodeForm ? (
                 <form className="oauth_form form" action={handleSubmit}>
                     <div className="form_header">
+                        <img src={Icons.Logo} />
                         <p className="text title center">Вход в систему</p>
                     </div>
                     <Input
@@ -73,21 +76,12 @@ export default function Login() {
                     onSubmit={async (data) => {
                         notify(`Добро пожаловать, ${data?.login}`, "success");
                         dispatch(setLogin(data));
-                        navigator("/");
+                        onClose();
                     }}
                     onCancel={() => setFormCode(false)}
                     className="oauth_form"
                 />
             )}
-            <div className="oauth_banner">
-                <div className="oauth_dialog">
-                    <p>
-                        Или <NavLink to="/oauth/reg">зарегистрироваться?</NavLink>
-                    </p>
-                </div>
-                <img src={Icons.LoginScreen} />
-                <h1><NavLink to="/">{confPackage.name}</NavLink></h1>
-            </div>
         </div>
     )
 }

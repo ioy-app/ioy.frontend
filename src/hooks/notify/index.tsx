@@ -43,7 +43,7 @@ export const NotifyProvider: React.FC = ({
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -50 }}
                             transition={{ duration: 0.3 }}
-                            className={`wp_notifies__notify ${note.type}`}
+                            className={`wp_notifies__notify notify_${note.type}`}
                         >
                         {note.message}
                         </motion.div>

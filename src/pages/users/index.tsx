@@ -13,20 +13,19 @@ import Edit from "./edit";
 
 import fetchAPI, { Routes } from "@/api";
 import { users_details, users_subscribe } from "@/api/routes/users";
-import { useNotify } from "@/hooks";
+import { useModal, useNotify } from "@/hooks";
 import Subscribers from "./content/subscribers";
 import Favorites from "./content/favorites";
+import { useTranslation } from "react-i18next";
 
 
 
 export default function Profile() {
-    const dispatch = useDispatch();
-    const location = useLocation();
+    const { t } = useTranslation();
     const navigator = useNavigate();
     const { token } = useSelector((state: StoreProps) => state.login);
     const params = useParams();
     const [ isLoading, setLoading ] = useState<boolean>(true);
-    const [ isEdit, setEdit ] = useState<boolean>(location.pathname.includes("edit"));
     const [ data, setData ] = useState<UserProps | null>(null);
     const [ update, forceUpdate ] = useReducer((x: number) => x + 1, 0);
     const { login } = params;
@@ -49,15 +48,13 @@ export default function Profile() {
             data.controls.is_subscribe = json?.status == "created" ? true : false;
             data.subscribers = data.subscribers + (json?.status == "created" ? 1 : -1);
 
-            notify(json?.status == "created" ? "Вы подписались" : "Вы отписались", json?.status == "created" ? "success" : "warning");
+            notify(t(json?.status == "created" ? "profile.success.subscribe" : "profile.success.unsubscribe", { login }), json?.status == "created" ? "success" : "warning");
 
             setData(data);
             forceUpdate();
         }
-        catch(err) { notify(err.toString(), "error"); }
+        catch(err) { notify(err?.message?.toString(), "error"); }
     }
-
-    
 
     useEffect(() => {
         setLoading(true);
@@ -69,9 +66,11 @@ export default function Profile() {
                     throw json.msg;
                 
                 setData(json as UserProps);
-                console.log(json);
             }
-            catch(err) { notify(err.toString(), "error"); }
+            catch(err) {
+                notify(err?.message?.toString(), "error");
+                navigator("/");
+            }
             finally { setLoading(false); }
         })();
     }, [ login, token ]);
@@ -118,7 +117,7 @@ export default function Profile() {
                             return null;
                         })}
                     </div>
-                    <p className="text">{data?.subscribers} подписчиков</p>
+                    <p className="text" key={data?.subscribers}>{t("profile.subscribers", { count: data?.subscribers })}</p>
                     {token && <div className="profile_header__controls">
                         {(data?.controls?.is_me) ? (
                             <>
@@ -126,20 +125,18 @@ export default function Profile() {
                                     type="second"
                                     htmlType="button"
                                     onClick={() => {
-                                        notify("Test!!!!", "info");
                                     }}
                                 >
-                                    Новая игра
+                                    {t("buttons.add_game")}
                                 </Button>
-                                
                                 <Button
                                     type="primary"
                                     onClick={() => navigator(`/u/${login}/edit`)}
                                 >
-                                    Настройки
+                                    {t("buttons.settings")}
                                 </Button>
                                 <Button>
-                                    Статистика
+                                    {t("buttons.stats")}
                                 </Button>
                                 
                             </>
@@ -149,7 +146,7 @@ export default function Profile() {
                                     onClick={handleSubscribe}
                                     type={data?.controls?.is_subscribe ? "danger" : "second"}
                                 >
-                                    {data?.controls?.is_subscribe ? "Отписаться" : "Подписаться"}
+                                    {!data?.controls?.is_subscribe ? t("buttons.subscribe") : t("buttons.unsubscribe")}
                                 </Button>
                                 
                             </>

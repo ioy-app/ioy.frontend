@@ -10,6 +10,7 @@ import Code from "./code";
 import Tabs from "./tabs";
 import File from "./file";
 import Spin from "./spin";
+import Session from "./session";
 
 export {
     Header,
@@ -23,5 +24,6 @@ export {
     Code,
     Tabs,
     File,
-    Spin
+    Spin,
+    Session
 }

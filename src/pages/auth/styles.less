@@ -1,0 +1,63 @@
+.oauth {
+    display: flex;
+    min-width: 300px;
+    width: calc(100vw - var(--size-padding) * 4);
+    max-width: 512px;
+    justify-content: center;
+    align-items: center;
+
+    &_content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--size-gap);
+        flex-wrap: wrap;
+        width: 100%;
+
+        animation-name: formShow;
+        animation-duration: .15s;
+
+        .oauth_form {
+            width: 100%;
+            max-width: 500px;
+            padding: var(--size-padding);
+
+            .form_header {
+                display: flex;
+                flex-direction: column;
+                gap: var(--size-gap);
+                img {
+                    height: 5em;
+                }
+            }
+
+            .oauth_form__actions_message { color: var(--clr-danger-text); }
+            .input_label { width: 100%; }
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .oauth {
+        align-items: baseline;
+        max-width: 100%;
+        &_content {
+            justify-content: center;
+            flex-direction: column-reverse;
+
+            .oauth_form {
+                width: 100%;
+                max-width: initial;
+            }
+        }
+    }
+}
+
+@keyframes formShow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

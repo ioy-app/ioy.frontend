@@ -29,7 +29,7 @@ export default async function fetchAPI(
     if (!result.ok) {
         switch(result.status) {
             case 401: {
-                const result_refresh = await fetch(Routes.profile.refresh, { method: "POST" }),
+                const result_refresh = await fetch(Routes.profile.refresh),
                 json_refresh = await result_refresh.json();
                 if (!result_refresh.ok) {
                     

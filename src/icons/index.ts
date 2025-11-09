@@ -8,6 +8,7 @@ import LoginScreen from "./login.svg";
 import Empty from "./empty.svg";
 import Like from "./like.svg";
 import Fullscreen from "./fullscreen.svg";
+import Lang from "./lang.svg";
 
 import SocialTelegram from "./social/telegram.svg";
 import SocialAppStore from "./social/appstore.svg";
@@ -34,5 +35,6 @@ export {
     SocialGooglePlay,
     SocialItch,
     SocialSteam,
-    SocialYoutube
+    SocialYoutube,
+    Lang
 }

@@ -1,0 +1,29 @@
+.session {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-gap);
+    width: 100%;
+    padding: var(--size-padding);
+
+    background: var(--clr-bg-second);
+    border-radius: var(--size-border-radius);
+
+    box-shadow: inset var(--shadow);
+
+    &_header {
+        display: flex;
+        gap: var(--size-gap);
+        justify-content: space-between;
+        font-size: 14pt;
+        font-weight: 300;
+    }
+
+    &_body {
+        display: flex;
+        gap: var(--size-gap);
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12pt;
+        font-weight: 400;
+    }
+}

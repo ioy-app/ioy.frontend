@@ -1,0 +1,11 @@
+{
+    "delete": "Delete",
+    "delete_all_sessions": "Delete all sessions",
+    "settings": "Settings",
+    "save": "Save",
+    "cancel": "Cancel",
+    "stats": "Metrics",
+    "add_game": "Add game",
+    "subscribe": "Subscribe",
+    "unsubscribe": "Unsubscribe"
+}

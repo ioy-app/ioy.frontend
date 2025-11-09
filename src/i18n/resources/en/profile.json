@@ -1,0 +1,13 @@
+{
+    "subscribers_one": "{{count}} subscriber",
+    "subscribers_many": "{{count}} subscribers",
+    "subscribers_other": "{{count}} subscribers",
+    "success": {
+        "subscribe": "You subscribe to {{login}}",
+        "unsubscribe": "You unsubscribe to {{login}}"
+    },
+    "errors": {
+        "exists": "{{login}} is not exists",
+        "denied": "Access denied"
+    }
+}

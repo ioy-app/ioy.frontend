@@ -1,15 +1,9 @@
 import React from "react";
 import "./styles.less";
 
-const Button: React.FC = ({
-    children,
-    disabled,
-    htmlType,
-    onClick,
-    type="default"
-} : {
+interface ButtonProps {
     /** Содержимое кнопки */
-    children: string | React.ReactElement;
+    children: string | React.ReactNode;
     /** Отключение */
     disabled?: boolean;
     /** Тип кнопки внутри формы */
@@ -18,6 +12,14 @@ const Button: React.FC = ({
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     /** Стиль кнопки  */
     type?: "default" | "primary" | "second" | "danger" | "clear";
+}
+
+const Button: React.FC<ButtonProps> = ({
+    children,
+    disabled,
+    htmlType="button",
+    onClick,
+    type="default"
 }) => (
     <button
         className={`button ${type}`}

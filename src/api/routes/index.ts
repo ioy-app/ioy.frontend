@@ -1,7 +1,7 @@
 import * as Profile from "./profile";
 import * as Sessions from "./sessions";
 import * as Users from "./users";
-import * as oAuth from "./oauth";
+import * as oAuth from "./auth";
 import * as Games from "./games";
 
 const path: string = "/api/v1";
@@ -27,7 +27,7 @@ interface UsersProps {
     favorites: (login: string) => string;
 }
 
-interface oAuthProps {
+interface AuthProps {
     login: string;
     reg: string;
 }
@@ -44,7 +44,7 @@ interface RoutesProps {
     sessions: DefaultProps;
     profile: ProfileProps;
     users: UsersProps;
-    oauth: oAuthProps;
+    auth: AuthProps;
     games: GamesProps;
 }
 
@@ -54,9 +54,9 @@ const Routes: RoutesProps = {
         details: (id: number) => `${path}/sessions/${id}`
     },
     profile: {
-        refresh: `${path}/refresh`,
-        me: `${path}/me`,
-        logout: `${path}/logout`
+        refresh: `${path}/sessions/update`,
+        me: `${path}/auth/me`,
+        logout: `${path}/auth/logout`
     },
     users: {
         details: (login: string) => `${path}/users/${login}`,
@@ -67,9 +67,9 @@ const Routes: RoutesProps = {
         subscribers: (login: string) => `${path}/users/${login}/subscribers`,
         favorites: (login: string) => `${path}/users/${login}/favorites`
     },
-    oauth: {
-        login: `${path}/oauth/login`,
-        reg: `${path}/oauth/reg`
+    auth: {
+        login: `${path}/auth/login`,
+        reg: `${path}/auth/reg`
     },
     games: {
         list: `${path}/games`,

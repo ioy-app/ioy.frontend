@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [
     react()
   ],
+  define: {
+    "process.env": {},
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development"),
+  },
   root: "./",
   build: {
     outDir: "./app/"
