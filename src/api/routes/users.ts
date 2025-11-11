@@ -12,6 +12,9 @@ export const users_subscribe = (login: string) =>
 export const users_games = (login: string) =>
     fetchAPI(Routes.users.games(login));
 
+export const users_likes = (login: string) =>
+    fetchAPI(Routes.users.likes(login));
+
 export const users_jams = (login: string) =>
     fetchAPI(Routes.users.jams(login));
 

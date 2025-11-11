@@ -17,6 +17,7 @@ import { useModal, useNotify } from "@/hooks";
 import Subscribers from "./content/subscribers";
 import Favorites from "./content/favorites";
 import { useTranslation } from "react-i18next";
+import Likes from "./content/likes";
 
 
 
@@ -157,6 +158,7 @@ export default function Profile() {
                     <Games />
                     <Subscribers />
                     <Favorites />
+                    <Likes />
                 </div>
             </div>
         </Spin>

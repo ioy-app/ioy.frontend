@@ -25,6 +25,7 @@ interface UsersProps {
     avatar: (login: string) => string;
     subscribers: (login: string) => string;
     favorites: (login: string) => string;
+    likes: (login: string) => string;
 }
 
 interface AuthProps {
@@ -38,6 +39,7 @@ interface GamesProps {
     icon: (id: number) => string;
     game: (id: number) => string;
     subscribe: (id: number) => string;
+    like: (id: number) => string;
 }
 
 interface RoutesProps {
@@ -65,7 +67,8 @@ const Routes: RoutesProps = {
         jams: (login: string) => `${path}/users/${login}/jams`,
         avatar: (login: string) => `${path}/users/${login}/avatar`,
         subscribers: (login: string) => `${path}/users/${login}/subscribers`,
-        favorites: (login: string) => `${path}/users/${login}/favorites`
+        favorites: (login: string) => `${path}/users/${login}/favorites`,
+        likes: (login: string) => `${path}/users/${login}/likes`
     },
     auth: {
         login: `${path}/auth/login`,
@@ -76,7 +79,8 @@ const Routes: RoutesProps = {
         details: (id: number) => `${path}/games/${id}`,
         icon: (id: number) => `${path}/games/${id}/icon`,
         subscribe: (id: number) => `${path}/games/${id}/subscribe`,
-        game: (id: number) => `${path}/games/${id}/game`
+        game: (id: number) => `${path}/games/${id}/game`,
+        like: (id: number) => `${path}/games/${id}/like`
     }
 }
 

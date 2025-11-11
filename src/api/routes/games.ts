@@ -12,5 +12,10 @@ export const games_subscribe = (id: number) =>
         method: "POST"
     });
 
+export const games_like = (id: number) =>
+    fetchAPI(Routes.games.like(id), {
+        method: "POST"
+    });
+
 export const games_icon = (id: number) =>
     fetchAPI(Routes.games.icon(id));

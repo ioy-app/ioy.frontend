@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import Comment from "./comment";
 import fetchAPI from "@/api";
 import { useNotify } from "@/hooks";
-import { games_subscribe } from "@/api/routes/games";
+import { games_like, games_subscribe } from "@/api/routes/games";
 
 export default function Game() {
     const params = useParams();
@@ -37,19 +37,33 @@ export default function Game() {
     const handleFavorite = async (e) => {
         try {
             setControlLoading(true);
-            const response = await games_subscribe(id);
+            const response = await games_subscribe(Number(id));
             const json = await response.json();
 
             if (!response.ok)
                 throw json?.msg;
 
-            if (!data.controls)
-                throw new Error("Нет авторизации");
-
-            data.controls.is_subscribe = json?.status == "created" ? true : false;
-            data.subscribers = data.subscribers + (json?.status == "created" ? 1 : -1);
+            data.is_subscribe = json?.status == "created" ? true : false;
 
             notify(json?.status == "created" ? "Вы сохранили игру" : "Вы отписались от игры", json?.status == "created" ? "success" : "warning");
+            setData(data);
+        }
+        catch(err) { notify(err.toString(), "error"); }
+        finally { setControlLoading(false); }
+    }
+
+    const handleLike = async (e) => {
+        try {
+            setControlLoading(true);
+            const response = await games_like(Number(id));
+            const json = await response.json();
+
+            if (!response.ok)
+                throw json?.msg;
+
+            data.is_like = json?.status == "liked" ? true : false;
+
+            notify(json?.status == "liked" ? "Вам понравилась игра" : "Вам не понравилась игра", json?.status == "liked" ? "success" : "warning");
             setData(data);
         }
         catch(err) { notify(err.toString(), "error"); }
@@ -182,11 +196,15 @@ export default function Game() {
                                 {data?.date_updated && <p>(Изм. {dayjs(data?.date_updated).format("HH:mm DD.MM.YYYY")})</p>}
                             </div>
                             <div className="gamepage_body__controls_buttons">
-                                <Button type="clear" disabled={isControlLoading}>
+                                <Button
+                                    type={data?.is_like ? "second" : "clear"}
+                                    disabled={isControlLoading}
+                                    onClick={handleLike}
+                                >
                                     <img src={Icons.Like}/>
                                 </Button>
                                 <Button
-                                    type={data?.controls?.is_subscribe ? "primary" : "clear"}
+                                    type={data?.is_subscribe ? "second" : "clear"}
                                     onClick={handleFavorite}
                                     disabled={isControlLoading}
                                 >
