@@ -18,7 +18,7 @@ export default function Home() {
     return (
         <Components.Spin loading={isLoading}>
             <div className="grid">
-                {repeatArray(data?.games, 5)?.map((game, index) => (<Components.Game dataSource={game} key={index} />))}
+                {repeatArray(data?.games, 1)?.map((game, index) => (<Components.Game dataSource={game} key={index} />))}
             </div>
             <div className="tags">
                 <p className="text title"># Популярные теги</p>

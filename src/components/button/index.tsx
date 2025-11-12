@@ -12,6 +12,8 @@ interface ButtonProps {
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     /** Стиль кнопки  */
     type?: "default" | "primary" | "second" | "danger" | "clear";
+    /** Стили */
+    className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -19,10 +21,11 @@ const Button: React.FC<ButtonProps> = ({
     disabled,
     htmlType="button",
     onClick,
-    type="default"
+    type="default",
+    className
 }) => (
     <button
-        className={`button ${type}`}
+        className={`button ${type} ${className}`}
         disabled={disabled}
         onClick={onClick}
         type={htmlType}

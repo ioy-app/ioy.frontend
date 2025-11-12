@@ -9,8 +9,8 @@ export const users_subscribe = (login: string) =>
         method: "POST"
     });
 
-export const users_games = (login: string) =>
-    fetchAPI(Routes.users.games(login));
+export const users_games = (login: string, us?: URLSearchParams) =>
+    fetchAPI(Routes.users.games(login) + (us && `?${us.toString()}` || ""));
 
 export const users_likes = (login: string) =>
     fetchAPI(Routes.users.likes(login));
