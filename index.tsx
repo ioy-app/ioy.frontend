@@ -5,53 +5,35 @@ import {
     createBrowserRouter
 } from "react-router-dom";
 import { Provider } from "react-redux";
-import Store from "@/store";
+import Store from "@/stories";
 
 import * as Pages from "@/pages";
 import "@/styles/index.less";
 import { ModalProvider, NotifyProvider } from "@/hooks";
 import "@/i18n";
 
+import routes from "@/routes";
+import { AppProvider } from "@/hooks/app";
 const routers = createBrowserRouter([
     {
         path: "/",
         Component: Pages.Content,
         errorElement: <Pages.ErrorPage />,
-        children: [
-            {
-                index: true,
-                element: <Pages.Home />
-            },
-            {
-                path: "/stories",
-                element: <Pages.Stories/>
-            },
-            {
-                path: "/u/:login",
-                element: <Pages.Profile />
-            },
-            {
-                path: "/u/:login/edit",
-                element: <Pages.ProfileEdit />
-            },
-            {
-                path: "/g/:id",
-                element: <Pages.Game />
-            }
-        ]
+        children: routes
     }
 ]);
 
 const app: HTMLElement | null = document.getElementById("app");
 if (!app)
-    throw new Error("Контейнер #app не найден");
+    throw new Error("#app is not defined");
+
 createRoot(app).render(
     <Provider store={Store}>
         <NotifyProvider>
             <ModalProvider>
-                <RouterProvider
-                    router={routers}
-                />
+                <AppProvider>
+                    <RouterProvider router={routers} />
+                </AppProvider>
             </ModalProvider>
         </NotifyProvider>
     </Provider>

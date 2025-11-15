@@ -1,133 +1,149 @@
-import React, { useActionState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Input } from "..";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import "./styles.less";
 import fetchAPI from "@/api";
+import { useNotify } from "@/hooks";
+import { useTranslation } from "react-i18next";
 
-export default function Code({
-    onSubmit,
-    onCancel,
-    className
-}: {
+const length: number = 6; // Длина кода подтверждения
+
+/** Форма для ввода проверочного кода */
+const Code: React.FC<{
+    /** Событие успеха */
     onSubmit: (data: Record<string, any>) => void;
+    /** Событие отмены */
     onCancel: () => void;
+    /** Классы */
     className?: string;
-}) {
-    const inputRefs: any = useRef([]);
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        getValues,
-        formState: { errors },
-        setError,
-        clearErrors
-    } = useForm();
-    const submit = async (data: Record<string, any>) => {
-        clearErrors();
+}> = ({ onSubmit, onCancel, className }) => {
+    const [ isLoading, setLoading ] = useState<boolean>(false);
+    const inputRefs = useRef([]);
+    const methods = useForm();
+    const { notify } = useNotify();
+    const { t } = useTranslation();
+
+    const handleSubmit = async ({ code }: { code: string[] }) => {
         try {
+            setLoading(true);
             const response = await fetchAPI("/api/v1/codes", {
                 method: "POST",
-                body: JSON.stringify({
-                    code: data?.code?.join("")
-                })
-            });
-            
+                body: JSON.stringify({ code: code.join("") })
+            })
             const json = await response.json();
-            if (!response?.ok)
+            if (!response.ok)
                 throw json?.msg;
 
             onSubmit && onSubmit(json);
         }
         catch(err) {
-            setError("fetch", { message: err });
-            for (let i = 0; i < 6; i++)
-                setValue(`code.${i}`, '');
-            setTimeout(() => {
-                inputRefs.current[0]?.focus();
-                inputRefs.current[0]?.select();
-            }, 0);
+            notify(`codes.${err?.message}`, "error");
+            handleClear();
         }
+        finally { setLoading(false); }
     }
 
-    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const handleClear = () => {
+        for (let i = 0; i < length; i++)
+            methods.setValue(`code.${i}`, '');
+        setTimeout(() => {
+            inputRefs?.current?.[0]?.focus();
+            inputRefs?.current?.[0]?.select();
+        }, 0);
+    }
+
+     const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
         e.preventDefault();
-        clearErrors();
+
         const pastedData = e?.clipboardData?.getData("text")?.trim();
-        const digits = pastedData.match(/\d/g)?.slice(0, 6) || [];
+        const digits = pastedData.match(/\d/g)?.slice(0, length) || [];
 
         if (digits.length === 0) return;
 
         digits.forEach((digit, idx) => {
-            if (idx < 6) {
-                setValue(`code.${idx}`, digit);
-            }
+            if (idx < length)
+                methods.setValue(`code.${idx}`, digit);
         });
-        const focusIndex = Math.min(digits.length - 1, 5);
+        const focusIndex = Math.min(digits.length - 1, length - 1);
+
         setTimeout(() => {
-            inputRefs.current[focusIndex]?.focus();
-            inputRefs.current[focusIndex]?.select();
+            inputRefs?.current?.[focusIndex]?.focus();
+            inputRefs?.current?.[focusIndex]?.select();
         }, 0);
-        if (digits.length === 6) {
-            handleSubmit(submit)();
-        }
+
+        if (digits.length === 6)
+            methods.handleSubmit(handleSubmit)();
     };
 
     return (
-        <form onSubmit={handleSubmit(submit)} className={`${className || ""} form`}>
-            <div className="form_header">
-                <p className="text title center">Подтвердите действие</p>
-            </div>
-            <p className="text center">Введите код, который пришел на вашу почту для подтверждения дейтсвия</p>
-            <div className="code_body">
-                {Array.from({ length: 6 }, (_: any, i: number) => (
-                    <Input
-                        key={i}
-                        {...register(`code.${i}`)}
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        maxLength={1}
-                        onChange={e => {
-                            const value = e?.target?.value || '';
-                            if (!/^\d?$/.test(value)) return;
-                            clearErrors();
-                            register(`code.${i}`)?.onChange(e);
+        <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(handleSubmit)} className={`form ${className || ""}`}>
+                <div className="form_header">
+                    <p className="text title center">{t("codes.title")}</p>
+                </div>
+                <p className="text center">{t("codes.description")}</p>
+                <div className="code_body">
+                    {Array.from({ length }, (_: any, i: number) => (
+                        <Input
+                            {...methods.register(`code.${i}`)}
+                            disabled={isLoading}
+                            key={i}
+                            inputMode="numberic"
+                            pattern="[0-9]*"
+                            maxLength={1}
+                            ref={(elem: HTMLInputElement) => {
+                                inputRefs.current[i] = elem;
+                                methods.register(`code.${i}`).ref(elem);
+                            }}
+                            onFocus={(elem: React.FocusEvent<HTMLInputElement>) => elem.target.select()}
+                            onPaste={(elem: React.ClipboardEvent<HTMLInputElement>) => {
+                                if (i)
+                                    return;
 
-                            if (value && i < 5)
-                                setTimeout(() => inputRefs.current[i + 1]?.focus(), 0);
+                                handlePaste(elem);
+                            }}
+                            onKeyDown={(elem: React.KeyboardEvent<HTMLInputElement>) => {
+                                if (elem.key == "Backspace" && i && !Boolean(elem.currentTarget.value)) {
+                                    elem.preventDefault();
+                                    inputRefs?.current?.[i - 1]?.focus();
+                                }
+                            }}
+                            onChange={(elem: React.ChangeEvent<HTMLInputElement>) => {
+                                const value = String(elem.currentTarget.value || "");
+                                if (!/^d$/.test(value))
+                                    return;
 
-                            if (i === 5 && value && getValues("code").join("").length == 6)
-                                handleSubmit(submit)();
+                                if (!value)
+                                    return;
+
+                                if (i < (length - 1))
+                                    setTimeout(() => inputRefs?.current?.[i + 1]?.focus(), 0);
+
+                                if (i == (length - 1)) {
+                                    const code = methods.getValues("code")?.join("");
+                                    if (code?.length == length)
+                                        methods.handleSubmit(handleSubmit);
+                                }
+                            }}
+                        />
+                    ))}
+                </div>
+                <div className="form_footer">
+                    <Button
+                        type="primary"
+                        onClick={(elem: React.MouseEvent<HTMLButtonElement>) => {
+                            elem.preventDefault();
+                            onCancel && onCancel();
                         }}
-                        onKeyDown={e => {
-                            if (e.key == "Backspace" && i > 0 && !e?.target?.value) {
-                                e.preventDefault();
-                                inputRefs.current[i - 1]?.focus();
-                            }
-                        }}
-                        {...(i == 0 ? { onPaste: handlePaste } : {})}
-                        onFocus={e => e?.target?.select()}
-                        
-                        ref={(el) => {
-                            inputRefs.current[i] = el;
-                            register(`code.${i}`).ref(el);
-                        }}
-                    />
-                ))}
-            </div>
-            <div className="form_footer">
-                {errors?.fetch && <p className="text danger">{errors?.fetch?.message}</p>}
-                <Button
-                    type="primary"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        onCancel && onCancel();
-                    }}
-                >
-                    Назад
-                </Button>
-            </div>
-        </form>
-    )
+                        disabled={isLoading}
+                    >
+                        {t("buttons.back")}
+                    </Button>
+                </div>
+            </form>
+        </FormProvider>
+    );
 }
+
+export default Code;

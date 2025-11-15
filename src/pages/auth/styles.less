@@ -1,4 +1,4 @@
-.oauth {
+.auth {
     display: flex;
     min-width: 300px;
     width: calc(100vw - var(--size-padding) * 4);
@@ -17,7 +17,7 @@
         animation-name: formShow;
         animation-duration: .15s;
 
-        .oauth_form {
+        .auth_form {
             width: 100%;
             max-width: 500px;
             padding: var(--size-padding);
@@ -31,21 +31,21 @@
                 }
             }
 
-            .oauth_form__actions_message { color: var(--clr-danger-text); }
+            .auth_form__actions_message { color: var(--clr-danger-text); }
             .input_label { width: 100%; }
         }
     }
 }
 
 @media screen and (max-width: 900px) {
-    .oauth {
+    .auth {
         align-items: baseline;
         max-width: 100%;
         &_content {
             justify-content: center;
             flex-direction: column-reverse;
 
-            .oauth_form {
+            .auth_form {
                 width: 100%;
                 max-width: initial;
             }

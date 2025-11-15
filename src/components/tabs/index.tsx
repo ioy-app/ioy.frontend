@@ -1,20 +1,23 @@
 import { CSSProperties, ReactNode, useState } from "react";
-
 import "./styles.less";
 
-interface HeaderProps {
-    label: string;
+export interface HeaderProps {
+    label: React.ReactNode;
     value: string;
 }
 
-const Tabs: React.FC = ({
-    headers,
-    content,
-    style
-}: {
+const emptyParent: React.FC<{ children: ReactNode }> = ({ children }) => children;
+
+const Tabs: React.FC<{
     headers: HeaderProps[];
     content: Record<string, ReactNode>;
     style?: CSSProperties;
+    ContentParent?: typeof emptyParent;
+}> = ({
+    headers,
+    content,
+    style,
+    ContentParent=emptyParent
 }) => {
     const [ selectTab, setSelectTab ] = useState<HeaderProps | null>(headers[0]);
 
@@ -32,7 +35,9 @@ const Tabs: React.FC = ({
                 ))}
             </div>
             <div className="tabs_body" key={selectTab?.value}>
-                {content && content[(selectTab as HeaderProps).value]}
+                <ContentParent>
+                    {content && content[(selectTab as HeaderProps).value]}
+                </ContentParent>
             </div>
         </div> 
     );

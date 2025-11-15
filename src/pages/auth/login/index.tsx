@@ -1,87 +1,83 @@
 import React, { useActionState, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import * as Icons from "@/icons";
 
-import confPackage from "@/../package.json";
 import { Input, Button, Code } from "@/components";
 import { useDispatch } from "react-redux";
-import { setLogin } from "../../../store/login";
+import { setLogin } from "../../../stories/login";
 import { auth_login } from "@/api/routes/auth";
+import { useTranslation } from "react-i18next";
+import { FormProvider, useForm } from "react-hook-form";
 import { useNotify } from "@/hooks";
 
-export default function Login({
-    onClose
-}) {
-    //const navigator = useNavigate();
+const Login: React.FC<{ onClose: () => void; }> = ({ onClose }) => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const { notify } = useNotify();
-
-    const { token } = useSelector(state => state.login);
+    const methods = useForm();
     const [ isCodeForm, setFormCode ] = useState<boolean>(false);
+    const [ isLoading, setLoading ] = useState<boolean>(false);
 
-    
-    const submit = async (prevState, data: FormData) => {
-        const result = await auth_login({
-            email: data.get("email")
-        });
-        
-        if (!result?.ok) {
-            const json = await result.json();
-            return {
-                success: false,
-                message: json?.msg
-            };
+    const handleSubmit = async ({ email }: { email: string }) => {
+        try {
+            setLoading(true);
+
+            const response = await auth_login({ email });
+            if (!response.ok) {
+                const json = await response.json();
+                throw json?.msg;
+            }
+            
+            setFormCode(true);
         }
-        setFormCode(true);
-        return { success: true }
+        catch(err) { notify(`auth.${err?.message}`); }
+        finally { setLoading(false); }
     }
-    const [ Form, handleSubmit, isPending ] = useActionState(submit, {
-        success: null,
-        message: ""
-    });
 
-     useEffect(() => {
-         if (token)
-             onClose();
-    }, []);
+    const handleVerify = async ({ login, ...props }: { login: string }) => {
+        notify(t("auth.welcome", { login }), "success");
+        dispatch(setLogin({
+            ...props,
+            login
+        }));
+        onClose();
+    }
+    
+    if (isCodeForm)
+        return (
+            <Code
+                onSubmit={handleVerify}
+                onCancel={() => setFormCode(false)}
+                className="auth_form"
+            />
+        );
 
     return (
-        <div className="oauth_content">
-            {!isCodeForm ? (
-                <form className="oauth_form form" action={handleSubmit}>
-                    <div className="form_header">
-                        <img src={Icons.Logo} />
-                        <p className="text title center">Вход в систему</p>
-                    </div>
-                    <Input
-                        label="Эл. почта"
-                        name="email"
-                        placeholder="Введите эл.почту..."
-                        type="email"
-                        disabled={isPending}
-                    />
-                    <div className="form_footer">
-                        {!Form.success && !isPending && <p className="oauth_form__actions_message">{Form.message}</p>}
-                        <Button
-                            disabled={isPending}
-                            type="second"
-                        >
-                            {isPending ? "Проверка..." : "Войти"}
-                        </Button>
-                    </div>
-                </form>
-            ) : (
-                <Code
-                    onSubmit={async (data) => {
-                        notify(`Добро пожаловать, ${data?.login}`, "success");
-                        dispatch(setLogin(data));
-                        onClose();
-                    }}
-                    onCancel={() => setFormCode(false)}
-                    className="oauth_form"
+        <FormProvider {...methods}>
+            <form className="auth_form form" onSubmit={methods.handleSubmit(handleSubmit)}>
+                <div className="form_header">
+                    <img src={Icons.Logo} />
+                    <p className="text title center">{t("auth.title.login")}</p>
+                </div>
+                <Input
+                    {...methods.register("email")}
+                    label={t("auth.labels.email")}
+                    placeholder={t("auth.placeholders.email")}
+                    type="email"
+                    disabled={isLoading}
                 />
-            )}
-        </div>
-    )
+                <div className="form_footer">
+                    <Button
+                        disabled={isLoading}
+                        type="second"
+                        htmlType="submit"
+                    >
+                        {t(isLoading ? "buttons.loading" : "buttons.ok")}
+                    </Button>
+                </div>
+            </form>
+        </FormProvider>
+    );
 }
+
+export default Login;

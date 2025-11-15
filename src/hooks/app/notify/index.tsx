@@ -10,11 +10,7 @@ export interface NotifyProps {
 }
 
 const NotifyContext = createContext(null);
-export const NotifyProvider: React.FC = ({
-    children
-} : {
-    children: React.ReactElement;
-}) => {
+export const NotifyProvider: React.FC<{ children: React.ReactNode; }> = ({ children }) => {
     const [ stack, setStack ] = useState<NotifyProps[] | null>(null);
 
     const notify = (message: string, type: NotifyProps["type"] = "info") => {
@@ -25,9 +21,7 @@ export const NotifyProvider: React.FC = ({
             type
         }]);
 
-        setTimeout(() => {
-            setStack(prev => prev.filter(note => note.id !== id));
-        }, 3000);
+        setTimeout(() => setStack(prev => prev.filter(note => note.id !== id)), 3000);
     }
 
     return (

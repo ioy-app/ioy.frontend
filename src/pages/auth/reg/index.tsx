@@ -9,7 +9,11 @@ import { Input, Button } from "@/components";
 import { Checkbox } from "../../../components";
 import { auth_reg } from "@/api/routes/auth";
 
-export default function Reg() {
+export default function Reg({
+    onClose
+}: {
+    onClose?: () => void;
+}) {
     const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
 
     const submit = async (data) => {
@@ -31,9 +35,9 @@ export default function Reg() {
     }
 
     return (
-        <div className="oauth_content" onSubmit={handleSubmit(submit)}>
+        <div className="auth_content" onSubmit={handleSubmit(submit)}>
             
-            <form className="oauth_form form">
+            <form className="auth_form form">
                 <div className="form_header">
                     <img src={Icons.Logo} />
                     <p className="text title center">Регистрация</p>
@@ -58,7 +62,7 @@ export default function Reg() {
                     {...register("rule")}
                 />
                 <div className="form_footer">
-                    {errors.valid && <p className="oauth_form__actions_message">{errors.valid.message} </p>}
+                    {errors.valid && <p className="auth_form__actions_message">{errors.valid.message} </p>}
                     <Button
                         type="second"
                     >

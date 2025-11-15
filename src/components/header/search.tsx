@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchHomePageContent } from "../../store/HomePageContent";
+import { fetchHomePageContent } from "../../stories/HomePageContent";
 import Game from "../game";
 import { useAPI } from "../../hooks";
 import User from "../user";

@@ -1,54 +1,47 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-
+import { useTranslation } from "react-i18next";
 import Login from "./login";
 import Reg from "./reg";
 
 import "./styles.less";
 import { Tabs } from "@/components";
-export default function oAuth({
-    onClose
-}) {
+
+/**
+ * Содержания блока авторизации/регистрации
+*/
+const Auth: React.FC<{
+    /** Событие закрытия модального окна */
+    onClose: () => void;
+}> = ({ onClose }) => {
+    const { t } = useTranslation();
     return (
-        <div className="oauth">
+        <div className="auth">
             <Tabs
                 headers={[
                     {
-                        label: "Вход",
+                        label: t("buttons.login"),
                         value: "login"
                     },
                     {
-                        label: "Регистрация",
+                        label: t("buttons.reg"),
                         value: "reg"
                     }
                 ]}
+                ContentParent={({children}: {children: React.ReactNode}) => (
+                    <div className="auth_content">
+                        {children}
+                    </div>
+                )}
                 content={{
                     login: <Login onClose={onClose} />,
                     reg: <Reg onClose={onClose} />
                 }}
             />
         </div>
-    )
+    );
 }
 
+export default Auth;
 export {
     Login,
     Reg
 }
-
-/* <Tabs
-            headers={[
-                {
-                    label: "Вход",
-                    value: "login"
-                },
-                {
-                    label: "Регистрация",
-                    value: "reg"
-                }
-            ]}
-            content={{
-                login: <Login />,
-                reg: <Reg />
-            }}
-        /> */

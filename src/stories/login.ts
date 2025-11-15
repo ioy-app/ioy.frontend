@@ -1,6 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { UserProps } from "@/types";
-import fetchAPI from "@/api";
 import { profile_me } from "@/api/routes/profile";
 
 interface initialStateProps {

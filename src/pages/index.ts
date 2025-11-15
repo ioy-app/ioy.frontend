@@ -5,18 +5,18 @@ import Profile, { ProfileEdit } from "./users";
 import Game from "./game";
 import ErrorPage from "./error";
 
-import oAuth, {
-    Login as oAuthLogin,
-    Reg as oAuthReg
+import Auth, {
+    Login as AuthLogin,
+    Reg as AuthReg
 } from "./auth";
 
 export {
     Content,
     Home,
     Stories,
-    oAuth,
-    oAuthLogin,
-    oAuthReg,
+    Auth,
+    AuthLogin,
+    AuthReg,
     Profile,
     ProfileEdit,
     Game,

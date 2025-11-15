@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import * as Components from "@/components";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchMe } from "@/store/login";
+import { fetchMe } from "@/stories/login";
 import { NotifyProvider } from "@/hooks";
 
 export default function Content() {

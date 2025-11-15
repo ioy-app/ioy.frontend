@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import Stories from "./Stories";
 import Login from "./login";
 
 const Store = configureStore({
     reducer: {
-        Stories: Stories,
         login: Login
     }
 })

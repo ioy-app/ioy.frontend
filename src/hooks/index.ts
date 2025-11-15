@@ -1,6 +1,6 @@
 import useAPI from "./useAPI";
-import useNotify, { NotifyProvider } from "./notify";
-import useModal, { ModalProvider } from "./modal";
+import useNotify, { NotifyProvider } from "./app/notify";
+import useModal, { ModalProvider } from "./app/modal";
 
 export {
     useAPI,

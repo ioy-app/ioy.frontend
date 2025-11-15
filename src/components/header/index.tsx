@@ -1,5 +1,4 @@
-import confPackage from "@/../package.json";
-import React, { useState } from "react";
+import { useState } from "react";
 import * as Icons from "@/icons";
 
 import "./styles.less";
@@ -10,7 +9,7 @@ import User from "../user";
 import Input from "../input";
 import Spin from "../spin";
 import { useModal } from "@/hooks";
-import { oAuth, oAuthLogin, oAuthReg } from "@/pages";
+import { Auth } from "@/pages";
 
 export default function Header() {
     const navigator = useNavigate();
@@ -80,8 +79,7 @@ export default function Header() {
                             onClick={(e) => {
                                 e.preventDefault();
                                 modal(
-                                    oAuth,
-                                    "info",
+                                    Auth,
                                     () => (<></>)
                                 )
                             }}

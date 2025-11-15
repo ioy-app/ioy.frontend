@@ -1,13 +1,10 @@
 import { Button, Checkbox, File, Input, Spin, Tabs, User } from "@/components";
-import { useAPI, useModal, useNotify } from "@/hooks";
-import * as Icons from "@/icons";
-import dayjs from "dayjs";
+import { useModal, useNotify } from "@/hooks";
 import { useForm } from "react-hook-form";
-import { UAParser } from "ua-parser-js";
 import Sessions from "./sessions";
 
 import { useSelector, useDispatch } from "react-redux";
-import { changeLogin, clearLogin } from "../../store/login";
+import { changeLogin, clearLogin } from "../../stories/login";
 import { profile_logout } from "@/api/routes/profile";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -156,7 +153,6 @@ export default function Edit() {
                                 e.preventDefault();
                                 modal(
                                     Email,
-                                    "info",
                                     (onClose) => (
                                         <>
                                         
@@ -174,7 +170,6 @@ export default function Edit() {
                                 e.preventDefault();
                                 modal(
                                     Sessions,
-                                    "info",
                                     (onClose) => (
                                         <>
                                         
@@ -192,7 +187,6 @@ export default function Edit() {
                                 e.preventDefault();
                                 modal(
                                     Delete,
-                                    "info",
                                     (onClose) => (
                                         <>
                                         
@@ -219,7 +213,6 @@ export default function Edit() {
                                 e.preventDefault();
                                 modal(
                                     "Вы хотите сохранить изменения?",
-                                    "info",
                                     (onClose) => (
                                         <>
                                             <Button

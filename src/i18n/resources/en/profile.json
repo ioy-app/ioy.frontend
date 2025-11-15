@@ -1,13 +1,14 @@
 {
     "subscribers_one": "{{count}} subscriber",
+    "subscribers_few": "{{count}} subscribers",
     "subscribers_many": "{{count}} subscribers",
     "subscribers_other": "{{count}} subscribers",
     "success": {
-        "subscribe": "You subscribe to {{login}}",
-        "unsubscribe": "You unsubscribe to {{login}}"
+        "subscribe": "You are now following {{login}}",
+        "unsubscribe": "You unfollowed {{login}}"
     },
     "errors": {
-        "exists": "{{login}} is not exists",
+        "exists": "User {{login}} not found",
         "denied": "Access denied"
     }
 }

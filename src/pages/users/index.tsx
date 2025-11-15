@@ -5,7 +5,7 @@ import { User, Button, Spin } from "@/components";
 
 import "./styles/index.less";
 import { UserProps } from "@/types";
-import { StoreProps } from "@/store";
+import { StoreProps } from "@/stories";
 import * as Icons from "@/icons";
 
 import Games from "./content/games";

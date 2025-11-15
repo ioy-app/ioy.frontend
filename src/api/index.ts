@@ -1,5 +1,5 @@
-import Store, { dispatch } from "@/store";
-import { setToken } from "@/store/login";
+import Store, { dispatch } from "@/stories";
+import { setToken } from "@/stories/login";
 
 import Routes from "./routes";
 

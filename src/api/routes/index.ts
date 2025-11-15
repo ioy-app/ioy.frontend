@@ -5,52 +5,7 @@ import * as oAuth from "./auth";
 import * as Games from "./games";
 
 const path: string = "/api/v1";
-
-interface DefaultProps {
-    list?: string;
-    details: (id: number) => string;
-}
-
-interface ProfileProps {
-    refresh: string;
-    me: string;
-    logout: string;
-}
-
-interface UsersProps {
-    details: (login: string) => string;
-    subscribe: (login: string) => string;
-    games: (login: string) => string;
-    jams: (login: string) => string;
-    avatar: (login: string) => string;
-    subscribers: (login: string) => string;
-    favorites: (login: string) => string;
-    likes: (login: string) => string;
-}
-
-interface AuthProps {
-    login: string;
-    reg: string;
-}
-
-interface GamesProps {
-    list: string;
-    details: (id: number) => string;
-    icon: (id: number) => string;
-    game: (id: number) => string;
-    subscribe: (id: number) => string;
-    like: (id: number) => string;
-}
-
-interface RoutesProps {
-    sessions: DefaultProps;
-    profile: ProfileProps;
-    users: UsersProps;
-    auth: AuthProps;
-    games: GamesProps;
-}
-
-const Routes: RoutesProps = {
+const Routes = {
     sessions: {
         list: `${path}/sessions`,
         details: (id: number) => `${path}/sessions/${id}`

@@ -4,8 +4,12 @@
     "settings": "Settings",
     "save": "Save",
     "cancel": "Cancel",
-    "stats": "Metrics",
-    "add_game": "Add game",
-    "subscribe": "Subscribe",
-    "unsubscribe": "Unsubscribe"
+    "stats": "Stats",
+    "add_game": "Add Game",
+    "subscribe": "Follow",
+    "unsubscribe": "Unfollow",
+    "create": "Create",
+    "ok": "OK",
+    "login": "Sign In",
+    "reg": "Sign Up"
 }
