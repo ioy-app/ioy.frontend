@@ -1,4 +1,3 @@
-import { useState } from "react";
 import * as Icons from "@/icons";
 
 import "./styles.less";
@@ -13,13 +12,8 @@ import { Auth } from "@/pages";
 
 export default function Header() {
     const navigator = useNavigate();
-
-    const [ isOpenSearch, setOpenSearch ] = useState<boolean>(false);
-    const [ searchValue, setSearchValue ] = useState<string>("");
-
-    const { id, token, login, loading } = useSelector(state => state?.login);
-
-    const { modal } = useModal(); 
+    const { token, login, loading } = useSelector((state: any) => state?.login);
+    const { modal } = useModal();
 
 
     return (
@@ -35,11 +29,6 @@ export default function Header() {
                     <Input
                         type="search"
                         placeholder="Поиск..."
-                        onChange={(e) => {
-                            setSearchValue(e?.target?.value)
-                            setOpenSearch(e.target?.value?.length > 2);
-
-                        }}
                     />
                     <button>
                         <img
@@ -70,7 +59,7 @@ export default function Header() {
                                 </button>
                             </NavLink>
                             <button key="user">
-                                <User dataSource={{ id, login }} link compact />
+                                <User login={login} link compact />
                             </button>
                         </>
                     ) : (
@@ -78,15 +67,10 @@ export default function Header() {
                             key="user"
                             onClick={(e) => {
                                 e.preventDefault();
-                                modal(
-                                    Auth,
-                                    () => (<></>)
-                                )
+                                modal(Auth, () => (<></>));
                             }}
                         >
-                            <User
-                                compact
-                            />
+                            <User compact />
                         </button>
                     )}
                 </Spin>

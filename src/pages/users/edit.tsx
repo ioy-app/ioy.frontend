@@ -109,7 +109,7 @@ export default function Edit() {
         <Spin loading={isLoading}>
             <form ref={formRef} className="profile edit" onSubmit={handleSubmit(submit)}>
                 <div className="profile_header">
-                    <User dataSource={data} preview={handlePreview} />
+                    <User data={data} preview={handlePreview} />
                     <p className="text title">Настройки</p>
                     <File
                         label="Аватар"

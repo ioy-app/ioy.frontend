@@ -224,9 +224,7 @@ export default function Game() {
                         
                         <div className="gamepage_body__authors">
                             <p className="gamepage_body__title">{data?.authors_data?.length > 1 ? "Авторы" : "Автор"}</p>
-                            {data?.authors_data?.map(profile => (
-                                <User dataSource={profile} compact={false} link />
-                            ))}
+                            {data?.authors_data?.map(profile => <User data={profile} compact={false} link />)}
                         </div>
                         
                     </div>

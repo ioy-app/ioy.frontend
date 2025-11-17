@@ -1,6 +1,6 @@
 import { Home } from "@/pages";
-import games from "./games";
-import user from "./user";
+import games, { games_paths } from "./games";
+import user, { user_paths } from "./user";
 import { RouteObject } from "react-router-dom";
 
 const routes: RouteObject[] = [
@@ -10,6 +10,11 @@ const routes: RouteObject[] = [
     },
     ...user,
     ...games
-]
+];
+
+export const paths = {
+    users: user_paths,
+    games: games_paths
+}
 
 export default routes;

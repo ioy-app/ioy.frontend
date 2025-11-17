@@ -31,8 +31,8 @@ export default async function fetchAPI(
             case 401: {
                 const result_refresh = await fetch(Routes.profile.refresh),
                 json_refresh = await result_refresh.json();
+                console.log(json_refresh);
                 if (!result_refresh.ok) {
-                    
                     dispatch(setToken(null));
                     throw new Error(json_refresh?.msg);
                 }

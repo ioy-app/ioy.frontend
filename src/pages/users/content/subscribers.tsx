@@ -2,6 +2,7 @@ import fetchAPI from "@/api";
 import { users_games, users_subscribers } from "@/api/routes/users";
 import { Game, Spin, User } from "@/components";
 import { useNotify } from "@/hooks";
+import { UserProps } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -28,6 +29,7 @@ export default function Subscribers() {
                     throw new Error(json?.msg);
 
                 setData(json.items);
+                console.log(json);
             }
             catch(err) { notify(err?.message?.toString(), "error"); }
             finally { setLoading(false); }
@@ -42,14 +44,12 @@ export default function Subscribers() {
                         <p className="text title">Подписки</p>
                     </div>
                     <div className="block_body">
-                        {data.map((user) => (
+                        {data.map((user: UserProps, i: number) => (
                             <User
-                                dataSource={{
-                                    id: user.id,
-                                    login: user.login
-                                }}
+                                data={user}
                                 link
                                 compact
+                                key={i}
                             />
                         ))}
                     </div>

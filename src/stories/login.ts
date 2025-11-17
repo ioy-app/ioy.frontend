@@ -9,14 +9,17 @@ interface initialStateProps {
 }
 
 export const fetchMe = createAsyncThunk(
-  'auth/fetchMe',
+  'login/fetchMe',
   async (_, { rejectWithValue }) => {
     try {
       const response = await profile_me();
-      if (!response.ok) throw new Error('Ошибка доступа');
-      return await response.json();
+      console.log(response);
+      if (!response.ok) throw new Error('errors.denied');
+
+        const data = await response.json();
+      return data;
     } catch (err) {
-      return rejectWithValue(err.message || 'Неизвестная ошибка');
+      return rejectWithValue(err.message || 'errors.unknown');
     }
   }
 );
@@ -57,7 +60,7 @@ const authSlice = createSlice({
                 try {
                     const response = await profile_me();
                     if (!response.ok)
-                        throw "Ошибка доступа";
+                        throw "errors.denied";
                     const json = await response.json();
 
                     state.id = json.id;

@@ -20,7 +20,7 @@ export default function Post({
             <div className="post_header">
                 {author && (
                     <User
-                        dataSource={author}
+                        data={author}
                         compact={false}
                         link
                     />

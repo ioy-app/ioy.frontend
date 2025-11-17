@@ -80,7 +80,7 @@ export default function Profile() {
         <Spin loading={isLoading}>
             <div className="profile">
                 <div className="profile_header" key={update}>
-                    <User dataSource={data}/>
+                    <User data={data} />
                     <p className="text title">{data?.login}</p>
                     
                     <div className="profile_header__description">

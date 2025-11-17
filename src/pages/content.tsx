@@ -9,6 +9,7 @@ export default function Content() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        
         dispatch(fetchMe());
     }, [ dispatch ]);
 
