@@ -1,0 +1,18 @@
+[
+    {
+        "label": "dashboard.tabs.games",
+        "value": "games"
+    },
+    {
+        "label": "dashboard.tabs.jams",
+        "value": "jams"
+    },
+    {
+        "label": "dashboard.tabs.comments",
+        "value": "comments"
+    },
+    {
+        "label": "dashboard.tabs.monitoring",
+        "value": "monitoring"
+    }
+]

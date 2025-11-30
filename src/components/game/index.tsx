@@ -9,6 +9,7 @@ import { Routes } from "@/api";
 export default function Game({
     dataSource,
     compact=true,
+    preview,
     onClick
 }: {
     dataSource: GameProps;
@@ -18,13 +19,21 @@ export default function Game({
     const navigate = useNavigate();
 
     return (
-        <div className={`game ${compact && "compact" || ""}`} onClick={() => {
-            onClick && onClick();
-            navigate(`/g/${dataSource?.id}`);
-        }}>
-            <div className="game_avatar">
-                <img src={Routes.games.icon(dataSource.id)} />
+        preview ? (
+            <div className="game compact">
+                <div className="game_avatar">
+                    <img src={preview} />
+                </div>
             </div>
-        </div>
+        ) : (
+            <div className={`game ${compact && "compact" || ""}`} onClick={() => {
+                onClick && onClick();
+                navigate(`/g/${dataSource?.id}`);
+            }}>
+                <div className="game_avatar">
+                    <img src={Routes.games.icon(dataSource.id)} />
+                </div>
+            </div>
+        )
     )
 }

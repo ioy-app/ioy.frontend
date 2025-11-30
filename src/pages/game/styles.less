@@ -4,6 +4,12 @@
     gap: 1em;
     padding: 1em;
     cursor: default;
+
+    .icon.preview {
+        width: 10em;
+        aspect-ratio: 1;
+    }
+
     &_header {
         display: flex;
         align-items: center;
@@ -123,6 +129,10 @@
             outline: 0;
             border-radius: 1em;
             box-shadow: inset 0 .15em .15em rgba(0, 0, 0, .15);
+
+            &.preview {
+                width: 50%;
+            }
         }
         &__tags {
             display: flex;

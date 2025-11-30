@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 
 import "./styles.less";
@@ -26,6 +26,7 @@ export default function Game() {
     const { token } = info;
     const [ searchParams, setSearchParams ] = useSearchParams();
     const { notify } = useNotify();
+    const navigator = useNavigate();
 
     const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue, watch } = useForm({
         defaultValues: {
@@ -140,10 +141,18 @@ export default function Game() {
         (async () => {
             setLoading(true);
             try {
-                const response = await fetchAPI(`/api/v1/games/${id}`),
-                      json = await response.json();
-                if (!response.ok)
+                const response = await fetchAPI(`/api/v1/games/${id}`);
+                if (!response.ok) {
+                    if (response.status == 404) {
+                        notify("errors.404", "error");
+                        navigator("/");
+                        return;
+                    }
+
+                    const json = await response?.json();
                     throw json?.msg;
+                }
+                const json = await response?.json();
 
                 setData(json);
                 console.log(json);
@@ -217,7 +226,7 @@ export default function Game() {
                         </div>
                         <p className="gamepage_body__description">{data?.description}</p>
                         <div className="gamepage_body__tags">
-                            {data?.tags.map((tag: string) => (
+                            {data?.tags?.map((tag: string) => (
                                 <p className="gamepage_body__tags_tag">{tag}</p>
                             ))}
                         </div>

@@ -43,6 +43,8 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
                             setStack(prev => prev.filter((note: ModalProps) => id !== note.id));
                         }
 
+                        console.log(footer, typeof(footer));
+
                         return (
                             <motion.div
                                 key={id}
@@ -54,7 +56,7 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
                                 className={`wp_modals__modal modal`}
                             >
                                 {typeof Message == "string" ? Message : <Message id={id} onClose={onClose} />}
-                                <div className="wp_modals__modal_footer">{footer(onClose)}</div>
+                                <div className="wp_modals__modal_footer">{typeof(footer) != "function" ? footer : footer(onClose) || null}</div>
                             </motion.div>
                         );
                     })}

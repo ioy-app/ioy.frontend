@@ -11,6 +11,7 @@ import Tabs from "./tabs";
 import File from "./file";
 import Spin from "./spin";
 import Session from "./session";
+import Select from "./select";
 
 export {
     Header,
@@ -25,5 +26,6 @@ export {
     Tabs,
     File,
     Spin,
-    Session
+    Session,
+    Select
 }

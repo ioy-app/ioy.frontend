@@ -18,6 +18,8 @@ import Subscribers from "./content/subscribers";
 import Favorites from "./content/favorites";
 import { useTranslation } from "react-i18next";
 import Likes from "./content/likes";
+import { user_paths } from "@/routes/user";
+import { dashboard_paths } from "@/routes/dashboard";
 
 
 
@@ -74,7 +76,7 @@ export default function Profile() {
             }
             finally { setLoading(false); }
         })();
-    }, [ login, token ]);
+    }, [ login ]);
     
     return (
         <Spin loading={isLoading}>
@@ -125,19 +127,15 @@ export default function Profile() {
                                 <Button
                                     type="second"
                                     htmlType="button"
-                                    onClick={() => {
-                                    }}
+                                    onClick={() => navigator(dashboard_paths.list)}
                                 >
-                                    {t("buttons.add_game")}
+                                    {t("buttons.dashboard")}
                                 </Button>
                                 <Button
                                     type="primary"
-                                    onClick={() => navigator(`/u/${login}/edit`)}
+                                    onClick={() => navigator(user_paths.edit(login))}
                                 >
                                     {t("buttons.settings")}
-                                </Button>
-                                <Button>
-                                    {t("buttons.stats")}
                                 </Button>
                                 
                             </>

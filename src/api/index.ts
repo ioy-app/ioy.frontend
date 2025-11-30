@@ -7,11 +7,12 @@ export default async function fetchAPI(
     path: string,
     init?: RequestInit
 ) {
-    const token: string | null = Store.getState().login.token;
+    const token: string | null = Store.getState()?.login?.token;
     const obj = init || {};
 
     if (!obj.headers)
         obj.headers = {}
+    
     obj.headers.Authorization = `Bearer ${token}`;
         
 
@@ -27,11 +28,11 @@ export default async function fetchAPI(
     });
 
     if (!result.ok) {
+
         switch(result.status) {
             case 401: {
                 const result_refresh = await fetch(Routes.profile.refresh),
                 json_refresh = await result_refresh.json();
-                console.log(json_refresh);
                 if (!result_refresh.ok) {
                     dispatch(setToken(null));
                     throw new Error(json_refresh?.msg);
@@ -39,13 +40,16 @@ export default async function fetchAPI(
                 dispatch(setToken(json_refresh));
                 return (await fetchAPI(path, init));
             } break;
+            case 404: {
+              return result;
+            } break;
             case 403: {
                 dispatch(setToken(null));
                 const json = await result.json();
                 throw new Error(json?.msg);
             } break;
             default: {
-                const json = await result.json();
+                const json = await result?.json();
                 throw new Error(json?.msg);
             } break;
         }

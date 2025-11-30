@@ -15,7 +15,6 @@ export const fetchMe = createAsyncThunk(
       const response = await profile_me();
       console.log(response);
       if (!response.ok) throw new Error('errors.denied');
-
         const data = await response.json();
       return data;
     } catch (err) {

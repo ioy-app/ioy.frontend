@@ -3,7 +3,10 @@ import Stories from "./stories";
 import Content from "./content";
 import Profile, { ProfileEdit } from "./users";
 import Game from "./game";
+import GameEdit from "./game/edit";
+import Dashboard from "./dashboard";
 import ErrorPage from "./error";
+
 
 import Auth, {
     Login as AuthLogin,
@@ -20,5 +23,7 @@ export {
     Profile,
     ProfileEdit,
     Game,
-    ErrorPage
+    ErrorPage,
+    Dashboard,
+    GameEdit
 }

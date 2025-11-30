@@ -1,9 +1,9 @@
-import { Profile, ProfileEdit } from "@/pages";
 import { RouteObject } from "react-router-dom";
+import { Dashboard, Profile, ProfileEdit } from "@/pages";
 
 export const user_paths = {
-    "details": (login: string) => `/u/${login}`,
-    "edit": (login: string) => `/u/${login}/edit`
+    details: (login: string) => `/u/${login}`,
+    edit: (login: string) => `/u/${login}/edit`
 }
 
 const user: RouteObject[] = [

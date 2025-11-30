@@ -1,7 +1,9 @@
+import { RouteObject } from "react-router-dom";
 import { Home } from "@/pages";
+
 import games, { games_paths } from "./games";
 import user, { user_paths } from "./user";
-import { RouteObject } from "react-router-dom";
+import dashboard, { dashboard_paths } from "./dashboard";
 
 const routes: RouteObject[] = [
     {
@@ -9,12 +11,14 @@ const routes: RouteObject[] = [
         element: <Home />
     },
     ...user,
-    ...games
+    ...games,
+    ...dashboard
 ];
 
 export const paths = {
     users: user_paths,
-    games: games_paths
+    games: games_paths,
+    dashboard: dashboard_paths
 }
 
 export default routes;

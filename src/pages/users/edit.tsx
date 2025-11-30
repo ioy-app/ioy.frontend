@@ -249,8 +249,7 @@ export default function Edit() {
                             type="danger"
                             onClick={() => modal(
                                 "Вы действительно хотите выйти из аккаунта?",
-                                "info",
-                                (onClose) => (
+                                (onClose: () => void) => (
                                     <>
                                         <Button
                                             type="clear"

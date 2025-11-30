@@ -35,7 +35,11 @@ const Routes = {
         icon: (id: number) => `${path}/games/${id}/icon`,
         subscribe: (id: number) => `${path}/games/${id}/subscribe`,
         game: (id: number) => `${path}/games/${id}/game`,
-        like: (id: number) => `${path}/games/${id}/like`
+        like: (id: number) => `${path}/games/${id}/like`,
+        create: `${path}/games/create`
+    },
+    dashboard: {
+        games: `${path}/games/my`
     }
 }
 

@@ -6,12 +6,14 @@ export default interface GameProps {
     description: string;
     banner: string;
     author: UserProps;
+    version?: string;
     tags: string[];
+    status: "draft" | "public";
     comments?: {
         id: number;
         author: UserProps;
         content: string;
     }[];
-    create_date: Date;
-    update_date?: Date;
+    date_created: Date;
+    date_updated?: Date;
 }

@@ -1,5 +1,5 @@
 import Routes from ".";
-import fetchAPI from "..";
+import fetchAPI, { jsonToFormData } from "..";
 
 export const games_list = () =>
     fetchAPI(Routes.games.list as string);
@@ -19,3 +19,12 @@ export const games_like = (id: number) =>
 
 export const games_icon = (id: number) =>
     fetchAPI(Routes.games.icon(id));
+
+export const games_create = (obj: FormData) =>
+    fetchAPI(Routes.games.create, {
+        method: "POST",
+        headers: {
+            "Content-Type": "no-content"
+        },
+        body: jsonToFormData(obj)
+    })
