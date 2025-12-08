@@ -4,6 +4,7 @@ import footer from "./footer.json";
 import profile from "./profile.json";
 import auth from "./auth.json";
 import dashboard from "./dashboard.json";
+import games from "./games.json";
 
 const lang = {
     buttons,
@@ -11,7 +12,8 @@ const lang = {
     footer,
     profile,
     auth,
-    dashboard
+    dashboard,
+    games
 }
 
 export default lang;

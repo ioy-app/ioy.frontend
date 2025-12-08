@@ -1,0 +1,43 @@
+.wp_player {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+
+    border-radius: var(--size-border-radius);
+    overflow: hidden;
+
+    background: var(--clr-bg-second);
+
+    &:fullscreen {
+        border-radius: 0;
+    }
+
+    &__overlay {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+        padding: var(--size-padding);
+        display: flex;
+        justify-content: space-between;
+        gap: var(--size-gap);
+
+        & > div {
+            display: flex;
+            gap: var(--size-gap);
+        }
+    }
+
+    .wp_spin__content {
+        width: inherit;
+        height: 100%;
+    }
+
+    iframe {
+        z-index: -1;
+        width: inherit;
+        height: 100%;
+        border: none;
+        outline: none;
+    }
+}

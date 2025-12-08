@@ -2,7 +2,7 @@ import confStatus from "../dashboard/status.json";
 
 import { Routes } from "@/api";
 import { games_create, games_details } from "@/api/routes/games";
-import { Button, File, Game, Input, Select, Spin } from "@/components";
+import { Button, File, Game, Input, Player, Select, Spin, Textarea } from "@/components";
 import { useNotify } from "@/hooks";
 import { dashboard_paths } from "@/routes/dashboard";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -27,7 +27,7 @@ export default function Edit() {
                 ...data,
                 icon: data?.icon?.[0],
                 game: data?.game?.[0],
-                tags: data?.tags && data?.tags?.split(", ") || []
+                tags: data?.tags || []
             });
             const json = await response.json();
 
@@ -98,14 +98,29 @@ export default function Edit() {
 
     const title = methods.watch("title");
     const id = methods.watch("id");
+    const tags = methods.watch("tags");
 
     return (
         <FormProvider {...methods}>
             <Spin loading={isLoading}>
-                <form onSubmit={methods.handleSubmit(handleSubmit)}>
-                    <div className="gamepage">
-                        <div className="gamepage_header">
-                            <p className="text title">{isCreate ? t("games.titles.create") : title}</p>
+                <form
+                    onSubmit={methods.handleSubmit(handleSubmit)}
+                    style={{
+                        display: "flex",
+                        justifyContent: "center"
+                    }}
+                    className="w-full"
+                >
+                    <div className="wp_content half">
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                gap: "var(--size-gap)",
+                                alignItems: "flex-start"
+                            }}
+                        >
+                            <p className="text title">{isCreate ? t("games.titles.create") : t("games.titles.edit", { title })}</p>
                             <div>
                                 <Button
                                     type="primary"
@@ -116,52 +131,138 @@ export default function Edit() {
                             </div>
                         </div>
                         <div className="gamepage_body">
-                            <img
-                                src={handlePreviewIcon || Routes.games.icon(id)}
-                                className="icon preview"
-                            />
+                            <div
+                                style={{
+                                    display: "flex",
+                                    gap: "var(--size-gap)"
+                                }}
+                            >
+                                <Input
+                                    placeholder={t("games.placeholders.title")}
+                                    label={t("games.labels.title")}
+                                    {...methods.register("title")}
+                                />
+                                <Input
+                                    placeholder={t("games.placeholders.version")}
+                                    label={t("games.labels.version")}
+                                    {...methods.register("version")}
+                                />
+                            </div>
                             <File
-                                label="Icon"
+                                label={t("games.labels.icon")}
                                 {...methods.register("icon")}
                             />
-                            <Input
-                                placeholder="Title"
-                                {...methods.register("title")}
-                            />
-                            <Input
-                                placeholder="Version"
-                                {...methods.register("version")}
-                            />
-                            <Input
-                                placeholder="Description"
+                            <div
+                                style={{
+                                    display: "flex",
+                                    gap: "var(--size-gap)",
+                                    flexWrap: "wrap"
+                                }}
+                            >
+                                <label>
+                                    <img
+                                        src={handlePreviewIcon || Routes.games.icon(id)}
+                                        className="icon preview"
+                                        style={{
+                                            width: "256px",
+                                            height: "256px",
+                                            borderRadius: "var(--size-border-radius)"
+                                        }}
+                                    />
+                                    <p className="text">256x256</p>
+                                </label>
+                                <label>
+                                    <img
+                                        src={handlePreviewIcon || Routes.games.icon(id)}
+                                        className="icon preview"
+                                        style={{
+                                            width: "128px",
+                                            height: "128px",
+                                            borderRadius: "var(--size-border-radius)"
+                                        }}
+                                    />
+                                    <p className="text">128x128</p>
+                                </label>
+                                <label>
+                                    <img
+                                        src={handlePreviewIcon || Routes.games.icon(id)}
+                                        className="icon preview"
+                                        style={{
+                                            width: "64px",
+                                            height: "64px",
+                                            borderRadius: "var(--size-border-radius)"
+                                        }}
+                                    />
+                                    <p className="text">64x64</p>
+                                </label>
+                            </div>
+                            <Textarea
+                                placeholder={t("games.placeholders.description")}
+                                label={t("games.labels.description")}
                                 {...methods.register("description")}
                             />
-                            <Input
-                                placeholder="Tags"
-                                {...methods.register("tags")}
-                            />
-                            <iframe
-                                src={handlePreviewGame || `/api/v1/games/${id}/game`}
-                                className="gamepage_body__game preview"
-                                allowFullScreen
-                            />
+                            <div>
+                                <Input
+                                    placeholder={t("games.placeholders.tags")}
+                                    label={t("games.labels.tags")}
+                                    onChange={({ target: { value }}) => {
+                                        console.log(value);
+                                    }}
+                                    onKeyPress={e => {
+                                        if (e.key == "Enter" || e.key == ",") {
+                                            if (e.target.value.trim()) {
+                                                tags.push(e.target.value);
+                                                e.target.value = "";
+                                                methods.setValue("tags", tags);
+                                            }
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                                <div
+                                    className="gamepage_body__tags"
+                                    style={{
+                                        paddingTop: "var(--size-padding)"
+                                    }}
+                                >
+                                    {tags?.map((tag: string, i: number) => (
+                                        <p
+                                            key={i}
+                                            className="gamepage_body__tags_tag"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => {
+                                                methods.setValue("tags", tags.filter(t => t != tag));
+                                            }}
+                                        >
+                                            {tag}
+                                            <span style={{ paddingLeft: "var(--size-padding)"}}>x</span>
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
                             <File
-                                label="Game Resources"
+                                label={t("games.labels.game")}
                                 {...methods.register("game")}
                             />
-                            <Select
-                                options={confStatus.filter(record => record.value != "all").map(record => ({
-                                    ...record,
-                                    label: t(record.label)
-                                }))}
-                                {...methods.register("status")}
+                            <Player
+                                gameId={id}
+                                src={handlePreviewGame}
                             />
-                            <Button
-                                type="second"
-                                htmlType="submit"
-                            >
-                                {t("buttons.save")}
-                            </Button>
+                            <div className="wp_control">
+                                <Select
+                                    options={confStatus.filter(record => record.value != "all").map(record => ({
+                                        ...record,
+                                        label: t(record.label)
+                                    }))}
+                                    {...methods.register("status")}
+                                />
+                                <Button
+                                    type="second"
+                                    htmlType="submit"
+                                >
+                                    {t("buttons.save")}
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </form>

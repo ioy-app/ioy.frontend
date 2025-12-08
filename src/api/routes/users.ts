@@ -12,17 +12,17 @@ export const users_subscribe = (login: string) =>
 export const users_games = (login: string, us?: URLSearchParams) =>
     fetchAPI(Routes.users.games(login) + (us && `?${us.toString()}` || ""));
 
-export const users_likes = (login: string) =>
-    fetchAPI(Routes.users.likes(login));
+export const users_likes = (login: string, us?: URLSearchParams) =>
+    fetchAPI(Routes.users.likes(login) + (us && `?${us.toString()}` || ""));
 
 export const users_jams = (login: string) =>
     fetchAPI(Routes.users.jams(login));
 
-export const users_subscribers = (login: string) =>
-    fetchAPI(Routes.users.subscribers(login));
+export const users_subscribers = (login: string, us?: URLSearchParams) =>
+    fetchAPI(Routes.users.subscribers(login) + (us && `?${us.toString()}` || ""));
 
-export const users_favorites = (login: string) =>
-    fetchAPI(Routes.users.favorites(login));
+export const users_favorites = (login: string, us?: URLSearchParams) =>
+    fetchAPI(Routes.users.favorites(login) + (us && `?${us.toString()}` || ""));
 
 export const users_edit = (login: string, obj) =>
     fetchAPI(Routes.users.details(login), {

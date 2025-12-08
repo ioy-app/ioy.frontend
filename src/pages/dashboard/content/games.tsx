@@ -1,3 +1,4 @@
+import { BiEditAlt, BiPlus } from "react-icons/bi";
 import confStatus from "../status.json";
 
 import { dashboard_games } from "@/api/routes/dashboard";
@@ -124,6 +125,7 @@ const Games: React.FC = () => {
                     type="second"
                     onClick={() => navigator(games_paths.create)}
                 >
+                    <BiPlus />
                     {t("buttons.add_game")}
                 </Components.Button>
             </div>
@@ -166,7 +168,7 @@ const Games: React.FC = () => {
                                                     type="primary"
                                                     onClick={() => navigator(games_paths.edit(game?.id))}
                                                 >
-                                                    {t("buttons.edit")}
+                                                    <BiEditAlt />
                                                 </Components.Button>
                                             </div>
                                         </td>

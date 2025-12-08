@@ -1,7 +1,8 @@
 import { useEffect, useReducer, useState } from "react";
-import { Button, Input, Post } from "../../components";
+import { Button, Input } from "../../components";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { BiEdit, BiReply, BiSend, BiTrash } from "react-icons/bi";
 
 export default function Comment({
     id,
@@ -105,13 +106,16 @@ export default function Comment({
             {localDelete ? (
                 <p className="gamepage_comments__deleted">Комментарий удален</p>
             ) : (
-                <Post
-                    id={id}
-                    body={localComment}
-                    author={author}
-                    date_created={date_created}
-                    date_updated={localDateUpdated}
-                />
+                <>
+
+                </>
+                // <Post
+                //     id={id}
+                //     body={localComment}
+                //     author={author}
+                //     date_created={date_created}
+                //     date_updated={localDateUpdated}
+                // />
             )}
             <div className="gamepage_comments__controls">
                 {!isForm && token && (
@@ -121,12 +125,12 @@ export default function Comment({
                             setOpen(true);
                             setValue("isEdit", false);
                             setValue("comment", null);
-                        }}>Ответить</p>
+                        }}><BiReply /></p>
                         {info && info?.id != author?.id && !localDelete && <p>Пожаловаться</p>}
                         {info && info?.id == author?.id && !localDelete && (
                             <>
-                                <p onClick={() => handleEdit(id, localComment)}>Редактировать</p>
-                                <p onClick={() => handleDelete(id)}>Удалить</p>
+                                <p onClick={() => handleEdit(id, localComment)}><BiEdit /></p>
+                                <p onClick={() => handleDelete(id)}><BiTrash /></p>
                             </>
                         )}
                     </>
@@ -141,13 +145,13 @@ export default function Comment({
                                     <p className="gamepage_comments__deleted">Комментарий удален</p>
                                 ) : (
                                     <>
-                                        <Post
+                                        {/* <Post
                                             id={subcomment?.id}
                                             body={subcomment.comment}
                                             author={subcomment.author}
                                             date_created={subcomment.date_created}
                                             date_updated={subcomment.date_updated}
-                                        />
+                                        /> */}
                                         
                                         <div className="gamepage_comments__controls">
                                         {token && !subcomment?.deleted && (
@@ -155,8 +159,8 @@ export default function Comment({
                                                 {info && info?.id != subcomment?.author?.id && <p>Пожаловаться</p>}
                                                 {info && info?.id == subcomment?.author?.id && (
                                                     <>
-                                                        <p onClick={() => handleEdit(subcomment?.id, subcomment.comment)}>Редактировать</p>
-                                                        <p onClick={() => handleDelete(subcomment?.id)}>Удалить</p>
+                                                        <p onClick={() => handleEdit(subcomment?.id, subcomment.comment)}><BiEdit /></p>
+                                                        <p onClick={() => handleDelete(subcomment?.id)}><BiTrash /></p>
                                                     </>
                                                 )}
                                             </>
@@ -184,7 +188,7 @@ export default function Comment({
                                 setOpen(true);
                                 setValue("isEdit", false);
                                 setValue("comment", null);
-                            }}>Ответить</p>
+                            }}><BiReply /></p>
                         </div>
                     )}
                 </>
@@ -198,7 +202,7 @@ export default function Comment({
                                 placeholder="Ваш комментарий..."
                                 {...register("comment")}
                             />
-                            <Button>OK</Button>
+                            <Button type="second"><BiSend /></Button>
                         </form>
                         {errors?.comment && <p className="gamepage_comments__form_error">{errors?.comment?.message}</p>}
                         <div className="gamepage_comments__controls">

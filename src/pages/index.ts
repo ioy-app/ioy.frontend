@@ -1,5 +1,4 @@
 import Home from "./home";
-import Stories from "./stories";
 import Content from "./content";
 import Profile, { ProfileEdit } from "./users";
 import Game from "./game";
@@ -16,7 +15,6 @@ import Auth, {
 export {
     Content,
     Home,
-    Stories,
     Auth,
     AuthLogin,
     AuthReg,

@@ -9,6 +9,7 @@ import Store from "@/stories";
 
 import * as Pages from "@/pages";
 import "@/styles/index.less";
+import "@/styles/index.css";
 import { ModalProvider, NotifyProvider } from "@/hooks";
 import "@/i18n";
 

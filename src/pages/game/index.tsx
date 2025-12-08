@@ -3,9 +3,9 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 
 import "./styles.less";
-import { Spin, User } from "@/components";
-import GameComponents from "@/components/game";
-import { Button, Input, Post } from "../../components";
+import { Player, Spin, Tag, User } from "@/components";
+import { Game as GameComponents } from "@/components";
+import { Button, Input } from "../../components";
 import * as Icons from "@/icons";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -13,6 +13,7 @@ import Comment from "./comment";
 import fetchAPI from "@/api";
 import { useNotify } from "@/hooks";
 import { games_like, games_subscribe } from "@/api/routes/games";
+import { BiComment, BiFullscreen, BiHash, BiHealth, BiHeart, BiLike, BiSave, BiSend } from "react-icons/bi";
 
 export default function Game() {
     const params = useParams();
@@ -183,22 +184,12 @@ export default function Game() {
 
     return (
         <Spin loading={isLoading}>
-            <div className="gamepage">
-                <div className="gamepage_header">
-                    <img className="gamepage_header__avatar" src={`/api/v1/games/${id}/icon`} />
-                    <div>
-                        <h1>{data?.title}</h1>
-                        <p>{data?.version}</p>
-                    </div>
-                </div>
+            <div className="flex justify-center w-full">
+                <div className="wp_content half">
+                
                 <div className="gamepage_context">
                     <div className="gamepage_body">
-                        <iframe
-                            ref={iframe}
-                            src={`/api/v1/games/${id}/game`}
-                            className="gamepage_body__game"
-                            allowFullScreen
-                        />
+                        <Player gameId={Number(id)} />
                         <div className="gamepage_body__controls">
                             <div className="gamepage_body__controls_date">
                                 {data?.date_created && <p>{dayjs(data?.date_created).format("HH:mm DD.MM.YYYY")}</p>}
@@ -210,25 +201,30 @@ export default function Game() {
                                     disabled={isControlLoading}
                                     onClick={handleLike}
                                 >
-                                    <img src={Icons.Like}/>
+                                    <BiHeart />
                                 </Button>
                                 <Button
                                     type={data?.is_subscribe ? "second" : "clear"}
                                     onClick={handleFavorite}
                                     disabled={isControlLoading}
                                 >
-                                    <img src={Icons.Favorite}/>
+                                    <BiSave />
                                 </Button>
                                 <Button type="clear" onClick={handleFullScreen}>
-                                    <img src={Icons.Fullscreen}/>
+                                    <BiFullscreen />
                                 </Button>
+                            </div>
+                        </div>
+                        <div className="gamepage_header">
+                            <GameComponents dataSource={{ id }}/>
+                            <div>
+                                <h1>{data?.title}</h1>
+                                <p>{data?.version}</p>
                             </div>
                         </div>
                         <p className="gamepage_body__description">{data?.description}</p>
                         <div className="gamepage_body__tags">
-                            {data?.tags?.map((tag: string) => (
-                                <p className="gamepage_body__tags_tag">{tag}</p>
-                            ))}
+                            {data?.tags?.map((tag: string) => <Tag title={tag} />)}
                         </div>
                         
                         <div className="gamepage_body__authors">
@@ -239,9 +235,12 @@ export default function Game() {
                     </div>
                     
                     <div className="gamepage_comments" key={comments}>
-                        <div className="gamepage_nav">
-                            {data?.recomendator?.map(game => <GameComponents dataSource={game} />)}
-                        </div>
+                        {data?.recomendator?.length > 0 && (
+                            <div className="gamepage_nav">
+                                {data?.recomendator?.map(game => <GameComponents dataSource={game} />)}
+                            </div>
+                        )}
+                        <p className="gamepage_body__title">Комментарии ({comments?.length && comments[0]?.total || 0})</p>
                         {token && !watch("answer_id") && (
                             <>
                                 <form className="gamepage_comments__form" onSubmit={handleSubmit(submit)}>
@@ -251,12 +250,17 @@ export default function Game() {
                                         {...register("comment")}
                                         disabled={watch("answer_id")}
                                     />
-                                    <Button disabled={watch("answer_id")}>OK</Button>
+                                    <Button
+                                        type="second"
+                                        disabled={watch("answer_id")}
+                                    >
+                                        <BiSend />
+                                    </Button>
                                 </form>
                                 {errors?.comment && <p className="gamepage_comments__form_error">{errors?.comment?.message}</p>}
                             </>
                         )}
-                        <p className="gamepage_body__title">Комментарии ({comments?.length && comments[0]?.total || 0})</p>
+                        
                         {comments?.map((comment, i) => (
                             <Comment
                                 {...comment}
@@ -353,6 +357,7 @@ export default function Game() {
                         {!comments?.length && <p className="gamepage_body__empty">Нет комментариев</p>}
                     </div>
                 </div>
+            </div>
             </div>
         </Spin>
     )

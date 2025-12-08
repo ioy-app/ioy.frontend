@@ -1,24 +1,26 @@
-import Header from "./header";
-import Footer from "./footer";
-import Game from "./game";
-import User from "./user";
-import Post from "./post";
-import Input from "./input";
-import Button from "./button";
-import Checkbox from "./checkbox";
-import Code from "./code";
-import Tabs from "./tabs";
-import File from "./file";
-import Spin from "./spin";
-import Session from "./session";
-import Select from "./select";
+import Header from "./custom/header";
+import Footer from "./custom/footer";
+import Game from "./content/game";
+import User from "./content/user";
+import Input from "./base/input";
+import Button from "./base/button";
+import Checkbox from "./base/checkbox";
+import Code from "./custom/code";
+import Tabs from "./base/tabs";
+import File from "./base/file";
+import Spin from "./base/spin";
+import Session from "./custom/session";
+import Select from "./base/select";
+import Textarea from "./base/textarea";
+import Player from "./base/player";
+import Tag from "./custom/tag";
+import Block from "./custom/block";
 
 export {
     Header,
     Footer,
     Game,
     User,
-    Post,
     Input,
     Button,
     Checkbox,
@@ -27,5 +29,9 @@ export {
     File,
     Spin,
     Session,
-    Select
+    Select,
+    Textarea,
+    Player,
+    Tag,
+    Block
 }

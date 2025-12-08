@@ -31,7 +31,7 @@ export default function Content() {
     return (
         <>
             <Components.Header />
-            <main>
+            <main className="flex w-lvw">
                 <Outlet />
             </main>
             <Components.Footer />
