@@ -6,7 +6,11 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss()
+    tailwindcss({
+      optimize: {
+        minify: true
+      }
+    })
   ],
   define: {
     "process.env": {},

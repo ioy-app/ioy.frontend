@@ -3,6 +3,7 @@ import * as Sessions from "./sessions";
 import * as Users from "./users";
 import * as oAuth from "./auth";
 import * as Games from "./games";
+import * as Comments from "./comments";
 
 const path: string = "/api/v1";
 const Routes = {
@@ -40,6 +41,13 @@ const Routes = {
     },
     dashboard: {
         games: `${path}/games/my`
+    },
+    comments: {
+        details: (id: number) => `${path}/comments/${id}`,
+        answers: (id: number, commentid: number) => `${path}/comments/${id}/${commentid}`,
+        create: (id: number) => `${path}/comments/${id}`,
+        reply: (id: number, commentid: number) => `${path}/comments/${id}/${commentid}`,
+        like: (id: number) => `${path}/comments/${id}/like`
     }
 }
 
@@ -51,5 +59,6 @@ export {
     Sessions,
     Users,
     oAuth,
-    Games
+    Games,
+    Comments
 }

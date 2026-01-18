@@ -1,28 +1,28 @@
-import { BiEditAlt, BiPlus } from "react-icons/bi";
+import { BiBox, BiEditAlt, BiPlus } from "react-icons/bi";
 import confStatus from "../status.json";
 
 import { dashboard_games } from "@/api/routes/dashboard";
-import GameProps from "@/components/game/interface";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
 import dayjs from "dayjs";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { games_paths } from "@/routes/games";
+import { paths } from "@/routes";
+import GameProps from "@/types/game";
+import { useQuery } from "@tanstack/react-query";
 
 const Games: React.FC = () => {
     const { t } = useTranslation();
     const navigator = useNavigate();
     const [ searchParams, setSearchParams ] = useSearchParams();
-    const [ isLoading, setLoading ] = useState<boolean>(false);
-    const [ games, setGames ] = useState<GameProps[]>(null);
-    const [ pages, setPages ] = useState<number>(1);
 
     const max = 10;
     const current_page = Number(searchParams.get("page") || 1);
     const status = searchParams.get("status");
     const searchQS = searchParams.get("search");
+
 
     const handleGetPages = (current_page: number, pages: number) => {
         const arr: number[] = [];
@@ -52,146 +52,148 @@ const Games: React.FC = () => {
     const handleChangePage = (page: number) => {
         searchParams.set("page", String(page));
         setSearchParams(searchParams);
+        query.refetch();
     }
 
-    useEffect(() => {
-        (async () => {
-            try {
-                setLoading(true);
-                setGames(null);
+    const query = useQuery({
+        queryKey: [ "dashboard", "games", searchParams?.toString() ],
+        queryFn: async () => {
+            const search = new URLSearchParams();
 
-                const search = new URLSearchParams();
+            search.set("offset", String((current_page - 1) * max));
+            search.set("limit", String(max));
+            if (status)
+                search.set("status", status);
+            if (searchQS)
+                search.set("search", searchQS);
 
-                search.set("offset", String((current_page - 1) * max));
-                search.set("limit", String(max));
-                if (status)
-                    search.set("status", status);
-                if (searchQS)
-                    search.set("search", searchQS);
-                
-                const result = await dashboard_games(search);
-                const json = await result.json();
+            const result = await dashboard_games(search);
+            const json = await result.json();
                 if (result.status != 200)
                     throw json?.msg;
 
-                setGames(json?.items);
-                setPages(Math.ceil((json?.total || 1) / max));
-            }
-            catch(err) {
+            return json;
+        }
+    });
 
-            }
-            finally { setLoading(false); }
-        })();
-    }, [ searchParams ]);
-
-    const pagination = handleGetPages(current_page, pages);
+    const pagination = handleGetPages(current_page, Math.ceil((query?.data?.total || 1) / max));
 
     return (
-        <>
-            <div className="wp_dashboard__header">
-                <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--size-gap)"
-                }}>
-                    <Components.Input
-                        type="search"
-                        placeholder={t("dashboard.games.search")}
-                        onChange={({ target: { value } }) => {
-                            if (value.length <= 2) {
-                            searchParams.delete("search");
-                            } else searchParams.set("search", value);
-                            searchParams.set("page", String(1));
-                            setSearchParams(searchParams);
-                        }}
-                        defaultValue={searchParams.get("search")}
-                    />
-                    <Components.Select
-                        options={confStatus.map(record => ({
-                            ...record,
-                            label: t(record.label)
-                        }))}
-                        onChange={({ target: { value } }) => {
-                            if (value == "all")
-                                searchParams.delete("status");
-                            else searchParams.set("status", value);
-                            searchParams.set("page", String(1));
-                            setSearchParams(searchParams);
-                        }}
-                        defaultValue={searchParams.get("status")}
-                    />
-                </div>
-                <Components.Button
-                    type="second"
-                    onClick={() => navigator(games_paths.create)}
-                >
-                    <BiPlus />
-                    {t("buttons.add_game")}
-                </Components.Button>
+        <div className="w-full flex flex-col gap-4">
+            <div className="flex gap-4 items-center">
+                <Components.Input
+                    name="search"
+                    type="search"
+                    placeholder={t("dashboard.games.search")}
+                    onChange={({ target: { value } }) => {
+                        if (value.length <= 2) {
+                        searchParams.delete("search");
+                        } else searchParams.set("search", value);
+                        searchParams.set("page", String(1));
+                        setSearchParams(searchParams);
+                    }}
+                />
+                <Components.Select
+                    options={confStatus.map(record => ({
+                        ...record,
+                        label: t(record.label)
+                    }))}
+                    onChange={({ target: { value } }) => {
+                        if (value == "all")
+                            searchParams.delete("status");
+                        else searchParams.set("status", value);
+                        searchParams.set("page", String(1));
+                        setSearchParams(searchParams);
+                    }}
+                    defaultValue={searchParams.get("status")}
+                />
             </div>
-            <Components.Spin loading={isLoading}>
-                <div className="wp_dashboard__table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>{t("dashboard.games.table.game")}</td>
-                                <td>{t("dashboard.games.table.version")}</td>
-                                <td>{t("dashboard.games.table.status")}</td>
-                                <td>{t("dashboard.games.table.date_created")}</td>
-                                <td>{t("dashboard.games.table.date_updated")}</td>
-                                <td></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {games && games?.map((game: GameProps, i: number) => {
-                                const date_created = dayjs(game?.date_created);
-                                const date_updated = dayjs(game?.date_updated);
-
-                                const dt_created_text = date_created.isValid() && date_created.format("HH:mm DD.MM.YYYY") || "-";
-                                const dt_updated_text = date_updated.isValid() && date_updated.format("HH:mm DD.MM.YYYY") || "-"
-
-                                return (
-                                    <tr className="wp_dashboard__table_row" key={i}>
-                                        <td>
-                                            <div className="wp_dashboard__table_row_line">
-                                                <Components.Game dataSource={game} compact />
-                                                <p className="text title">{game?.title}</p>
-                                            </div>
-                                        </td>
-                                        <td><p className="text">{game?.version || "-"}</p></td>
-                                        <td className="wp_dashboard__table_row_status"><p className="text">{t(`dashboard.statuses.` + game?.status)}</p></td>
-                                        <td><p className="text">{dt_created_text}</p></td>
-                                        <td><p className="text">{dt_updated_text}</p></td>
-                                        <td>
-                                            <div className="wp_dashboard__table_row_control">
-                                                <Components.Button
-                                                    type="primary"
-                                                    onClick={() => navigator(games_paths.edit(game?.id))}
-                                                >
-                                                    <BiEditAlt />
-                                                </Components.Button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-                <div className="wp_dashboard__footer" key={pages}>
-                    {pagination && pagination?.map((page: number, i: number) => (
+            <Components.Table
+                columns={[
+                    {
+                        title: t("dashboard.games.table.game"),
+                        dataIndex: "id",
+                        render: (data, game) => (
+                            <Link
+                                to={paths.games.details(game?.id)}
+                                className="group flex items-center gap-2 w-fit"
+                            >
+                                <Components.Game
+                                    dataSource={{
+                                        id: game?.id
+                                    } as GameProps}
+                                    nolink
+                                    size={12}
+                                />
+                                <p className="text-default group-hover:text-primary transition-colors cursor-pointer">{game?.title}</p>
+                            </Link>
+                        )
+                    },
+                    {
+                        title: t("dashboard.games.table.version"),
+                        dataIndex: "version"
+                    },
+                    {
+                        title: t("dashboard.games.table.status"),
+                        dataIndex: "status",
+                        render: (status) => t(`dashboard.statuses.` + status)
+                    },
+                    {
+                        title: t("dashboard.games.table.date_created"),
+                        dataIndex: "date_created",
+                        render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
+                    },
+                    {
+                        title: t("dashboard.games.table.date_updated"),
+                        dataIndex: "date_updated",
+                        render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
+                    }
+                ]}
+                data={query?.data?.items}
+                loading={query?.isPending}
+                control={(row, i) => (
+                    <>
                         <Components.Button
-                            disabled={page == current_page}
-                            key={i}
-                            onClick={() => handleChangePage(page)}
-                            type={!i || i == (pagination.length - 1) ? "primary" : "default"}
+                            variant="second"
+                            onClick={() => navigator(games_paths.edit(row?.id))}
                         >
-                            {page}
+                            <BiEditAlt />
                         </Components.Button>
-                    ))}
-                </div>
-            </Components.Spin>
-        </>
+                    </>
+                )}
+                header={(
+                    <div className="w-full flex items-center justify-end gap-4">
+                        <Components.Button
+                            variant="primary"
+                            onClick={() => navigator(games_paths.create)}
+                        >
+                            <BiPlus />
+                            {t("buttons.add_game")}
+                        </Components.Button>
+                    </div>
+                )}
+                footer={(
+                    <div className="flex gap-4 items-center justify-end flex-wrap">
+                        {pagination && pagination?.map((page: number, i: number) => (
+                            <Components.Button
+                                disabled={page == current_page}
+                                key={i}
+                                onClick={() => handleChangePage(page)}
+                                variant={!i || i == (pagination.length - 1) ? "primary" : "default"}
+                            >
+                                {page}
+                            </Components.Button>
+                        ))}
+                    </div>
+                )}
+                nodata={(
+                    <>
+                        <BiBox className="text-2xl" />
+                        <p className="text-placeholder">{t("dashboard.labels.nodata")}</p>
+                    </>
+                )}
+            />
+        </div>
     );
 }
 

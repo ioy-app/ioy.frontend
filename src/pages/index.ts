@@ -1,10 +1,12 @@
 import Home from "./home";
 import Content from "./content";
 import Profile, { ProfileEdit } from "./users";
+import UserContent from "./users/content";
 import Game from "./game";
 import GameEdit from "./game/edit";
 import Dashboard from "./dashboard";
 import ErrorPage from "./error";
+import Search from "./search";
 
 
 import Auth, {
@@ -23,5 +25,7 @@ export {
     Game,
     ErrorPage,
     Dashboard,
-    GameEdit
+    GameEdit,
+    UserContent,
+    Search
 }

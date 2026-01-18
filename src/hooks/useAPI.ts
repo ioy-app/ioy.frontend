@@ -25,7 +25,7 @@ export default function useAPI<T>(
                     setData(callback(json));
                 else setData(json)
             }
-            catch(err: T | Error) { setError(err); }
+            catch(err) { setError(err); }
             finally { setLoading(false); }
         })();
     }, [ url, ...filter ]);

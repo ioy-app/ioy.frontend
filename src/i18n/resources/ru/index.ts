@@ -5,6 +5,7 @@ import profile from "./profile.json";
 import auth from "./auth.json";
 import dashboard from "./dashboard.json";
 import games from "./games.json";
+import notify from "./notify.json";
 
 const lang = {
     buttons,
@@ -13,7 +14,8 @@ const lang = {
     profile,
     auth,
     dashboard,
-    games
+    games,
+    notify
 }
 
 export default lang;

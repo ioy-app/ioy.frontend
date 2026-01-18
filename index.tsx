@@ -1,4 +1,3 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import {
     RouterProvider,
@@ -8,13 +7,17 @@ import { Provider } from "react-redux";
 import Store from "@/stories";
 
 import * as Pages from "@/pages";
-import "@/styles/index.less";
-import "@/styles/index.css";
+import "./global.css";
 import { ModalProvider, NotifyProvider } from "@/hooks";
 import "@/i18n";
 
 import routes from "@/routes";
 import { AppProvider } from "@/hooks/app";
+import {
+    QueryClient,
+    QueryClientProvider
+} from "@tanstack/react-query";
+
 const routers = createBrowserRouter([
     {
         path: "/",
@@ -28,14 +31,18 @@ const app: HTMLElement | null = document.getElementById("app");
 if (!app)
     throw new Error("#app is not defined");
 
+const queryClient = new QueryClient();
+
 createRoot(app).render(
     <Provider store={Store}>
-        <NotifyProvider>
-            <ModalProvider>
-                <AppProvider>
-                    <RouterProvider router={routers} />
-                </AppProvider>
-            </ModalProvider>
-        </NotifyProvider>
+        <QueryClientProvider client={queryClient}>
+            <NotifyProvider>
+                <ModalProvider>
+                    <AppProvider>
+                        <RouterProvider router={routers} />
+                    </AppProvider>
+                </ModalProvider>
+            </NotifyProvider>
+        </QueryClientProvider>
     </Provider>
 );

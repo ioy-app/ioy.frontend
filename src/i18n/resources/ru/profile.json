@@ -3,6 +3,22 @@
     "subscribers_few": "{{count}} подписчика",
     "subscribers_many": "{{count}} подписчиков",
     "subscribers_other": "{{count}} подписчиков",
+    "placeholders": {
+        "avatar": "Выберите изображение",
+        "login": "Введите логин...",
+        "description": "Введите описание..."
+    },
+    "labels": {
+        "login": "Логин",
+        "description": "Описание",
+        "privacy": {
+            "title": "Настройки отобажения",
+            "games": "Собственные игры",
+            "subscribers": "Подписки",
+            "likes": "Понравилось",
+            "favorites": "Избранное"
+        }
+    },
     "success": {
         "subscribe": "Вы подписались на {{login}}",
         "unsubscribe": "Вы отписались от {{login}}"
@@ -10,5 +26,12 @@
     "errors": {
         "exists": "Пользователя {{login}} не существует",
         "denied": "Нет доступа"
+    },
+    "titles": {
+        "games": "Игры",
+        "subscribers": "Подписки на пользователей",
+        "favorites": "Избранные игры",
+        "likes": "Понравилось",
+        "edit": "Редактирование профиля"
     }
 }

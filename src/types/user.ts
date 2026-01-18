@@ -11,7 +11,7 @@ type ControlsProps = {
 export default interface UserProps {
     id: number;
     login: string;
-    description?: DescriptionProps[];
+    description?: string;
     subscribers: number;
     date_ban?: Date;
     date_deleted?: Date;

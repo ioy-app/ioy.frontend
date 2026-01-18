@@ -1,3 +1,4 @@
+import { Search } from "@/pages";
 import { RouteObject } from "react-router-dom";
 
 export const search_paths = {
@@ -7,7 +8,7 @@ export const search_paths = {
 const search: RouteObject[] = [
     {
         path: search_paths.list,
-        element: <></>
+        element: <Search />
     }
 ];
 

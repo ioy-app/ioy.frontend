@@ -28,7 +28,7 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
         <ModalContext.Provider value={{ modal }}>
             {children}
             <div
-                className={`wp_modals ${stack?.length > 0 && "wp_modals__show" || ""}`}
+                className={`fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#000000cc] z-1000 px-4 py-8 ${!stack?.length && "hidden"}`}
                 onClick={(e) => {
                     if (e.target === e.currentTarget) {
                         document.body.style.overflow = "";
@@ -43,8 +43,6 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
                             setStack(prev => prev.filter((note: ModalProps) => id !== note.id));
                         }
 
-                        console.log(footer, typeof(footer));
-
                         return (
                             <motion.div
                                 key={id}
@@ -53,7 +51,7 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 1.25 }}
                                 transition={{ duration: 0.3 }}
-                                className={`wp_modals__modal modal`}
+                                className="bg-white w-full max-h-full md:h-fit md:w-2xl rounded-2xl p-4 overflow-x-hidden overflow-y-auto"
                             >
                                 {typeof Message == "string" ? Message : <Message id={id} onClose={onClose} />}
                                 <div className="wp_modals__modal_footer">{typeof(footer) != "function" ? footer : footer(onClose) || null}</div>

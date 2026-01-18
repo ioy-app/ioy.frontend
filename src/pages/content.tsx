@@ -1,40 +1,41 @@
-import React, { useEffect } from "react";
 import * as Components from "@/components";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchMe, setToken } from "@/stories/login";
-import { NotifyProvider } from "@/hooks";
 import { Routes } from "@/api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Content() {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const result_refresh = await fetch(Routes.profile.refresh),
-                json_refresh = await result_refresh.json();
-                if (!result_refresh.ok) {
-                    dispatch(setToken(null));
-                    throw new Error(json_refresh?.msg);
-                }
-                dispatch(setToken(json_refresh));
-            }
-            catch(err) {}
-            finally {
-                dispatch(fetchMe());
-            }
-        })();
-        
-    }, [ dispatch ]);
+    const {
+        data,
+        isError
+    } = useQuery({
+        queryKey: ["profile", "token"],
+        queryFn: async () => {
+            const response = await fetch(Routes.profile.refresh);
+            return (await response.json());
+        },
+        refetchInterval: 120_000,
+        refetchIntervalInBackground: false,
+        staleTime: 240_000
+    });
+
+    if (isError)
+        dispatch(setToken(null));
+    else {
+        dispatch(setToken(data));
+        dispatch(fetchMe());
+    }
 
     return (
-        <>
+        <div className="flex flex-col items-between gap-2 w-screen h-screen overflow-hidden overflow-y-auto">
             <Components.Header />
-            <main className="flex w-lvw">
+            <main className="flex-1 py-2 px-4 w-full">
                 <Outlet />
             </main>
             <Components.Footer />
-        </>
+        </div>
     );
 }

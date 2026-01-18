@@ -6,73 +6,73 @@ import { users_details } from "@/api/routes/users";
 import { useNotify } from "@/hooks";
 import Spin from "../../base/spin";
 import { paths } from "@/routes";
+import { useQuery } from "@tanstack/react-query";
+import { UserProps } from "@/types";
 
 const User: React.FC<{
     /** Логин */
     login?: string;
     /** Предпросмотр изображения */
     preview?: string;
-    /** Объект с данными о пользователе */
-    data?: any;
     size?: number | string;
     nolink?: boolean;
     className?: string;
+    dataSource?: UserProps
 }> = ({
     login,
     preview,
-    data,
     nolink,
     size=24,
-    className
+    className,
+    dataSource
 }) => {
-    const [ isLoading, setLoading ] = useState<boolean>(true);
-    const [ isError, setError ] = useState<boolean>(false);
-    const [ file, setFile ] = useState<string>(null);
+    const {
+        status,
+        data,
+        isError
+    } = useQuery({
+        queryKey: ["avatar", login, preview],
+        queryFn: async () => {
+            const file = await fetch(preview || Routes.users.avatar(login));
+            
+            if (!file.ok)
+                throw new Error();
 
-    useEffect(() => {
-        (async () => {
-            try {
-                setLoading(true);
-                setError(false);
-                setFile(null);
+            const resource = await file.blob();
+            return URL.createObjectURL(resource);
+        },
+        retry: false
+    });
 
-                if (typeof(data?.is_avatar) != "undefined" && !data?.is_avatar)
-                    throw new Error();
-
-                const file: Response = await fetch(preview || Routes.users.avatar(login));
-                const resource = await file.blob();
-
-                if (!file.ok)
-                    throw new Error();
-
-                setFile(URL.createObjectURL(resource));
-            }
-            catch(err) { setError(true); }
-            finally { setLoading(false); }
-        })();
-    }, []);
-
-    return (
-        <NavLink to={!nolink && `/u/${login}`}>
-            <div
-                className={`user flex justify-center items-center w-${size} h-${size} overflow-hidden border bg-white border-gray-200 rounded-xl box-border ${className}`}
-                key={`user-${login}-${size}`}
-            >
-                <Spin loading={isLoading}>
-                    {isError ? (
-                        <div className={`flex w-full h-full items-center justify-center flex-col gap-2 bg-second`}>
+    const root = (
+        <div
+            className={`group flex flex-col gap-4 w-${size} ${className}`}
+            key={`user-${login}-${size}`}
+        >
+            <div className={`user flex justify-center items-center w-${size} h-${size} overflow-hidden border bg-white border-gray-200 rounded-xl box-border`}>
+                <Spin loading={status == "pending"}>
+                    {(isError || !data) ? (
+                        <div className={`flex w-${size} h-${size} items-center justify-center flex-col gap-2 bg-second`}>
                             <img src={Profile} className="h-full aspect-square" />
                         </div>
                     ) : (
                         <img
-                            src={file}
-                            onLoad={() => URL.revokeObjectURL(file)}
+                            src={data}
                             className="h-full aspect-square"
                         />
                     )}
                 </Spin>
             </div>
-        </NavLink>
+            {dataSource?.login && <p className="text text-wrap text-center text-xs text-gray-500 group-hover:text-gray-800 wrap-anywhere line-clamp-2 ...">{dataSource.login}</p>}
+        </div>
+    )
+
+    return (
+        !nolink ? (
+            <NavLink to={`/u/${login}`}>
+                {root}
+            </NavLink>
+        ) : root
     );
 }
 

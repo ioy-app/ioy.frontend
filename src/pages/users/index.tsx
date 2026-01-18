@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { User, Button, Spin, Block, Game } from "@/components";
+import { User, Button, Spin, Block, Game, LinkifyText } from "@/components";
 
 import { UserProps } from "@/types";
 import { StoreProps } from "@/stories";
@@ -15,8 +15,7 @@ import { useModal, useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
 import { user_paths } from "@/routes/user";
 import { dashboard_paths } from "@/routes/dashboard";
-import { BiAlignLeft, BiDetail, BiUser } from "react-icons/bi";
-
+import { BiAlignLeft, BiCog, BiDetail, BiSitemap, BiUser } from "react-icons/bi";
 
 
 export default function Profile() {
@@ -77,7 +76,7 @@ export default function Profile() {
     return (
         <Spin loading={isLoading}>
             <div className="w-full px-4 py-4 flex gap-4 flex-col">
-                <div className="flex gap-4 flex-col items-center pb-16" key={update}>
+                <div className="flex gap-4 flex-col items-center pb-4" key={update}>
                     <div className="w-32 h-32">
                         <User
                             login={login}
@@ -86,42 +85,16 @@ export default function Profile() {
                         />
                     </div>
                     <p className="text title">{data?.login}</p>
-                    <div className="profile_header__description">
-                        {data?.description?.map(({ type, content }) => {
-                            switch(type) {
-                                case "main":
-                                    return (
-                                        <p className="profile_header__description_main text flex items-center gap-2">
-                                            <BiDetail />
-                                            {content}
-                                        </p>
-                                    )
-                                break;
-                                default: {
-                                    const icons = {
-                                        "telegram": Icons.SocialTelegram,
-                                        "youtube": Icons.SocialYoutube,
-                                        "gamejolt": Icons.SocialGameJolt,
-                                        "itch": Icons.SocialItch,
-                                        "steam": Icons.SocialSteam,
-                                        "appstore": Icons.SocialAppStore,
-                                        "google-play": Icons.SocialGooglePlay
-                                    }
-                                    return (
-                                        <a
-                                            className="profile_header__description_link"
-                                            href={content}
-                                            target="_blank"
-                                        >
-                                            <img src={icons[type]} />
-                                        </a>
-                                    )
-                                } break;
-                            }
-                            
-                            return null;
-                        })}
-                    </div>
+                    {data?.description && (
+                        <div className="profile_header__description">
+                            <p className="profile_header__description_main text flex flex-wrap justify-center items-center gap-2">
+                                <BiDetail />
+                                <LinkifyText>
+                                    {data?.description}
+                                </LinkifyText>
+                            </p>
+                        </div>
+                    )}
                     <p className="text flex items-center gap-2" key={data?.subscribers}>
                         <BiUser />
                         {data?.subscribers || 0}
@@ -134,12 +107,14 @@ export default function Profile() {
                                     htmlType="button"
                                     onClick={() => navigator(dashboard_paths.list)}
                                 >
+                                    <BiSitemap />
                                     {t("buttons.dashboard")}
                                 </Button>
                                 <Button
                                     type="primary"
                                     onClick={() => navigator(user_paths.edit(login))}
                                 >
+                                    <BiCog />
                                     {t("buttons.settings")}
                                 </Button>
                                 
@@ -157,95 +132,94 @@ export default function Profile() {
                         )}
                     </div>}
                 </div>
-                <div className="flex flex-col gap-4">
-                    <Block
-                        title={t("games.title")}
-                        id="games"
-                        request={async (page: number, count: number) => {
-                            const search = new URLSearchParams();
-                            search.set("offset", String((page - 1) * count));
-                            search.set("limit", String(count));
+                <div className="flex flex-col md:grid gap-4">
+                    <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
+                        <Block
+                            title={t("profile.titles.games")}
+                            id="games"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                            const games = await users_games(login, search);
-                            const json = await games.json();
+                                const games = await users_games(login, search);
+                                const json = await games.json();
 
-                            return {
-                                items: json.items.map(item => ({
-                                    dataSource: {
-                                        id: item.id
-                                    }
-                                })),
-                                total: json.total
-                            }
-                        }}
-                        Component={Game}
-                    />
-                    <Block
-                        title={t("subscribers.title")}
-                        id="subscribers"
-                        request={async (page: number, count: number) => {
-                            const search = new URLSearchParams();
-                            search.set("offset", String((page - 1) * count));
-                            search.set("limit", String(count));
+                                return {
+                                    items: json.items.map(item => ({
+                                        dataSource: item
+                                    })),
+                                    total: json.total
+                                }
+                            }}
+                            Component={Game}
+                        />
+                        <Block
+                            title={t("profile.titles.subscribers")}
+                            id="subscribers"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                            const users = await users_subscribers(login, search);
-                            const json = await users.json();
+                                const users = await users_subscribers(login, search);
+                                const json = await users.json();
 
-                            return {
-                                items: json.items.map(item => ({
-                                    login: item.login
-                                })),
-                                total: json.total
-                            }
-                        }}
-                        Component={User}
-                    />
-                    <Block
-                        title={t("favorites.title")}
-                        id="favorites"
-                        request={async (page: number, count: number) => {
-                            const search = new URLSearchParams();
-                            search.set("offset", String((page - 1) * count));
-                            search.set("limit", String(count));
+                                return {
+                                    items: json.items.map(item => ({
+                                        login: item.login,
+                                        dataSource: item
+                                    })),
+                                    total: json.total
+                                }
+                            }}
+                            Component={User}
+                        />
+                    </div>
+                    <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
+                        <Block
+                            title={t("profile.titles.favorites")}
+                            id="favorites"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                            const games = await users_favorites(login, search);
-                            const json = await games.json();
+                                const games = await users_favorites(login, search);
+                                const json = await games.json();
 
-                            return {
-                                items: json.items.map(item => ({
-                                    dataSource: {
-                                        id: item.id
-                                    }
-                                })),
-                                total: json.total
-                            }
-                        }}
-                        Component={Game}
-                    />
-                    <Block
-                        title={t("likes.title")}
-                        id="likes"
-                        request={async (page: number, count: number) => {
-                            const search = new URLSearchParams();
-                            search.set("offset", String((page - 1) * count));
-                            search.set("limit", String(count));
+                                return {
+                                    items: json.items.map(item => ({
+                                        dataSource: item
+                                    })),
+                                    total: json.total
+                                }
+                            }}
+                            Component={Game}
+                        />
+                        <Block
+                            title={t("profile.titles.likes")}
+                            id="likes"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                            const games = await users_likes(login, search);
-                            const json = await games.json();
+                                const games = await users_likes(login, search);
+                                const json = await games.json();
 
-                            console.log(json);
+                                console.log(json);
 
-                            return {
-                                items: json.items.map(item => ({
-                                    dataSource: {
-                                        id: item.id
-                                    }
-                                })),
-                                total: json.total
-                            }
-                        }}
-                        Component={Game}
-                    />
+                                return {
+                                    items: json.items.map(item => ({
+                                        dataSource: item
+                                    })),
+                                    total: json.total
+                                }
+                            }}
+                            Component={Game}
+                        />
+                    </div>
                 </div>
             </div>
         </Spin>

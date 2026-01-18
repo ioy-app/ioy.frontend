@@ -1,0 +1,41 @@
+import { NavLink } from "react-router-dom";
+
+import confPackage from "@/../package.json";
+import { useTranslation } from "react-i18next";
+
+const Footer: React.FC = () => {
+    const { i18n, t } = useTranslation();
+    
+    const handleChangeLanguage = ({ target: { value } }) => {
+        i18n.changeLanguage(value);
+        localStorage.setItem("lang", value);
+    }
+
+    return (
+        <footer className="flex flex-row gap-4 justify-between items-center w-full p-4 bg-br">
+            <abbr className="text-placeholder">
+                {confPackage.date}, {confPackage.name} v{confPackage.version}
+            </abbr>
+            <nav className="flex flex-row items-center gap-4 text-placeholder">
+                <NavLink to="/developers">
+                    {t("footer.developers")}
+                </NavLink>
+                <NavLink to="/about">
+                    {t("footer.about")}
+                </NavLink>
+                <label className="flex items-center gap-2">
+                    <select
+                        onChange={e => handleChangeLanguage(e)}
+                        value={i18n.language}
+                        className="outline-0"
+                    >
+                        <option value="ru">Русский</option>
+                        <option value="en">English</option>
+                    </select>
+                </label>
+            </nav>
+        </footer>
+    );
+}
+
+export default Footer;

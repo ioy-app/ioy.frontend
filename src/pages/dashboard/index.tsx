@@ -1,30 +1,29 @@
 import confTabs from "./tabs.json";
 
 import * as Components from "@/components";
-import "./styles.less";
 import Games from "./content/games";
 import { user_paths } from "@/routes/user";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
 import { useTranslation } from "react-i18next";
-import { BiArrowBack } from "react-icons/bi";
+import { BiArrowBack, BiChevronsLeft } from "react-icons/bi";
+import { paths } from "@/routes";
 
 export default function Dashboard() {
     const { t } = useTranslation();
-    const navigator = useNavigate();
+    const navigate = useNavigate();
     const { login } = useSelector((state: StoreProps) => state.login);
 
-
     return (
-        <div className="wp_dashboard w-full">
-            <div className="wp_dashboard__header">
-                <p className="text title">{t("dashboard.title")}</p>
+        <div className="w-full">
+            <div className="w-full flex flex-col gap-2 items-start mb-4">
                 <Components.Button
-                    type="primary"
-                    onClick={() => navigator(user_paths.details(login))}
+                    variant="text"
+                    onClick={() => navigate(paths.users.details(login))}
                 >
-                    <BiArrowBack />
+                    <BiChevronsLeft />
+                    {t("buttons.back")}
                 </Components.Button>
             </div>
             <Components.Tabs
