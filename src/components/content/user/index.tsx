@@ -17,14 +17,16 @@ const User: React.FC<{
     size?: number | string;
     nolink?: boolean;
     className?: string;
-    dataSource?: UserProps
+    dataSource?: UserProps;
+    ref?: React.Ref<HTMLDivElement>;
 }> = ({
     login,
     preview,
     nolink,
     size=24,
     className,
-    dataSource
+    dataSource,
+    ref
 }) => {
     const {
         status,
@@ -48,6 +50,7 @@ const User: React.FC<{
         <div
             className={`group flex flex-col items-center gap-1 max-w-${size} w-${size} overflow-hidden ${className && className || ""}`}
             key={`user-${login}-${size}`}
+            ref={ref}
         >
             <div className={`w-${size} h-${size} rounded-xl overflow-hidden aspect-square border border-br ${!nolink && "group-hover:border-primary transition-colors" || ""}`}>
                 <Spin loading={status == "pending"}>

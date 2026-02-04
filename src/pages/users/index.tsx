@@ -1,11 +1,12 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { User, Button, Spin, Block, Game, LinkifyText } from "@/components";
 
 import { UserProps } from "@/types";
 import { StoreProps } from "@/stories";
 import * as Icons from "@/icons";
+import { motion, useScroll, useMotionValueEvent } from "motion/react";
 
 import Edit from "./edit";
 
@@ -19,6 +20,8 @@ import { BiAlignLeft, BiCog, BiDetail, BiSitemap, BiUser } from "react-icons/bi"
 
 
 export default function Profile() {
+    const context = useOutletContext();
+    const { scrollY } = useScroll();
     const { t } = useTranslation();
     const navigator = useNavigate();
     const { token } = useSelector((state: StoreProps) => state.login);
@@ -27,6 +30,7 @@ export default function Profile() {
     const [ data, setData ] = useState<UserProps | null>(null);
     const [ update, forceUpdate ] = useReducer((x: number) => x + 1, 0);
     const { login } = params;
+    const [ isScrollable, setScrollable ] = useState<boolean>(false);
 
     const { notify } = useNotify();
 
@@ -72,18 +76,54 @@ export default function Profile() {
             finally { setLoading(false); }
         })();
     }, [ login ]);
+
+    useEffect(() => {
+        if (!data?.controls?.is_me)
+            return;
+        if (!context?.refProfile?.current)
+            return;
+        context.refProfile.current.style.display = "none";
+        return () => {
+            context.refProfile.current.style.display = "flex";
+        }
+    }, [ context?.refProfile?.current, data ]);
+
+    const isMe = data?.controls?.is_me;
+
+    useMotionValueEvent(scrollY, "change", value => {
+        const prev = scrollY.getPrevious();
+        if ((value > prev && value > 48))
+            setScrollable(true);
+        if (value <= 48)
+            setScrollable(false);
+    });
     
     return (
         <Spin loading={isLoading}>
-            <div className="w-full px-4 py-4 flex gap-4 flex-col">
-                <div className="flex gap-4 flex-col items-center pb-4" key={update}>
-                    <div className="w-32 h-32">
+            <div className="w-full px-4 py-4 flex gap-4 flex-col items-center">
+                <div className={`transition-all duration-200 w-32 h-32 ${isScrollable && `z-20 sticky -top-10`}`}>
+                    <motion.div
+                        variants={{
+                            stable: { scale: 1 },
+                            movement: {
+                                scale: .3
+                            }
+                        }}
+                        transition={{
+                            duration: .2
+                        }}
+                        animate={isScrollable && "movement" || "stable"}
+                    >
                         <User
                             login={login}
                             size="full"
+                            className="transition-all w-full h-full"
                             nolink
                         />
-                    </div>
+                    </motion.div>
+                </div>
+                <div className="flex gap-4 flex-col items-center pb-4" key={update}>
+                    
                     <p className="text-title">{data?.login}</p>
                     <p className="text-default flex items-center gap-2" key={data?.subscribers}>
                         <BiUser />
