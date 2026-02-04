@@ -1,8 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Login from "./login";
 import Reg from "./reg";
-
-import "./styles.less";
 import { Tabs } from "@/components";
 
 /**
@@ -14,7 +12,7 @@ const Auth: React.FC<{
 }> = ({ onClose }) => {
     const { t } = useTranslation();
     return (
-        <div className="auth">
+        <div className="flex flex-col gap-4 justify-center items-center w-full">
             <Tabs
                 headers={[
                     {

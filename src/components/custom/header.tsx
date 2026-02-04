@@ -9,8 +9,13 @@ import {
 import { useModal } from "@/hooks";
 import { Auth } from "@/pages";
 
-export default function Header() {
-    const { token, login, loading } = useSelector((state: any) => state?.login);
+/**
+ * Header
+ * @example
+ * return <Header />
+*/
+const Header: React.FC<{}> = ({}) => {
+   const { token, login, loading } = useSelector((state: any) => state?.login);
     const { modal } = useModal();
 
     return (
@@ -48,3 +53,5 @@ export default function Header() {
         </header>
     )
 }
+
+export default Header;

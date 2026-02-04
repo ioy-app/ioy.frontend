@@ -77,7 +77,7 @@ export default function GamePage() {
                     <p className="text-title">{query?.data?.title}</p>
                     <p className="text-default max-w-xl line-clamp-2 text-center ...">{query?.data?.description}</p>
                     <p className="w-full text-placeholder">{t("games.labels.repost.link")}</p>
-                    <div className="text-default p-4 w-full rounded-xl border border-br flex flex-row gap-4 justify-between items-center">
+                    <div className="text-default p-4 w-full rounded-xl border border-br flex flex-row gap-4 justify-between items-center text-text">
                         <p>{url}</p>
                         <BiCopyAlt />
                     </div>
@@ -148,14 +148,14 @@ export default function GamePage() {
                     <div className="flex gap-4 w-full">
                         <div className="flex flex-col gap-2 w-fit">
                             <p className="text-placeholder">{t("games.labels.authors")}</p>
-                            <div className="flex flex-col gap-4 w-50 border border-br rounded-xl p-4 h-fit">
+                            <div className="flex flex-col gap-4 w-fit border border-br rounded-xl p-4 h-fit">
                                 {query?.data?.authors_data?.map((author: UserProps, i: number) => (
                                     <User
                                         login={author?.login}
                                         dataSource={author}
                                         key={i}
                                         size={12}
-                                        className="flex-row w-50 items-center"
+                                        className="flex-row w-fit gap-4"
                                     />
                                 ))}
                             </div>

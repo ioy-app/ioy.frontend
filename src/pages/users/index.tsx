@@ -84,26 +84,23 @@ export default function Profile() {
                             nolink
                         />
                     </div>
-                    <p className="text title">{data?.login}</p>
-                    {data?.description && (
-                        <div className="profile_header__description">
-                            <p className="profile_header__description_main text flex flex-wrap justify-center items-center gap-2">
-                                <BiDetail />
-                                <LinkifyText>
-                                    {data?.description}
-                                </LinkifyText>
-                            </p>
-                        </div>
-                    )}
-                    <p className="text flex items-center gap-2" key={data?.subscribers}>
+                    <p className="text-title">{data?.login}</p>
+                    <p className="text-default flex items-center gap-2" key={data?.subscribers}>
                         <BiUser />
                         {data?.subscribers || 0}
                     </p>
+                    {data?.description && (
+                        <p className="w-[60%] max-md:w-full text-default flex flex-wrap justify-center items-center gap-2 border border-br p-4 rounded-xl">
+                            <LinkifyText className="flex justify-center items-center text-default">
+                                {data?.description}
+                            </LinkifyText>
+                        </p>
+                    )}
                     {token && <div className="flex flex-row gap-4 justify-center items-center">
                         {(data?.controls?.is_me) ? (
                             <>
                                 <Button
-                                    type="second"
+                                    variant="default"
                                     htmlType="button"
                                     onClick={() => navigator(dashboard_paths.list)}
                                 >
@@ -111,7 +108,7 @@ export default function Profile() {
                                     {t("buttons.dashboard")}
                                 </Button>
                                 <Button
-                                    type="primary"
+                                    variant="default"
                                     onClick={() => navigator(user_paths.edit(login))}
                                 >
                                     <BiCog />
@@ -123,7 +120,7 @@ export default function Profile() {
                             <>
                                 <Button
                                     onClick={handleSubscribe}
-                                    type={data?.controls?.is_subscribe ? "danger" : "second"}
+                                    variant={data?.controls?.is_subscribe ? "second" : "primary"}
                                 >
                                     {!data?.controls?.is_subscribe ? t("buttons.subscribe") : t("buttons.unsubscribe")}
                                 </Button>

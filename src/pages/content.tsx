@@ -30,7 +30,7 @@ export default function Content() {
     }
 
     return (
-        <div className="flex flex-col items-between gap-2 w-screen h-screen overflow-hidden overflow-y-auto">
+        <div className="flex flex-col items-between gap-2 w-screen h-screen overflow-hidden overflow-y-auto bg-back text-text">
             <Components.Header />
             <main className="flex-1 py-2 px-4 w-full">
                 <Outlet />

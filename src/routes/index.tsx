@@ -4,7 +4,6 @@ import { Home } from "@/pages";
 import games, { games_paths } from "./games";
 import user, { user_paths } from "./user";
 import dashboard, { dashboard_paths } from "./dashboard";
-import search, { search_paths } from "./search";
 
 const routes: RouteObject[] = [
     {
@@ -13,15 +12,13 @@ const routes: RouteObject[] = [
     },
     ...user,
     ...games,
-    ...dashboard,
-    ...search
+    ...dashboard
 ];
 
 export const paths = {
     users: user_paths,
     games: games_paths,
-    dashboard: dashboard_paths,
-    search: search_paths
+    dashboard: dashboard_paths
 }
 
 export default routes;

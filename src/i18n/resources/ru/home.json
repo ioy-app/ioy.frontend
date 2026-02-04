@@ -1,0 +1,25 @@
+{
+    "search": {
+        "placeholders": {
+            "search": "Поиск",
+            "games": "Игра",
+            "users": "Автор",
+            "jams": "Джем",
+            "tags": "Теги",
+            "title": "Название",
+            "description": "Описание"
+        },
+        "labels": {
+            "type": "Тип",
+            "search": "Поиск по"
+        }
+    },
+    "labels": {
+        "recommendations": "Рекомендации"
+    },
+    "tabs": {
+        "games": "Игры",
+        "jams": "Джемы",
+        "users": "Авторы"
+    }
+}

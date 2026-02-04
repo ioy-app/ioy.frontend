@@ -4,7 +4,7 @@ import * as Icons from "@/icons";
 
 import { Input, Button, Code } from "@/components";
 import { useDispatch } from "react-redux";
-import { setLogin } from "../../../stories/login";
+import { setLogin } from "@/stories/login";
 import { auth_login } from "@/api/routes/auth";
 import { useTranslation } from "react-i18next";
 import { FormProvider, useForm } from "react-hook-form";
@@ -54,10 +54,13 @@ const Login: React.FC<{ onClose: () => void; }> = ({ onClose }) => {
 
     return (
         <FormProvider {...methods}>
-            <form className="auth_form form" onSubmit={methods.handleSubmit(handleSubmit)}>
-                <div className="form_header">
-                    <img src={Icons.Logo} />
-                    <p className="text title center">{t("auth.title.login")}</p>
+            <form
+                className="flex flex-col gap-4 items-end w-full"
+                onSubmit={methods.handleSubmit(handleSubmit)}
+            >
+                <div className="flex flex-col gap-2 items-center w-full">
+                    <img src={Icons.Logo} className="w-25" />
+                    <p className="text-default">{t("auth.title.login")}</p>
                 </div>
                 <Input
                     {...methods.register("email")}
@@ -66,15 +69,13 @@ const Login: React.FC<{ onClose: () => void; }> = ({ onClose }) => {
                     type="email"
                     disabled={isLoading}
                 />
-                <div className="form_footer">
-                    <Button
-                        disabled={isLoading}
-                        type="second"
-                        htmlType="submit"
-                    >
-                        {t(isLoading ? "buttons.loading" : "buttons.ok")}
-                    </Button>
-                </div>
+                <Button
+                    disabled={isLoading}
+                    variant="primary"
+                    htmlType="submit"
+                >
+                    {t(isLoading ? "buttons.loading" : "buttons.ok")}
+                </Button>
             </form>
         </FormProvider>
     );

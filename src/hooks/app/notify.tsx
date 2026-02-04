@@ -1,8 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import "./styles.less";
-
 export interface NotifyProps {
     id: string;
     message: string;
@@ -21,23 +19,23 @@ export const NotifyProvider: React.FC<{ children: React.ReactNode; }> = ({ child
             type
         }]);
 
-        setTimeout(() => setStack(prev => prev.filter(note => note.id !== id)), 3000);
+        setTimeout(() => setStack(prev => prev.filter(note => note.id !== id)), 1800);
     }
 
     return (
         <NotifyContext.Provider value={{ notify }}>
             {children}
-            <div className="wp_notifies">
+            <div className="flex z-255 fixed bottom-0 left-0 w-full h-full p-4 pointer-events-none flex-col-reverse items-start gap-2">
                 <AnimatePresence>
                     {stack?.map(note => (
                         <motion.div
                             key={note.id}
                             layout
-                            initial={{ opacity: 0, y: -50 }}
+                            initial={{ opacity: 0, y: 50 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -50 }}
+                            exit={{ opacity: 0, y: 50 }}
                             transition={{ duration: 0.3 }}
-                            className={`wp_notifies__notify notify_${note.type}`}
+                            className={`notify notify-${note.type}`}
                         >
                         {note.message}
                         </motion.div>

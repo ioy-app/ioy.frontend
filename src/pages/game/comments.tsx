@@ -1,5 +1,5 @@
 import { comments_answers, comments_create, comments_delete, comments_like, comments_list, comments_reply } from "@/api/routes/comments";
-import { Button, Spin } from "@/components";
+import { Button, Select, Spin } from "@/components";
 import Comment from "@/components/content/comment";
 import CommentForm from "@/components/content/comment/form";
 import CommentProps from "@/components/content/comment/interface";
@@ -233,7 +233,27 @@ const Comments: React.FC = () => {
 
     return (
         <div className="w-full mt-12 flex flex-col gap-4">
-            <p className="text-placeholder">{t("games.labels.comments")} ({query?.data?.pages?.[0]?.total || 0})</p>
+            <div className="w-full flex justify-between items-center gap-4">
+                <p className="text-placeholder">{t("games.labels.comments")} ({query?.data?.pages?.[0]?.total || 0})</p>
+                <Select
+                    options={[
+                        {
+                            label: t("comments.order.new"),
+                            value: "new"
+                        },
+                        {
+                            label: t("comments.order.older"),
+                            value: "older"
+                        },
+                        {
+                            label: t("comments.order.popular"),
+                            value: "popular"
+                        }
+                    ]}
+                    className="w-50"
+                    isFirstOption
+                />
+            </div>
             {token && (
                 <CommentForm
                     onOk={(comment) => create.mutate({ comment })}

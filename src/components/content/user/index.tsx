@@ -46,30 +46,30 @@ const User: React.FC<{
 
     const root = (
         <div
-            className={`group flex flex-col gap-4 w-${size} ${className}`}
+            className={`group flex flex-col items-center gap-1 max-w-${size} w-${size} overflow-hidden ${className && className || ""}`}
             key={`user-${login}-${size}`}
         >
-            <div className={`user flex justify-center items-center w-${size} h-${size} overflow-hidden border bg-white border-gray-200 rounded-xl box-border`}>
+            <div className={`w-${size} h-${size} rounded-xl overflow-hidden aspect-square border border-br ${!nolink && "group-hover:border-primary transition-colors" || ""}`}>
                 <Spin loading={status == "pending"}>
                     {(isError || !data) ? (
-                        <div className={`flex w-${size} h-${size} items-center justify-center flex-col gap-2 bg-second`}>
-                            <img src={Profile} className="h-full aspect-square" />
+                        <div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary">
+                            <img src={Profile} />
                         </div>
                     ) : (
                         <img
                             src={data}
-                            className="h-full aspect-square"
+                            className="w-full h-full"
                         />
                     )}
                 </Spin>
             </div>
-            {dataSource?.login && <p className="text text-wrap text-center text-xs text-gray-500 group-hover:text-gray-800 wrap-anywhere line-clamp-2 ...">{dataSource.login}</p>}
+            {dataSource?.login && <p className={`max-w-${size} overflow-hidden text-placeholder wrap-break-word line-clamp-2 text-center ... group-hover:text-primary transition-colors`}>{dataSource.login}</p>}
         </div>
     )
 
     return (
         !nolink ? (
-            <NavLink to={`/u/${login}`}>
+            <NavLink to={`/u/${login}`} className={`w-fit`}>
                 {root}
             </NavLink>
         ) : root

@@ -40,7 +40,7 @@ const Comment: React.FC<
                             size={12}
                             login={props.author.login}
                             dataSource={props.author}
-                            className="inline-flex flex-row w-fit items-center"
+                            className="inline-flex flex-row w-fit items-center gap-4"
                         />
                     </div>
                     <div className="p-4 border border-gray-200 rounded-xl">

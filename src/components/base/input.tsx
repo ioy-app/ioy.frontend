@@ -8,7 +8,7 @@ const Input: React.FC<{
     /** Label */
     label?: string;
     /** Input's type */
-    type?: "text" | "password" | "search";
+    type?: "text" | "password" | "search" | "email";
     /** Placeholder */
     placeholder?: string;
     /** Disabled */

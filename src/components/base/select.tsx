@@ -1,4 +1,6 @@
-import { BiChevronDown } from "react-icons/bi";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { BiChevronDown, BiChevronUp, BiFileBlank } from "react-icons/bi";
 
 interface Option {
     label: React.ReactNode;
@@ -9,23 +11,89 @@ type SelectComponentProps = { options: Option[] } & Omit<React.SelectHTMLAttribu
 
 
 const Select: React.FC<SelectComponentProps> = ({
+    name,
     options,
-    ...props
+    value,
+    onChange,
+    placeholder,
+    className,
+    ref,
+    isFirstOption
 }) => {
+    const { t } = useTranslation();
+    const [ isOpen, setOpen ] = useState<boolean>(false);
+    const [ localValue, setValue ] = useState<unknown>(value);
+    const localRef = useRef(null);
+
+    useEffect(() => {
+        const value = localRef?.current?.value;
+        if (!value)
+            return;
+
+        const option = options?.find(opt => opt.value == value);
+        setValue(option);
+    }, [ localRef?.current ]);
+
+    useEffect(() => {
+        if (isFirstOption) {
+            onChange && onChange({
+                target: {
+                    name: name,
+                    value: option?.[0]?.value
+                }
+            });
+            setValue(options?.[0]);
+        }
+    }, [])
+
     return (
-        <label className="px-4 py-2 rounded-xl border border-br text-default h-10 flex flex-row gap-2 items-center cursor-pointer">
-            <select
-                className="appearance-none outline-none"
-                {...props}
+        <div
+            className="flex flex-col gap-2 relative select-none"
+            ref={e => {
+                ref && ref(e);
+                localRef.current = e;
+            }}
+        >
+            <div
+                className={`group rounded-xl border ${isOpen && "border-primary" || "border-br"} text-default h-10 flex flex-row gap-2 items-center justify-between px-4 py-2 ${className && className} hover:border-primary cursor-pointer transition-colors`}
+                onClick={() => setOpen(prev => !prev)}
             >
-                {options && options?.map(((opt: Option, i: number) => (
-                    <option key={i} value={opt.value}>
-                        {opt.label}
-                    </option>
-                )))}
-            </select>
-            <BiChevronDown className="text-2xl" />
-        </label>
+                {(localValue || placeholder) && <p className="overflow-hidden truncate ...">{localValue?.label || placeholder}</p>}
+                {!isOpen ? (
+                    <BiChevronDown className="text-2xl text-br group-hover:text-primary" />
+                ) : (
+                    <BiChevronUp className="text-2xl text-primary" />
+                )}
+            </div>
+            {isOpen && (
+                <div className="absolute flex flex-col gap-4 px-4 py-2 mt-2 rounded-xl border border-br bg-back z-1 top-full w-fit shadow-md right-0">
+                    {!options?.length && (
+                        <div className="flex flex-1 flex-col justify-center items-center p-4">
+                            <BiFileBlank className="text-2xl text-disabled-content" />
+                            <p className="text-center text-placeholder">{t("select.nodata")}</p>
+                        </div>
+                    )}
+                    {options?.map((option: Option, i: number) => (
+                        <div
+                            className={`group cursor-pointer text-default transition-colors ${(option.value == localValue?.value) && "text-primary" || "text-text"}`}
+                            key={i}
+                            onClick={() => {
+                                setValue(option);
+                                setOpen(false);
+                                onChange && onChange({
+                                    target: {
+                                        name: name,
+                                        value: option.value
+                                    }
+                                });
+                            }}
+                        >
+                            <p className="group-hover:text-primary overflow-hidden truncate ...">{option.label}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }
 

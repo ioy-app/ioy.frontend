@@ -6,6 +6,8 @@ import auth from "./auth.json";
 import dashboard from "./dashboard.json";
 import games from "./games.json";
 import notify from "./notify.json";
+import home from "./home.json";
+import codes from "./codes.json";
 
 const lang = {
     buttons,
@@ -15,7 +17,9 @@ const lang = {
     auth,
     dashboard,
     games,
-    notify
+    notify,
+    home,
+    codes
 }
 
 export default lang;

@@ -26,6 +26,7 @@ const Code: React.FC<{
 
     const handleSubmit = async ({ code }: { code: string[] }) => {
         try {
+            console.log(code);
             setLoading(true);
             const response = await fetchAPI("/api/v1/codes", {
                 method: "POST",
@@ -40,6 +41,7 @@ const Code: React.FC<{
         catch(err) {
             notify(`codes.${err?.message}`, "error");
             handleClear();
+            onCancel && onCancel();
         }
         finally { setLoading(false); }
     }
@@ -78,12 +80,13 @@ const Code: React.FC<{
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(handleSubmit)} className={`form ${className || ""}`}>
-                <div className="form_header">
-                    <p className="text title center">{t("codes.title")}</p>
-                </div>
-                <p className="text center">{t("codes.description")}</p>
-                <div className="code_body">
+            <form
+                onSubmit={methods.handleSubmit(handleSubmit)}
+                className="flex flex-col gap-4 items-center"    
+            >
+                <p className="text-title">{t("codes.title")}</p>
+                <p className="text-default">{t("codes.description")}</p>
+                <div className="flex flex-row gap-4 items-center w-full">
                     {Array.from({ length }, (_: any, i: number) => (
                         <Input
                             {...methods.register(`code.${i}`)}
@@ -111,27 +114,22 @@ const Code: React.FC<{
                             }}
                             onChange={(elem: React.ChangeEvent<HTMLInputElement>) => {
                                 const value = String(elem.currentTarget.value || "");
-                                if (!/^d$/.test(value))
-                                    return;
 
                                 if (!value)
                                     return;
-
                                 if (i < (length - 1))
                                     setTimeout(() => inputRefs?.current?.[i + 1]?.focus(), 0);
-
+                                console.log(i, length - 1, i == (length - 1));
                                 if (i == (length - 1)) {
-                                    const code = methods.getValues("code")?.join("");
-                                    if (code?.length == length)
-                                        methods.handleSubmit(handleSubmit);
+                                    methods.handleSubmit(handleSubmit)();
                                 }
                             }}
                         />
                     ))}
                 </div>
-                <div className="form_footer">
+                <div className="w-full flex justify-end items-center">
                     <Button
-                        type="primary"
+                        variant="second"
                         onClick={(elem: React.MouseEvent<HTMLButtonElement>) => {
                             elem.preventDefault();
                             onCancel && onCancel();

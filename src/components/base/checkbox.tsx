@@ -1,20 +1,20 @@
-const Checkbox: React.FC = ({
+const Checkbox: React.FC<{
+    /** Name */
+    name: string;
+    /** Help title */
+    placeholder?: string;
+    /** Change event */
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    /** Link to original checkbox */
+    ref?: React.Ref<HTMLInputElement>;
+}> = ({
     name,
     placeholder,
     onChange,
     ref
-} : {
-    /** Имя чекбокса */
-    name: string;
-    /** Подсказка */
-    placeholder?: string;
-    /** Событие изменения чекбокса */
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
-    /** Ссылка на чекбокс */
-    ref?: React.Ref<HTMLInputElement>;
 }) => (
-    <label className="w-fit inline-flex flex-row gap-2 items-center has-checked:text-primary cursor-pointer">
-        <div className="flex justify-center items-center border border-gray-200 rounded-full w-6 h-6 overflow-hidden has-checked:border-primary">
+    <label className="w-fit inline-flex flex-row gap-2 items-center has-checked:text-primary cursor-pointer text-text">
+        <div className="flex justify-center items-center border border-br rounded-full w-6 h-6 overflow-hidden has-checked:border-primary">
             <input
                 type="checkbox"
                 name={name}

@@ -1,8 +1,6 @@
 import { createContext, useContext, useState, ReactElement } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import "./styles.less";
-
 export interface ModalProps {
     id: string;
     message?: React.FC<ModalProps> | string;
@@ -28,7 +26,7 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
         <ModalContext.Provider value={{ modal }}>
             {children}
             <div
-                className={`fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#000000cc] z-1000 px-4 py-8 ${!stack?.length && "hidden"}`}
+                className={`fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#000000cc] z-250 px-4 py-8 ${!stack?.length && "hidden"}`}
                 onClick={(e) => {
                     if (e.target === e.currentTarget) {
                         document.body.style.overflow = "";
@@ -51,10 +49,10 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 1.25 }}
                                 transition={{ duration: 0.3 }}
-                                className="bg-white w-full max-h-full md:h-fit md:w-2xl rounded-2xl p-4 overflow-x-hidden overflow-y-auto"
+                                className="bg-back text-text w-full max-h-full md:h-fit md:w-2xl rounded-2xl p-4 overflow-x-hidden overflow-y-auto"
                             >
                                 {typeof Message == "string" ? Message : <Message id={id} onClose={onClose} />}
-                                <div className="wp_modals__modal_footer">{typeof(footer) != "function" ? footer : footer(onClose) || null}</div>
+                                <div className="flex flex-row w-full gap-4 justify-end items-center">{typeof(footer) != "function" ? footer : footer(onClose) || null}</div>
                             </motion.div>
                         );
                     })}

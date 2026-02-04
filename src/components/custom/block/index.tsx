@@ -3,7 +3,7 @@ import Spin from "@/components/base/spin";
 import { user_paths } from "@/routes/user";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { BiArrowFromRight, BiArrowToRight, BiChevronsRight, BiLinkExternal, BiRightArrow, BiRightArrowAlt } from "react-icons/bi";
+import { BiArrowFromRight, BiArrowToRight, BiChevronsRight, BiExpandAlt, BiLinkExternal, BiRightArrow, BiRightArrowAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const Block: React.FC<{
@@ -38,19 +38,18 @@ const Block: React.FC<{
         return null;
 
     return (
-        <div className="border border-gray-200 rounded-xl overflow-clip py-4 px-4 gap-4 flex flex-col">
-            <div className="bg-white flex flex-row justify-between items-center">
+        <div className="bg-back border border-br rounded-xl overflow-clip py-4 px-4 gap-4 flex flex-col h-fit text-text">
+            <div className="bg-back flex flex-row justify-between items-center">
                 <div className="flex flex-row gap-2 items-center">
                     <p className="text-default">{title}</p>
-                    <p className="text border border-gray-200 px-2 py-1 rounded-xl text-gray-700">{data?.total || 0}</p>
+                    <p className="text-default border border-br px-2 py-1 rounded-xl text-text">{data?.total || 0}</p>
                 </div>
                 {(data?.total > 10) && (
                     <Button
-                        type="text"
+                        variant="text"
                         onClick={() => navigator(`./${id}`)}
                     >
-                        {t("buttons.open")}
-                        <BiChevronsRight />
+                        <BiExpandAlt className="text-2xl" />
                     </Button>
                 )}
             </div>

@@ -1,4 +1,4 @@
-import { BiBox, BiEditAlt, BiPlus } from "react-icons/bi";
+import { BiBox, BiEditAlt, BiPlus, BiSearch, BiSearchAlt } from "react-icons/bi";
 import confStatus from "../status.json";
 
 import { dashboard_games } from "@/api/routes/dashboard";
@@ -12,6 +12,7 @@ import { games_paths } from "@/routes/games";
 import { paths } from "@/routes";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
+import { FormProvider, useForm } from "react-hook-form";
 
 const Games: React.FC = () => {
     const { t } = useTranslation();
@@ -67,6 +68,8 @@ const Games: React.FC = () => {
             if (searchQS)
                 search.set("search", searchQS);
 
+            
+
             const result = await dashboard_games(search);
             const json = await result.json();
                 if (result.status != 200)
@@ -76,38 +79,55 @@ const Games: React.FC = () => {
         }
     });
 
+    const onSubmit = async (data) => {
+        const us = new URLSearchParams();
+        if (data.search)
+            us.set("search", data.search);
+        if (data.status && data.status != "all")
+            us.set("status", data.status);
+        setSearchParams(us);
+    }
+
+    const methods = useForm();
+
     const pagination = handleGetPages(current_page, Math.ceil((query?.data?.total || 1) / max));
+
+    useEffect(() => {
+        if (searchParams.get("search"))
+            methods.setValue("search", searchParams.get("search"));
+        if (searchParams.get("status"))
+            methods.setValue("status", searchParams.get("status"));
+    }, [ searchParams ]);
 
     return (
         <div className="w-full flex flex-col gap-4">
-            <div className="flex gap-4 items-center">
-                <Components.Input
-                    name="search"
-                    type="search"
-                    placeholder={t("dashboard.games.search")}
-                    onChange={({ target: { value } }) => {
-                        if (value.length <= 2) {
-                        searchParams.delete("search");
-                        } else searchParams.set("search", value);
-                        searchParams.set("page", String(1));
-                        setSearchParams(searchParams);
-                    }}
-                />
-                <Components.Select
-                    options={confStatus.map(record => ({
-                        ...record,
-                        label: t(record.label)
-                    }))}
-                    onChange={({ target: { value } }) => {
-                        if (value == "all")
-                            searchParams.delete("status");
-                        else searchParams.set("status", value);
-                        searchParams.set("page", String(1));
-                        setSearchParams(searchParams);
-                    }}
-                    defaultValue={searchParams.get("status")}
-                />
-            </div>
+            <FormProvider {...methods}>
+                <form
+                    className="flex gap-4 items-center"
+                    onSubmit={methods.handleSubmit(onSubmit)}
+                >
+                    <Components.Input
+                        type="search"
+                        {...methods.register("search")}
+                        placeholder={t("dashboard.games.search")}
+                    />
+                    <Components.Select
+                        placeholder={t("dashboard.placeholders.status")}
+                        options={confStatus.map(record => ({
+                            ...record,
+                            label: t(record.label)
+                        }))}
+                        {...methods.register("status")}
+                        className="w-50"
+                    />
+                    <Components.Button
+                        variant="primary"
+                        htmlType="submit"
+                    >
+                        <BiSearch />
+                    </Components.Button>
+                </form>
+            </FormProvider>
             <Components.Table
                 columns={[
                     {
