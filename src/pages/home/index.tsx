@@ -1,25 +1,23 @@
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
-import { NavLink, useNavigate } from "react-router-dom";
-import { BiSearch, BiSolidHot } from "react-icons/bi";
-import { Button, Checkbox, Game, Input, Spin, Tabs, Tag } from "@/components";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { BiBox, BiSearch, BiSolidHot } from "react-icons/bi";
+import { Button, Checkbox, Game, Input, Spin, Table, Tabs, Tag, User } from "@/components";
 import { games_list } from "@/api/routes/games";
 import { useTranslation } from "react-i18next";
 import GameProps from "@/types/game";
 import imgLabel from "@/icons/label.svg";
+import { search } from "@/api/routes/search";
+import { paths } from "@/routes";
+import dayjs from "dayjs";
+import { useEffect } from "react";
 
-/**
- * Home page
- * route: /
-*/
-const Home: React.FC = () => {
+export default function Home() {
     const navigation = useNavigate();
-    const {
-        handleSubmit,
-        register,
-        watch
-    } = useForm();
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    const methods = useForm();
     const { t } = useTranslation();
+    
 
     document.title = t("home.title");
 
@@ -41,14 +39,90 @@ const Home: React.FC = () => {
         })
     });
 
-    const submit = (fd: {
-        search: string;
-    }) => {
-        const search = new URLSearchParams(fd);
-        navigation("/?" + search.toString());
+    useEffect(() => {
+        methods.setValue("search", null);
+
+        if (searchParams.get("search"))
+            methods.setValue("search", searchParams.get("search"));
+        if (searchParams.get("status"))
+            methods.setValue("status", searchParams.get("status"));
+    }, [ searchParams ]);
+
+    const isSearch = searchParams.get("search");
+    const max = 20;
+    const current_page = Number(searchParams.get("page") || 1);
+
+    const submit = (data) => {
+        const us = new URLSearchParams(data);
+
+        if (!data?.search)
+            us.delete("search");
+
+        setSearchParams(us);
     }
 
-    const search: string = watch("search");
+    const searchQuery = useQuery({
+        queryKey: [ "search", searchParams?.toString() ],
+        queryFn: async () => {
+            if (!searchParams.get("search"))
+                return {
+                    items: [],
+                    total: 0
+                }
+            
+            const us = new URLSearchParams();
+
+            us.set("offset", String((current_page - 1) * max));
+            us.set("limit", String(max));
+            us.set("search", searchParams.get("search"));
+            
+            const response = await search(us);
+            const json = await response.json();
+            console.log(json);
+            return json;
+        },
+        initialData: {
+            items: [],
+            total: 0
+        }
+    })
+
+    
+
+    
+
+
+    const handleGetPages = (current_page: number, pages: number) => {
+        const arr: number[] = [];
+
+        arr.push(1);
+        if (current_page < 3) {
+            for (let i = 1; i <= Math.min(4, pages); i++)
+                arr.push(i);
+        }
+        if (current_page > pages - 3) {
+            for (let i = Math.max(pages - 3, 1); i <= pages; i++)
+                arr.push(i);
+        }
+
+        for (let i = Math.max(current_page - 1, 1); i <= Math.min(current_page + 1, pages); i++)
+            arr.push(i);
+        
+        arr.push(pages);
+
+        const new_arr = Array.from(new Set(arr));
+        if (new_arr.length <= 1)
+            return [];
+
+        return new_arr;
+    }
+
+    const handleChangePage = (page: number) => {
+        searchParams.set("page", String(page));
+        setSearchParams(searchParams);
+    }
+
+    const pagination = handleGetPages(current_page, Math.ceil((searchQuery?.data?.total || 1) / max));
 
     return (
         <Spin loading={isFetching}>
@@ -62,144 +136,144 @@ const Home: React.FC = () => {
                     </div>
                 </div>
                 <div className="flex gap-4 w-full max-md:flex max-md:flex-col-reverse">
-                    <div className="w-70 max-md:w-full">
-                        <div className="rounded-xl text-placeholder px-4 py-2 bg-primary text-white w-full relative max-md:rounded-bl-none max-md:rounded-br-none">
-                            <p>{t("home.labels.recommendations")}</p>
-                            <BiSolidHot
-                                className="text-second text-4xl absolute -right-3 -top-3 bg-back rounded-full p-1"
-                            />
-                        </div>
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-4 py-4 max-md:flex max-md:gap-4 max-md:flex-wrap max-md:border max-md:border-br max-md:p-4 max-md:rounded-b-xl">
-                            {games?.slice(0, 4)?.map((game: GameProps, i: number) => (
-                                <Game
-                                    dataSource={game}
-                                    key={i}
+                    <FormProvider {...methods}>
+                        <form
+                            className="col-span-4 flex flex-col gap-4 w-full h-fit"
+                            onSubmit={methods.handleSubmit(submit)}
+                        >
+                            <div className="flex gap-4">
+                                <Input
+                                    placeholder={t("home.search.placeholders.search")}
+                                    type="search"
+                                    {...methods.register("search")}
                                 />
-                            ))}
-                        </div>
-                    </div>
-                    <form className="col-span-4 flex flex-col gap-4 w-full h-fit">
-                        <div className="flex gap-4">
-                            <Input
-                                placeholder={t("home.search.placeholders.search")}
-                                type="search"
-                            />
-                            <Button variant="primary">
-                                <BiSearch />
-                            </Button>
-                        </div>
-                        <div className="flex gap-4 flex-wrap justify-start items-center">
-                            {tags?.map((tag: string, i: number) => (
-                                <NavLink
-                                    to={`/?search=${tag}`}
-                                    className="cursor-pointer"
+                                <Button
+                                    variant="primary"
+                                    htmlType="submit"
                                 >
-                                    <Tag
-                                        title={tag}
-                                        key={i}
-                                    />
-                                </NavLink>
-                            ))}
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="flex flex-col gap-4 p-4 border border-br rounded-xl">
-                                <p className="text-lg font-roboto font-thin">{t("home.search.labels.type")}</p>
-                                <Checkbox
-                                    placeholder={t("home.search.placeholders.games")}
-                                />
-                                <Checkbox
-                                    placeholder={t("home.search.placeholders.users")}
-                                />
-                                <Checkbox
-                                    placeholder={t("home.search.placeholders.jams")}
-                                />
+                                    <BiSearch />
+                                </Button>
                             </div>
-                            <div className="flex flex-col gap-4 p-4 border border-br rounded-xl">
-                                <p className="text-lg font-roboto font-thin">{t("home.search.labels.search")}</p>
-                                <Checkbox
-                                    placeholder={t("home.search.placeholders.tags")}
-                                />
-                                <Checkbox
-                                    placeholder={t("home.search.placeholders.title")}
-                                />
-                                <Checkbox
-                                    placeholder={t("home.search.placeholders.description")}
-                                />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <Tabs
-                    headers={[
-                        {
-                            label: t("home.tabs.games"),
-                            value: "games"
-                        },
-                        {
-                            label: t("home.tabs.jams"),
-                            value: "jams"
-                        },
-                        {
-                            label: t("home.tabs.users"),
-                            value: "users"
-                        }
-                    ]}
-                    content={{
-                        games: (
-                            <div className="flex flex-wrap gap-4 h-fit">
-                                {games?.map((game: GameProps, i: number) => (
-                                    <Game
-                                        dataSource={game}
-                                        key={i}
-                                    />
+                            <div className="flex gap-4 flex-wrap justify-start items-center">
+                                {tags?.map((tag: string, i: number) => (
+                                    <NavLink
+                                        to={`/?search=${tag}`}
+                                        className="cursor-pointer"
+                                    >
+                                        <Tag
+                                            title={tag}
+                                            key={i}
+                                        />
+                                    </NavLink>
                                 ))}
                             </div>
-                        )
-                    }}
-                />
-                
-            </div>
-            {/* <div className="flex w-full min-h-full h-fit flex-1 flex-col gap-8 items-center justify-center">
-                <div className="flex flex-col gap-4 lg:w-2xl md:w-full">
-                    <form className="flex flex-row gap-2" onSubmit={handleSubmit(submit)}>
-                        <Input
-                            type="search"
-                            placeholder={t("home.search")}
-                            {...register("search")}
-                        />
-                        <Button
-                            variant="primary"
-                            htmlType="submit"
-                            disabled={!search}
-                        >
-                            <BiSearch />
-                        </Button>
-                    </form>
-                    <div className="flex gap-4 flex-wrap justify-center">
-                        {tags?.map((tag: string, i: number) => (
-                            <NavLink
-                                to={`${search_paths.list}?search=${tag}`}
-                                className="cursor-pointer"
-                            >
-                                 <Tag
-                                    title={tag}
-                                    key={i}
+                            {isSearch ? (
+                                <Table
+                                    columns={[
+                                        {
+                                            title: t("dashboard.games.table.game"),
+                                            dataIndex: "id",
+                                            render: (data, game) => (
+                                                <Link
+                                                    to={paths.games.details(game?.id)}
+                                                    className="group flex items-center gap-2 w-fit"
+                                                >
+                                                    <Game
+                                                        dataSource={{
+                                                            id: game?.id
+                                                        } as GameProps}
+                                                        nolink
+                                                        size={12}
+                                                    />
+                                                    <p className="text-default group-hover:text-primary transition-colors cursor-pointer">{game?.title}</p>
+                                                </Link>
+                                            )
+                                        },
+                                        {
+                                            title: t("dashboard.games.table.author"),
+                                            dataIndex: "creater_data",
+                                            render: (data, game) => (
+                                                <Link
+                                                    to={paths.users.details(data?.login)}
+                                                    className="group flex items-center gap-2 w-fit"
+                                                >
+                                                    <User
+                                                        login={data.login}
+                                                        nolink
+                                                        size={12}
+                                                    />
+                                                    <p className="text-default group-hover:text-primary transition-colors cursor-pointer">{data?.login}</p>
+                                                </Link>
+                                            )
+                                        },
+                                        {
+                                            title: t("dashboard.games.table.version"),
+                                            dataIndex: "version"
+                                        },
+                                        {
+                                            title: t("dashboard.games.table.date_created"),
+                                            dataIndex: "date_created",
+                                            render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
+                                        },
+                                        {
+                                            title: t("dashboard.games.table.date_updated"),
+                                            dataIndex: "date_updated",
+                                            render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
+                                        }
+                                    ]}
+                                    data={searchQuery?.data?.items}
+                                    loading={searchQuery?.isPending}
+                                    footer={(
+                                        <div className="flex gap-4 items-center justify-end flex-wrap">
+                                            {pagination && pagination?.map((page: number, i: number) => (
+                                                <Button
+                                                    disabled={page == current_page}
+                                                    key={i}
+                                                    onClick={() => handleChangePage(page)}
+                                                    variant={!i || i == (pagination.length - 1) ? "primary" : "default"}
+                                                >
+                                                    {page}
+                                                </Button>
+                                            ))}
+                                        </div>
+                                    )}
+                                    nodata={(
+                                        <>
+                                            <BiBox className="text-2xl" />
+                                            <p className="text-placeholder">{t("dashboard.labels.nodata")}</p>
+                                        </>
+                                    )}
                                 />
-                            </NavLink>
-                        ))}
-                    </div>
+                            ) : (
+                                <Tabs
+                                    headers={[
+                                        {
+                                            label: t("home.tabs.games"),
+                                            value: "games"
+                                        },
+                                        {
+                                            label: t("home.tabs.jams"),
+                                            value: "jams"
+                                        }
+                                    ]}
+                                    content={{
+                                        games: (
+                                            <div className="flex flex-wrap gap-4 h-fit">
+                                                {games?.map((game: GameProps, i: number) => (
+                                                    <Game
+                                                        dataSource={game}
+                                                        key={i}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )
+                                    }}
+                                />
+                            )}
+                        </form>
+                    </FormProvider>
                 </div>
-                <div className="flex flex-wrap gap-2 h-fit justify-center">
-                    {games?.map((game: GameProps, i: number) => (
-                        <Game
-                            dataSource={game}
-                            key={i}
-                        />
-                    ))}
-                </div>
-            </div> */}
+            </div>
         </Spin>
     );
 }
-
-export default Home;

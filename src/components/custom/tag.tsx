@@ -1,4 +1,6 @@
+import { paths } from "@/routes";
 import { BiHash } from "react-icons/bi";
+import { NavLink } from "react-router";
 
 function hashString(str: string): number {
   let hash = 5381;
@@ -26,16 +28,18 @@ const Tag: React.FC<{
 }> = ({ title }) => {
     const bg = stringToHSLColor(title);
     return (
-        <div
-            className="px-2 py-1 rounded-xl text-default flex gap-2 items-center select-none"
-            style={{
-                background: bg,
-                color: getContrastTextColor(bg)
-            }}
-        >
-            <BiHash />
-            <p>{title}</p>
-        </div>
+        <NavLink to={`${paths.search}?search=${title}`}>
+          <div
+              className="px-2 py-1 rounded-xl text-default flex gap-2 items-center select-none"
+              style={{
+                  background: bg,
+                  color: getContrastTextColor(bg)
+              }}
+          >
+              <BiHash />
+              <p>{title}</p>
+          </div>
+        </NavLink>
     );
 }
 

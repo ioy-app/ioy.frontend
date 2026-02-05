@@ -48,7 +48,8 @@ const Routes = {
         create: (id: number) => `${path}/comments/${id}`,
         reply: (id: number, commentid: number) => `${path}/comments/${id}/${commentid}`,
         like: (id: number) => `${path}/comments/${id}/like`
-    }
+    },
+    search: `${path}/search`
 }
 
 

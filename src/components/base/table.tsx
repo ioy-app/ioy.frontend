@@ -17,7 +17,7 @@ const Table: React.FC<{
     /** Footer */
     footer?: React.ReactNode;
     /** Control render */
-    control: (row: any, i: number) => React.ReactNode;
+    control?: (row: any, i: number) => React.ReactNode;
     /** Loading table */
     loading?: boolean;
     /** Nodata placeholder */
@@ -59,14 +59,13 @@ const Table: React.FC<{
                         </thead>
                         <tbody>
                             {data?.map((row, i) => {
-                                const keys = Object.keys(row)
-                                    ?.filter(key => columns.find(col => col.dataIndex == key));
+                                const keys = columns?.map(col => col?.dataIndex);
 
                                 return (
                                     <tr key={i}>
                                         {keys?.map((col, j) => {
                                             const column = columns?.find(column => column.dataIndex == col);
-                                            if (column && column?.render)
+                                            if (column && column?.render && row?.[col])
                                                 return (
                                                     <td key={j}>
                                                         {column.render(row[col], row, i) || "–"}

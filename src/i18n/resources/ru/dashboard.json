@@ -18,7 +18,8 @@
             "version": "Версия",
             "status": "Статус",
             "date_created": "Дата созд.",
-            "date_updated": "Дата изм."
+            "date_updated": "Дата изм.",
+            "author": "Автор"
         }
     }
 }

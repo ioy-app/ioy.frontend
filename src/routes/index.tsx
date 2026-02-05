@@ -18,7 +18,8 @@ const routes: RouteObject[] = [
 export const paths = {
     users: user_paths,
     games: games_paths,
-    dashboard: dashboard_paths
+    dashboard: dashboard_paths,
+    search: "/"
 }
 
 export default routes;

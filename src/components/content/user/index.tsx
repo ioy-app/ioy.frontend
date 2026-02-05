@@ -52,7 +52,7 @@ const User: React.FC<{
             key={`user-${login}-${size}`}
             ref={ref}
         >
-            <div className={`w-${size} h-${size} rounded-xl overflow-hidden aspect-square border border-br ${!nolink && "group-hover:border-primary transition-colors" || ""}`}>
+            <div className={`w-${size} h-${size} rounded-full overflow-hidden aspect-square border border-br ${!nolink && "group-hover:border-primary transition-colors" || ""}`}>
                 <Spin loading={status == "pending"}>
                     {(isError || !data) ? (
                         <div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary">
