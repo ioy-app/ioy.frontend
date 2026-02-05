@@ -28,3 +28,11 @@ export const games_create = (obj: FormData) =>
         },
         body: jsonToFormData(obj)
     })
+export const games_edit = (id: number, obj: FormData) =>
+    fetchAPI(Routes.games.details(id), {
+        method: "PUT",
+        headers: {
+            "Content-Type": "no-content"
+        },
+        body: jsonToFormData(obj)
+    })

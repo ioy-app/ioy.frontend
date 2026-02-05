@@ -1,9 +1,10 @@
 import confStatus from "../dashboard/status.json";
 
 import { Routes } from "@/api";
-import { games_create, games_details } from "@/api/routes/games";
+import { games_create, games_details, games_edit } from "@/api/routes/games";
 import { Button, File, Game, Input, Player, Select, Spin, Tag, Textarea } from "@/components";
 import { useNotify } from "@/hooks";
+import { paths } from "@/routes";
 import { dashboard_paths } from "@/routes/dashboard";
 import GameProps from "@/types/game";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -25,18 +26,30 @@ export default function Edit() {
     const handleSubmit = async (data: FormData) => {
         try {
             setLoading(true);
-            const response = await games_create({
-                ...data,
-                icon: data?.icon?.[0],
-                game: data?.game?.[0],
-                tags: data?.tags || []
-            });
+            const isCreate = typeof(params?.id) == "undefined";
+            let response;
+            if (isCreate) {
+                response = await games_create({
+                    ...data,
+                    icon: data?.icon?.[0],
+                    game: data?.game?.[0],
+                    tags: data?.tags || []
+                });
+            } else {
+                response = await games_edit(params?.id, {
+                    ...data,
+                    icon: data?.icon?.[0],
+                    game: data?.game?.[0],
+                    tags: data?.tags || []
+                });
+            }
             const json = await response.json();
 
             if (!response.ok)
                 throw json?.msg;
 
-            console.log(json);
+            if (isCreate)
+                navigate(paths.games.edit(json.id));
         }
         catch(err) { notify(err); }
         finally { setLoading(false); }
@@ -100,7 +113,7 @@ export default function Edit() {
 
     const title = methods.watch("title");
     const id = methods.watch("id");
-    const tags = methods.watch("tags");
+    const tags = methods.watch("tags") || [];
 
     return (
         <FormProvider {...methods}>
