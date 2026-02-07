@@ -26,7 +26,7 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
         <ModalContext.Provider value={{ modal }}>
             {children}
             <div
-                className={`fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#000000cc] z-250 px-4 py-8 ${!stack?.length && "hidden"}`}
+                className={`fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#000000cc] z-250 px-4 py-8 ${!stack?.length && "hidden"}`}
                 onClick={(e) => {
                     if (e.target === e.currentTarget) {
                         document.body.style.overflow = "";
