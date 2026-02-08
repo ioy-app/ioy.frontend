@@ -6,6 +6,7 @@ import Game from "./game";
 import GameEdit from "./game/edit";
 import Dashboard from "./dashboard";
 import ErrorPage from "./error";
+import About from "./about";
 
 
 import Auth, {
@@ -25,5 +26,6 @@ export {
     ErrorPage,
     Dashboard,
     GameEdit,
-    UserContent
+    UserContent,
+    About
 }
