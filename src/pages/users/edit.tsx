@@ -6,7 +6,7 @@ import Sessions from "./modals/sessions";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLogin, clearLogin } from "../../stories/login";
 import { profile_logout } from "@/api/routes/profile";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { users_details, users_edit } from "@/api/routes/users";
 import Email from "./modals/email";
@@ -16,25 +16,23 @@ import { useTranslation } from "react-i18next";
 import { UserProps } from "@/types";
 import { StoreProps } from "@/stories";
 
-export default function Edit() {
+const Edit: React.FC<{
+    onClose: () => void;
+    login?: string;
+    navigator?: NavigateFunction;
+}> = ({
+    onClose,
+    login,
+    navigator
+}) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const navigator = useNavigate();
     const [ isLoading, setLoading ] = useState<boolean>(true);
     const [ data, setData ] = useState<UserProps | null>(null);
-    const params = useParams();
-    const { token, login: selfLogin } = useSelector((state: StoreProps) => state.login);
 
     const { notify } = useNotify();
     const { modal } = useModal();
-
-    const { login } = params;
     const { watch, handleSubmit, register, setValue } = useForm();
-
-    document.title = t("profile.titles.edit");
-
-    if (login != selfLogin || !token)
-        return <Navigate to="/" />
 
     const submit = async (fd) => {
         try {
@@ -49,7 +47,7 @@ export default function Edit() {
 
             notify("Изменения сохранены", "success");
             dispatch(changeLogin(json));
-            navigator(`/u/${json.login}`);
+            onClose && onClose();
             
         }
         catch(err) { notify(err?.message?.toString(), "error"); }
@@ -61,6 +59,7 @@ export default function Edit() {
     const handleLogout = async () => {
         await profile_logout();
         dispatch(clearLogin());
+        onClose && onClose();
         notify("Вы вышли из аккаунта", "info");
         navigator("/");
     }
@@ -99,34 +98,23 @@ export default function Edit() {
                 for (const [ key, value ] of Object.entries(json))
                     setValue(key, value);
 
-                
                 setData(json);
             }
             catch(err) {
                 notify(err?.message?.toString(), "error");
-                navigator("/");
+                onClose && onClose();
             }
             finally { setLoading(false); }
         })();
     }, [ login ]);
 
     return (
-        <div className="flex flex-1 w-full items-center px-4 py-4 flex-col gap-4">
+        <div className="flex w-full items-center px-4 py-4 flex-col gap-4 p-4">
             <form
                 ref={formRef}
-                className="flex flex-col gap-4 w-full lg:w-2xl items-center"
+                className="flex flex-col gap-4 w-full items-center"
                 onSubmit={handleSubmit(submit)}
             >
-                <div className="w-full flex flex-col gap-2 items-start mb-8">
-                    <Button
-                        variant="text"
-                        onClick={() => navigator(-1)}
-                    >
-                        <BiChevronsLeft />
-                        {t("buttons.back")}
-                    </Button>
-                    <p className="text-title">{t("profile.titles.edit")}</p>
-                </div>
                 <label
                     className="flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer"
                 >
@@ -231,13 +219,6 @@ export default function Edit() {
                 </div>
                 <div className="flex flex-row gap-4 justify-end items-center w-full py-8">
                     <Button
-                        variant="danger"
-                        htmlType="button"
-                        onClick={() => navigator(`/u/${data?.login}`)}
-                    >
-                        Отмена
-                    </Button>
-                    <Button
                         variant="primary"
                         htmlType="button"
                         onClick={(e) => {
@@ -247,18 +228,18 @@ export default function Edit() {
                                 (onClose) => (
                                     <>
                                         <Button
-                                            type="danger"
+                                            variant="default"
                                             onClick={() => onClose()}
                                         >
-                                            Отмена
+                                            {t("buttons.cancel")}
                                         </Button>
                                         <Button
-                                            type="second"
+                                            variant="primary"
                                             onClick={(e) => {
                                                 formRef.current.requestSubmit();
                                                 onClose();
                                             }}>
-                                            Сохранить
+                                            {t("buttons.save")}
                                         </Button>
                                         
                                     </>
@@ -282,7 +263,7 @@ export default function Edit() {
                                         variant="clear"
                                         onClick={() => onClose()}
                                     >
-                                        Отмена
+                                        {t("buttons.cancel")}
                                     </Button>
                                     <Button
                                         variant="danger"
@@ -303,179 +284,7 @@ export default function Edit() {
                 </div>
             </form>
         </div>
-    )
-
-    // return (
-    //     <Spin loading={isLoading}>
-    //         <form ref={formRef} className="flex flex-col gap-4 justify-center" onSubmit={handleSubmit(submit)}>
-    //             <div className="profile_header">
-    //                 <User login={login} data={data} preview={handlePreview} />
-    //                 <p className="text title">Настройки</p>
-    //                 <File
-    //                     label="Аватар"
-    //                     accept="image/*"
-    //                     {...register("avatar")}
-    //                 />
-    //                 <Input
-    //                     placeholder="Логин"
-    //                     label="Логин"
-    //                     {...register("login")}
-    //                 />
-    //                 <Input
-    //                     placeholder="Описание"
-    //                     label="Осн. описание"
-    //                     {...register("description.0.content")}
-    //                 />
-    //                 <p className="text title">Отображение на странице</p>
-    //                 <div className="profile_header__block edit">
-    //                     <Checkbox
-    //                         placeholder="Собственные игры"
-    //                         {...register("privacy.games")}
-    //                     />
-    //                     <Checkbox
-    //                         placeholder="Подписки на авторов"
-    //                         {...register("privacy.subscribers")}
-    //                     />
-    //                     <Checkbox
-    //                         placeholder="Мне понравилось"
-    //                         {...register("privacy.likes")}
-    //                     />
-    //                     <Checkbox
-    //                         placeholder="Избранное"
-    //                         {...register("privacy.favorites")}
-    //                     />
-    //                 </div>
-    //                 <div className="profile_header__block edit">
-    //                     <Button
-    //                         type="clear"
-    //                         htmlType="button"
-    //                         onClick={(e) => {
-    //                             e.preventDefault();
-    //                             modal(
-    //                                 Email,
-    //                                 (onClose) => (
-    //                                     <>
-                                        
-    //                                     </>
-    //                                 )
-    //                             )
-    //                         }}
-    //                     >
-    //                         Изменить почтовый адрес
-    //                     </Button>
-    //                     <Button
-    //                         type="clear"
-    //                         htmlType="button"
-    //                         onClick={(e) => {
-    //                             e.preventDefault();
-    //                             modal(
-    //                                 Sessions,
-    //                                 (onClose) => (
-    //                                     <>
-                                        
-    //                                     </>
-    //                                 )
-    //                             )
-    //                         }}
-    //                     >
-    //                         Управление сессиями
-    //                     </Button>
-    //                     <Button
-    //                         type="danger"
-    //                         htmlType="button"
-    //                         onClick={(e) => {
-    //                             e.preventDefault();
-    //                             modal(
-    //                                 Delete,
-    //                                 (onClose) => (
-    //                                     <>
-                                        
-    //                                     </>
-    //                                 )
-    //                             )
-    //                         }}
-    //                     >
-    //                         Удалить аккаунт
-    //                     </Button>
-    //                 </div>
-    //                 <div className="profile_header__controls end">
-    //                     <Button
-    //                         type="clear"
-    //                         htmlType="button"
-    //                         onClick={() => navigator(`/u/${data?.login}`)}
-    //                     >
-    //                         Отмена
-    //                     </Button>
-    //                     <Button
-    //                         type="second"
-    //                         htmlType="button"
-    //                         onClick={(e) => {
-    //                             e.preventDefault();
-    //                             modal(
-    //                                 "Вы хотите сохранить изменения?",
-    //                                 (onClose) => (
-    //                                     <>
-    //                                         <Button
-    //                                             type="danger"
-    //                                             onClick={() => onClose()}
-    //                                         >
-    //                                             Отмена
-    //                                         </Button>
-    //                                         <Button
-    //                                             type="second"
-    //                                             onClick={(e) => {
-    //                                                 formRef.current.requestSubmit();
-    //                                                 onClose();
-    //                                             }}>
-    //                                             Сохранить
-    //                                         </Button>
-                                            
-    //                                     </>
-    //                                 )
-    //                             )
-    //                         }}
-    //                     >
-    //                         Сохранить
-    //                     </Button>
-    //                 </div>
-    //                 <div
-    //                     className="profile_header__block edit"
-    //                     style={{
-    //                         marginTop: "calc(var(--size-padding) * 3)"
-    //                     }}
-    //                 >
-    //                     <Button
-    //                         htmlType="button"
-    //                         type="danger"
-    //                         onClick={() => modal(
-    //                             "Вы действительно хотите выйти из аккаунта?",
-    //                             (onClose: () => void) => (
-    //                                 <>
-    //                                     <Button
-    //                                         type="clear"
-    //                                         onClick={() => onClose()}
-    //                                     >
-    //                                         Отмена
-    //                                     </Button>
-    //                                     <Button
-    //                                         type="danger"
-    //                                         onClick={(e) => {
-    //                                             handleLogout();
-    //                                             onClose();
-    //                                         }}>
-    //                                         Выйти
-    //                                     </Button>
-                                        
-    //                                 </>
-    //                             )
-    //                         )}
-    //                     >
-    //                         Выйти из аккаунта
-    //                     </Button>
-    //                 </div>
-    //             </div>
-                
-    //         </form>
-    //     </Spin>
-    // );
+    );
 }
+
+export default Edit;

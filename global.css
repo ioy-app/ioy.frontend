@@ -45,7 +45,7 @@
   }
 
   .button {
-    @apply h-10 px-4 py-2 border border-br rounded-xl flex flex-row gap-2 items-center justify-center cursor-pointer transition-colors text-nowrap flex-nowrap;
+    @apply bg-back text-text h-10 px-4 py-2 border border-br rounded-xl flex flex-row gap-2 items-center justify-center cursor-pointer transition-colors text-nowrap flex-nowrap;
     @apply disabled:bg-disabled disabled:border-disabled-content disabled:hover:bg-disabled disabled:cursor-not-allowed disabled:text-disabled-content;
   }
 

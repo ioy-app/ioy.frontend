@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { User, Button, Spin, Block, Game, LinkifyText } from "@/components";
 
 import { UserProps } from "@/types";
@@ -16,7 +16,9 @@ import { useModal, useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
 import { user_paths } from "@/routes/user";
 import { dashboard_paths } from "@/routes/dashboard";
-import { BiAlignLeft, BiCog, BiDetail, BiSitemap, BiUser } from "react-icons/bi";
+import { BiAlignLeft, BiCog, BiDetail, BiSitemap, BiUser, BiUserMinus, BiUserPlus } from "react-icons/bi";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import UserContent from "./content";
 
 
 export default function Profile() {
@@ -26,13 +28,14 @@ export default function Profile() {
     const navigator = useNavigate();
     const { token } = useSelector((state: StoreProps) => state.login);
     const params = useParams();
-    const [ isLoading, setLoading ] = useState<boolean>(true);
-    const [ data, setData ] = useState<UserProps | null>(null);
     const [ update, forceUpdate ] = useReducer((x: number) => x + 1, 0);
     const { login } = params;
     const [ isScrollable, setScrollable ] = useState<boolean>(false);
 
     const { notify } = useNotify();
+    const { modal } = useModal();
+
+    const queryClient = useQueryClient();
 
     const handleSubscribe = async () => {
         try {
@@ -47,35 +50,40 @@ export default function Profile() {
 
             if (!data.controls)
                 throw new Error("Нет авторизации");
-            data.controls.is_subscribe = json?.status == "created" ? true : false;
-            data.subscribers = data.subscribers + (json?.status == "created" ? 1 : -1);
+            const is_subscribe = json?.status == "created" ? true : false;
+            const subscribers = data.subscribers + (json?.status == "created" ? 1 : -1);
 
             notify(t(json?.status == "created" ? "profile.success.subscribe" : "profile.success.unsubscribe", { login }), json?.status == "created" ? "success" : "warning");
 
-            setData(data);
-            forceUpdate();
+            queryClient.setQueryData([ "user", login ], prev => ({
+                ...prev,
+                subscribers,
+                controls: {
+                    ...prev?.controls,
+                    is_subscribe
+                }
+            }))
         }
         catch(err) { notify(err?.message?.toString(), "error"); }
     }
 
-    useEffect(() => {
-        setLoading(true);
-        (async () => {
-            try {
-                const response = await users_details(login);
-                const json = await response.json();
-                if (!response.ok)
-                    throw json.msg;
-                
-                setData(json as UserProps);
-            }
-            catch(err) {
-                notify(err?.message?.toString(), "error");
-                navigator("/");
-            }
-            finally { setLoading(false); }
-        })();
-    }, [ login ]);
+    const { data, status, isError, error, refetch, isRefetching } = useQuery({
+        queryKey: [ "user", login ],
+        queryFn: async () => {
+            const response = await users_details(login);
+            const json = await response.json();
+            if (!response.ok)
+                throw json.msg;
+
+            return json;
+        }
+    });
+
+    if (isError) {
+        console.error(error);
+        notify(error?.message?.toString(), "error");
+        return <Navigate to="/" />
+    }
 
     useEffect(() => {
         if (!data?.controls?.is_me)
@@ -84,11 +92,13 @@ export default function Profile() {
             return;
         context.refProfile.current.style.display = "none";
         return () => {
-            context.refProfile.current.style.display = "flex";
+            if (context.refProfile?.current)
+                context.refProfile.current.style.display = "flex";
         }
     }, [ context?.refProfile?.current, data ]);
 
     const isMe = data?.controls?.is_me;
+    const isLoading = status == "pending" || isRefetching;
 
     useMotionValueEvent(scrollY, "change", value => {
         const prev = scrollY.getPrevious();
@@ -101,43 +111,9 @@ export default function Profile() {
     return (
         <Spin loading={isLoading}>
             <div className="w-full px-4 py-4 flex gap-4 flex-col items-center">
-                <div className={`transition-all duration-200 w-32 h-32 ${isScrollable && `z-20 sticky -top-10`}`}>
-                    <motion.div
-                        variants={{
-                            stable: { scale: 1 },
-                            movement: {
-                                scale: .3
-                            }
-                        }}
-                        transition={{
-                            duration: .2
-                        }}
-                        animate={isScrollable && "movement" || "stable"}
-                    >
-                        <User
-                            login={login}
-                            size="full"
-                            className="transition-all w-full h-full"
-                            nolink
-                        />
-                    </motion.div>
-                </div>
-                <div className="flex gap-4 flex-col items-center pb-4" key={update}>
-                    
-                    <p className="text-title">{data?.login}</p>
-                    <p className="text-default flex items-center gap-2" key={data?.subscribers}>
-                        <BiUser />
-                        {data?.subscribers || 0}
-                    </p>
-                    {data?.description && (
-                        <p className="w-[60%] max-md:w-full text-default flex flex-wrap justify-center items-center gap-2 border border-br p-4 rounded-xl">
-                            <LinkifyText className="flex justify-center items-center text-default">
-                                {data?.description}
-                            </LinkifyText>
-                        </p>
-                    )}
-                    {token && <div className="flex flex-row gap-4 justify-center items-center">
-                        {(data?.controls?.is_me) ? (
+                {token && (
+                    <div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">
+                        {isMe ? (
                             <>
                                 <Button
                                     variant="default"
@@ -149,12 +125,22 @@ export default function Profile() {
                                 </Button>
                                 <Button
                                     variant="default"
-                                    onClick={() => navigator(user_paths.edit(login))}
+                                    onClick={() => {
+                                        modal("", (onClose) => (
+                                            <Edit
+                                                onClose={() => {
+                                                    refetch();
+                                                    onClose && onClose();
+                                                }}
+                                                login={login}
+                                                navigator={navigator}
+                                            />)
+                                        );
+                                    }}
                                 >
                                     <BiCog />
                                     {t("buttons.settings")}
                                 </Button>
-                                
                             </>
                         ) : (
                             <>
@@ -163,99 +149,159 @@ export default function Profile() {
                                     variant={data?.controls?.is_subscribe ? "second" : "primary"}
                                 >
                                     {!data?.controls?.is_subscribe ? t("buttons.subscribe") : t("buttons.unsubscribe")}
+                                    {!data?.controls?.is_subscribe ? <BiUserPlus /> : <BiUserMinus />}
                                 </Button>
-                                
                             </>
                         )}
-                    </div>}
-                </div>
-                <div className="flex flex-col md:grid gap-4">
-                    <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
-                        <Block
-                            title={t("profile.titles.games")}
-                            id="games"
-                            request={async (page: number, count: number) => {
-                                const search = new URLSearchParams();
-                                search.set("offset", String((page - 1) * count));
-                                search.set("limit", String(count));
-
-                                const games = await users_games(login, search);
-                                const json = await games.json();
-
-                                return {
-                                    items: json.items.map(item => ({
-                                        dataSource: item
-                                    })),
-                                    total: json.total
-                                }
-                            }}
-                            Component={Game}
-                        />
-                        <Block
-                            title={t("profile.titles.subscribers")}
-                            id="subscribers"
-                            request={async (page: number, count: number) => {
-                                const search = new URLSearchParams();
-                                search.set("offset", String((page - 1) * count));
-                                search.set("limit", String(count));
-
-                                const users = await users_subscribers(login, search);
-                                const json = await users.json();
-
-                                return {
-                                    items: json.items.map(item => ({
-                                        login: item.login,
-                                        dataSource: item
-                                    })),
-                                    total: json.total
-                                }
-                            }}
-                            Component={User}
-                        />
                     </div>
-                    <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
-                        <Block
-                            title={t("profile.titles.favorites")}
-                            id="favorites"
-                            request={async (page: number, count: number) => {
-                                const search = new URLSearchParams();
-                                search.set("offset", String((page - 1) * count));
-                                search.set("limit", String(count));
-
-                                const games = await users_favorites(login, search);
-                                const json = await games.json();
-
-                                return {
-                                    items: json.items.map(item => ({
-                                        dataSource: item
-                                    })),
-                                    total: json.total
+                )}
+                <div className="flex flex-col gap-4 w-[60%] max-md:w-full items-center">
+                    <div className={`transition-all duration-200 w-32 h-32 ${isScrollable && `z-20 sticky -top-10`}`}>
+                        <motion.div
+                            variants={{
+                                stable: { scale: 1 },
+                                movement: {
+                                    scale: .3
                                 }
                             }}
-                            Component={Game}
-                        />
-                        <Block
-                            title={t("profile.titles.likes")}
-                            id="likes"
-                            request={async (page: number, count: number) => {
-                                const search = new URLSearchParams();
-                                search.set("offset", String((page - 1) * count));
-                                search.set("limit", String(count));
-
-                                const games = await users_likes(login, search);
-                                const json = await games.json();
-
-                                console.log(json);
-
-                                return {
-                                    items: json.items.map(item => ({
-                                        dataSource: item
-                                    })),
-                                    total: json.total
-                                }
+                            transition={{
+                                duration: .2
                             }}
-                            Component={Game}
-                        />
+                            animate={isScrollable && "movement" || "stable"}
+                        >
+                            <User
+                                login={login}
+                                size="full"
+                                className="transition-all w-full h-full"
+                                nolink
+                            />
+                        </motion.div>
+                    </div>
+                    <div className="flex gap-4 flex-col items-center pb-4 w-full" key={update}>
+                        
+                        <p className="text-title">{data?.login}</p>
+                        <p className="text-default flex items-center gap-2" key={data?.subscribers}>
+                            <BiUser />
+                            {data?.subscribers || 0}
+                        </p>
+                        {data?.description && (
+                            <p className="w-full text-default flex flex-wrap justify-center items-center gap-2 border border-br p-4 rounded-xl">
+                                <LinkifyText className="flex justify-center items-center text-default">
+                                    {data?.description}
+                                </LinkifyText>
+                            </p>
+                        )}
+                    </div>
+                    <div className="flex flex-col md:grid gap-4 w-full">
+                        <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
+                            <Block
+                                title={t("profile.titles.games")}
+                                id="games"
+                                request={async (page: number, count: number) => {
+                                    const search = new URLSearchParams();
+                                    search.set("offset", String((page - 1) * count));
+                                    search.set("limit", String(count));
+
+                                    const games = await users_games(login, search);
+                                    const json = await games.json();
+
+                                    return {
+                                        items: json.items.map(item => ({
+                                            dataSource: item
+                                        })),
+                                        total: json.total
+                                    }
+                                }}
+                                Component={Game}
+                                onOpen={() => {
+                                    modal("", (onClose) => <UserContent onClose={(path) => {
+                                        navigator(path);
+                                        onClose && onClose();
+                                    }} id="games" login={login} fn={users_games} />)
+                                }}
+                            />
+                            <Block
+                                title={t("profile.titles.subscribers")}
+                                id="subscribers"
+                                request={async (page: number, count: number) => {
+                                    const search = new URLSearchParams();
+                                    search.set("offset", String((page - 1) * count));
+                                    search.set("limit", String(count));
+
+                                    const users = await users_subscribers(login, search);
+                                    const json = await users.json();
+
+                                    return {
+                                        items: json.items.map(item => ({
+                                            login: item.login,
+                                            dataSource: item
+                                        })),
+                                        total: json.total
+                                    }
+                                }}
+                                Component={User}
+                                onOpen={() => {
+                                    modal("", (onClose) => <UserContent onClose={(path) => {
+                                        navigator(path);
+                                        onClose && onClose();
+                                    }} id="subscribers" login={login} fn={users_subscribers} />)
+                                }}
+                            />
+                        </div>
+                        <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
+                            <Block
+                                title={t("profile.titles.favorites")}
+                                id="favorites"
+                                request={async (page: number, count: number) => {
+                                    const search = new URLSearchParams();
+                                    search.set("offset", String((page - 1) * count));
+                                    search.set("limit", String(count));
+
+                                    const games = await users_favorites(login, search);
+                                    const json = await games.json();
+
+                                    return {
+                                        items: json.items.map(item => ({
+                                            dataSource: item
+                                        })),
+                                        total: json.total
+                                    }
+                                }}
+                                Component={Game}
+                                onOpen={() => {
+                                    modal("", (onClose) => <UserContent onClose={(path) => {
+                                        navigator(path);
+                                        onClose && onClose();
+                                    }} id="favorites" login={login} fn={users_favorites} />)
+                                }}
+                            />
+                            <Block
+                                title={t("profile.titles.likes")}
+                                id="likes"
+                                request={async (page: number, count: number) => {
+                                    const search = new URLSearchParams();
+                                    search.set("offset", String((page - 1) * count));
+                                    search.set("limit", String(count));
+
+                                    const games = await users_likes(login, search);
+                                    const json = await games.json();
+
+                                    return {
+                                        items: json.items.map(item => ({
+                                            dataSource: item
+                                        })),
+                                        total: json.total
+                                    }
+                                }}
+                                Component={Game}
+                                onOpen={() => {
+                                    modal("", (onClose) => <UserContent onClose={(path) => {
+                                        navigator(path);
+                                        onClose && onClose();
+                                    }} id="likes" login={login} fn={users_likes} />)
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

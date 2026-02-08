@@ -24,38 +24,6 @@ const Games: React.FC = () => {
     const status = searchParams.get("status");
     const searchQS = searchParams.get("search");
 
-
-    const handleGetPages = (current_page: number, pages: number) => {
-        const arr: number[] = [];
-
-        arr.push(1);
-        if (current_page < 3) {
-            for (let i = 1; i <= Math.min(4, pages); i++)
-                arr.push(i);
-        }
-        if (current_page > pages - 3) {
-            for (let i = Math.max(pages - 3, 1); i <= pages; i++)
-                arr.push(i);
-        }
-
-        for (let i = Math.max(current_page - 1, 1); i <= Math.min(current_page + 1, pages); i++)
-            arr.push(i);
-        
-        arr.push(pages);
-
-        const new_arr = Array.from(new Set(arr));
-        if (new_arr.length <= 1)
-            return [];
-
-        return new_arr;
-    }
-
-    const handleChangePage = (page: number) => {
-        searchParams.set("page", String(page));
-        setSearchParams(searchParams);
-        query.refetch();
-    }
-
     const query = useQuery({
         queryKey: [ "dashboard", "games", searchParams?.toString() ],
         queryFn: async () => {
@@ -89,8 +57,6 @@ const Games: React.FC = () => {
     }
 
     const methods = useForm();
-
-    const pagination = handleGetPages(current_page, Math.ceil((query?.data?.total || 1) / max));
 
     useEffect(() => {
         if (searchParams.get("search"))
@@ -193,18 +159,17 @@ const Games: React.FC = () => {
                     </div>
                 )}
                 footer={(
-                    <div className="flex gap-4 items-center justify-end flex-wrap">
-                        {pagination && pagination?.map((page: number, i: number) => (
-                            <Components.Button
-                                disabled={page == current_page}
-                                key={i}
-                                onClick={() => handleChangePage(page)}
-                                variant={!i || i == (pagination.length - 1) ? "primary" : "default"}
-                            >
-                                {page}
-                            </Components.Button>
-                        ))}
-                    </div>
+                    <Components.Pagination
+                        total={query?.data?.total || 1}
+                        current={current_page}
+                        per_page={max}
+                        onChange={(offset, page) => {
+                            searchParams.set("page", String(page));
+                            setSearchParams(searchParams);
+                            query.refetch();
+                        }}
+                    />
+                    
                 )}
                 nodata={(
                     <>
@@ -218,3 +183,17 @@ const Games: React.FC = () => {
 }
 
 export default Games;
+
+
+{/* <div className="flex gap-4 items-center justify-end flex-wrap">
+    {pagination && pagination?.map((page: number, i: number) => (
+        <Components.Button
+            disabled={page == current_page}
+            key={i}
+            onClick={() => handleChangePage(page)}
+            variant={!i || i == (pagination.length - 1) ? "primary" : "default"}
+        >
+            {page}
+        </Components.Button>
+    ))}
+</div> */}

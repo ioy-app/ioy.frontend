@@ -2,7 +2,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { BiBox, BiSearch, BiSolidHot } from "react-icons/bi";
-import { Button, Checkbox, Game, Input, Spin, Table, Tabs, Tag, User } from "@/components";
+import { Button, Checkbox, Game, Input, Pagination, Spin, Table, Tabs, Tag, User } from "@/components";
 import { games_list } from "@/api/routes/games";
 import { useTranslation } from "react-i18next";
 import GameProps from "@/types/game";
@@ -86,43 +86,6 @@ export default function Home() {
             total: 0
         }
     })
-
-    
-
-    
-
-
-    const handleGetPages = (current_page: number, pages: number) => {
-        const arr: number[] = [];
-
-        arr.push(1);
-        if (current_page < 3) {
-            for (let i = 1; i <= Math.min(4, pages); i++)
-                arr.push(i);
-        }
-        if (current_page > pages - 3) {
-            for (let i = Math.max(pages - 3, 1); i <= pages; i++)
-                arr.push(i);
-        }
-
-        for (let i = Math.max(current_page - 1, 1); i <= Math.min(current_page + 1, pages); i++)
-            arr.push(i);
-        
-        arr.push(pages);
-
-        const new_arr = Array.from(new Set(arr));
-        if (new_arr.length <= 1)
-            return [];
-
-        return new_arr;
-    }
-
-    const handleChangePage = (page: number) => {
-        searchParams.set("page", String(page));
-        setSearchParams(searchParams);
-    }
-
-    const pagination = handleGetPages(current_page, Math.ceil((searchQuery?.data?.total || 1) / max));
 
     return (
         <Spin loading={isFetching}>
@@ -224,18 +187,15 @@ export default function Home() {
                                     data={searchQuery?.data?.items}
                                     loading={searchQuery?.isPending}
                                     footer={(
-                                        <div className="flex gap-4 items-center justify-end flex-wrap">
-                                            {pagination && pagination?.map((page: number, i: number) => (
-                                                <Button
-                                                    disabled={page == current_page}
-                                                    key={i}
-                                                    onClick={() => handleChangePage(page)}
-                                                    variant={!i || i == (pagination.length - 1) ? "primary" : "default"}
-                                                >
-                                                    {page}
-                                                </Button>
-                                            ))}
-                                        </div>
+                                        <Pagination
+                                            total={searchQuery?.data?.total || 1}
+                                            current={current_page}
+                                            per_page={max}
+                                            onChange={(offset, page) => {
+                                                searchParams.set("page", String(page));
+                                                setSearchParams(searchParams);
+                                            }}
+                                        />
                                     )}
                                     nodata={(
                                         <>

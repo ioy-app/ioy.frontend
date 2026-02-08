@@ -14,11 +14,13 @@ const Block: React.FC<{
         total: number;
     }>;
     Component: React.ElementType;
+    onOpen: () => void;
 }> = ({
     title,
     id,
     request,
-    Component
+    Component,
+    onOpen
 }) => {
     const navigator = useNavigate();
     const { t } = useTranslation();
@@ -47,7 +49,7 @@ const Block: React.FC<{
                 {(data?.total > 10) && (
                     <Button
                         variant="text"
-                        onClick={() => navigator(`./${id}`)}
+                        onClick={() => onOpen && onOpen()}
                     >
                         <BiExpandAlt className="text-2xl" />
                     </Button>
@@ -55,7 +57,7 @@ const Block: React.FC<{
             </div>
             <div>
                 <Spin loading={isFetching}>
-                    <div className="flex gap-4 overflow-hidden flex-wrap">
+                    <div className="grid grid-cols-5 gap-4">
                         {Component && data?.items?.map((item, i: number) => (
                             <Component
                                 {...item as any}

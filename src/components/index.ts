@@ -17,6 +17,7 @@ import Player from "./base/player";
 import Tag from "./custom/tag";
 import Block from "./custom/block";
 import Table from "./base/table";
+import Pagination from "./base/pagination";
 
 
 export {
@@ -38,5 +39,6 @@ export {
     Tag,
     Block,
     LinkifyText,
-    Table
+    Table,
+    Pagination
 }

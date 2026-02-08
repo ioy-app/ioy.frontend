@@ -25,23 +25,26 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
     return (
         <ModalContext.Provider value={{ modal }}>
             {children}
-            <div
-                className={`fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#000000cc] z-250 px-4 py-8 ${!stack?.length && "hidden"}`}
-                onClick={(e) => {
-                    if (e.target === e.currentTarget) {
-                        document.body.style.overflow = "";
-                        setStack(null);
-                    }
-                }}
-            >
-                <AnimatePresence>
-                    {stack?.map(({ id, message: Message, footer }: ModalProps) => {
-                        const onClose = () => {
+            <AnimatePresence>
+                {stack?.map((prop, i) => {
+                    const { id, message: Message, footer } = prop;
+                    const onClose = () => {
+                        if (i == 0)
                             document.body.style.overflow = "";
-                            setStack(prev => prev.filter((note: ModalProps) => id !== note.id));
-                        }
+                        setStack(prev => prev.filter((note: ModalProps) => id !== note.id));
+                    }
 
-                        return (
+                    return (
+                        <div
+                            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#000000cc] z-250 px-4 py-8"
+                            onClick={(e) => {
+                                if (e.target === e.currentTarget) {
+                                    if (i == 0)
+                                        document.body.style.overflow = "";
+                                    setStack(prev => prev?.filter(stack => stack != prop));
+                                }
+                            }}
+                        >
                             <motion.div
                                 key={id}
                                 layout
@@ -54,10 +57,10 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
                                 {typeof Message == "string" ? Message : <Message id={id} onClose={onClose} />}
                                 <div className="flex flex-row w-full gap-4 justify-end items-center">{typeof(footer) != "function" ? footer : footer(onClose) || null}</div>
                             </motion.div>
-                        );
-                    })}
-                </AnimatePresence>
-            </div>
+                        </div>
+                    );
+                })}
+            </AnimatePresence>
         </ModalContext.Provider>
     );
 }
