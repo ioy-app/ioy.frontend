@@ -170,14 +170,7 @@ const Edit: React.FC<{
                         htmlType="button"
                         onClick={(e) => {
                             e.preventDefault();
-                            modal(
-                                Email,
-                                (onClose) => (
-                                    <>
-                                    
-                                    </>
-                                )
-                            )
+                            modal("", (onClose) => <Email onClose={onClose} />);
                         }}
                     >
                         Изменить почтовый адрес

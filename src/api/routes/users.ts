@@ -32,3 +32,14 @@ export const users_edit = (login: string, obj) =>
         },
         body: jsonToFormData(obj)
     });
+export const users_edit_email = (current_email: string, email: string) =>
+    fetchAPI(Routes.users.email, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            current_email,
+            email
+        })
+    });

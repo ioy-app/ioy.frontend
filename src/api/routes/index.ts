@@ -25,7 +25,8 @@ const Routes = {
         avatar: (login: string) => `${path}/users/${login}/avatar`,
         subscribers: (login: string) => `${path}/users/${login}/subscribers`,
         favorites: (login: string) => `${path}/users/${login}/favorites`,
-        likes: (login: string) => `${path}/users/${login}/likes`
+        likes: (login: string) => `${path}/users/${login}/likes`,
+        email: `${path}/users/email`
     },
     auth: {
         login: `${path}/auth/login`,
