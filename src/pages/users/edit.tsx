@@ -182,14 +182,7 @@ export default function Edit() {
                         htmlType="button"
                         onClick={(e) => {
                             e.preventDefault();
-                            modal(
-                                Email,
-                                (onClose) => (
-                                    <>
-                                    
-                                    </>
-                                )
-                            )
+                            modal("", (onClose) => <Email onClose={onClose} />);
                         }}
                     >
                         Изменить почтовый адрес
