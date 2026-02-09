@@ -11,6 +11,7 @@ import { search } from "@/api/routes/search";
 import { paths } from "@/routes";
 import dayjs from "dayjs";
 import { useEffect } from "react";
+import Jams from "../jams";
 
 export default function Home() {
     const navigation = useNavigate();
@@ -226,7 +227,8 @@ export default function Home() {
                                                     />
                                                 ))}
                                             </div>
-                                        )
+                                        ),
+                                        jams: <Jams />
                                     }}
                                 />
                             )}
