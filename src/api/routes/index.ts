@@ -4,6 +4,7 @@ import * as Users from "./users";
 import * as oAuth from "./auth";
 import * as Games from "./games";
 import * as Comments from "./comments";
+import * as Jams from "./jams";
 
 const path: string = "/api/v1";
 const Routes = {
@@ -49,7 +50,11 @@ const Routes = {
         reply: (id: number, commentid: number) => `${path}/comments/${id}/${commentid}`,
         like: (id: number) => `${path}/comments/${id}/like`
     },
-    search: `${path}/search`
+    search: `${path}/search`,
+    jams: {
+        list: `${path}/jams`,
+        details: (id: number) => `${path}/jams/${id}`
+    }
 }
 
 
@@ -61,5 +66,6 @@ export {
     Users,
     oAuth,
     Games,
-    Comments
+    Comments,
+    Jams
 }
