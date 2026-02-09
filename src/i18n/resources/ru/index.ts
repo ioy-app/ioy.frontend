@@ -8,6 +8,7 @@ import games from "./games.json";
 import notify from "./notify.json";
 import home from "./home.json";
 import codes from "./codes.json";
+import about from "./about.json";
 
 const lang = {
     buttons,
@@ -19,7 +20,8 @@ const lang = {
     games,
     notify,
     home,
-    codes
+    codes,
+    about
 }
 
 export default lang;
