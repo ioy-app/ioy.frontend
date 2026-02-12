@@ -1,9 +1,9 @@
 import confStatus from "../dashboard/status.json";
 
 import { Routes } from "@/api";
-import { games_create, games_details, games_edit } from "@/api/routes/games";
-import { Button, File, Game, Input, Player, Select, Spin, Tag, Textarea } from "@/components";
-import { useNotify } from "@/hooks";
+import { games_create, games_delete, games_details, games_edit } from "@/api/routes/games";
+import { Button, Code, File, Game, Input, Player, Select, Spin, Tag, Textarea } from "@/components";
+import { useModal, useNotify } from "@/hooks";
 import { paths } from "@/routes";
 import { dashboard_paths } from "@/routes/dashboard";
 import GameProps from "@/types/game";
@@ -19,6 +19,7 @@ export default function Edit() {
     const { t } = useTranslation();
     const [ isLoading, setLoading ] = useState<boolean>(true);
     const { notify } = useNotify();
+    const { modal } = useModal();
 
     const isCreate: boolean = Boolean(typeof(params.id) == "undefined");
 
@@ -55,6 +56,54 @@ export default function Edit() {
         finally { setLoading(false); }
     }
 
+    const handleVerify = async () => {
+        notify(t("games.notify.delete_success"), "success");
+        navigate(-1, { replace: true });
+    }
+
+    const handleDelete = async () => {
+        modal(
+            t("games.warnings.delete"),
+            (onClose: () => void) => (
+                <>
+                    <Button
+                        variant="clear"
+                        onClick={() => onClose()}
+                        disabled={isLoading}
+                    >
+                        {t("buttons.cancel")}
+                    </Button>
+                    <Button
+                        variant="danger"
+                        disabled={isLoading}
+                        onClick={async (e) => {
+                            setLoading(true);
+                            
+                            try {
+                                const response = await games_delete(Number(params.id));
+                                onClose();
+                                
+                                modal(
+                                    "",
+                                    (onClosed: () => void) => <Code
+                                        onSubmit={data => {
+                                            handleVerify(data);
+                                            onClosed();
+                                        }}
+                                        onCancel={() => onClosed()}
+                                    />
+                                );
+                            }
+                            finally { setLoading(false); }
+                        }}>
+                        {t("buttons.delete")}
+                    </Button>
+                    
+                </>
+            )
+        )
+    }
+
     useEffect(() => {
         (async () => {
             try {
@@ -73,7 +122,8 @@ export default function Edit() {
                 }
             }
             catch(err) {
-
+                notify(t("games.errors.exists"), "error");
+                navigate("/", { replace: true });
             }
             finally { setLoading(false); }
         })();
@@ -241,6 +291,19 @@ export default function Edit() {
                                 {t("buttons.save")}
                             </Button>
                         </div>
+                        {!isCreate && (
+                            <div className="w-full mt-20 mb-5 flex flex-col">
+                                <Button
+                                    variant="danger"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleDelete();
+                                    }}
+                                >
+                                    {t("buttons.delete")}
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 </form>
             </Spin>
