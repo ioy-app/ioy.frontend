@@ -14,10 +14,11 @@ dayjs.extend(isBetween);
 
 /**
  * Jam's calendar
+ * 
  * @example
  * return <Jams />
 */
-const Jams: React.FC<{}> = ({}) => {
+const Jams: React.FC = () => {
     const [ date_from, setDateFrom ] = useState<string>("2026-02-01");
     const [ date_to, setDateTo ] = useState<string>("2026-02-29");
 
@@ -38,7 +39,6 @@ const Jams: React.FC<{}> = ({}) => {
 
             return isValid;
         });
-        console.log(jams);
         calendar_days.push({
             day: i + 1,
             jams
@@ -50,14 +50,22 @@ const Jams: React.FC<{}> = ({}) => {
             <div className="text-placeholder w-full flex items-center justify-center gap-4">
                 <Button
                     variant="text"
+                    onClick={() => {
+                        const newdate = dayjs(date_from).subtract(1, "month");
+                        setDateFrom(newdate.format("YYYY-MM-DD"));
+                        setDateTo(newdate.endOf("month").format("YYYY-MM-DD"));
+                    }}
                 >
                     <BiChevronLeft />
                 </Button>
-                <p>
-                    {placeholder}
-                </p>
+                <p>{placeholder}</p>
                 <Button
                     variant="text"
+                    onClick={() => {
+                        const newdate = dayjs(date_from).add(1, "month");
+                        setDateFrom(newdate.format("YYYY-MM-DD"));
+                        setDateTo(newdate.endOf("month").format("YYYY-MM-DD"));
+                    }}
                 >
                     <BiChevronRight />
                 </Button>
