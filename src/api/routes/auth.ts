@@ -1,15 +1,10 @@
-import Routes from ".";
-import fetchAPI from "..";
+import Routes, { apiInstance } from ".";
 
-export const auth_login = (data) =>
-    fetchAPI(Routes.auth.login as string, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
+export const auth_login = (data: {
+    email: string;
+}) => apiInstance.post(Routes.auth.login, data);
 
-export const auth_reg = (data) =>
-    fetchAPI(Routes.auth.reg as string, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
-
+export const auth_reg = (data: {
+    login: string;
+    email: string;
+}) => apiInstance.post(Routes.auth.reg, data);

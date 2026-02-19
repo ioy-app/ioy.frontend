@@ -10,5 +10,27 @@
     "errors": {
         "exists": "User {{login}} not found",
         "denied": "Access denied"
+    },
+    "titles": {
+        "games": "Own games",
+        "subscribers": "Following",
+        "favorites": "Saves",
+        "likes": "Likes"
+    },
+    "placeholders": {
+        "avatar": "Upload avatar",
+        "login": "Login...",
+        "description": "About me..."
+    },
+    "labels": {
+        "login": "Login",
+        "description": "Description",
+        "privacy": {
+            "title": "Privacy",
+            "games": "Own games",
+            "subscribers": "Following",
+            "favorites": "Saves",
+            "likes": "Likes"
+        }
     }
 }

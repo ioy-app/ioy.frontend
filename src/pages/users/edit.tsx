@@ -41,12 +41,9 @@ const Edit: React.FC<{
                 ...fd,
                 avatar: fd?.avatar?.[0]
             });
-            const json = await response.json();
-            if (!response.ok)
-                throw json.msg;
 
             notify("Изменения сохранены", "success");
-            dispatch(changeLogin(json));
+            dispatch(changeLogin(response));
             onClose && onClose();
             
         }
@@ -87,18 +84,10 @@ const Edit: React.FC<{
         (async () => {
             try {
                 const response = await users_details(login);
-
-                
-                if (!response.ok) {
-                    const json = await response.json();
-                    throw json.msg;
-                }
-
-                const json: UserProps = await response.json();
-                for (const [ key, value ] of Object.entries(json))
+                for (const [ key, value ] of Object.entries(response))
                     setValue(key, value);
 
-                setData(json);
+                setData(response);
             }
             catch(err) {
                 notify(err?.message?.toString(), "error");
@@ -121,6 +110,9 @@ const Edit: React.FC<{
                     <div className="w-32 h-32">
                         <User
                             login={login}
+                            dataSource={{
+                                is_avatar: true
+                            }}
                             size="full"
                             preview={handlePreview}
                             nolink

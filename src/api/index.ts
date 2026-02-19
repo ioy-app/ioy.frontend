@@ -1,7 +1,7 @@
 import Store, { dispatch } from "@/stories";
 import { setToken } from "@/stories/login";
 
-import Routes from "./routes";
+import Routes, { apiInstance } from "./routes";
 
 export default async function fetchAPI(
     path: string,
@@ -22,38 +22,23 @@ export default async function fetchAPI(
         obj.headers["Content-Type"] = "application/json";
     }
 
-    const result = await fetch(path, {
-        ...obj,
-        credentials: "include"
+    const result = await apiInstance({
+        url: path,
+        ...obj
     });
 
-    if (!result.ok) {
+    // if (!result.ok) {
 
-        switch(result.status) {
-            case 401: {
-                const result_refresh = await fetch(Routes.profile.refresh),
-                json_refresh = await result_refresh.json();
-                if (!result_refresh.ok) {
-                    dispatch(setToken(null));
-                    throw new Error(json_refresh?.msg);
-                }
-                dispatch(setToken(json_refresh));
-                return (await fetchAPI(path, init));
-            } break;
-            case 404: {
-              return result;
-            } break;
-            case 403: {
-                dispatch(setToken(null));
-                const json = await result.json();
-                throw new Error(json?.msg);
-            } break;
-            default: {
-                const json = await result?.json();
-                throw new Error(json?.msg);
-            } break;
-        }
-    }
+    //     switch(result.status) {
+    //         case 404: {
+    //           return result;
+    //         } break;
+    //         case 403: {
+    //             dispatch(setToken(null));
+    //             throw new Error(json?.data?.msg);
+    //         } break;
+    //     }
+    // }
 
     return result;
 }

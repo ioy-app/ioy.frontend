@@ -1,4 +1,4 @@
-import Routes from ".";
+import Routes, { apiFileInstance, apiInstance } from ".";
 import fetchAPI, { jsonToFormData } from "..";
 
 export const games_list = () =>
@@ -22,8 +22,13 @@ export const games_like = (id: number) =>
         method: "POST"
     });
 
-export const games_icon = (id: number) =>
-    fetchAPI(Routes.games.icon(id));
+export const games_icon = async (id: number) => {
+    const data = await apiFileInstance.get(Routes.games.icon(id), {
+        responseType: "blob"
+    });
+
+    return URL.createObjectURL(data);
+}
 
 export const games_create = (obj: FormData) =>
     fetchAPI(Routes.games.create, {

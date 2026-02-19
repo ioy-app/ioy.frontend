@@ -43,17 +43,13 @@ export default function Profile() {
                 throw new Error("Пользователь не найден");
 
             const response: Response = await users_subscribe(login);
-            const json = await response.json();
-
-            if (!response.ok)
-                throw json.msg;
 
             if (!data.controls)
                 throw new Error("Нет авторизации");
-            const is_subscribe = json?.status == "created" ? true : false;
-            const subscribers = data.subscribers + (json?.status == "created" ? 1 : -1);
+            const is_subscribe = response?.status == "created" ? true : false;
+            const subscribers = data.subscribers + (response?.status == "created" ? 1 : -1);
 
-            notify(t(json?.status == "created" ? "profile.success.subscribe" : "profile.success.unsubscribe", { login }), json?.status == "created" ? "success" : "warning");
+            notify(t(response?.status == "created" ? "profile.success.subscribe" : "profile.success.unsubscribe", { login }), response?.status == "created" ? "success" : "warning");
 
             queryClient.setQueryData([ "user", login ], prev => ({
                 ...prev,
@@ -69,15 +65,10 @@ export default function Profile() {
 
     const { data, status, isError, error, refetch, isRefetching } = useQuery({
         queryKey: [ "user", login ],
-        queryFn: async () => {
-            const response = await users_details(login);
-            const json = await response.json();
-            if (!response.ok)
-                throw json.msg;
-
-            return json;
-        }
+        queryFn: async () => users_details(login)
     });
+
+    console.log(data);
 
     if (isError) {
         console.error(error);
@@ -171,6 +162,9 @@ export default function Profile() {
                         >
                             <User
                                 login={login}
+                                dataSource={{
+                                    is_avatar: data?.is_avatar
+                                }}
                                 size="full"
                                 className="transition-all w-full h-full"
                                 nolink
@@ -186,122 +180,114 @@ export default function Profile() {
                         </p>
                         {data?.description && (
                             <p className="w-full text-default flex flex-wrap justify-center items-center gap-2 border border-br p-4 rounded-xl">
-                                <LinkifyText className="flex justify-center items-center text-default">
+                                <LinkifyText className="flex justify-center items-center">
                                     {data?.description}
                                 </LinkifyText>
                             </p>
                         )}
                     </div>
-                    <div className="flex flex-col md:grid gap-4 w-full">
-                        <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
-                            <Block
-                                title={t("profile.titles.games")}
-                                id="games"
-                                request={async (page: number, count: number) => {
-                                    const search = new URLSearchParams();
-                                    search.set("offset", String((page - 1) * count));
-                                    search.set("limit", String(count));
+                    <div className="flex flex-col gap-4 w-full">
+                        <Block
+                            title={t("profile.titles.games")}
+                            id="games"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                                    const games = await users_games(login, search);
-                                    const json = await games.json();
+                                const games = await users_games(login, search);
 
-                                    return {
-                                        items: json.items.map(item => ({
-                                            dataSource: item
-                                        })),
-                                        total: json.total
-                                    }
-                                }}
-                                Component={Game}
-                                onOpen={() => {
-                                    modal("", (onClose) => <UserContent onClose={(path) => {
-                                        navigator(path);
-                                        onClose && onClose();
-                                    }} id="games" login={login} fn={users_games} />)
-                                }}
-                            />
-                            <Block
-                                title={t("profile.titles.subscribers")}
-                                id="subscribers"
-                                request={async (page: number, count: number) => {
-                                    const search = new URLSearchParams();
-                                    search.set("offset", String((page - 1) * count));
-                                    search.set("limit", String(count));
+                                return {
+                                    items: games.items.map(item => ({
+                                        dataSource: item
+                                    })),
+                                    total: games.total
+                                }
+                            }}
+                            Component={Game}
+                            onOpen={() => {
+                                modal("", (onClose) => <UserContent onClose={(path) => {
+                                    navigator(path);
+                                    onClose && onClose();
+                                }} id="games" login={login} fn={users_games} />)
+                            }}
+                        />
+                        <Block
+                            title={t("profile.titles.subscribers")}
+                            id="subscribers"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                                    const users = await users_subscribers(login, search);
-                                    const json = await users.json();
+                                const users = await users_subscribers(login, search);
 
-                                    return {
-                                        items: json.items.map(item => ({
-                                            login: item.login,
-                                            dataSource: item
-                                        })),
-                                        total: json.total
-                                    }
-                                }}
-                                Component={User}
-                                onOpen={() => {
-                                    modal("", (onClose) => <UserContent onClose={(path) => {
-                                        navigator(path);
-                                        onClose && onClose();
-                                    }} id="subscribers" login={login} fn={users_subscribers} />)
-                                }}
-                            />
-                        </div>
-                        <div className="flex flex-col md:grid gap-4 md:grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
-                            <Block
-                                title={t("profile.titles.favorites")}
-                                id="favorites"
-                                request={async (page: number, count: number) => {
-                                    const search = new URLSearchParams();
-                                    search.set("offset", String((page - 1) * count));
-                                    search.set("limit", String(count));
+                                return {
+                                    items: users.items.map(item => ({
+                                        login: item.login,
+                                        dataSource: item
+                                    })),
+                                    total: users.total
+                                }
+                            }}
+                            Component={User}
+                            onOpen={() => {
+                                modal("", (onClose) => <UserContent onClose={(path) => {
+                                    navigator(path);
+                                    onClose && onClose();
+                                }} id="subscribers" login={login} fn={users_subscribers} />)
+                            }}
+                        />
+                        <Block
+                            title={t("profile.titles.favorites")}
+                            id="favorites"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                                    const games = await users_favorites(login, search);
-                                    const json = await games.json();
+                                const games = await users_favorites(login, search);
 
-                                    return {
-                                        items: json.items.map(item => ({
-                                            dataSource: item
-                                        })),
-                                        total: json.total
-                                    }
-                                }}
-                                Component={Game}
-                                onOpen={() => {
-                                    modal("", (onClose) => <UserContent onClose={(path) => {
-                                        navigator(path);
-                                        onClose && onClose();
-                                    }} id="favorites" login={login} fn={users_favorites} />)
-                                }}
-                            />
-                            <Block
-                                title={t("profile.titles.likes")}
-                                id="likes"
-                                request={async (page: number, count: number) => {
-                                    const search = new URLSearchParams();
-                                    search.set("offset", String((page - 1) * count));
-                                    search.set("limit", String(count));
+                                return {
+                                    items: games.items.map(item => ({
+                                        dataSource: item
+                                    })),
+                                    total: games.total
+                                }
+                            }}
+                            Component={Game}
+                            onOpen={() => {
+                                modal("", (onClose) => <UserContent onClose={(path) => {
+                                    navigator(path);
+                                    onClose && onClose();
+                                }} id="favorites" login={login} fn={users_favorites} />)
+                            }}
+                        />
+                        <Block
+                            title={t("profile.titles.likes")}
+                            id="likes"
+                            request={async (page: number, count: number) => {
+                                const search = new URLSearchParams();
+                                search.set("offset", String((page - 1) * count));
+                                search.set("limit", String(count));
 
-                                    const games = await users_likes(login, search);
-                                    const json = await games.json();
+                                const games = await users_likes(login, search);
 
-                                    return {
-                                        items: json.items.map(item => ({
-                                            dataSource: item
-                                        })),
-                                        total: json.total
-                                    }
-                                }}
-                                Component={Game}
-                                onOpen={() => {
-                                    modal("", (onClose) => <UserContent onClose={(path) => {
-                                        navigator(path);
-                                        onClose && onClose();
-                                    }} id="likes" login={login} fn={users_likes} />)
-                                }}
-                            />
-                        </div>
+                                return {
+                                    items: games.items.map(item => ({
+                                        dataSource: item
+                                    })),
+                                    total: games.total
+                                }
+                            }}
+                            Component={Game}
+                            onOpen={() => {
+                                modal("", (onClose) => <UserContent onClose={(path) => {
+                                    navigator(path);
+                                    onClose && onClose();
+                                }} id="likes" login={login} fn={users_likes} />)
+                            }}
+                        />
                     </div>
                 </div>
             </div>

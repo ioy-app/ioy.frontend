@@ -1,3 +1,5 @@
+import Store, { dispatch } from "@/stories";
+
 import * as Profile from "./profile";
 import * as Sessions from "./sessions";
 import * as Users from "./users";
@@ -6,55 +8,88 @@ import * as Games from "./games";
 import * as Comments from "./comments";
 import * as Jams from "./jams";
 
-const path: string = "/api/v1";
+import axios from "axios";
+export const apiInstance = axios.create({
+    withCredentials: true,
+    baseURL: "/api/v1"
+});
+
+apiInstance.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    return config;
+});
+
+apiInstance.interceptors.response.use((config) => config?.data, async (err) => {
+    if (err.response.status == 401) {
+        const response = await apiInstance.get(Routes.profile.refresh);
+        localStorage.setItem("token", response?.token);
+    }
+});
+
+export const apiFileInstance = apiInstance;
+apiFileInstance.interceptors.response.use((config) => config, async (err) => {
+    console.log(err);
+    if (err.response.status == 401) {
+        try {
+            const response = await apiInstance.get(Routes.profile.refresh);
+            if (response?.token)
+                localStorage.setItem("token", response?.token);
+        }
+        catch(err) {
+            console.log("???", err);
+        }
+    }
+});
+
+const path: string = "";
 const Routes = {
     sessions: {
-        list: `${path}/sessions`,
-        details: (id: number) => `${path}/sessions/${id}`
+        list: `/sessions`,
+        details: (id: number) => `/sessions/${id}`
     },
     profile: {
-        refresh: `${path}/sessions/update`,
-        me: `${path}/auth/me`,
-        logout: `${path}/auth/logout`
+        refresh: `/sessions/update`,
+        me: `/auth/me`,
+        logout: `/auth/logout`
     },
     users: {
-        details: (login: string) => `${path}/users/${login}`,
-        subscribe: (login: string) => `${path}/users/${login}/subscribe`,
-        games: (login: string) => `${path}/users/${login}/games`,
-        jams: (login: string) => `${path}/users/${login}/jams`,
-        avatar: (login: string) => `${path}/users/${login}/avatar`,
-        subscribers: (login: string) => `${path}/users/${login}/subscribers`,
-        favorites: (login: string) => `${path}/users/${login}/favorites`,
-        likes: (login: string) => `${path}/users/${login}/likes`,
-        email: `${path}/users/email`
+        details: (login: string) => `/users/${login}`,
+        subscribe: (login: string) => `/users/${login}/subscribe`,
+        games: (login: string) => `/users/${login}/games`,
+        jams: (login: string) => `/users/${login}/jams`,
+        avatar: (login: string) => `/users/${login}/avatar`,
+        subscribers: (login: string) => `/users/${login}/subscribers`,
+        favorites: (login: string) => `/users/${login}/favorites`,
+        likes: (login: string) => `/users/${login}/likes`,
+        email: `/users/email`
     },
     auth: {
-        login: `${path}/auth/login`,
-        reg: `${path}/auth/reg`
+        login: `/auth/login`,
+        reg: `/auth/reg`
     },
     games: {
-        list: `${path}/games`,
-        details: (id: number) => `${path}/games/${id}`,
-        icon: (id: number) => `${path}/games/${id}/icon`,
-        subscribe: (id: number) => `${path}/games/${id}/subscribe`,
-        game: (id: number) => `${path}/games/${id}/game`,
-        like: (id: number) => `${path}/games/${id}/like`,
-        create: `${path}/games/create`
+        list: `/games`,
+        details: (id: number) => `/games/${id}`,
+        icon: (id: number) => `/games/${id}/icon`,
+        subscribe: (id: number) => `/games/${id}/subscribe`,
+        game: (id: number) => `/games/${id}/game`,
+        like: (id: number) => `/games/${id}/like`,
+        create: `/games/create`
     },
     dashboard: {
-        games: `${path}/games/my`
+        games: `/games/my`
     },
     comments: {
-        details: (id: number) => `${path}/comments/${id}`,
-        answers: (id: number, commentid: number) => `${path}/comments/${id}/${commentid}`,
-        create: (id: number) => `${path}/comments/${id}`,
-        reply: (id: number, commentid: number) => `${path}/comments/${id}/${commentid}`,
-        like: (id: number) => `${path}/comments/${id}/like`
+        details: (id: number) => `/comments/${id}`,
+        answers: (id: number, commentid: number) => `/comments/${id}/${commentid}`,
+        create: (id: number) => `/comments/${id}`,
+        reply: (id: number, commentid: number) => `/comments/${id}/${commentid}`,
+        like: (id: number) => `/comments/${id}/like`
     },
-    search: `${path}/search`,
+    search: `/search`,
     jams: {
-        list: `${path}/jams`,
-        details: (id: number) => `${path}/jams/${id}`
+        list: `/jams`,
+        details: (id: number) => `/jams/${id}`
     }
 }
 

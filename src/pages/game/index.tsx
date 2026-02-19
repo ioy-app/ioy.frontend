@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { BiBookmark, BiChevronsLeft, BiCopyAlt, BiHeart, BiMessageError, BiShare } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import Comments from "./comments";
+import Popup from "@/components/base/popup";
 
 export default function GamePage() {
     const params = useParams();
@@ -22,14 +23,14 @@ export default function GamePage() {
     const query = useQuery({
         queryKey: [ "games", id ],
         queryFn: async () => {
-            const response = await games_details(Number(id)).then(e => e.json());
+            const response = await games_details(Number(id));
             return response;
         }
     });
 
     const like = useMutation({
         mutationFn: async () => {
-            const response = await games_like(Number(id)).then(e => e.json());
+            const response = await games_like(Number(id));
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),
@@ -45,7 +46,7 @@ export default function GamePage() {
 
     const subscribe = useMutation({
         mutationFn: async () => {
-            const response = await games_subscribe(Number(id)).then(e => e.json());
+            const response = await games_subscribe(Number(id));
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),
@@ -110,7 +111,8 @@ export default function GamePage() {
                     <div className="flex gap-4 items-center h-12">
                         <Game
                             dataSource={{
-                                id: Number(id)
+                                id: Number(id),
+                                is_avatar: query?.data?.is_avatar
                             } as any}
                             size={12}
                             nolink
@@ -120,30 +122,50 @@ export default function GamePage() {
                     </div>
                     <Player gameId={Number(id)} />
                     <div className="flex gap-4 w-full justify-end items-center">
-                        <Button
-                            variant={query?.data?.is_like && "second" || "default"}
-                            onClick={() => like.mutate()}
-                            disabled={like.isPending}
-                            loading={like.isPending}
+                        <Popup
+                            align="b"
+                            label={t(query?.data?.is_like ? "helps.unlike" : "helps.like")}
                         >
-                            <BiHeart />
-                        </Button>
-                        <Button
-                            variant={query?.data?.is_subscribe && "second" || "default"}
-                            onClick={() => subscribe.mutate()}
-                            disabled={subscribe.isPending}
-                            loading={subscribe.isPending}
+                            <Button
+                                variant={query?.data?.is_like && "second" || "default"}
+                                onClick={() => like.mutate()}
+                                disabled={like.isPending}
+                                loading={like.isPending}
+                            >
+                                <BiHeart />
+                            </Button>
+                        </Popup>
+                        <Popup
+                            align="b"
+                            label={t(query?.data?.is_subscribe ? "helps.unsubscribe" : "helps.subscribe")}
                         >
-                            <BiBookmark />
-                        </Button>
-                        <Button
-                            onClick={() => repost()}
+                            <Button
+                                variant={query?.data?.is_subscribe && "second" || "default"}
+                                onClick={() => subscribe.mutate()}
+                                disabled={subscribe.isPending}
+                                loading={subscribe.isPending}
+                            >
+                                <BiBookmark />
+                            </Button>
+                        </Popup>
+                        <Popup
+                            align="b"
+                            label={t("helps.share")}
                         >
-                            <BiShare />
-                        </Button>
-                        <Button variant="default">
-                            <BiMessageError />
-                        </Button>
+                            <Button
+                                onClick={() => repost()}
+                            >
+                                <BiShare />
+                            </Button>
+                        </Popup>
+                        <Popup
+                            align="b"
+                            label={t("helps.report")}
+                        >
+                            <Button variant="default">
+                                <BiMessageError />
+                            </Button>
+                        </Popup>
                     </div>
                     <div className="flex gap-4 w-full">
                         <div className="flex flex-col gap-2 w-fit">

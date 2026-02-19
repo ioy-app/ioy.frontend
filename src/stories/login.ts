@@ -14,9 +14,7 @@ export const fetchMe = createAsyncThunk(
     try {
       const response = await profile_me();
       console.log(response);
-      if (!response.ok) throw new Error('errors.denied');
-        const data = await response.json();
-      return data;
+      return response;
     } catch (err) {
       return rejectWithValue(err.message || 'errors.unknown');
     }
@@ -24,7 +22,7 @@ export const fetchMe = createAsyncThunk(
 );
 
 const initialState: initialStateProps = {
-    token: null,
+    token: localStorage.getItem("token"),
     id: null,
     login: null,
     loading: true
@@ -35,9 +33,11 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setLogin: (state, { payload }) => {
+            console.log("!!!", payload);
             state.id = payload?.id;
             state.token = payload?.token;
             state.login = payload?.login;
+            localStorage.setItem("token", payload?.token);
         },
         setToken: (state, { payload }) => {
             state.token = payload?.token;
@@ -58,12 +58,9 @@ const authSlice = createSlice({
             (async () => {
                 try {
                     const response = await profile_me();
-                    if (!response.ok)
-                        throw "errors.denied";
-                    const json = await response.json();
-
-                    state.id = json.id;
-                    state.login = json.login;
+                    console.log(response);
+                    state.id = response.id;
+                    state.login = response.login;
                 }
                 catch(err) {
                     state.id = null;

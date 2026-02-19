@@ -21,13 +21,7 @@ const Login: React.FC<{ onClose: () => void; }> = ({ onClose }) => {
     const handleSubmit = async ({ email }: { email: string }) => {
         try {
             setLoading(true);
-
-            const response = await auth_login({ email });
-            if (!response.ok) {
-                const json = await response.json();
-                throw json?.msg;
-            }
-            
+            await auth_login({ email });
             setFormCode(true);
         }
         catch(err) { notify(`auth.${err?.message}`); }

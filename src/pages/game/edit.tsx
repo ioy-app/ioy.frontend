@@ -44,13 +44,9 @@ export default function Edit() {
                     tags: data?.tags || []
                 });
             }
-            const json = await response.json();
-
-            if (!response.ok)
-                throw json?.msg;
 
             if (isCreate)
-                navigate(paths.games.edit(json.id));
+                navigate(paths.games.edit(response.id));
         }
         catch(err) { notify(err); }
         finally { setLoading(false); }
@@ -112,12 +108,8 @@ export default function Edit() {
                 if (!isCreate) {
                     const id: number = Number(params.id);
                     const response = await games_details(id);
-                    const json = await response.json();
 
-                    if (!response.ok)
-                        throw json?.msg;
-
-                    for (const [ key, value ] of Object.entries(json))
+                    for (const [ key, value ] of Object.entries(response))
                         methods.setValue(key, value);
                 }
             }

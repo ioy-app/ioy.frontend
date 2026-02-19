@@ -19,14 +19,8 @@ const Email: React.FC<{
     const submit = async (fd: FormData) => {
         try {
             setLoading(true);
-            const response = await users_edit_email(fd?.current_email, fd?.email);
-            if (!response.ok) {
-                const json = await response.json();
-                throw new Error(json?.msg);
-            }
-
+            await users_edit_email(fd?.current_email, fd?.email);
             setCodeForm(true);
-
         }
         catch(err) { notify(err?.message?.toString(), "error"); }
         finally {

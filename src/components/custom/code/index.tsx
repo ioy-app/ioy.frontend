@@ -6,6 +6,7 @@ import "./styles.less";
 import fetchAPI from "@/api";
 import { useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
+import { apiInstance } from "@/api/routes";
 
 const length: number = 6; // Длина кода подтверждения
 
@@ -28,15 +29,12 @@ const Code: React.FC<{
         try {
             console.log(code);
             setLoading(true);
-            const response = await fetchAPI("/api/v1/codes", {
-                method: "POST",
-                body: JSON.stringify({ code: code.join("") })
-            })
-            const json = await response.json();
-            if (!response.ok)
-                throw json?.msg;
 
-            onSubmit && onSubmit(json);
+            const response = await apiInstance.post("/codes", {
+                code: code.join("")
+            });
+
+            onSubmit && onSubmit(response);
         }
         catch(err) {
             notify(`codes.${err?.message}`, "error");

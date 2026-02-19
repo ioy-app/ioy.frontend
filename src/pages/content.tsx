@@ -5,6 +5,7 @@ import { fetchMe, setToken } from "@/stories/login";
 import { Routes } from "@/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRef } from "react";
+import { apiInstance } from "@/api/routes";
 
 export default function Content() {
     const dispatch = useDispatch();
@@ -16,8 +17,8 @@ export default function Content() {
     } = useQuery({
         queryKey: ["profile", "token"],
         queryFn: async () => {
-            const response = await fetch(Routes.profile.refresh);
-            return (await response.json());
+            const response = await apiInstance.get(Routes.profile.refresh);
+            return response;
         },
         refetchInterval: 120_000,
         refetchIntervalInBackground: false,

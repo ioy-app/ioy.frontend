@@ -29,78 +29,80 @@ export default function UserContent({
             us.set("limit", String(per_page));
             
             const response = await fn(login, us);
-            return (await response.json());
+            return response;
         }
     });
 
     return (
-        <div className="w-full flex flex-1 justify-center">
-            <div className="w-full gap-4 flex flex-col">
-                <div className="w-full flex flex-col gap-2 items-start">
-                    <div className="w-full flex flex-row items-center justify-between gap-4">
-                        <p className="text-title">{t(`profile.titles.${id}`)}</p>
-                        <Select
-                            options={[
-                                {
-                                    label: t("order.new"),
-                                    value: "new"
-                                },
-                                {
-                                    label: t("order.older"),
-                                    value: "older"
-                                },
-                                {
-                                    label: t("order.popular"),
-                                    value: "popular"
-                                }
-                            ]}
-                            className="w-50"
-                            isFirstOption
-                        />
-                    </div>
-                </div>
-                <div className="flex flex-col gap-8">
-                    <Pagination
-                        current={page}
-                        total={query?.data?.total}
-                        per_page={per_page}
-                        onChange={(offset, page) => setPage(page)}
-                        disabled={query?.status == "pending"}
+        <div className="w-full gap-4 flex flex-col">
+            <div className="w-full flex flex-col gap-2 items-start">
+                <div className="w-full flex flex-row items-center justify-between gap-4">
+                    <p className="text-title">{t(`profile.titles.${id}`)}</p>
+                    <Select
+                        options={[
+                            {
+                                label: t("order.new"),
+                                value: "new"
+                            },
+                            {
+                                label: t("order.older"),
+                                value: "older"
+                            },
+                            {
+                                label: t("order.popular"),
+                                value: "popular"
+                            }
+                        ]}
+                        className="w-50"
+                        isFirstOption
                     />
-                    <Spin loading={query.status == "pending"}>
-                        <div className="grid grid-cols-5 gap-4">
-                            {query?.data?.items?.map(((item: GameProps | UserProps, i: number) => {
-                                switch(id) {
-                                    case "subscribers":
-                                        return (
-                                            <User
-                                                login={(item as UserProps).login}
-                                                nolink
-                                                onClick={(_login) => onClose && onClose(paths.users.details(_login))}
-                                            />
-                                        );
-                                    break;
-                                    default:
-                                        return (
+                </div>
+            </div>
+            <div className="flex flex-col gap-8">
+                <Pagination
+                    current={page}
+                    total={query?.data?.total}
+                    per_page={per_page}
+                    onChange={(offset, page) => setPage(page)}
+                    disabled={query?.status == "pending"}
+                />
+                <Spin loading={query.status == "pending"}>
+                    <div className="grid grid-cols-5 gap-4 w-full h-fit">
+                        {query?.data?.items?.map(((item: GameProps | UserProps, i: number) => {
+                            switch(id) {
+                                case "subscribers":
+                                    return (
+                                        <User
+                                            login={(item as UserProps).login}
+                                            nolink
+                                            size="full"
+                                            onClick={(_login) => onClose && onClose(paths.users.details(_login))}
+                                        />
+                                    );
+                                break;
+                                default:
+                                    return (
+                                        <div>
                                             <Game
                                                 dataSource={item as GameProps}
                                                 nolink
+                                                size="full"
                                                 onClick={(id) => onClose && onClose(paths.games.details(id))}
                                             />
-                                        );
-                                    break;
-                                }
-                            }))}
-                        </div>
-                    </Spin>
-                    <Pagination
-                        current={page}
-                        total={query?.data?.total}
-                        per_page={per_page}
-                        onChange={(offset, page) => setPage(page)}
-                        disabled={query?.status == "pending"}
-                    />
-                </div>
+                                        </div>
+                                    );
+                                break;
+                            }
+                        }))}
+                    </div>
+                </Spin>
+                <Pagination
+                    current={page}
+                    total={query?.data?.total}
+                    per_page={per_page}
+                    onChange={(offset, page) => setPage(page)}
+                    disabled={query?.status == "pending"}
+                />
             </div>
         </div>
     )

@@ -10,6 +10,8 @@ import { useModal } from "@/hooks";
 import { Auth } from "@/pages";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import Popup from "../base/popup";
+import { useTranslation } from "react-i18next";
 
 /**
  * Header
@@ -21,7 +23,8 @@ const Header: React.FC<{
 }> = ({
     ref
 }) => {
-   const { token, login, loading } = useSelector((state: any) => state?.login);
+    const { t } = useTranslation();
+    const { token, login, loading } = useSelector((state: any) => state?.login);
     const { modal } = useModal();
 
     const { scrollY } = useScroll();
@@ -57,11 +60,19 @@ const Header: React.FC<{
                         key={login}
                     >
                         {token ? (
-                            <User
-                                login={login}
-                                size={"full"}
-                                ref={ref}
-                            />
+                            <Popup
+                                align="l"
+                                label={t("header.helps.profile")}
+                            >
+                                <User
+                                    login={login}
+                                    dataSource={{
+                                        is_avatar: true
+                                    }}
+                                    size={"full"}
+                                    ref={ref}
+                                />
+                            </Popup>
                         ): <BiUser className="w-full h-full p-1" />}
                     </Spin>
                 </button>

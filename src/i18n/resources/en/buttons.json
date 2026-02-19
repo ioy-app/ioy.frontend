@@ -11,5 +11,11 @@
     "create": "Create",
     "ok": "OK",
     "login": "Sign In",
-    "reg": "Sign Up"
+    "reg": "Sign Up",
+    "back": "Back",
+    "dashboard": "Dashboard",
+    "nav": {
+        "games": "Games",
+        "jams": "Jams"
+    }
 }

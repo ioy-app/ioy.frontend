@@ -37,6 +37,20 @@ const User: React.FC<{
     } = useQuery({
         queryKey: ["avatar", login, preview],
         queryFn: async () => {
+            if (!dataSource?.is_avatar)
+                return null;
+
+            if (preview) {
+                const file = await fetch(preview);
+                if (!file.ok)
+                    throw new Error();
+
+                const resource = await file.blob();
+                return URL.createObjectURL(resource);
+            }
+
+            return `/api/v1${Routes.users.avatar(login)}`;
+
             const file = await fetch(preview || Routes.users.avatar(login));
             
             if (!file.ok)

@@ -22,14 +22,7 @@ export default function Reg({
     const submit = async (data) => {
         try {
             methods.clearErrors("valid");
-            const response = await auth_reg(data);
-            
-            
-            if (!response.ok) {
-                const json = await response.json();
-                throw json?.msg || t("auth.unknown");
-            }
-
+            await auth_reg(data);
             notify(t("auth.reg"), "success");
             onClose && onClose();
         }
@@ -38,7 +31,6 @@ export default function Reg({
                 type: "valid",
                 message: err.toString()
             });
-            
         }
     }
 

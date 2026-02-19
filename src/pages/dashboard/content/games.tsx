@@ -39,11 +39,7 @@ const Games: React.FC = () => {
             
 
             const result = await dashboard_games(search);
-            const json = await result.json();
-                if (result.status != 200)
-                    throw json?.msg;
-
-            return json;
+            return result;
         }
     });
 
@@ -106,7 +102,8 @@ const Games: React.FC = () => {
                             >
                                 <Components.Game
                                     dataSource={{
-                                        id: game?.id
+                                        id: game?.id,
+                                        is_avatar: game?.is_avatar
                                     } as GameProps}
                                     nolink
                                     size={12}

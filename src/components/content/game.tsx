@@ -1,10 +1,11 @@
 import GameProps from "@/types/game";
 
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Routes } from "@/api";
 import Spin from "@/components/base/spin";
 import { Profile } from "@/icons";
 import { useQuery } from "@tanstack/react-query";
+import { games_icon } from "@/api/routes/games";
 
 const Game: React.FC<{
     /** Game data */
@@ -30,16 +31,19 @@ const Game: React.FC<{
     } = useQuery({
         queryKey: ["game", dataSource, preview],
         queryFn: async () => {
-            if (typeof(dataSource?.is_avatar) != "undefined" && !dataSource?.is_avatar)
+            if (!dataSource?.is_avatar)
+                return null;
+
+            if (preview) {
+                const file = await fetch(preview);
+                if (!file.ok)
                     throw new Error();
 
-            const file =await fetch(preview || Routes.games.icon(dataSource.id));
-            
-            if (!file.ok)
-                throw new Error();
+                const resource = await file.blob();
+                return URL.createObjectURL(resource);
+            }
 
-            const resource = await file.blob();
-            return URL.createObjectURL(resource);
+            return `/api/v1${Routes.games.icon(dataSource.id)}`;
         },
         retry: false
     });
@@ -67,9 +71,9 @@ const Game: React.FC<{
 
     return (
         !nolink ? (
-            <NavLink to={`/g/${dataSource?.id}`} className={`w-${size}`}>
+            <Link to={`/g/${dataSource?.id}`} className={`w-${size}`}>
                 {root}
-            </NavLink>
+            </Link>
         ) : root
     );
 }

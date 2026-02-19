@@ -4,11 +4,23 @@ import { Home, About } from "@/pages";
 import games, { games_paths } from "./games";
 import user, { user_paths } from "./user";
 import dashboard, { dashboard_paths } from "./dashboard";
+import Jams from "@/pages/home/pages/jams";
+import Games from "@/pages/home/pages/games";
 
 const routes: RouteObject[] = [
     {
-        index: true,
-        element: <Home />
+        path: "/",
+        Component: Home,
+        children: [
+            {
+                index: true,
+                element: <Games />
+            },
+            {
+                path: "/jams",
+                element: <Jams />
+            }
+        ]
     },
     {
         path: "/about",

@@ -8,10 +8,6 @@
         "value": "jams"
     },
     {
-        "label": "dashboard.tabs.comments",
-        "value": "comments"
-    },
-    {
         "label": "dashboard.tabs.monitoring",
         "value": "monitoring"
     }

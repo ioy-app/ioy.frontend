@@ -26,7 +26,7 @@ const Jams: React.FC = () => {
         queryKey: [ "jams", date_from, date_to ],
         queryFn: async () => {
             const response = await jams_list(date_from, date_to);
-            return (await response.json());
+            return response;
         }
     });
 
@@ -41,7 +41,8 @@ const Jams: React.FC = () => {
         });
         calendar_days.push({
             day: i + 1,
-            jams
+            jams,
+            isCurrent: dayjs(dayjs(date_from).set("date", i + 1)).format("YYYY-MM-DD") == dayjs(Date.now()).format("YYYY-MM-DD")
         })
     }
 
@@ -74,9 +75,9 @@ const Jams: React.FC = () => {
                 {calendar_days?.length && calendar_days.map((node, i) => (
                     <div
                         key={i}
-                        className="w-full aspect-square text-default flex flex-col items-stretch"
+                        className={`w-full aspect-square text-default flex flex-col items-stretch ${node.isCurrent && "bg-br" || "bg-back"}`}
                     >
-                        {node.day}
+                        <p className="px-4 py-2">{node.day}</p>
                         <div className="flex flex-col gap-1">
                         {node?.jams?.slice(0, 3)?.map((jam, i) => (
                             <div className={`w-full h-6 bg-primary flex justify-center items-center nth-[2n]:bg-second`}>

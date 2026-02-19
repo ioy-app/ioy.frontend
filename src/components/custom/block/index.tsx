@@ -1,4 +1,5 @@
 import Button from "@/components/base/button";
+import Popup from "@/components/base/popup";
 import Spin from "@/components/base/spin";
 import { user_paths } from "@/routes/user";
 import { useQuery } from "@tanstack/react-query";
@@ -47,12 +48,17 @@ const Block: React.FC<{
                     <p className="text-default border border-br px-2 py-1 rounded-xl text-text">{data?.total || 0}</p>
                 </div>
                 {(data?.total > 10) && (
-                    <Button
-                        variant="text"
-                        onClick={() => onOpen && onOpen()}
+                    <Popup
+                        label={t("helps.expand")}
+                        align="l"
                     >
-                        <BiExpandAlt className="text-2xl" />
-                    </Button>
+                        <Button
+                            variant="text"
+                            onClick={() => onOpen && onOpen()}
+                        >
+                            <BiExpandAlt className="text-2xl" />
+                        </Button>
+                    </Popup>
                 )}
             </div>
             <div>
@@ -62,6 +68,7 @@ const Block: React.FC<{
                             <Component
                                 {...item as any}
                                 key={i}
+                                size="full"
                             />
                         ))}
                     </div>

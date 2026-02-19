@@ -24,7 +24,7 @@ const Comments: React.FC = () => {
         queryKey: [ "comments", id ],
         initialPageParam: 0,
         queryFn: async ({ pageParam }) => {
-            const response = await comments_list(Number(id), pageParam).then(e => e.json());
+            const response = await comments_list(Number(id), pageParam);
             return response;
         },
         getNextPageParam: (lastPage) => {
@@ -38,7 +38,7 @@ const Comments: React.FC = () => {
 
     const like = useMutation({
         mutationFn: async (id: number) => {
-            const response = await comments_like(Number(id)).then(e => e.json());
+            const response = await comments_like(Number(id));
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),
@@ -81,7 +81,7 @@ const Comments: React.FC = () => {
 
     const del = useMutation({
         mutationFn: async (commentid: number) => {
-            const response = await comments_delete(Number(id), Number(commentid)).then(e => e.json());
+            const response = await comments_delete(Number(id), Number(commentid));
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),
@@ -130,9 +130,9 @@ const Comments: React.FC = () => {
         }) => {
             let response;
             if (typeof(props.comment_id) == "undefined")
-                response = await comments_create(Number(id), props.comment).then(e => e.json());
+                response = await comments_create(Number(id), props.comment);
             else
-                response = await comments_reply(Number(id), Number(props.comment_id), props.comment).then(e => e.json());
+                response = await comments_reply(Number(id), Number(props.comment_id), props.comment);
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),
@@ -191,7 +191,7 @@ const Comments: React.FC = () => {
             commentid: number;
             offset: number;
         }) => {
-            const response = await comments_answers(Number(id), Number(props.commentid), props.offset, 5).then(e => e.json());
+            const response = await comments_answers(Number(id), Number(props.commentid), props.offset, 5)
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),

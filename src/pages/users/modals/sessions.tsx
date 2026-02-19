@@ -20,12 +20,8 @@ const Sessions: React.FC = () => {
                 setData(null);
 
                 const response = await sessions_list();
-                const json = await response.json();
 
-                if (!response.ok)
-                    throw new Error(json?.msg);
-
-                setData(json as SessionProps[]);
+                setData(response as SessionProps[]);
             }
             catch(err) { notify(t("sessions." + err?.message?.toString()), "error"); }
             finally {
