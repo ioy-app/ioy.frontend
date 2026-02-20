@@ -6,6 +6,7 @@ import user, { user_paths } from "./user";
 import dashboard, { dashboard_paths } from "./dashboard";
 import Jams from "@/pages/home/pages/jams";
 import Games from "@/pages/home/pages/games";
+import jams, { jams_paths } from "./jams";
 
 const routes: RouteObject[] = [
     {
@@ -28,7 +29,8 @@ const routes: RouteObject[] = [
     },
     ...user,
     ...games,
-    ...dashboard
+    ...dashboard,
+    ...jams
 ];
 
 export const paths = {
@@ -36,7 +38,8 @@ export const paths = {
     games: games_paths,
     dashboard: dashboard_paths,
     search: "/",
-    about: "/about"
+    about: "/about",
+    jams: jams_paths
 }
 
 export default routes;

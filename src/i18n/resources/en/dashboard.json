@@ -1,0 +1,35 @@
+{
+    "tabs": {
+        "games": "Games",
+        "jams": "Jams"
+    },
+    "statuses": {
+        "all": "All",
+        "draft": "Draft",
+        "public": "Public"
+    },
+    "placeholders": {
+        "status": "Status",
+        "games": {
+            "search": "Search..."
+        },
+        "jams": {
+            "search": "Search..."
+        }
+    },
+    "table": {
+        "games": {
+            "game": "Game",
+            "version": "Version",
+            "status": "Status",
+            "date_created": "Date created",
+            "date_updated": "Date updated"
+        },
+        "jams": {
+            "jam": "Jam",
+            "status": "Status",
+            "started_to_finished": "Date range",
+            "vote_started_to_finished": "Vote date range"
+        }
+    }
+}

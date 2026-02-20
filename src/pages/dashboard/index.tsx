@@ -9,6 +9,7 @@ import { StoreProps } from "@/stories";
 import { useTranslation } from "react-i18next";
 import { BiArrowBack, BiChevronsLeft } from "react-icons/bi";
 import { paths } from "@/routes";
+import Jams from "./content/jams";
 
 export default function Dashboard() {
     const { t } = useTranslation();
@@ -32,7 +33,8 @@ export default function Dashboard() {
                     label: t(record.label)
                 }))}
                 content={{
-                    games: <Games />
+                    games: <Games />,
+                    jams: <Jams />
                 }}
             />
         </div>

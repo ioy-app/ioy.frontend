@@ -6,9 +6,5 @@
     {
         "label": "dashboard.tabs.jams",
         "value": "jams"
-    },
-    {
-        "label": "dashboard.tabs.monitoring",
-        "value": "monitoring"
     }
 ]
