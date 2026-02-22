@@ -23,6 +23,7 @@ apiInstance.interceptors.response.use((config) => config?.data, async (err) => {
     if (err.response.status == 401) {
         const response = await apiInstance.get(Routes.profile.refresh);
         localStorage.setItem("token", response?.token);
+        return apiInstance(err.config);
     }
 });
 

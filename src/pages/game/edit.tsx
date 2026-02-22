@@ -2,7 +2,7 @@ import confStatus from "../dashboard/status.json";
 
 import { Routes } from "@/api";
 import { games_create, games_delete, games_details, games_edit } from "@/api/routes/games";
-import { Button, Code, File, Game, Input, Player, Select, Spin, Tag, Textarea } from "@/components";
+import { Button, Code, File, Game, Input, Player, Select, SelectUser, Spin, Tag, Textarea } from "@/components";
 import { useModal, useNotify } from "@/hooks";
 import { paths } from "@/routes";
 import { dashboard_paths } from "@/routes/dashboard";
@@ -34,14 +34,16 @@ export default function Edit() {
                     ...data,
                     icon: data?.icon?.[0],
                     game: data?.game?.[0],
-                    tags: data?.tags || []
+                    tags: data?.tags || [],
+                    authors: data?.authors?.map(user => Number(user.id)) || []
                 });
             } else {
                 response = await games_edit(params?.id, {
                     ...data,
                     icon: data?.icon?.[0],
                     game: data?.game?.[0],
-                    tags: data?.tags || []
+                    tags: data?.tags || [],
+                    authors: data?.authors?.map(user => Number(user.id)) || []
                 });
             }
 
@@ -156,6 +158,8 @@ export default function Edit() {
     const title = methods.watch("title");
     const id = methods.watch("id");
     const tags = methods.watch("tags") || [];
+    const is_avatar = methods.watch("is_avatar") || false;
+    const authors_data = methods.watch("authors_data");
 
     return (
         <FormProvider {...methods}>
@@ -184,7 +188,8 @@ export default function Edit() {
                                 <div className="w-32 h-32">
                                     <Game
                                         dataSource={{
-                                            id
+                                            id,
+                                            is_avatar
                                         } as GameProps}
                                         size="full"
                                         preview={handlePreviewIcon}
@@ -252,6 +257,13 @@ export default function Edit() {
                                 ))}
                             </div>
                         </div>
+                        <SelectUser
+                            name="authors"
+                            placeholder={t("games.placeholders.authors")}
+                            label={t("games.labels.authors")}
+                            initial={authors_data}
+                            {...methods}
+                        />
                         <div className="flex w-full justify-center flex-col gap-4">
                             <Player
                                 gameId={id}

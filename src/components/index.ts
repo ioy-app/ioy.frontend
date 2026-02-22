@@ -18,7 +18,7 @@ import Tag from "./custom/tag";
 import Block from "./custom/block";
 import Table from "./base/table";
 import Pagination from "./base/pagination";
-
+import SelectUser from "./custom/selectUser";
 
 export {
     Header,
@@ -40,5 +40,6 @@ export {
     Block,
     LinkifyText,
     Table,
-    Pagination
+    Pagination,
+    SelectUser
 }

@@ -13,7 +13,6 @@ export const fetchMe = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await profile_me();
-      console.log(response);
       return response;
     } catch (err) {
       return rejectWithValue(err.message || 'errors.unknown');

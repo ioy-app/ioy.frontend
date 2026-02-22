@@ -9,6 +9,7 @@
     },
     "errors": {
         "exists": "User {{login}} not found",
+        "equal": "User {{login}} has",
         "denied": "Access denied"
     },
     "titles": {

@@ -16,7 +16,7 @@ const Input: React.FC<{
     /** Local change event */
     onLocalChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     /** Form event change. Work only without onLocalChange! */
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     /** Form event press any keys */
     onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement> & React.ChangeEvent<HTMLInputElement>) => void;
 }> = ({
