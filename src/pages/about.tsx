@@ -14,12 +14,8 @@ export default function About({}) {
     document.title = t("about.title");
     
     return (
-        <div className="flex justify-center items-center w-full">
+        <div className="flex-1 flex justify-center items-center w-full min-h-full">
             <div className="flex flex-col items-center justify-center gap-4 flex-1 max-w-[60%] max-md:max-w-full">
-                <img
-                    src={Icons.Logo}
-                    className="h-42"
-                />
                 <p className="text-4xl"><span className="text-primary">ioy</span><span className="text-second">.app</span></p>
                 <div className="p-4 border border-br rounded-xl w-full text-xl">
                     <p>{t("about.description")}</p>

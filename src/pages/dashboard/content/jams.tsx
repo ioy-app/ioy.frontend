@@ -8,13 +8,13 @@ import * as Components from "@/components";
 import dayjs from "dayjs";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { games_paths } from "@/routes/games";
 import { paths } from "@/routes";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
+import { jams_paths } from "@/routes/jams";
 
-const Games: React.FC = () => {
+const Jams: React.FC = () => {
     const { t } = useTranslation();
     const navigator = useNavigate();
     const [ searchParams, setSearchParams ] = useSearchParams();
@@ -25,7 +25,7 @@ const Games: React.FC = () => {
     const searchQS = searchParams.get("search");
 
     const query = useQuery({
-        queryKey: [ "dashboard", "games", searchParams?.toString() ],
+        queryKey: [ "dashboard", "jams", searchParams?.toString() ],
         queryFn: async () => {
             const search = new URLSearchParams();
 
@@ -71,7 +71,7 @@ const Games: React.FC = () => {
                     <Components.Input
                         type="search"
                         {...methods.register("search")}
-                        placeholder={t("dashboard.placeholders.games.search")}
+                        placeholder={t("dashboard.placeholders.jams.search")}
                     />
                     <Components.Select
                         placeholder={t("dashboard.placeholders.status")}
@@ -93,7 +93,7 @@ const Games: React.FC = () => {
             <Components.Table
                 columns={[
                     {
-                        title: t("dashboard.table.games.game"),
+                        title: t("dashboard.table.jams.jam"),
                         dataIndex: "id",
                         render: (data, game) => (
                             <Link
@@ -113,21 +113,17 @@ const Games: React.FC = () => {
                         )
                     },
                     {
-                        title: t("dashboard.table.games.version"),
-                        dataIndex: "version"
-                    },
-                    {
-                        title: t("dashboard.table.games.status"),
+                        title: t("dashboard.table.jams.status"),
                         dataIndex: "status",
                         render: (status) => t(`dashboard.statuses.` + status)
                     },
                     {
-                        title: t("dashboard.table.games.date_created"),
+                        title: t("dashboard.table.jams.started_to_finished"),
                         dataIndex: "date_created",
                         render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
                     },
                     {
-                        title: t("dashboard.table.games.date_updated"),
+                        title: t("dashboard.table.jams.vote_started_to_finished"),
                         dataIndex: "date_updated",
                         render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
                     }
@@ -138,7 +134,7 @@ const Games: React.FC = () => {
                     <>
                         <Components.Button
                             variant="second"
-                            onClick={() => navigator(games_paths.edit(row?.id))}
+                            onClick={() => navigator(jams_paths.edit(row?.id))}
                         >
                             <BiEditAlt />
                         </Components.Button>
@@ -148,10 +144,10 @@ const Games: React.FC = () => {
                     <div className="w-full flex items-center justify-end gap-4">
                         <Components.Button
                             variant="primary"
-                            onClick={() => navigator(games_paths.create)}
+                            onClick={() => navigator(jams_paths.create)}
                         >
                             <BiPlus />
-                            {t("buttons.add_game")}
+                            {t("buttons.add_jam")}
                         </Components.Button>
                     </div>
                 )}
@@ -179,18 +175,4 @@ const Games: React.FC = () => {
     );
 }
 
-export default Games;
-
-
-{/* <div className="flex gap-4 items-center justify-end flex-wrap">
-    {pagination && pagination?.map((page: number, i: number) => (
-        <Components.Button
-            disabled={page == current_page}
-            key={i}
-            onClick={() => handleChangePage(page)}
-            variant={!i || i == (pagination.length - 1) ? "primary" : "default"}
-        >
-            {page}
-        </Components.Button>
-    ))}
-</div> */}
+export default Jams;
