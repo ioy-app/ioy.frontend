@@ -33,7 +33,7 @@ const Email: React.FC<{
             <Code
                 onSubmit={() => {
                     onClose && onClose();
-                    notify("users.notify.email", "success");
+                    notify("notify.success", "success");
                 }}
                 onCancel={() => setCodeForm(false)}
             />
@@ -47,13 +47,13 @@ const Email: React.FC<{
             <div className="flex flex-col gap-4">
                 <p>{t("profile.titles.email")}</p>
                 <Input
-                    placeholder="Введите почту..."
-                    label="Текущая почта"
+                    placeholder={t("profile.placeholders.current_email")}
+                    label={t("profile.labels.current_email")}
                     {...register("current_email")}
                 />
                 <Input
-                    placeholder="Введите почту..."
-                    label="Новая почта"
+                    placeholder={t("profile.placeholders.email")}
+                    label={t("profile.labels.email")}
                     {...register("email")}
                 />
             </div>

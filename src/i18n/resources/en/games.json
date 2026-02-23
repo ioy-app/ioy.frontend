@@ -1,0 +1,52 @@
+{
+    "titles": {
+        "create": "Create Game",
+        "edit": "Edit {{title}}"
+    },
+    "labels": {
+        "authors": "Authors",
+        "description": "Description",
+        "edited": "Edit",
+        "comments": "Comments",
+        "share": "Share link",
+        "title": "Title",
+        "version": "Version",
+        "tags": "Tags",
+        "icon": "Upload icon",
+        "game": "Upload game"
+    },
+    "placeholders": {
+        "title": "My super game",
+        "version": "1.0.0",
+        "description": "The best game...",
+        "tags": "game (Enter or , to add tag)",
+        "authors": "username (Enter or , to add tag)",
+        "comment": "Send to..."
+    },
+    "errors": {
+        "exists": "No found",
+        "unknown": "Unknown error",
+        "required": {
+            "title": "Title is required",
+            "status": "Status is required",
+            "creater_id": "Creater is required"
+        },
+        "invalid": {
+            "title": "Title invalid, needed string",
+            "version": "Version invalid, needed string",
+            "description": "Description invalid, needed string",
+            "tags": "Tag invalid, needed string",
+            "authors": "Authors invalid, needed ID",
+            "status": "Status invalid, needed draft or public",
+            "jams_id": "Jam invalid, needed ID",
+            "creater_id": "Creater invalid, needed ID"
+        },
+        "max": {
+            "description": "Description max 256 symbols",
+            "title": "Title max 50 symbols"
+        }
+    },
+    "modals": {
+        "delete": "Do you really want delete Game: {{title}}?"
+    }
+}

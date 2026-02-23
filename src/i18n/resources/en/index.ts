@@ -5,6 +5,7 @@ import profile from "./profile.json";
 import auth from "./auth.json";
 import dashboard from "./dashboard.json";
 import jams from "./jams.json";
+import games from "./games.json";
 
 import order from "./components/order.json";
 
@@ -16,7 +17,8 @@ const lang = {
     auth,
     order,
     dashboard,
-    jams
+    jams,
+    games
 }
 
 export default lang;

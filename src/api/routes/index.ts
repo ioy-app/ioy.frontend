@@ -25,21 +25,35 @@ apiInstance.interceptors.response.use((config) => config?.data, async (err) => {
         localStorage.setItem("token", response?.token);
         return apiInstance(err.config);
     }
+
+    return Promise.reject({
+        status: err?.response?.status || 0,
+        message: err?.response?.data?.msg,
+        data: err?.response?.data,
+        originalError: err
+    });
 });
 
 export const apiFileInstance = apiInstance;
 apiFileInstance.interceptors.response.use((config) => config, async (err) => {
-    console.log(err);
-    if (err.response.status == 401) {
+    if (err?.response?.status == 401) {
         try {
             const response = await apiInstance.get(Routes.profile.refresh);
-            if (response?.token)
+            if (response?.token) {
                 localStorage.setItem("token", response?.token);
+                return apiInstance(err.config);
+            }
         }
         catch(err) {
             console.log("???", err);
         }
     }
+
+    return Promise.reject({
+        status: err?.status || 0,
+        message: err?.message,
+        originalError: err
+    });
 });
 
 const path: string = "";

@@ -18,5 +18,9 @@
     "nav": {
         "games": "Games",
         "jams": "Jams"
-    }
+    },
+    "change_email": "Change email",
+    "sessions": "Sessions",
+    "logout": "Logout",
+    "edit": "Edit"
 }

@@ -90,8 +90,6 @@ const SelectUser: React.FC<{
                             throw t("profile.errors.equal", { login: value });
 
                         const response = await users_details(value);
-                        if (!response)
-                            throw t("profile.errors.exists", { login: value });
 
                         setLocalValue(prev => {
                             const obj = {
@@ -107,7 +105,9 @@ const SelectUser: React.FC<{
                         });
                         e.target.value = "";
                     }
-                    catch(err) { notify(err, "error"); }
+                    catch(err) {
+                        notify(t("profile." + err?.message, { login: value }), "error");
+                    }
                     finally { setLoading(false); }
                 }}
             />

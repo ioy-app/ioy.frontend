@@ -50,14 +50,6 @@ const User: React.FC<{
             }
 
             return `/api/v1${Routes.users.avatar(login)}`;
-
-            const file = await fetch(preview || Routes.users.avatar(login));
-            
-            if (!file.ok)
-                throw new Error();
-
-            const resource = await file.blob();
-            return URL.createObjectURL(resource);
         },
         retry: false
     });
@@ -89,7 +81,7 @@ const User: React.FC<{
 
     return (
         !nolink ? (
-            <NavLink to={`/u/${login}`} className={`w-fit`}>
+            <NavLink to={`/u/${login}`} className={`w-${size}`}>
                 {root}
             </NavLink>
         ) : root

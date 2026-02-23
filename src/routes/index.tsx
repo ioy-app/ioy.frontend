@@ -18,7 +18,7 @@ const routes: RouteObject[] = [
                 element: <Games />
             },
             {
-                path: "/jams",
+                path: jams_paths.list,
                 element: <Jams />
             }
         ]

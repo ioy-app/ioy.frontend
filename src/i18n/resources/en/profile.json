@@ -16,12 +16,15 @@
         "games": "Own games",
         "subscribers": "Following",
         "favorites": "Saves",
-        "likes": "Likes"
+        "likes": "Likes",
+        "email": "Change email"
     },
     "placeholders": {
         "avatar": "Upload avatar",
         "login": "Login...",
-        "description": "About me..."
+        "description": "About me...",
+        "current_email": "example@example.test",
+        "email": "example@example.test"
     },
     "labels": {
         "login": "Login",
@@ -32,6 +35,12 @@
             "subscribers": "Following",
             "favorites": "Saves",
             "likes": "Likes"
-        }
+        },
+        "current_email": "Current email",
+        "email": "New email"
+    },
+    "modals": {
+        "logout": "Do you want logout?",
+        "save": "Do you want save changes?"
     }
 }

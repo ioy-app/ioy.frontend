@@ -93,9 +93,9 @@ export default function Profile() {
 
     useMotionValueEvent(scrollY, "change", value => {
         const prev = scrollY.getPrevious();
-        if ((value > prev && value > 48))
+        if ((value > prev && value > 200))
             setScrollable(true);
-        if (value <= 48)
+        if (value <= 200)
             setScrollable(false);
     });
     
@@ -147,33 +147,35 @@ export default function Profile() {
                     </div>
                 )}
                 <div className="flex flex-col gap-4 w-[60%] max-md:w-full items-center">
-                    <div className={`transition-all duration-200 w-32 h-32 ${isScrollable && `z-20 sticky -top-10`}`}>
-                        <motion.div
+                    <div className="w-32 h-32">
+                        <User
+                            login={login}
+                            dataSource={{
+                                is_avatar: data?.is_avatar
+                            }}
+                            size="full"
+                            className="transition-all w-full h-full"
+                            nolink
+                        />
+                    </div>
+                    <div className={`transition-all duration-200 w-32 h-32 ${isScrollable && `z-20 sticky top-2`}`}>
+                        <motion.p
                             variants={{
                                 stable: { scale: 1 },
                                 movement: {
-                                    scale: .3
+                                    scale: .8
                                 }
                             }}
                             transition={{
                                 duration: .2
                             }}
                             animate={isScrollable && "movement" || "stable"}
+                            className="text-title text-center"
                         >
-                            <User
-                                login={login}
-                                dataSource={{
-                                    is_avatar: data?.is_avatar
-                                }}
-                                size="full"
-                                className="transition-all w-full h-full"
-                                nolink
-                            />
-                        </motion.div>
+                            {data?.login}
+                        </motion.p>
                     </div>
                     <div className="flex gap-4 flex-col items-center pb-4 w-full" key={update}>
-                        
-                        <p className="text-title">{data?.login}</p>
                         <p className="text-default flex items-center gap-2" key={data?.subscribers}>
                             <BiUser />
                             {data?.subscribers || 0}

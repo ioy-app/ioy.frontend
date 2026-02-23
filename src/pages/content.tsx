@@ -34,11 +34,9 @@ export default function Content() {
 
     return (
         <div className="flex flex-col w-full min-h-screen bg-back text-text">
-            <Components.Header ref={ref} />
+            <Components.Header />
             <main className="flex-1 py-2 px-4 w-full min-h-full">
-                <Outlet context={{
-                    refProfile: ref
-                }} />
+                <Outlet />
             </main>
             <Components.Footer />
         </div>

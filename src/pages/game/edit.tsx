@@ -47,10 +47,12 @@ export default function Edit() {
                 });
             }
 
-            if (isCreate)
+            if (isCreate && response)
                 navigate(paths.games.edit(response.id));
         }
-        catch(err) { notify(err); }
+        catch(err) {
+            notify(t(`games.${err?.message || "errors.unknown"}`), "error");
+        }
         finally { setLoading(false); }
     }
 
@@ -61,7 +63,7 @@ export default function Edit() {
 
     const handleDelete = async () => {
         modal(
-            t("games.warnings.delete"),
+            t("games.modals.delete", { title }),
             (onClose: () => void) => (
                 <>
                     <Button
@@ -189,7 +191,7 @@ export default function Edit() {
                                     <Game
                                         dataSource={{
                                             id,
-                                            is_avatar
+                                            is_avatar: is_avatar || handlePreviewIcon
                                         } as GameProps}
                                         size="full"
                                         preview={handlePreviewIcon}

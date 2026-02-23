@@ -72,12 +72,14 @@ export default function UserContent({
                             switch(id) {
                                 case "subscribers":
                                     return (
-                                        <User
-                                            login={(item as UserProps).login}
-                                            nolink
-                                            size="full"
-                                            onClick={(_login) => onClose && onClose(paths.users.details(_login))}
-                                        />
+                                        <div>
+                                            <User
+                                                login={(item as UserProps).login}
+                                                nolink
+                                                size="full"
+                                                onClick={(_login) => onClose && onClose(paths.users.details(_login))}
+                                            />
+                                        </div>
                                     );
                                 break;
                                 default:

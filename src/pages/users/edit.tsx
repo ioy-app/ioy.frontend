@@ -42,7 +42,7 @@ const Edit: React.FC<{
                 avatar: fd?.avatar?.[0]
             });
 
-            notify("Изменения сохранены", "success");
+            notify(t("notify.save"), "success");
             dispatch(changeLogin(response));
             onClose && onClose();
             
@@ -57,7 +57,7 @@ const Edit: React.FC<{
         await profile_logout();
         dispatch(clearLogin());
         onClose && onClose();
-        notify("Вы вышли из аккаунта", "info");
+        notify(t("notify.logout"), "info");
         navigator("/");
     }
 
@@ -107,11 +107,11 @@ const Edit: React.FC<{
                 <label
                     className="flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer"
                 >
-                    <div className="w-32 h-32">
+                    <div className="w-32 h-32" key={data?.is_avatar}>
                         <User
                             login={login}
                             dataSource={{
-                                is_avatar: true
+                                is_avatar: data?.is_avatar || handlePreview
                             }}
                             size="full"
                             preview={handlePreview}
@@ -124,7 +124,6 @@ const Edit: React.FC<{
                         accept="image/*"
                         {...register("avatar")}
                         className="hidden"
-                        
                     />
                 </label>
                 <Input
@@ -165,7 +164,7 @@ const Edit: React.FC<{
                             modal("", (onClose) => <Email onClose={onClose} />);
                         }}
                     >
-                        Изменить почтовый адрес
+                        {t("buttons.change_email")}
                     </Button>
                     <Button
                         variant="clear"
@@ -182,7 +181,7 @@ const Edit: React.FC<{
                             )
                         }}
                     >
-                        Управление сессиями
+                        {t("buttons.sessions")}
                     </Button>
                     <Button
                         variant="danger"
@@ -199,7 +198,7 @@ const Edit: React.FC<{
                             )
                         }}
                     >
-                        Удалить аккаунт
+                        {t("buttons.delete")}
                     </Button>
                 </div>
                 <div className="flex flex-row gap-4 justify-end items-center w-full py-8">
@@ -209,7 +208,7 @@ const Edit: React.FC<{
                         onClick={(e) => {
                             e.preventDefault();
                             modal(
-                                "Вы хотите сохранить изменения?",
+                                t("profile.modals.save"),
                                 (onClose) => (
                                     <>
                                         <Button
@@ -232,7 +231,7 @@ const Edit: React.FC<{
                             )
                         }}
                     >
-                        Сохранить
+                        {t("buttons.save")}
                         <BiCheck />
                     </Button>
                 </div>
@@ -241,7 +240,7 @@ const Edit: React.FC<{
                         htmlType="button"
                         variant="danger"
                         onClick={() => modal(
-                            "Вы действительно хотите выйти из аккаунта?",
+                            t("profile.modals.logout"),
                             (onClose: () => void) => (
                                 <>
                                     <Button
@@ -256,14 +255,14 @@ const Edit: React.FC<{
                                             handleLogout();
                                             onClose();
                                         }}>
-                                        Выйти
+                                        {t("buttons.logout")}
                                     </Button>
                                     
                                 </>
                             )
                         )}
                     >
-                        Выйти из аккаунта
+                        {t("buttons.logout")}
                         <BiExit />
                     </Button>
                 </div>

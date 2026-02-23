@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import imgLabel from "@/icons/label.svg";
 import { Button } from "@/components";
+import { paths } from "@/routes";
 
 export default function Home() {
     const { t } = useTranslation();
@@ -27,7 +28,7 @@ export default function Home() {
                             </Button>
                         )}
                     </NavLink>
-                    <NavLink to="/jams">
+                    <NavLink to={paths.jams.list}>
                         {({ isActive }) => (
                             <Button
                                 variant="text"

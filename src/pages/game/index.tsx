@@ -71,13 +71,14 @@ export default function GamePage() {
                 <div className="flex flex-col gap-2 w-full items-center">
                     <Game
                         dataSource={{
-                            id
+                            id,
+                            is_avatar: query?.data?.is_avatar
                         } as any}
                         nolink
                     />
                     <p className="text-title">{query?.data?.title}</p>
                     <p className="text-default max-w-xl line-clamp-2 text-center ...">{query?.data?.description}</p>
-                    <p className="w-full text-placeholder">{t("games.labels.repost.link")}</p>
+                    <p className="w-full text-placeholder">{t("games.labels.share")}</p>
                     <div className="text-default p-4 w-full rounded-xl border border-br flex flex-row gap-4 justify-between items-center text-text">
                         <p>{url}</p>
                         <BiCopyAlt />

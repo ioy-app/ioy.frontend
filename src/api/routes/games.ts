@@ -31,13 +31,14 @@ export const games_icon = async (id: number) => {
 }
 
 export const games_create = (obj: FormData) =>
-    fetchAPI(Routes.games.create, {
-        method: "POST",
-        headers: {
-            "Content-Type": "no-content"
-        },
-        body: jsonToFormData(obj)
-    })
+    apiInstance.post(Routes.games.create, jsonToFormData(obj));
+    // fetchAPI(Routes.games.create, {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "no-content"
+    //     },
+    //     body: jsonToFormData(obj)
+    //})
 export const games_edit = (id: number, obj: FormData) =>
     apiInstance.put(Routes.games.details(id), jsonToFormData(obj));
     // fetchAPI(Routes.games.details(id), {
