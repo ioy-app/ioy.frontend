@@ -27,3 +27,6 @@ export const users_edit = (login: string, obj) =>
 
 export const users_edit_email = (current_email: string, email: string) =>
     apiInstance.put(Routes.users.email, { current_email, email });
+
+export const users_delete = () =>
+    apiInstance.post(Routes.users.delete);

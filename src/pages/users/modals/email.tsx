@@ -45,7 +45,7 @@ const Email: React.FC<{
             className="flex flex-col gap-4 flex-1 h-full justify-between"
         >
             <div className="flex flex-col gap-4">
-                <p>{t("profile.titles.email")}</p>
+                <p className="text-default">{t("profile.titles.email")}</p>
                 <Input
                     placeholder={t("profile.placeholders.current_email")}
                     label={t("profile.labels.current_email")}

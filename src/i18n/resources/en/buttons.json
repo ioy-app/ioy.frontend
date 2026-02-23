@@ -22,5 +22,6 @@
     "change_email": "Change email",
     "sessions": "Sessions",
     "logout": "Logout",
-    "edit": "Edit"
+    "edit": "Edit",
+    "delete_account": "Delete account"
 }

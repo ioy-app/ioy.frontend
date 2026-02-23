@@ -15,7 +15,9 @@ export const apiInstance = axios.create({
 });
 
 apiInstance.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    const token = localStorage.getItem("token");
+    if (Boolean(token))
+        config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
 
@@ -76,7 +78,8 @@ const Routes = {
         subscribers: (login: string) => `/users/${login}/subscribers`,
         favorites: (login: string) => `/users/${login}/favorites`,
         likes: (login: string) => `/users/${login}/likes`,
-        email: `/users/email`
+        email: `/users/change-email`,
+        delete: `/users/delete`
     },
     auth: {
         login: `/auth/login`,

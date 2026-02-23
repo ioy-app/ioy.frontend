@@ -13,7 +13,8 @@ export default async function fetchAPI(
     if (!obj.headers)
         obj.headers = {}
     
-    obj.headers.Authorization = `Bearer ${token}`;
+    if (token)
+      obj.headers.Authorization = `Bearer ${token}`;
         
 
     if (obj?.headers?.["Content-Type"] == "no-content")

@@ -68,8 +68,6 @@ export default function Profile() {
         queryFn: async () => users_details(login)
     });
 
-    console.log(data);
-
     if (isError) {
         console.error(error);
         notify(error?.message?.toString(), "error");
@@ -98,6 +96,8 @@ export default function Profile() {
         if (value <= 200)
             setScrollable(false);
     });
+
+    document.title = login;
     
     return (
         <Spin loading={isLoading}>
@@ -158,7 +158,7 @@ export default function Profile() {
                             nolink
                         />
                     </div>
-                    <div className={`transition-all duration-200 w-32 h-32 ${isScrollable && `z-20 sticky top-2`}`}>
+                    <div className={`transition-all duration-200 ${isScrollable && `z-20 sticky top-2`}`}>
                         <motion.p
                             variants={{
                                 stable: { scale: 1 },

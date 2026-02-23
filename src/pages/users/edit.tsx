@@ -157,7 +157,7 @@ const Edit: React.FC<{
                 </div>
                 <div className="flex flex-col gap-4 w-full mt-8">
                     <Button
-                        variant="clear"
+                        variant="default"
                         htmlType="button"
                         onClick={(e) => {
                             e.preventDefault();
@@ -167,7 +167,7 @@ const Edit: React.FC<{
                         {t("buttons.change_email")}
                     </Button>
                     <Button
-                        variant="clear"
+                        variant="default"
                         htmlType="button"
                         onClick={(e) => {
                             e.preventDefault();
@@ -198,7 +198,7 @@ const Edit: React.FC<{
                             )
                         }}
                     >
-                        {t("buttons.delete")}
+                        {t("buttons.delete_account")}
                     </Button>
                 </div>
                 <div className="flex flex-row gap-4 justify-end items-center w-full py-8">
