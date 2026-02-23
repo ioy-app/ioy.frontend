@@ -6,10 +6,11 @@ import { UserProps } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { BiBookmark, BiChevronsLeft, BiCopyAlt, BiHeart, BiMessageError, BiShare } from "react-icons/bi";
-import { useNavigate, useParams } from "react-router-dom";
+import { BiBookmark, BiChevronsLeft, BiCopyAlt, BiEdit, BiHeart, BiMessageError, BiShare } from "react-icons/bi";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import Comments from "./comments";
 import Popup from "@/components/base/popup";
+import { paths } from "@/routes";
 
 export default function GamePage() {
     const params = useParams();
@@ -122,51 +123,65 @@ export default function GamePage() {
                         {query?.data?.version && <span className="border px-4 py-1 font-light font-roboto rounded-xl border-gray-200">{query?.data?.version}</span>}
                     </div>
                     <Player gameId={Number(id)} />
-                    <div className="flex gap-4 w-full justify-end items-center">
-                        <Popup
-                            align="b"
-                            label={t(query?.data?.is_like ? "helps.unlike" : "helps.like")}
-                        >
-                            <Button
-                                variant={query?.data?.is_like && "second" || "default"}
-                                onClick={() => like.mutate()}
-                                disabled={like.isPending}
-                                loading={like.isPending}
+                    <div className="flex gap-4 w-full justify-between items-center">
+                        <div className="flex gap-4 items-center">
+                            {query?.data?.is_me && (
+                                <NavLink to={paths.games.edit(id)}>
+                                    <Button
+                                        variant="second"
+                                    >
+                                        <BiEdit />
+                                        {t("buttons.edit")}
+                                    </Button>
+                                </NavLink>
+                            )}
+                        </div>
+                        <div className="flex gap-4 items-center">
+                            <Popup
+                                align="b"
+                                label={t(query?.data?.is_like ? "helps.unlike" : "helps.like")}
                             >
-                                <BiHeart />
-                            </Button>
-                        </Popup>
-                        <Popup
-                            align="b"
-                            label={t(query?.data?.is_subscribe ? "helps.unsubscribe" : "helps.subscribe")}
-                        >
-                            <Button
-                                variant={query?.data?.is_subscribe && "second" || "default"}
-                                onClick={() => subscribe.mutate()}
-                                disabled={subscribe.isPending}
-                                loading={subscribe.isPending}
+                                <Button
+                                    variant={query?.data?.is_like && "second" || "default"}
+                                    onClick={() => like.mutate()}
+                                    disabled={like.isPending}
+                                    loading={like.isPending}
+                                >
+                                    <BiHeart />
+                                </Button>
+                            </Popup>
+                            <Popup
+                                align="b"
+                                label={t(query?.data?.is_subscribe ? "helps.unsubscribe" : "helps.subscribe")}
                             >
-                                <BiBookmark />
-                            </Button>
-                        </Popup>
-                        <Popup
-                            align="b"
-                            label={t("helps.share")}
-                        >
-                            <Button
-                                onClick={() => repost()}
+                                <Button
+                                    variant={query?.data?.is_subscribe && "second" || "default"}
+                                    onClick={() => subscribe.mutate()}
+                                    disabled={subscribe.isPending}
+                                    loading={subscribe.isPending}
+                                >
+                                    <BiBookmark />
+                                </Button>
+                            </Popup>
+                            <Popup
+                                align="b"
+                                label={t("helps.share")}
                             >
-                                <BiShare />
-                            </Button>
-                        </Popup>
-                        <Popup
-                            align="b"
-                            label={t("helps.report")}
-                        >
-                            <Button variant="default">
-                                <BiMessageError />
-                            </Button>
-                        </Popup>
+                                <Button
+                                    onClick={() => repost()}
+                                >
+                                    <BiShare />
+                                </Button>
+                            </Popup>
+                            <Popup
+                                align="b"
+                                label={t("helps.report")}
+                            >
+                                <Button variant="default">
+                                    <BiMessageError />
+                                </Button>
+                            </Popup>
+                        </div>
                     </div>
                     <div className="flex gap-4 w-full">
                         <div className="flex flex-col gap-2 w-fit">
