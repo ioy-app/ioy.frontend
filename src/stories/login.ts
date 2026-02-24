@@ -13,10 +13,10 @@ export const fetchMe = createAsyncThunk(
   'login/fetchMe',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await profile_me();
-      return response;
+        const response = await profile_me();
+        return response;
     } catch (err) {
-      return rejectWithValue(err.message || 'errors.unknown');
+        return rejectWithValue(err?.message || "Unknown error");
     }
   }
 );
@@ -38,6 +38,7 @@ const authSlice = createSlice({
             state.token = payload?.token;
             state.login = payload?.login;
             state.is_avatar = payload?.is_avatar;
+            state.loading = false;
             localStorage.setItem("token", payload?.token);
         },
         setToken: (state, { payload }) => {
@@ -47,11 +48,13 @@ const authSlice = createSlice({
                 state.login = null;
                 state.is_avatar = false;
             }
+            state.loading = false;
         },
         clearLogin: (state) => {
             state.id = null;
             state.token = null;
             state.login = null;
+            state.loading = false;
             state.is_avatar = false;
         },
         changeLogin: (state, { payload }) => {

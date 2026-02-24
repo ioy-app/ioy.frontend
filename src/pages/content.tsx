@@ -10,8 +10,6 @@ import { StoreProps } from "@/stories";
 
 export default function Content() {
     const dispatch = useDispatch();
-    const { token } = useSelector((state: StoreProps) => state.login);
-    const ref = useRef(null);
 
     const {
         data,
@@ -27,13 +25,11 @@ export default function Content() {
         staleTime: 240_000
     });
 
-    if (token) {
-        if (isError)
-            dispatch(setToken(null));
-        else {
-            dispatch(setToken(data));
-            dispatch(fetchMe());
-        }
+    if (isError)
+        dispatch(setToken(null));
+    else {
+        dispatch(setToken(data));
+        dispatch(fetchMe());
     }
 
     return (
