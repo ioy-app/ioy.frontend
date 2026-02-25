@@ -214,11 +214,19 @@ export default function GamePage() {
                         <p>{dayjs(query?.data?.date_created).format("HH:mm DD.MM.YYYY")}</p>
                         {query?.data?.date_updated && <p>{t("games.labels.edited")}: {dayjs(query?.data?.date_updated).format("HH:mm DD.MM.YYYY")}</p>}
                     </div>
-                    {query?.data?.recomendator?.length > 0 && (
+                    {query?.data?.recommendator?.length > 0 && (
                         <div className="flex flex-col gap-2 w-full">
-                            <p className="text-placeholder">{t("games.labels.recomends")}</p>
-                            <div className="flex flex-row flex-wrap gap-4 p-4 border border-br rounded-xl w-full">
-                                {query?.data?.recomendator?.map((game: GameProps, i: number) => <Game dataSource={game} key={i} />)}
+                            <p className="text-placeholder">{t("games.labels.recommends")}</p>
+                            <div className="grid grid-cols-5 max-md:grid-cols-3 gap-4 p-4 border border-br rounded-xl w-full">
+                                {query?.data?.recommendator?.map((game: GameProps, i: number) => (
+                                    <div>
+                                        <Game
+                                            dataSource={game}
+                                            key={i}
+                                            size="full"
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     )}

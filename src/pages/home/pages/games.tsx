@@ -111,7 +111,7 @@ const Games: React.FC<{}> = ({}) => {
                     <Table
                         columns={[
                             {
-                                title: t("dashboard.games.table.game"),
+                                title: t("dashboard.table.games.game"),
                                 dataIndex: "id",
                                 render: (data, game) => (
                                     <Link
@@ -120,7 +120,8 @@ const Games: React.FC<{}> = ({}) => {
                                     >
                                         <Game
                                             dataSource={{
-                                                id: game?.id
+                                                id: game?.id,
+                                                is_avatar: game?.is_avatar
                                             } as GameProps}
                                             nolink
                                             size={12}
@@ -130,7 +131,7 @@ const Games: React.FC<{}> = ({}) => {
                                 )
                             },
                             {
-                                title: t("dashboard.games.table.author"),
+                                title: t("dashboard.table.games.author"),
                                 dataIndex: "creater_data",
                                 render: (data, game) => (
                                     <Link
@@ -139,6 +140,9 @@ const Games: React.FC<{}> = ({}) => {
                                     >
                                         <User
                                             login={data.login}
+                                            dataSource={{
+                                                is_avatar: data?.is_avatar
+                                            }}
                                             nolink
                                             size={12}
                                         />
@@ -147,16 +151,16 @@ const Games: React.FC<{}> = ({}) => {
                                 )
                             },
                             {
-                                title: t("dashboard.games.table.version"),
+                                title: t("dashboard.table.games.version"),
                                 dataIndex: "version"
                             },
                             {
-                                title: t("dashboard.games.table.date_created"),
+                                title: t("dashboard.table.games.date_created"),
                                 dataIndex: "date_created",
                                 render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
                             },
                             {
-                                title: t("dashboard.games.table.date_updated"),
+                                title: t("dashboard.table.games.date_updated"),
                                 dataIndex: "date_updated",
                                 render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
                             }
@@ -176,7 +180,7 @@ const Games: React.FC<{}> = ({}) => {
                         )}
                         nodata={(
                             <>
-                                <BiBox className="text-2xl" />
+                                <BiBox className="text-2xl mt-8" />
                                 <p className="text-placeholder">{t("dashboard.labels.nodata")}</p>
                             </>
                         )}

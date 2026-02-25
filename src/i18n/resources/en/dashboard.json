@@ -10,6 +10,7 @@
     },
     "placeholders": {
         "status": "Status",
+        "order": "Sort order",
         "games": {
             "search": "Search..."
         },
@@ -17,13 +18,17 @@
             "search": "Search..."
         }
     },
+    "labels": {
+        "nodata": "No data"
+    },
     "table": {
         "games": {
             "game": "Game",
             "version": "Version",
             "status": "Status",
             "date_created": "Date created",
-            "date_updated": "Date updated"
+            "date_updated": "Date updated",
+            "author": "Author"
         },
         "jams": {
             "jam": "Jam",

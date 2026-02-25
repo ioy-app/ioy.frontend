@@ -16,7 +16,7 @@ import { useModal, useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
 import { user_paths } from "@/routes/user";
 import { dashboard_paths } from "@/routes/dashboard";
-import { BiAlignLeft, BiCog, BiDetail, BiSitemap, BiUser, BiUserMinus, BiUserPlus } from "react-icons/bi";
+import { BiAlignLeft, BiCog, BiDetail, BiGridAlt, BiSitemap, BiUser, BiUserMinus, BiUserPlus } from "react-icons/bi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UserContent from "./content";
 
@@ -111,7 +111,7 @@ export default function Profile() {
                                     htmlType="button"
                                     onClick={() => navigator(dashboard_paths.list)}
                                 >
-                                    <BiSitemap />
+                                    <BiGridAlt />
                                     {t("buttons.dashboard")}
                                 </Button>
                                 <Button

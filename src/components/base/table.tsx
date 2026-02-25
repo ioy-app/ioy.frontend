@@ -90,7 +90,6 @@ const Table: React.FC<{
                                     </tr>
                                 )
                             })}
-                            
                         </tbody>
                     </table>
                 </Spin>

@@ -1,3 +1,5 @@
+import confOrder from "@/configs/order.json";
+
 import { BiBox, BiEditAlt, BiPlus, BiSearch, BiSearchAlt } from "react-icons/bi";
 import confStatus from "../status.json";
 
@@ -22,6 +24,7 @@ const Games: React.FC = () => {
     const max = 10;
     const current_page = Number(searchParams.get("page") || 1);
     const status = searchParams.get("status");
+    const sort = searchParams.get("sort");
     const searchQS = searchParams.get("search");
 
     const query = useQuery({
@@ -31,6 +34,8 @@ const Games: React.FC = () => {
 
             search.set("offset", String((current_page - 1) * max));
             search.set("limit", String(max));
+            if (sort)
+                search.set("sort", sort);
             if (status)
                 search.set("status", status);
             if (searchQS)
@@ -49,6 +54,8 @@ const Games: React.FC = () => {
             us.set("search", data.search);
         if (data.status && data.status != "all")
             us.set("status", data.status);
+        if (data.sort)
+            us.set("sort", data.sort);
         setSearchParams(us);
     }
 
@@ -59,13 +66,20 @@ const Games: React.FC = () => {
             methods.setValue("search", searchParams.get("search"));
         if (searchParams.get("status"))
             methods.setValue("status", searchParams.get("status"));
+        if (searchParams.get("sort"))
+            methods.setValue("sort", searchParams.get("sort"));
     }, [ searchParams ]);
+
+    const sorOptions = confOrder?.map(item => {
+        item.label = t(item.label);
+        return item;
+    });
 
     return (
         <div className="w-full flex flex-col gap-4">
             <FormProvider {...methods}>
                 <form
-                    className="flex gap-4 items-center"
+                    className="flex gap-4 items-center flex-wrap"
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
                     <Components.Input
@@ -73,21 +87,31 @@ const Games: React.FC = () => {
                         {...methods.register("search")}
                         placeholder={t("dashboard.placeholders.games.search")}
                     />
-                    <Components.Select
-                        placeholder={t("dashboard.placeholders.status")}
-                        options={confStatus.map(record => ({
-                            ...record,
-                            label: t(record.label)
-                        }))}
-                        {...methods.register("status")}
-                        className="w-50"
-                    />
-                    <Components.Button
-                        variant="primary"
-                        htmlType="submit"
-                    >
-                        <BiSearch />
-                    </Components.Button>
+                    <div className="flex flex-wrap items-center justify-between gap-4 w-full">
+                        <div className="flex flex-wrap gap-4 items-center">
+                            <Components.Select
+                                placeholder={t("dashboard.placeholders.status")}
+                                options={confStatus.map(record => ({
+                                    ...record,
+                                    label: t(record.label)
+                                }))}
+                                {...methods.register("status")}
+                                className="w-50"
+                            />
+                            <Components.Select
+                                options={sorOptions}
+                                className="w-50"
+                                placeholder={t("dashboard.placeholders.order")}
+                                {...methods.register("sort")}
+                            />
+                        </div>
+                        <Components.Button
+                            variant="primary"
+                            htmlType="submit"
+                        >
+                            <BiSearch />
+                        </Components.Button>
+                    </div>
                 </form>
             </FormProvider>
             <Components.Table
