@@ -11,14 +11,27 @@ import "./global.css";
 import { ModalProvider, NotifyProvider } from "@/hooks";
 import "@/i18n";
 
-import routes from "@/routes";
+import routes, { paths } from "@/routes";
 import { AppProvider } from "@/hooks/app";
 import {
     QueryClient,
     QueryClientProvider
 } from "@tanstack/react-query";
+import Policies from "@/pages/home/pages/policies";
 
 const routers = createBrowserRouter([
+    {
+        path: paths.privacy,
+        element: <Policies type={"privacy"} />
+    },
+    {
+        path: paths.terms,
+        element: <Policies type={"terms"} />
+    },
+    {
+        path: paths.cookie,
+        element: <Policies type={"cookie"} />
+    },
     {
         path: "/",
         Component: Pages.Content,

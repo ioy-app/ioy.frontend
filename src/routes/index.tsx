@@ -7,6 +7,19 @@ import dashboard, { dashboard_paths } from "./dashboard";
 import Jams from "@/pages/home/pages/jams";
 import Games from "@/pages/home/pages/games";
 import jams, { jams_paths } from "./jams";
+import Policies from "@/pages/home/pages/policies";
+
+export const paths = {
+    users: user_paths,
+    games: games_paths,
+    dashboard: dashboard_paths,
+    search: "/",
+    about: "/about",
+    privacy: "/privacy",
+    terms: "/terms",
+    cookie: "/cookie",
+    jams: jams_paths
+}
 
 const routes: RouteObject[] = [
     {
@@ -24,7 +37,7 @@ const routes: RouteObject[] = [
         ]
     },
     {
-        path: "/about",
+        path: paths.about,
         element: <About />
     },
     ...user,
@@ -32,14 +45,5 @@ const routes: RouteObject[] = [
     ...dashboard,
     ...jams
 ];
-
-export const paths = {
-    users: user_paths,
-    games: games_paths,
-    dashboard: dashboard_paths,
-    search: "/",
-    about: "/about",
-    jams: jams_paths
-}
 
 export default routes;

@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 
 import confPackage from "@/../package.json";
 import { useTranslation } from "react-i18next";
+import { paths } from "@/routes";
 
 const Footer: React.FC = () => {
     const { i18n, t } = useTranslation();
@@ -13,14 +14,23 @@ const Footer: React.FC = () => {
 
     return (
         <footer className="flex flex-row gap-4 justify-between items-center w-full p-4 bg-br">
-            <abbr className="text-placeholder">
-                {confPackage.date}, {confPackage.name} v{confPackage.version}
-            </abbr>
-            <nav className="flex flex-row items-center gap-4 text-placeholder">
+            <div className="flex flex-row items-center gap-4 text-placeholder flex-wrap">
+                <abbr>© Copyright 2026</abbr>
+                <NavLink to={paths.terms} target="_blank">
+                    {t("footer.terms")}
+                </NavLink>
+                <NavLink to={paths.privacy} target="_blank">
+                    {t("footer.privacy")}
+                </NavLink>
+                <NavLink to={paths.cookie} target="_blank">
+                    {t("footer.cookie")}
+                </NavLink>
+            </div>
+            <nav className="flex flex-row items-center gap-4 text-placeholder flex-wrap justify-end">
                 <NavLink to="/developers">
                     {t("footer.developers")}
                 </NavLink>
-                <NavLink to="/about">
+                <NavLink to={paths.cookie}>
                     {t("footer.about")}
                 </NavLink>
                 <label className="flex items-center gap-2">

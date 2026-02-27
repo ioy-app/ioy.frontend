@@ -9,6 +9,7 @@ import { Input, Button, Checkbox } from "@/components";
 import { auth_reg } from "@/api/routes/auth";
 import { useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
+import { paths } from "@/routes";
 
 export default function Reg({
     onClose
@@ -61,7 +62,14 @@ export default function Reg({
                 <div className="w-full">
                     <Checkbox
                         name="rules"
-                        placeholder="Я ознакомился(-ась) и согласен(-а) с правилами сайта!"
+                        placeholder={(
+                            <>
+                                {t("auth.placeholder.rules")}
+                                <a href={paths.terms} target="_blank">
+                                    {t("footer.terms")}
+                                </a>
+                            </>
+                        )}
                         {...methods.register("rule")}
                     />
                 </div>
