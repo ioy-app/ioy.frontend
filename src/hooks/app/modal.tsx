@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, ReactElement } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { createContext, useContext, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 export interface ModalProps {
     id: string;
@@ -36,7 +36,8 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode; }> = ({ child
 
                     return (
                         <div
-                            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#000000cc] z-250 px-4 py-8"
+                            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-text px-4 py-8"
+                            key={`modal-${i}`}
                             onClick={(e) => {
                                 if (e.target === e.currentTarget) {
                                     if (i == 0)

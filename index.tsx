@@ -10,9 +10,7 @@ import * as Pages from "@/pages";
 import "./global.css";
 import { ModalProvider, NotifyProvider } from "@/hooks";
 import "@/i18n";
-
 import routes, { paths } from "@/routes";
-import { AppProvider } from "@/hooks/app";
 import {
     QueryClient,
     QueryClientProvider
@@ -51,9 +49,7 @@ createRoot(app).render(
         <QueryClientProvider client={queryClient}>
             <NotifyProvider>
                 <ModalProvider>
-                    <AppProvider>
-                        <RouterProvider router={routers} />
-                    </AppProvider>
+                    <RouterProvider router={routers} />
                 </ModalProvider>
             </NotifyProvider>
         </QueryClientProvider>

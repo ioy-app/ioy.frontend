@@ -1,12 +1,10 @@
 import * as Components from "@/components";
 import { Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchMe, setToken } from "@/stories/login";
 import { Routes } from "@/api";
 import { useQuery } from "@tanstack/react-query";
-import { useRef } from "react";
 import { apiInstance } from "@/api/routes";
-import { StoreProps } from "@/stories";
 
 export default function Content() {
     const dispatch = useDispatch();

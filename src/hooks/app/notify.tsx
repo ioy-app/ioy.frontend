@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 
 export interface NotifyProps {
     id: string;
