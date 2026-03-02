@@ -1,6 +1,4 @@
 import { NavLink } from "react-router-dom";
-
-import confPackage from "@/../package.json";
 import { useTranslation } from "react-i18next";
 import { paths } from "@/routes";
 
@@ -27,9 +25,6 @@ const Footer: React.FC = () => {
                 </NavLink>
             </div>
             <nav className="flex flex-row items-center gap-4 text-placeholder flex-wrap justify-end">
-                <NavLink to="/developers">
-                    {t("footer.developers")}
-                </NavLink>
                 <NavLink to={paths.cookie}>
                     {t("footer.about")}
                 </NavLink>
