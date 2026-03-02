@@ -37,11 +37,12 @@ const Popup: React.FC<{
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
+            {children}
             <AnimatePresence mode="wait">
-                {children}
+                
                 <motion.div
                     key={label}
-                    className={`absolute ${left && left || ""} ${top && top || ""} pointer-events-none w-fit px-4 py-0 border border-br bg-back rounded-full text-placeholder shadow-2xs z-50`}
+                    className={`absolute ${left && left || ""} ${top && top || ""} pointer-events-none w-fit px-4 py-0 border border-br bg-back rounded-full text-placeholder shadow-2xs z-50 text-nowrap`}
                     variants={{
                         show: {
                             opacity: 1,

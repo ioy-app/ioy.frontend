@@ -10,6 +10,7 @@ import codes from "./codes.json";
 import home from "./home.json";
 
 import order from "./components/order.json";
+import helps from "./components/helps.json";
 
 const lang = {
     buttons,
@@ -22,7 +23,8 @@ const lang = {
     jams,
     games,
     codes,
-    home
+    home,
+    helps
 }
 
 export default lang;

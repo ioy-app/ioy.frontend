@@ -36,13 +36,13 @@ const CommentForm: React.FC<{
                 <div className="flex gap-4 justify-end w-full">
                     {isReply && (
                         <Button
-                            variant="second"
+                            variant="default"
                             onClick={(e) => {
                                 e.preventDefault();
                                 onClose && onClose();
                             }}
                         >
-                            <BiX />
+                            {t("buttons.cancel")}
                         </Button>
                     )}
                     <Button

@@ -64,7 +64,7 @@ const Header: React.FC<{}> = () => {
                             {token ? (
                                 <Popup
                                     align="l"
-                                    label={t("header.helps.profile")}
+                                    label={t("helps.profile")}
                                 >
                                     <User
                                         login={login}

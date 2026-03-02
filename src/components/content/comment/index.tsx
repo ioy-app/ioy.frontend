@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import Button from "@/components/base/button";
 import { useEffect, useState } from "react";
 import CommentForm from "./form";
+import Popup from "@/components/base/popup";
 
 const Comment: React.FC<
     CommentProps & {
@@ -59,23 +60,35 @@ const Comment: React.FC<
                             {props.likes}
                         </Button>
                         <div className="flex items-center gap-4">
-                            <Button
-                                variant="default"
-                                onClick={() => setReply(true)}
+                            <Popup
+                                label={t("helps.reply")}
                             >
-                                <BiReply />
-                            </Button>
-                            {props?.is_me ? (
                                 <Button
                                     variant="default"
-                                    onClick={() => props?.onDelete && props.onDelete(props.id, props.comment)}
+                                    onClick={() => setReply(true)}
                                 >
-                                    <BiTrash />
+                                    <BiReply />
                                 </Button>
+                            </Popup>
+                            {props?.is_me ? (
+                                <Popup
+                                    label={t("helps.delete")}
+                                >
+                                    <Button
+                                        variant="default"
+                                        onClick={() => props?.onDelete && props.onDelete(props.id, props.comment)}
+                                    >
+                                        <BiTrash />
+                                    </Button>
+                                </Popup>
                             ) : (
-                                <Button variant="default">
-                                    <BiMessageError />
-                                </Button>
+                                <Popup
+                                    label={t("helps.report")}
+                                >
+                                    <Button variant="default">
+                                        <BiMessageError />
+                                    </Button>
+                                </Popup>
                             )}
                         </div>
                     </div>

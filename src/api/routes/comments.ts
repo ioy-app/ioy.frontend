@@ -4,11 +4,13 @@ import fetchAPI, { jsonToFormData } from "..";
 export const comments_list = (
     id: number,
     offset: number = 0,
-    limit: number = 5
+    limit: number = 5,
+    sort: "new" | "old" = "new"
 ) => apiInstance.get(Routes.comments.details(id), {
         params: {
             offset,
-            limit
+            limit,
+            sort
         }
     });
 
@@ -25,6 +27,6 @@ export const comments_answers = (
 });
 
 export const comments_like = (id: number) => apiInstance.post(Routes.comments.like(id));
-export const comments_create = (id: number, comment: string) => apiInstance.post(Routes.comments.create(id), comment);
+export const comments_create = (id: number, comment: string) => apiInstance.post(Routes.comments.create(id), { comment });
 export const comments_delete = (id: number, commentid: number) => apiInstance.delete(Routes.comments.reply(id, commentid));
-export const comments_reply = (id: number, commentid: number, comment: string) => apiInstance.post(Routes.comments.reply(id, commentid), comment);
+export const comments_reply = (id: number, commentid: number, comment: string) => apiInstance.post(Routes.comments.reply(id, commentid), { comment });
