@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                 </NavLink>
             </div>
             <nav className="flex flex-row items-center gap-4 text-placeholder flex-wrap justify-end">
-                <NavLink to={paths.cookie}>
+                <NavLink to={paths.about}>
                     {t("footer.about")}
                 </NavLink>
                 <label className="flex items-center gap-2">

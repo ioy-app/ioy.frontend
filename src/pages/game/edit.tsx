@@ -163,6 +163,11 @@ export default function Edit() {
     const is_avatar = methods.watch("is_avatar") || false;
     const authors_data = methods.watch("authors_data");
 
+    const status = confStatus.filter(record => record.value != "all").map(record => ({
+        ...record,
+        label: t(record.label)
+    }));
+
     return (
         <FormProvider {...methods}>
             <Spin loading={isLoading}>
@@ -284,11 +289,10 @@ export default function Edit() {
                         </div>
                         <div className="flex gap-4 items-center justify-between w-full">
                             <Select
-                                options={confStatus.filter(record => record.value != "all").map(record => ({
-                                    ...record,
-                                    label: t(record.label)
-                                }))}
+                                options={status}
+                                value={status?.[0]}
                                 {...methods.register("status")}
+                                align="top"
                             />
                             <Button
                                 variant="primary"

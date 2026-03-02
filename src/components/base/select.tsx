@@ -18,7 +18,8 @@ const Select: React.FC<SelectComponentProps> = ({
     placeholder,
     className,
     ref,
-    isFirstOption
+    isFirstOption,
+    align="bottom"
 }) => {
     const { t } = useTranslation();
     const [ isOpen, setOpen ] = useState<boolean>(false);
@@ -44,7 +45,9 @@ const Select: React.FC<SelectComponentProps> = ({
             });
             setValue(options?.[0]);
         }
-    }, [])
+    }, []);
+
+    
 
     return (
         <div
@@ -53,6 +56,7 @@ const Select: React.FC<SelectComponentProps> = ({
                 ref && ref(e);
                 localRef.current = e;
             }}
+            onMouseLeave={() => setOpen(false)}
         >
             <div
                 className={`group rounded-xl border ${isOpen && "border-primary" || "border-br"} text-default h-10 flex flex-row gap-2 items-center justify-between px-4 py-2 ${className && className} hover:border-primary cursor-pointer transition-colors`}
@@ -66,7 +70,7 @@ const Select: React.FC<SelectComponentProps> = ({
                 )}
             </div>
             {isOpen && (
-                <div className="absolute flex flex-col gap-4 px-4 py-2 mt-2 rounded-xl border border-br bg-back z-1 top-full w-fit shadow-md right-0">
+                <div className={`absolute w-full flex flex-col gap-4 px-4 py-2 rounded-xl border border-br bg-back z-1 ${align == "bottom" && "top-full" || "bottom-full"} w-fit shadow-md right-0`}>
                     {!options?.length && (
                         <div className="flex flex-1 flex-col justify-center items-center p-4">
                             <BiFileBlank className="text-2xl text-disabled-content" />
