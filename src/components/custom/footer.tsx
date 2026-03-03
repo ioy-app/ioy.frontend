@@ -17,12 +17,6 @@ const Footer: React.FC = () => {
                 <NavLink to={paths.terms} target="_blank">
                     {t("footer.terms")}
                 </NavLink>
-                <NavLink to={paths.privacy} target="_blank">
-                    {t("footer.privacy")}
-                </NavLink>
-                <NavLink to={paths.cookie} target="_blank">
-                    {t("footer.cookie")}
-                </NavLink>
             </div>
             <nav className="flex flex-row items-center gap-4 text-placeholder flex-wrap justify-end">
                 <NavLink to={paths.about}>

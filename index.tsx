@@ -15,20 +15,12 @@ import {
     QueryClient,
     QueryClientProvider
 } from "@tanstack/react-query";
-import Policies from "@/pages/home/pages/policies";
+import Terms from "@/pages/home/pages/terms";
 
 const routers = createBrowserRouter([
     {
-        path: paths.privacy,
-        element: <Policies type={"privacy"} />
-    },
-    {
         path: paths.terms,
-        element: <Policies type={"terms"} />
-    },
-    {
-        path: paths.cookie,
-        element: <Policies type={"cookie"} />
+        element: <Terms />
     },
     {
         path: "/",

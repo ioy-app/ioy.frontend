@@ -8,6 +8,7 @@ import jams from "./jams.json";
 import games from "./games.json";
 import codes from "./codes.json";
 import home from "./home.json";
+import terms from "./terms.json";
 
 import order from "./components/order.json";
 import helps from "./components/helps.json";
@@ -24,7 +25,8 @@ const lang = {
     games,
     codes,
     home,
-    helps
+    helps,
+    terms
 }
 
 export default lang;

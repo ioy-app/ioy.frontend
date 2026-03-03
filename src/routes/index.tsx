@@ -7,7 +7,6 @@ import dashboard, { dashboard_paths } from "./dashboard";
 import Jams from "@/pages/home/pages/jams";
 import Games from "@/pages/home/pages/games";
 import jams, { jams_paths } from "./jams";
-import Policies from "@/pages/home/pages/policies";
 
 export const paths = {
     users: user_paths,
@@ -15,9 +14,7 @@ export const paths = {
     dashboard: dashboard_paths,
     search: "/",
     about: "/about",
-    privacy: "/privacy",
     terms: "/terms",
-    cookie: "/cookie",
     jams: jams_paths
 }
 
