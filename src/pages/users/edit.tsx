@@ -57,7 +57,7 @@ const Edit: React.FC<{
         await profile_logout();
         dispatch(clearLogin());
         onClose && onClose();
-        notify(t("notify.logout"), "info");
+        notify(t("auth.bye"), "success");
         navigator("/");
     }
 

@@ -22,7 +22,7 @@ export default function Reg({
 
     const submit = async (data) => {
         try {
-            methods.clearErrors("valid");
+            methods.clearErrors();
             await auth_reg(data);
             notify(t("auth.reg"), "success");
             onClose && onClose();
@@ -30,7 +30,7 @@ export default function Reg({
         catch(err) {
             methods.setError("valid", {
                 type: "valid",
-                message: err.toString()
+                message: err?.message?.toString()
             });
         }
     }
@@ -51,6 +51,9 @@ export default function Reg({
                     placeholder={t("auth.placeholders.login")}
                     type="text"
                     {...methods.register("login")}
+                    onLocalChange={() => {
+                        methods.clearErrors();
+                    }}
                 />
                 <Input
                     label={t("auth.labels.email")}
@@ -58,27 +61,37 @@ export default function Reg({
                     placeholder={t("auth.placeholders.email")}
                     type="email"
                     {...methods.register("email")}
+                    onLocalChange={() => {
+                        methods.clearErrors();
+                    }}
                 />
-                <div className="w-full">
+                <div className="w-full flex justify-center">
                     <Checkbox
                         name="rules"
                         placeholder={(
-                            <>
-                                {t("auth.placeholder.rules")}
+                            <div className="flex flex-row gap-1 items-center">
+                                {t("auth.placeholders.rules")}
                                 <a href={paths.terms} target="_blank">
-                                    {t("footer.terms")}
+                                    <Button variant="text" className="text-primary">
+                                        {t("footer.terms")}
+                                    </Button>
                                 </a>
-                            </>
+                            </div>
                         )}
                         {...methods.register("rule")}
                     />
                 </div>
-                {methods.formState.errors.valid && <p className="auth_form__actions_message">{methods.formState.errors.valid.message} </p>}
+                {methods.formState.errors.valid && (
+                    <p className="text-placeholder text-danger">
+                        {t(`auth.${methods.formState.errors.valid.message}`)}
+                    </p>
+                )}
                 <Button
                     variant="primary"
                     htmlType="submit"
+                    disabled={methods.formState.errors.valid}
                 >
-                    {t("buttons.ok")}
+                    {t("buttons.create")}
                 </Button>
             </form>
         </FormProvider>
