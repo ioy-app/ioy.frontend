@@ -23,9 +23,19 @@ apiInstance.interceptors.request.use((config) => {
 
 apiInstance.interceptors.response.use((config) => config?.data, async (err) => {
     if (err.response.status == 401) {
-        const response = await apiInstance.get(Routes.profile.refresh);
-        localStorage.setItem("token", response?.token);
-        return apiInstance(err.config);
+        try {
+            const response = await apiInstance.get(Routes.profile.refresh);
+            if (response?.token) {
+                localStorage.setItem("token", response?.token);
+                return apiInstance(err.config);
+            }
+        }
+        catch(err) {
+            localStorage.removeItem("token");
+        }
+        finally {
+            return apiInstance(err.config);
+        }
     }
 
     return Promise.reject({
@@ -44,6 +54,8 @@ apiFileInstance.interceptors.response.use((config) => config, async (err) => {
             if (response?.token) {
                 localStorage.setItem("token", response?.token);
                 return apiInstance(err.config);
+            } else {
+                localStorage.removeItem("token");
             }
         }
         catch(err) {

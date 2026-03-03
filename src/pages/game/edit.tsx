@@ -57,7 +57,7 @@ export default function Edit() {
     }
 
     const handleVerify = async () => {
-        notify(t("games.notify.delete_success"), "success");
+        notify(t("notify.deleted.game"), "success");
         navigate(-1, { replace: true });
     }
 

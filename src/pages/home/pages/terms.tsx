@@ -49,6 +49,7 @@ export default function Terms() {
                     <ol className="list-disc pl-8">
                         <li>{t("terms.third.items.0")}</li>
                         <li>{t("terms.third.items.1")}</li>
+                        <li>{t("terms.third.items.2")}</li>
                     </ol>
                 </li>
             </ol>

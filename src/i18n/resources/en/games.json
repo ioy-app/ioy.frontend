@@ -13,7 +13,7 @@
         "version": "Version",
         "tags": "Tags",
         "icon": "Upload icon",
-        "game": "Upload game",
+        "game": "Upload index.html",
         "recommends": "Recommends"
     },
     "placeholders": {

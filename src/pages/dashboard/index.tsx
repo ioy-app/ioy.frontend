@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { BiArrowBack, BiChevronsLeft } from "react-icons/bi";
 import { paths } from "@/routes";
 import Jams from "./content/jams";
+import { FEATURE_JAMS } from "@/features";
 
 export default function Dashboard() {
     const { t } = useTranslation();
@@ -31,7 +32,11 @@ export default function Dashboard() {
                 headers={confTabs.map(record => ({
                     ...record,
                     label: t(record.label)
-                }))}
+                })).filter(item => {
+                    if (item.value == "jams" && !FEATURE_JAMS)
+                        return false;
+                    return true;
+                })}
                 content={{
                     games: <Games />,
                     jams: <Jams />

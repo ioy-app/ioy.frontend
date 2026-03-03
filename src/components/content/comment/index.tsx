@@ -7,6 +7,8 @@ import Button from "@/components/base/button";
 import { useEffect, useState } from "react";
 import CommentForm from "./form";
 import Popup from "@/components/base/popup";
+import { useSelector } from "react-redux";
+import { StoreProps } from "@/stories";
 
 const Comment: React.FC<
     CommentProps & {
@@ -19,6 +21,7 @@ const Comment: React.FC<
 > = (props) => {
     const { t } = useTranslation();
     const [ isReply, setReply ] = useState<boolean>(false);
+    const { token } = useSelector((state: StoreProps) => state.login);
 
     useEffect(() => {
         setReply(false);
@@ -53,44 +56,50 @@ const Comment: React.FC<
                     </div>
                     <div className="flex items-center gap-4 justify-between w-full">
                         <Button
-                            variant={props.is_like ? "second" : "default"}
+                            variant={token ? (props.is_like ? "second" : "default") : "text"}
                             onClick={() => props?.onLike && props.onLike(props.id)}
+                            disabled={!token}
                         >
                             <BiHeart />
                             {props.likes}
                         </Button>
-                        <div className="flex items-center gap-4">
-                            <Popup
-                                label={t("helps.reply")}
-                            >
-                                <Button
-                                    variant="default"
-                                    onClick={() => setReply(true)}
-                                >
-                                    <BiReply />
-                                </Button>
-                            </Popup>
-                            {props?.is_me ? (
+                        {token && (
+                            <div className="flex items-center gap-4">
                                 <Popup
-                                    label={t("helps.delete")}
+                                    label={t("helps.reply")}
                                 >
                                     <Button
                                         variant="default"
-                                        onClick={() => props?.onDelete && props.onDelete(props.id, props.comment)}
+                                        onClick={() => setReply(true)}
                                     >
-                                        <BiTrash />
+                                        <BiReply />
                                     </Button>
                                 </Popup>
-                            ) : (
-                                <Popup
-                                    label={t("helps.report")}
-                                >
-                                    <Button variant="default">
-                                        <BiMessageError />
-                                    </Button>
-                                </Popup>
-                            )}
-                        </div>
+                                {props?.is_me ? (
+                                    <Popup
+                                        label={t("helps.delete")}
+                                    >
+                                        <Button
+                                            variant="default"
+                                            onClick={() => props?.onDelete && props.onDelete(props.id, props.comment)}
+                                            disabled={!token}
+                                        >
+                                            <BiTrash />
+                                        </Button>
+                                    </Popup>
+                                ) : (
+                                    <Popup
+                                        label={t("helps.report")}
+                                    >
+                                        <Button
+                                            variant="default"
+                                        >
+                                            <BiMessageError />
+                                        </Button>
+                                    </Popup>
+                                )}
+                            </div>
+                        )}
                     </div>
                     {isReply && (
                         <CommentForm

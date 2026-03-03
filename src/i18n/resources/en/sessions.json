@@ -8,5 +8,10 @@
     "success": {
         "delete": "Session deleted",
         "delete_all": "All sessions deleted"
+    },
+    "errors": {
+        "exists": {
+            "sessions": "No found sessions"
+        }
     }
 }

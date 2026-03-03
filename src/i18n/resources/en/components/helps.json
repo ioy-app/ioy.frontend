@@ -8,5 +8,6 @@
     "report": "Report!",
     "reply": "Reply",
     "delete": "Delete",
-    "expand": "Open"
+    "expand": "Open",
+    "auth": "Auth"
 }

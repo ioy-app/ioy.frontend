@@ -1,0 +1,1 @@
+export const FEATURE_JAMS = Boolean(import.meta.env.VITE_FEATURE_JAMS == "true");

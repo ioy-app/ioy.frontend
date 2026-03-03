@@ -11,9 +11,11 @@
     "unsubscribe": "Unfollow",
     "create": "Create",
     "ok": "OK",
+    "loading": "Loading",
     "login": "Sign In",
     "reg": "Sign Up",
     "back": "Back",
+    "main": "Home",
     "dashboard": "Dashboard",
     "nav": {
         "games": "Games",

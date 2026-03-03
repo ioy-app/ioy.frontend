@@ -19,6 +19,8 @@ import { dashboard_paths } from "@/routes/dashboard";
 import { BiAlignLeft, BiCog, BiDetail, BiGridAlt, BiSitemap, BiUser, BiUserMinus, BiUserPlus } from "react-icons/bi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import UserContent from "./content";
+import { paths } from "@/routes";
+import ErrorPage from "../error";
 
 
 export default function Profile() {
@@ -65,14 +67,11 @@ export default function Profile() {
 
     const { data, status, isError, error, refetch, isRefetching } = useQuery({
         queryKey: [ "user", login ],
-        queryFn: async () => users_details(login)
+        queryFn: async () => users_details(login),
+        retry: 0
     });
 
-    if (isError) {
-        console.error(error);
-        notify(error?.message?.toString(), "error");
-        return <Navigate to="/" />
-    }
+    
 
     useEffect(() => {
         if (!data?.controls?.is_me)
@@ -98,6 +97,10 @@ export default function Profile() {
     });
 
     document.title = login;
+
+    if (status == "error") {
+        return <ErrorPage msg={"errors.exists"} />
+    }
     
     return (
         <Spin loading={isLoading}>
@@ -119,8 +122,12 @@ export default function Profile() {
                                     onClick={() => {
                                         modal("", (onClose) => (
                                             <Edit
-                                                onClose={() => {
-                                                    refetch();
+                                                onClose={(login?: string) => {
+                                                    try {
+                                                        if (login) navigator(paths.users.details(login));
+                                                        refetch();
+                                                    }
+                                                    catch(err) {}
                                                     onClose && onClose();
                                                 }}
                                                 login={login}

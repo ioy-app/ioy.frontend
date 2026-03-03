@@ -30,7 +30,8 @@
         "description": "We may store:",
         "items": [
             "Email",
-            "IP address"
+            "IP address",
+            "User agent"
         ]
     },
     "privacy": "Data is used for site functionality and security.",

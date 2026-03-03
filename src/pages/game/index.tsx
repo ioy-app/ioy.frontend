@@ -11,6 +11,9 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import Comments from "./comments";
 import Popup from "@/components/base/popup";
 import { paths } from "@/routes";
+import { useSelector } from "react-redux";
+import { StoreProps } from "@/stories";
+import Auth from "../auth";
 
 export default function GamePage() {
     const params = useParams();
@@ -20,6 +23,7 @@ export default function GamePage() {
     const { notify } = useNotify();
     const { modal } = useModal();
     const queryClient = useQueryClient();
+    const { token } = useSelector((state: StoreProps) => state.login);
 
     const query = useQuery({
         queryKey: [ "games", id ],
@@ -31,11 +35,17 @@ export default function GamePage() {
 
     const like = useMutation({
         mutationFn: async () => {
+            if (!token) {
+                modal(Auth, () => (<></>));
+                return false;
+            }
             const response = await games_like(Number(id));
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),
         onSuccess: data => {
+            if (!data)
+                return;
             const is_like = data?.status == "liked";
             notify(t(`notify.${is_like ? "like" : "unlike"}`), is_like ? "success" : "warning");
             queryClient.setQueryData(["games", id], (current: GameProps) => ({
@@ -47,11 +57,18 @@ export default function GamePage() {
 
     const subscribe = useMutation({
         mutationFn: async () => {
+            if (!token) {
+                modal(Auth, () => (<></>));
+                return false;
+            }
+
             const response = await games_subscribe(Number(id));
             return response;
         },
         onError: err => notify(t(err.toString()), "error"),
         onSuccess: data => {
+            if (!data)
+                return;
             const is_subscribe = data?.status == "created";
             notify(t(`notify.${is_subscribe ? "subscribe" : "unsubscribe"}`), is_subscribe ? "success" : "warning");
             queryClient.setQueryData(["games", id], (current: GameProps) => ({

@@ -19,7 +19,8 @@ const Select: React.FC<SelectComponentProps> = ({
     className,
     ref,
     isFirstOption,
-    align="bottom"
+    align="bottom",
+    disabled
 }) => {
     const { t } = useTranslation();
     const [ isOpen, setOpen ] = useState<boolean>(false);
@@ -59,8 +60,8 @@ const Select: React.FC<SelectComponentProps> = ({
             onMouseLeave={() => setOpen(false)}
         >
             <div
-                className={`group rounded-xl border ${isOpen && "border-primary" || "border-br"} text-default h-10 flex flex-row gap-2 items-center justify-between px-4 py-2 ${className && className} hover:border-primary cursor-pointer transition-colors`}
-                onClick={() => setOpen(prev => !prev)}
+                className={`rounded-xl border ${isOpen && "border-primary" || "border-br"} text-default h-10 flex flex-row gap-2 items-center justify-between px-4 py-2 ${className && className} transition-colors ${disabled && "hover:border-disabled border-disabled cursor-not-allowed text-disabled-content" || "hover:border-primary cursor-pointer group"}`}
+                onClick={() => !disabled && setOpen(prev => !prev)}
             >
                 {(localValue || placeholder) && <p className="overflow-hidden truncate ...">{localValue?.label || placeholder}</p>}
                 {!isOpen ? (

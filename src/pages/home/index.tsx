@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import imgLabel from "@/icons/label.svg";
 import { Button } from "@/components";
 import { paths } from "@/routes";
+import { FEATURE_JAMS } from "@/features";
 
 export default function Home() {
     const { t } = useTranslation();
@@ -28,17 +29,19 @@ export default function Home() {
                             </Button>
                         )}
                     </NavLink>
-                    <NavLink to={paths.jams.list}>
-                        {({ isActive }) => (
-                            <Button
-                                variant="text"
-                                className={isActive ? "text-primary" : "text-text"}
-                                disabled={isActive}
-                            >
-                                {t("buttons.nav.jams")}
-                            </Button>
-                        )}
-                    </NavLink>
+                    {FEATURE_JAMS && (
+                        <NavLink to={paths.jams.list}>
+                            {({ isActive }) => (
+                                <Button
+                                    variant="text"
+                                    className={isActive ? "text-primary" : "text-text"}
+                                    disabled={isActive}
+                                >
+                                    {t("buttons.nav.jams")}
+                                </Button>
+                            )}
+                        </NavLink>
+                    )}
                 </div>
             </div>
             <div className="flex gap-4 w-full max-md:flex max-md:flex-col-reverse">

@@ -72,7 +72,14 @@ const Header: React.FC<{}> = () => {
                                         size={"full"}
                                     />
                                 </Popup>
-                            ): <BiUser className="w-full h-full p-1" />}
+                            ): (
+                                <Popup
+                                    align="l"
+                                    label={t("helps.auth")}
+                                >
+                                    <BiUser className="w-full h-full p-1" />
+                                </Popup>
+                            )}
                         </Spin>
                     </button>
                 )}

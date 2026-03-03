@@ -1,7 +1,7 @@
 import { Session as SessionProps } from "@/types";
 import dayjs from "dayjs";
 import { UAParser } from "ua-parser-js";
-import Button from "../../base/button";
+import Button from "@/components/base/button";
 import { useTranslation } from "react-i18next";
 
 interface SessionLocalProps extends SessionProps {
@@ -29,19 +29,19 @@ const Session: React.FC<SessionLocalProps> = ({
     const date_range_text = date_expires ? t("sessions.days", { count: dayjs(date_expires).diff(Date.now(), "days") }) : t("undefined");
 
     return (
-        <div className="session">
-            <div className="session_header">
+        <div className="flex gap-4 text-default items-start justify-between">
+            <div className="flex flex-col gap-1">
                 <p>{browser.name} ({browser.version})</p>
-                <p>{os.name} ({os.version})</p>
+                <p className="text-placeholder">{os.name} ({os.version})</p>
             </div>
-            <div className="session_body">
+            <div className="flex gap-4 items-start">
                 <div>
                     <p>{ip}</p>
-                    <p>{date_created_text}</p>
+                    <p className="text-placeholder">{date_created_text}</p>
                 </div>
-                <p>{date_range_text} дней</p>
+                <p>{date_range_text}</p>
                 <Button
-                    type="danger"
+                    variant="danger"
                     onClick={() => onDelete(id)}
                     disabled={disabled}
                 >

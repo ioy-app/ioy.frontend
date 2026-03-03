@@ -33,7 +33,7 @@ const Email: React.FC<{
             <Code
                 onSubmit={() => {
                     onClose && onClose();
-                    notify("notify.success", "success");
+                    notify("notify.save", "success");
                 }}
                 onCancel={() => setCodeForm(false)}
             />

@@ -17,7 +17,7 @@ import { UserProps } from "@/types";
 import { StoreProps } from "@/stories";
 
 const Edit: React.FC<{
-    onClose: () => void;
+    onClose: (login?: string) => void;
     login?: string;
     navigator?: NavigateFunction;
 }> = ({
@@ -44,7 +44,7 @@ const Edit: React.FC<{
 
             notify(t("notify.save"), "success");
             dispatch(changeLogin(response));
-            onClose && onClose();
+            onClose && onClose(fd.login);
             
         }
         catch(err) { notify(err?.message?.toString(), "error"); }
@@ -54,11 +54,11 @@ const Edit: React.FC<{
     }
 
     const handleLogout = async () => {
-        await profile_logout();
-        dispatch(clearLogin());
         onClose && onClose();
+        dispatch(clearLogin());
+        await profile_logout();
         notify(t("auth.bye"), "success");
-        navigator("/");
+        localStorage.removeItem("token");
     }
 
     const avatar = watch("avatar");

@@ -36,7 +36,7 @@ const Delete: React.FC<{
         await profile_logout();
         dispatch(clearLogin());
         onClose && onClose();
-        notify(t("notify.logout"), "info");
+        notify(t("notify.deleted.user"), "success");
     }
     
 

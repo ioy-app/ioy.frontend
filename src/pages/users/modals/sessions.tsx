@@ -42,32 +42,36 @@ const Sessions: React.FC = () => {
 
     return (
         <Spin loading={isLoading}>
-            <p className="text title">{t("sessions.title")}</p>
+            <p className="text-title">{t("sessions.title")}</p>
             {!data?.length && <p>{t("sessions.empty")}</p>}
-            {data?.map((session: SessionProps, i: number) => (
-                <Session
-                    key={i}
-                    {...session}
-                    disabled={isLocalLoading}
-                    onDelete={(id: number) => handleCallback(async () => {
-                        await sessions_delete(id);
-                        notify(t("sessions.success.delete"), "success");
-                        setData(prev => prev.filter((s: SessionProps) => s.id != id));
-                    })}
-                />
-            ))}
+            <div className="flex flex-col gap-4">
+                {data?.map((session: SessionProps, i: number) => (
+                    <Session
+                        key={i}
+                        {...session}
+                        disabled={isLocalLoading}
+                        onDelete={(id: number) => handleCallback(async () => {
+                            await sessions_delete(id);
+                            notify(t("sessions.success.delete"), "success");
+                            setData(prev => prev.filter((s: SessionProps) => s.id != id));
+                        })}
+                    />
+                ))}
+            </div>
             {data?.length > 1 && (
-                <Button
-                    type="danger"
-                    disabled={isLocalLoading}
-                    onClick={() => handleCallback(async () => {
-                        await sessions_delete_all();
-                        notify(t("sessions.success.delete_all"), "success");
-                        setData(null);
-                    })}
-                >
-                    {t("buttons.delete_all_sessions")}
-                </Button>
+                <div className="flex w-full justify-end mt-12">
+                    <Button
+                        variant="danger"
+                        disabled={isLocalLoading}
+                        onClick={() => handleCallback(async () => {
+                            await sessions_delete_all();
+                            notify(t("sessions.success.delete_all"), "success");
+                            setData(null);
+                        })}
+                    >
+                        {t("buttons.delete_all_sessions")}
+                    </Button>
+                </div>
             )}
         </Spin>
     )
