@@ -32,7 +32,7 @@ const routers = createBrowserRouter([
 
 const app: HTMLElement | null = document.getElementById("app");
 if (!app)
-    throw new Error("#app is not defined");
+    throw new Error("#app isn't found");
 
 const queryClient = new QueryClient();
 

@@ -1,23 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "tailwindcss";
 
-/* @theme {
-  --color-primary: #739441;
-  --color-primary-br: #5a783d;
-  --color-primary-hover: #7e9e49;
-  --color-second: #E07F72;
-  --color-second-br: #cf6572;
-  --color-second-hover: #e78c78;
-  --color-danger: #cc1d1d;
-  --color-back: #361D1D;
-  --color-br: #E07F7232;
-  --color-disabled: #c8c8c8;
-  --color-disabled-content: #a8a8a8;
-  --color-text: #fff;
-  --font-roboto: "Roboto";
-} */
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
+:root {
   --color-primary: #739441;
   --color-primary-br: #5a783d;
   --color-primary-hover: #7e9e49;
@@ -30,6 +16,22 @@
   --color-disabled: #c8c8c8;
   --color-disabled-content: #a8a8a8;
   --color-text: #000;
+  --font-roboto: "Roboto";
+}
+
+.dark :root {
+  --color-primary: #739441;
+  --color-primary-br: #5a783d;
+  --color-primary-hover: #7e9e49;
+  --color-second: #E07F72;
+  --color-second-br: #cf6572;
+  --color-second-hover: #e78c78;
+  --color-danger: #cc1d1d;
+  --color-back: #361D1D;
+  --color-br: #E07F7232;
+  --color-disabled: #c8c8c8;
+  --color-disabled-content: #a8a8a8;
+  --color-text: #fff;
   --font-roboto: "Roboto";
 }
 
