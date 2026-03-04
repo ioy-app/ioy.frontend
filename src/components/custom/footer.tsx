@@ -7,7 +7,8 @@ import { useState } from "react";
 
 const Footer: React.FC = () => {
     const { i18n, t } = useTranslation();
-    const [ darkMode, setDarkMode ] = useState<"dark" | "light">(localStorage.getItem("theme") as "dark" | "light");
+    const prefersDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const [ darkMode, setDarkMode ] = useState<"dark" | "light">((localStorage.getItem("theme") || prefersDarkMode && "dark") as ("dark" | "light"));
     
     const handleChangeLanguage = ({ target: { value } }) => {
         i18n.changeLanguage(value);

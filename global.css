@@ -3,7 +3,8 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
+@theme {
+  --font-roboto: "Roboto";
   --color-primary: #739441;
   --color-primary-br: #5a783d;
   --color-primary-hover: #7e9e49;
@@ -16,10 +17,9 @@
   --color-disabled: #c8c8c8;
   --color-disabled-content: #a8a8a8;
   --color-text: #000;
-  --font-roboto: "Roboto";
 }
 
-.dark :root {
+.dark {
   --color-primary: #739441;
   --color-primary-br: #5a783d;
   --color-primary-hover: #7e9e49;
@@ -32,7 +32,7 @@
   --color-disabled: #c8c8c8;
   --color-disabled-content: #a8a8a8;
   --color-text: #fff;
-  --font-roboto: "Roboto";
+  
 }
 
 @layer components {
