@@ -29,7 +29,6 @@ const Footer: React.FC = () => {
     return (
         <footer className="flex flex-row gap-4 justify-between items-center w-full p-4 bg-back">
             <div className="flex flex-row items-center gap-4 text-placeholder flex-wrap">
-                <abbr>© Copyright 2026</abbr>
                 <NavLink to={paths.terms} target="_blank">
                     {t("footer.terms")}
                 </NavLink>
