@@ -37,6 +37,13 @@ const Edit: React.FC<{
     const submit = async (fd) => {
         try {
             setLoading(true);
+
+            if (fd?.avatar?.[0]) {
+                const file = fd?.avatar?.[0];
+                if (file.size >= 1 * 1024 * 1024)
+                    throw new Error("errors.avatar_limit");
+            }
+
             const response = await users_edit(data.login, {
                 ...fd,
                 avatar: fd?.avatar?.[0]
@@ -47,7 +54,7 @@ const Edit: React.FC<{
             onClose && onClose(fd.login);
             
         }
-        catch(err) { notify(err?.message?.toString(), "error"); }
+        catch(err) { notify(t(`profile.${err?.message?.toString()}`), "error"); }
         finally {
             setLoading(false);
         }
@@ -118,7 +125,10 @@ const Edit: React.FC<{
                             nolink
                         />
                     </div>
-                    <p className="text-placeholder">{t("profile.placeholders.avatar")}</p>
+                    <div className="flex flex-col text-center">
+                        <p className="text-placeholder">{t("profile.placeholders.avatar")}</p>
+                        <p className="text-placeholder text-text/50">{t("profile.placeholders.avatar_limit")}</p>
+                    </div>
                     <input
                         type="file"
                         accept="image/*"
@@ -257,7 +267,6 @@ const Edit: React.FC<{
                                         }}>
                                         {t("buttons.logout")}
                                     </Button>
-                                    
                                 </>
                             )
                         )}

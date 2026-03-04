@@ -13,7 +13,9 @@
         "version": "Version",
         "tags": "Tags",
         "icon": "Upload icon",
+        "icon_limit": "limit 1mb",
         "game": "Upload index.html",
+        "game_limit": "limit 25mb",
         "recommends": "Recommends"
     },
     "placeholders": {
@@ -28,6 +30,8 @@
     "errors": {
         "exists": "No found",
         "unknown": "Unknown error",
+        "game_limit": "Game limit 25mb",
+        "icon_limit": "Icon limit 1mb",
         "required": {
             "title": "Title is required",
             "status": "Status is required",

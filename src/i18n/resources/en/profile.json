@@ -10,7 +10,8 @@
     "errors": {
         "exists": "User {{login}} not found",
         "equal": "User {{login}} has",
-        "denied": "Access denied"
+        "denied": "Access denied",
+        "avatar_limit": "Avatar limit 1mb"
     },
     "titles": {
         "games": "Own games",
@@ -22,6 +23,7 @@
     },
     "placeholders": {
         "avatar": "Upload avatar",
+        "avatar_limit": "limit 1mb",
         "login": "Login...",
         "description": "About me...",
         "current_email": "example@example.test",

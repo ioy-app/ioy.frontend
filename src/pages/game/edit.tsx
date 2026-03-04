@@ -29,6 +29,19 @@ export default function Edit() {
             setLoading(true);
             const isCreate = typeof(params?.id) == "undefined";
             let response;
+
+            if (data?.game?.[0]) {
+                const file = data?.game?.[0];
+                if (file.size >= 25 * 1024 * 1024)
+                    throw new Error("errors.game_limit");
+            }
+
+            if (data?.icon?.[0]) {
+                const file = data?.icon?.[0];
+                if (file.size >= 1 * 1024 * 1024)
+                    throw new Error("errors.icon_limit");
+            }
+
             if (isCreate) {
                 response = await games_create({
                     ...data,
@@ -203,7 +216,10 @@ export default function Edit() {
                                         nolink
                                     />
                                 </div>
-                                <p className="text-placeholder">{t("games.labels.icon")}</p>
+                                <div className="flex flex-col text-center">
+                                    <p className="text-placeholder">{t("games.labels.icon")}</p>
+                                    <p className="text-placeholder text-text/50">{t("games.labels.icon_limit")}</p>
+                                </div>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -278,8 +294,10 @@ export default function Edit() {
                                 key={handlePreviewGame}
                             />
                             <label className="w-full flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer">
-                                
-                                <p className="text-placeholder">{t("games.labels.game")}</p>
+                                <div className="flex flex-col text-center">
+                                    <p className="text-placeholder">{t("games.labels.game")}</p>
+                                    <p className="text-placeholder text-text/50">{t("games.labels.game_limit")}</p>
+                                </div>
                                 <input
                                     type="file"
                                     {...methods.register("game")}
