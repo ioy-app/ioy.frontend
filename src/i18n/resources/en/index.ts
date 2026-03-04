@@ -14,6 +14,7 @@ import order from "./components/order.json";
 import helps from "./components/helps.json";
 import notify from "./components/notify.json";
 import errors from "./components/errors.json";
+import tabs from "./components/tabs.json";
 
 const lang = {
     buttons,
@@ -30,7 +31,8 @@ const lang = {
     helps,
     terms,
     notify,
-    errors
+    errors,
+    tabs
 }
 
 export default lang;

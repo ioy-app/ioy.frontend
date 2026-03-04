@@ -11,6 +11,9 @@ import { BiArrowBack, BiChevronsLeft } from "react-icons/bi";
 import { paths } from "@/routes";
 import Jams from "./content/jams";
 import { FEATURE_JAMS } from "@/features";
+import Following from "./content/following";
+import Saves from "./content/saves";
+import Likes from "./content/likes";
 
 export default function Dashboard() {
     const { t } = useTranslation();
@@ -39,7 +42,10 @@ export default function Dashboard() {
                 })}
                 content={{
                     games: <Games />,
-                    jams: <Jams />
+                    jams: <Jams />,
+                    following: <Following />,
+                    saves: <Saves />,
+                    likes: <Likes />
                 }}
             />
         </div>

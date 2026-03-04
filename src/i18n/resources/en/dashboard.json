@@ -1,7 +1,10 @@
 {
     "tabs": {
         "games": "Games",
-        "jams": "Jams"
+        "jams": "Jams",
+        "following": "Following",
+        "saves": "Saves",
+        "likes": "Likes"
     },
     "statuses": {
         "all": "All",
@@ -35,6 +38,9 @@
             "status": "Status",
             "started_to_finished": "Date range",
             "vote_started_to_finished": "Vote date range"
+        },
+        "following": {
+            "user": "User"
         }
     }
 }
