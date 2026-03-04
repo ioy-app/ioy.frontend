@@ -2,6 +2,7 @@ import pdfCookie from "@/../assets/policies/ru/cookie.pdf";
 import pdfTerms from "@/../assets/policies/ru/terms.pdf";
 import pdfPrivacy from "@/../assets/policies/ru/privacy.pdf";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 /**
  * Terms
@@ -10,9 +11,13 @@ import { useTranslation } from "react-i18next";
 */
 export default function Terms() {
     const { t } = useTranslation();
+    const prefersDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const [ darkMode, setDarkMode ] = useState<"dark" | "light">((localStorage.getItem("theme") || prefersDarkMode && "dark") as ("dark" | "light"));
 
 
     document.title = t(`footer.terms`);
+    if (darkMode == "dark")
+        document.documentElement.classList.add("dark");
 
     return (
         <div className="flex flex-col gap-2 w-full text-default text-text p-4">
