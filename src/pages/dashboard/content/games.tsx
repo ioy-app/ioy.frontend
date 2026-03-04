@@ -154,6 +154,14 @@ const Games: React.FC = () => {
                         title: t("dashboard.table.games.date_updated"),
                         dataIndex: "date_updated",
                         render: (date) => dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY")
+                    },
+                    {
+                        title: t("dashboard.table.games.likes"),
+                        dataIndex: "likes"
+                    },
+                    {
+                        title: t("dashboard.table.games.saves"),
+                        dataIndex: "saves"
                     }
                 ]}
                 data={query?.data?.items}
