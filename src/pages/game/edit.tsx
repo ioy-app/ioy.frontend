@@ -32,12 +32,16 @@ export default function Edit() {
 
             if (data?.game?.[0]) {
                 const file = data?.game?.[0];
+                if (file.type != "text/html")
+                    throw new Error("errors.game_type");
                 if (file.size >= 25 * 1024 * 1024)
                     throw new Error("errors.game_limit");
             }
 
             if (data?.icon?.[0]) {
                 const file = data?.icon?.[0];
+                if (file.type != "image/png")
+                    throw new Error("errors.icon_type");
                 if (file.size >= 1 * 1024 * 1024)
                     throw new Error("errors.icon_limit");
             }

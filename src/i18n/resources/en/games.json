@@ -32,6 +32,8 @@
         "unknown": "Unknown error",
         "game_limit": "Game limit 25mb",
         "icon_limit": "Icon limit 1mb",
+        "icon_type": "Icon type only .png",
+        "game_type": "Game type only .html",
         "required": {
             "title": "Title is required",
             "status": "Status is required",

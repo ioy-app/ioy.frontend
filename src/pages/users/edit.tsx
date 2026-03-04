@@ -40,6 +40,8 @@ const Edit: React.FC<{
 
             if (fd?.avatar?.[0]) {
                 const file = fd?.avatar?.[0];
+                if (file.type != "image/png")
+                    throw new Error("errors.avatar_type");
                 if (file.size >= 1 * 1024 * 1024)
                     throw new Error("errors.avatar_limit");
             }

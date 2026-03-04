@@ -11,7 +11,8 @@
         "exists": "User {{login}} not found",
         "equal": "User {{login}} has",
         "denied": "Access denied",
-        "avatar_limit": "Avatar limit 1mb"
+        "avatar_limit": "Avatar limit 1mb",
+        "avatar_type": "Avatar type only .png"
     },
     "titles": {
         "games": "Own games",
