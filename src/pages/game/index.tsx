@@ -280,16 +280,14 @@ export default function GamePage() {
 									<BiShare />
 								</Button>
 							</Popup>
-							{query?.data?.roledata?.is_warning_games && (
-								<Popup align="b" label={t("helps.report")}>
-									<Button
-										variant="default"
-										onClick={() => report()}
-									>
-										<BiMessageError />
-									</Button>
-								</Popup>
-							)}
+							<Popup align="b" label={t("helps.report")}>
+								<Button
+									variant="default"
+									onClick={() => report()}
+								>
+									<BiMessageError />
+								</Button>
+							</Popup>
 						</div>
 					</div>
 					<div className="flex gap-4 w-full">

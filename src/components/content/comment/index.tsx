@@ -15,6 +15,8 @@ import CommentForm from "./form";
 import Popup from "@/components/base/popup";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
+import { useModal } from "@/hooks";
+import Report from "@/components/custom/report";
 
 const Comment: React.FC<
 	CommentProps & {
@@ -30,6 +32,7 @@ const Comment: React.FC<
 	const { token } = useSelector(
 		(state: StoreProps) => state.login,
 	);
+	const { modal } = useModal();
 
 	useEffect(() => {
 		setReply(false);
@@ -37,6 +40,7 @@ const Comment: React.FC<
 
 	const offset = props.answers?.length;
 	const max = props.answers_total;
+	
 
 	return (
 		<div className="w-full flex flex-col gap-4">
@@ -118,7 +122,29 @@ const Comment: React.FC<
 									</Popup>
 								) : (
 									<Popup label={t("helps.report")}>
-										<Button variant="default">
+										<Button
+											variant="default"
+											onClick={() => modal("", (onClose) => (
+												<Report
+													type="comment"
+													onClose={onClose}
+													target_id={props.id}
+													Instance={(
+														<div className="flex flex-col gap-4 w-full">
+															<User
+																size={12}
+																login={props.author.login}
+																dataSource={props.author}
+																className="inline-flex flex-row w-fit items-center gap-4"
+																nolink
+															/>
+															<p className="w-full text-default p-4 border border-br rounded-xl">{props.comment}</p>
+															<p className="w-full text-right text-placeholder">{dayjs(props.date_created)?.format("HH:mm DD.MM.YYYY")}</p>
+														</div>
+													)}
+												/>
+											))}
+										>
 											<BiMessageError />
 										</Button>
 									</Popup>

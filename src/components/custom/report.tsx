@@ -48,7 +48,7 @@ const Report: React.FC<{
 			>
 				<div className="flex flex-col gap-2 w-full items-center">
 					<p className="text-title">{t("report.title")}</p>
-					<div className="py-4 flex flex-col gap-4 items-center justify-center">
+					<div className="py-4 flex flex-col gap-4 items-center justify-center w-full">
 						{Instance && Instance}
 					</div>
 					<Textarea

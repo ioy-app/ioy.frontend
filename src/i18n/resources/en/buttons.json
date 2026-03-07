@@ -25,5 +25,6 @@
 	"sessions": "Sessions",
 	"logout": "Logout",
 	"edit": "Edit",
-	"delete_account": "Delete account"
+	"delete_account": "Delete account",
+	"report": "Report"
 }

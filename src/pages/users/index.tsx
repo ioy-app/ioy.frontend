@@ -18,6 +18,7 @@ import {
 	Block,
 	Game,
 	LinkifyText,
+	Report,
 } from "@/components";
 
 import { UserProps } from "@/types";
@@ -47,9 +48,11 @@ import { dashboard_paths } from "@/routes/dashboard";
 import {
 	BiAlignLeft,
 	BiCog,
+	BiCommentError,
 	BiDetail,
 	BiGridAlt,
 	BiSitemap,
+	BiSolidReport,
 	BiUser,
 	BiUserMinus,
 	BiUserPlus,
@@ -223,6 +226,34 @@ export default function Profile() {
 									) : (
 										<BiUserMinus />
 									)}
+								</Button>
+								<Button
+									onClick={() => modal("", (onClose) => (
+										<Report
+											type="user"
+											target_id={data?.id}
+											Instance={(
+												<div className="flex flex-col gap-4 items-center justify-center">
+													<div>
+														<User
+															login={login}
+															dataSource={{
+																is_avatar: data?.is_avatar,
+															}}
+															size={24}
+															className="transition-all w-full h-full"
+															nolink
+														/>
+													</div>
+													<p className="text-title">{login}</p>
+												</div>
+											)}
+											onClose={onClose}
+										/>
+									))}
+								>
+									{t("buttons.report")}
+									<BiCommentError />
 								</Button>
 							</>
 						)}

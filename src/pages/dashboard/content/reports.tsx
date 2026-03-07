@@ -4,6 +4,7 @@ import {
 	BiBox,
 	BiEditAlt,
 	BiPlus,
+	BiReply,
 	BiSearch,
 	BiSearchAlt,
 } from "react-icons/bi";
@@ -134,6 +135,35 @@ const Reports: React.FC = () => {
 										</Link>
 									);
 									break;
+								case "comment":
+									return (
+										<div className="flex items-start gap-2 w-full flex-col">
+											<Link
+												className="group flex gap-2 items-center"
+												to={paths.users.details(instance?.userdata?.login)}
+											>
+												<Components.User
+													dataSource={
+														{
+															id: instance?.userdata?.id,
+															is_avatar: instance?.userdata?.is_avatar,
+														} as UserProps
+													}
+													login={instance?.userdata?.login}
+													nolink
+													size={12}
+												/>
+												<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
+													{instance?.userdata?.login}
+												</p>
+											</Link>
+											<p className="text-default border border-br px-4 py-2 rounded-xl w-full">
+												{instance?.comment}
+											</p>
+											<p className="text-placeholder w-full flex justify-end">{dayjs(instance?.date_created).format("HH:mm DD.MM.YYYY")}</p>
+										</div>
+									);
+								break;
 							}
 
 							return null;
@@ -144,7 +174,7 @@ const Reports: React.FC = () => {
 						dataIndex: "sourcedata",
 						render: (data) => (
 							<Link
-								to={paths.users.details(data?.id)}
+								to={paths.users.details(data?.login)}
 								className="group flex items-center gap-2 w-fit"
 							>
 								<Components.User
@@ -189,8 +219,20 @@ const Reports: React.FC = () => {
 						render: (date) =>
 							dayjs(date)?.isValid() &&
 							dayjs(date).format("HH:mm DD.MM.YYYY"),
-					},
+					}
 				]}
+				control={(row, i) => (
+					<>
+						<Components.Button
+							variant="second"
+							onClick={() => {
+								
+							}}
+						>
+							<BiReply />
+						</Components.Button>
+					</>
+				)}
 				data={query?.data?.items}
 				loading={query?.isPending}
 				footer={
@@ -204,14 +246,6 @@ const Reports: React.FC = () => {
 							query.refetch();
 						}}
 					/>
-				}
-				nodata={
-					<>
-						<BiBox className="text-2xl" />
-						<p className="text-placeholder">
-							{t("dashboard.labels.nodata")}
-						</p>
-					</>
 				}
 			/>
 		</div>
