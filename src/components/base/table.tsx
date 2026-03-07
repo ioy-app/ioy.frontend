@@ -8,7 +8,11 @@ const Table: React.FC<{
 		/** Column's id */
 		dataIndex: string;
 		/** Column's custom render function */
-		render?: (data: any, row: any, i: number) => React.ReactNode;
+		render?: (
+			data: any,
+			row: any,
+			i: number,
+		) => React.ReactNode;
 	}[];
 	/** Content */
 	data?: any[];
@@ -22,7 +26,15 @@ const Table: React.FC<{
 	loading?: boolean;
 	/** Nodata placeholder */
 	nodata?: React.ReactNode;
-}> = ({ columns, data, header, footer, control, loading, nodata }) => (
+}> = ({
+	columns,
+	data,
+	header,
+	footer,
+	control,
+	loading,
+	nodata,
+}) => (
 	<div className="w-full border border-br rounded-xl text-default">
 		{header && <div className="p-4">{header}</div>}
 		<div className="w-full overflow-hidden overflow-x-auto">
@@ -45,7 +57,9 @@ const Table: React.FC<{
 						</thead>
 						<tbody>
 							{data?.map((row, i) => {
-								const keys = columns?.map((col) => col?.dataIndex);
+								const keys = columns?.map(
+									(col) => col?.dataIndex,
+								);
 
 								return (
 									<tr key={i}>
@@ -53,10 +67,18 @@ const Table: React.FC<{
 											const column = columns?.find(
 												(column) => column.dataIndex == col,
 											);
-											if (column && column?.render && row?.[col])
+											if (
+												column &&
+												column?.render &&
+												row?.[col]
+											)
 												return (
 													<td key={j}>
-														{column.render(row[col], row, i) || "–"}
+														{column.render(
+															row[col],
+															row,
+															i,
+														) || "–"}
 													</td>
 												);
 

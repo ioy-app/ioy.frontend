@@ -14,7 +14,8 @@ const languageDetector = new LanguageDetector();
 languageDetector.addDetector({
 	name: "localStorageDetector",
 	lookup: () => localStorage.getItem("lang"),
-	cacheUserLanguage: (lng) => localStorage.setItem("lang", lng),
+	cacheUserLanguage: (lng) =>
+		localStorage.setItem("lang", lng),
 });
 
 i18n
@@ -24,7 +25,9 @@ i18n
 		resources,
 		fallbackLng: "en",
 		debug: process.env.NODE_ENV === "development",
-		interpolation: { escapeValue: false },
+		interpolation: {
+			escapeValue: false,
+		},
 		react: { useSuspense: false },
 	});
 

@@ -1,4 +1,8 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, {
+	useEffect,
+	useReducer,
+	useState,
+} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
 	Navigate,
@@ -7,12 +11,23 @@ import {
 	useOutletContext,
 	useParams,
 } from "react-router-dom";
-import { User, Button, Spin, Block, Game, LinkifyText } from "@/components";
+import {
+	User,
+	Button,
+	Spin,
+	Block,
+	Game,
+	LinkifyText,
+} from "@/components";
 
 import { UserProps } from "@/types";
 import { StoreProps } from "@/stories";
 import * as Icons from "@/icons";
-import { motion, useScroll, useMotionValueEvent } from "motion/react";
+import {
+	motion,
+	useScroll,
+	useMotionValueEvent,
+} from "motion/react";
 
 import Edit from "./edit";
 
@@ -39,7 +54,11 @@ import {
 	BiUserMinus,
 	BiUserPlus,
 } from "react-icons/bi";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+	useMutation,
+	useQuery,
+	useQueryClient,
+} from "@tanstack/react-query";
 import UserContent from "./content";
 import { paths } from "@/routes";
 import ErrorPage from "../error";
@@ -49,11 +68,17 @@ export default function Profile() {
 	const { scrollY } = useScroll();
 	const { t } = useTranslation();
 	const navigator = useNavigate();
-	const { token } = useSelector((state: StoreProps) => state.login);
+	const { token } = useSelector(
+		(state: StoreProps) => state.login,
+	);
 	const params = useParams();
-	const [update, forceUpdate] = useReducer((x: number) => x + 1, 0);
+	const [update, forceUpdate] = useReducer(
+		(x: number) => x + 1,
+		0,
+	);
 	const { login } = params;
-	const [isScrollable, setScrollable] = useState<boolean>(false);
+	const [isScrollable, setScrollable] =
+		useState<boolean>(false);
 
 	const { notify } = useNotify();
 	const { modal } = useModal();
@@ -64,12 +89,16 @@ export default function Profile() {
 		try {
 			if (!data) throw new Error("Пользователь не найден");
 
-			const response: Response = await users_subscribe(login);
+			const response: Response =
+				await users_subscribe(login);
 
-			if (!data.controls) throw new Error("Нет авторизации");
-			const is_subscribe = response?.status == "created" ? true : false;
+			if (!data.controls)
+				throw new Error("Нет авторизации");
+			const is_subscribe =
+				response?.status == "created" ? true : false;
 			const subscribers =
-				data.subscribers + (response?.status == "created" ? 1 : -1);
+				data.subscribers +
+				(response?.status == "created" ? 1 : -1);
 
 			notify(
 				t(
@@ -78,7 +107,9 @@ export default function Profile() {
 						: "profile.success.unsubscribe",
 					{ login },
 				),
-				response?.status == "created" ? "success" : "warning",
+				response?.status == "created"
+					? "success"
+					: "warning",
 			);
 
 			queryClient.setQueryData(["user", login], (prev) => ({
@@ -94,7 +125,14 @@ export default function Profile() {
 		}
 	};
 
-	const { data, status, isError, error, refetch, isRefetching } = useQuery({
+	const {
+		data,
+		status,
+		isError,
+		error,
+		refetch,
+		isRefetching,
+	} = useQuery({
 		queryKey: ["user", login],
 		queryFn: async () => users_details(login),
 		retry: 0,
@@ -135,7 +173,9 @@ export default function Profile() {
 								<Button
 									variant="default"
 									htmlType="button"
-									onClick={() => navigator(dashboard_paths.list)}
+									onClick={() =>
+										navigator(dashboard_paths.list)
+									}
 								>
 									<BiGridAlt />
 									{t("buttons.dashboard")}
@@ -147,7 +187,10 @@ export default function Profile() {
 											<Edit
 												onClose={(login?: string) => {
 													try {
-														if (login) navigator(paths.users.details(login));
+														if (login)
+															navigator(
+																paths.users.details(login),
+															);
 														refetch();
 													} catch (err) {}
 													onClose && onClose();
@@ -166,7 +209,11 @@ export default function Profile() {
 							<>
 								<Button
 									onClick={handleSubscribe}
-									variant={data?.controls?.is_subscribe ? "second" : "primary"}
+									variant={
+										data?.controls?.is_subscribe
+											? "second"
+											: "primary"
+									}
 								>
 									{!data?.controls?.is_subscribe
 										? t("buttons.subscribe")
@@ -206,7 +253,9 @@ export default function Profile() {
 							transition={{
 								duration: 0.2,
 							}}
-							animate={(isScrollable && "movement") || "stable"}
+							animate={
+								(isScrollable && "movement") || "stable"
+							}
 							className="text-title text-center"
 						>
 							{data?.login}
@@ -236,12 +285,21 @@ export default function Profile() {
 							<Block
 								title={t("profile.titles.games")}
 								id="games"
-								request={async (page: number, count: number) => {
+								request={async (
+									page: number,
+									count: number,
+								) => {
 									const search = new URLSearchParams();
-									search.set("offset", String((page - 1) * count));
+									search.set(
+										"offset",
+										String((page - 1) * count),
+									);
 									search.set("limit", String(count));
 
-									const games = await users_games(login, search);
+									const games = await users_games(
+										login,
+										search,
+									);
 
 									return {
 										items: games.items.map((item) => ({
@@ -270,12 +328,21 @@ export default function Profile() {
 							<Block
 								title={t("profile.titles.subscribers")}
 								id="subscribers"
-								request={async (page: number, count: number) => {
+								request={async (
+									page: number,
+									count: number,
+								) => {
 									const search = new URLSearchParams();
-									search.set("offset", String((page - 1) * count));
+									search.set(
+										"offset",
+										String((page - 1) * count),
+									);
 									search.set("limit", String(count));
 
-									const users = await users_subscribers(login, search);
+									const users = await users_subscribers(
+										login,
+										search,
+									);
 
 									return {
 										items: users.items.map((item) => ({
@@ -305,12 +372,21 @@ export default function Profile() {
 							<Block
 								title={t("profile.titles.favorites")}
 								id="favorites"
-								request={async (page: number, count: number) => {
+								request={async (
+									page: number,
+									count: number,
+								) => {
 									const search = new URLSearchParams();
-									search.set("offset", String((page - 1) * count));
+									search.set(
+										"offset",
+										String((page - 1) * count),
+									);
 									search.set("limit", String(count));
 
-									const games = await users_favorites(login, search);
+									const games = await users_favorites(
+										login,
+										search,
+									);
 
 									return {
 										items: games.items.map((item) => ({
@@ -339,12 +415,21 @@ export default function Profile() {
 							<Block
 								title={t("profile.titles.likes")}
 								id="likes"
-								request={async (page: number, count: number) => {
+								request={async (
+									page: number,
+									count: number,
+								) => {
 									const search = new URLSearchParams();
-									search.set("offset", String((page - 1) * count));
+									search.set(
+										"offset",
+										String((page - 1) * count),
+									);
 									search.set("limit", String(count));
 
-									const games = await users_likes(login, search);
+									const games = await users_likes(
+										login,
+										search,
+									);
 
 									return {
 										items: games.items.map((item) => ({

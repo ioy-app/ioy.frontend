@@ -1,4 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+	createSlice,
+	createAsyncThunk,
+} from "@reduxjs/toolkit";
 import { profile_me } from "@/api/routes/profile";
 
 interface initialStateProps {
@@ -16,7 +19,9 @@ export const fetchMe = createAsyncThunk(
 			const response = await profile_me();
 			return response;
 		} catch (err) {
-			return rejectWithValue(err?.message || "Unknown error");
+			return rejectWithValue(
+				err?.message || "Unknown error",
+			);
 		}
 	},
 );
@@ -89,7 +94,10 @@ const authSlice = createSlice({
 			})
 			.addCase(
 				fetchMe.fulfilled,
-				(state, { payload: { id, login, is_avatar, roledata } }) => {
+				(
+					state,
+					{ payload: { id, login, is_avatar, roledata } },
+				) => {
 					state.login = login;
 					state.id = id;
 					state.loading = false;
@@ -107,6 +115,11 @@ const authSlice = createSlice({
 	},
 });
 
-export const { setLogin, clearLogin, setToken, getMe, changeLogin } =
-	authSlice.actions;
+export const {
+	setLogin,
+	clearLogin,
+	setToken,
+	getMe,
+	changeLogin,
+} = authSlice.actions;
 export default authSlice.reducer;

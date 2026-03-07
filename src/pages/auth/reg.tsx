@@ -11,7 +11,11 @@ import { useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
 import { paths } from "@/routes";
 
-export default function Reg({ onClose }: { onClose?: () => void }) {
+export default function Reg({
+	onClose,
+}: {
+	onClose?: () => void;
+}) {
 	const methods = useForm();
 	const { notify } = useNotify();
 	const { t } = useTranslation();
@@ -38,7 +42,9 @@ export default function Reg({ onClose }: { onClose?: () => void }) {
 			>
 				<div className="flex flex-col gap-2 items-center w-full">
 					<img src={Icons.Logo} className="w-25" />
-					<p className="text-default">{t("auth.title.reg")}</p>
+					<p className="text-default">
+						{t("auth.title.reg")}
+					</p>
 				</div>
 				<Input
 					label={t("auth.labels.login")}
@@ -66,8 +72,15 @@ export default function Reg({ onClose }: { onClose?: () => void }) {
 						placeholder={
 							<div className="flex flex-row gap-1 items-center">
 								{t("auth.placeholders.rules")}
-								<a href={paths.terms} target="_blank">
-									<Button variant="text" className="text-primary">
+								<a
+									href={paths.terms}
+									target="_blank"
+									rel="noreferrer"
+								>
+									<Button
+										variant="text"
+										className="text-primary"
+									>
 										{t("footer.terms")}
 									</Button>
 								</a>
@@ -78,7 +91,9 @@ export default function Reg({ onClose }: { onClose?: () => void }) {
 				</div>
 				{methods.formState.errors.valid && (
 					<p className="text-placeholder text-danger">
-						{t(`auth.${methods.formState.errors.valid.message}`)}
+						{t(
+							`auth.${methods.formState.errors.valid.message}`,
+						)}
 					</p>
 				)}
 				<Button

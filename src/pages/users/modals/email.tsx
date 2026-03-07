@@ -11,7 +11,8 @@ const Email: React.FC<{
 	const { t } = useTranslation();
 	const { register, handleSubmit } = useForm();
 	const [isLoading, setLoading] = useState<boolean>(false);
-	const [isCodeForm, setCodeForm] = useState<boolean>(false);
+	const [isCodeForm, setCodeForm] =
+		useState<boolean>(false);
 	const { notify } = useNotify();
 
 	const submit = async (fd: FormData) => {
@@ -43,9 +44,13 @@ const Email: React.FC<{
 			className="flex flex-col gap-4 flex-1 h-full justify-between"
 		>
 			<div className="flex flex-col gap-4">
-				<p className="text-default">{t("profile.titles.email")}</p>
+				<p className="text-default">
+					{t("profile.titles.email")}
+				</p>
 				<Input
-					placeholder={t("profile.placeholders.current_email")}
+					placeholder={t(
+						"profile.placeholders.current_email",
+					)}
 					label={t("profile.labels.current_email")}
 					{...register("current_email")}
 				/>

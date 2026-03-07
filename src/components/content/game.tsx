@@ -17,7 +17,13 @@ const Game: React.FC<{
 	/** Avatar size */
 	size?: number | string;
 	onClick?: (id: number) => void;
-}> = ({ dataSource, preview, nolink, size = 24, onClick }) => {
+}> = ({
+	dataSource,
+	preview,
+	nolink,
+	size = 24,
+	onClick,
+}) => {
 	const { status, data, isError } = useQuery({
 		queryKey: ["game", dataSource, preview],
 		queryFn: async () => {
@@ -39,7 +45,9 @@ const Game: React.FC<{
 	const root = (
 		<div
 			className={`group flex flex-col items-center gap-1 max-w-${size} overflow-hidden`}
-			onClick={() => onClick && nolink && onClick(dataSource?.id)}
+			onClick={() =>
+				onClick && nolink && onClick(dataSource?.id)
+			}
 		>
 			<div
 				className={`w-full h-${size} rounded-xl overflow-hidden aspect-square border border-br ${(!nolink && "group-hover:border-primary transition-colors") || ""}`}
@@ -65,7 +73,10 @@ const Game: React.FC<{
 	);
 
 	return !nolink ? (
-		<Link to={`/g/${dataSource?.id}`} className={`w-${size}`}>
+		<Link
+			to={`/g/${dataSource?.id}`}
+			className={`w-${size}`}
+		>
 			{root}
 		</Link>
 	) : (

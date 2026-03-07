@@ -7,16 +7,23 @@ export interface HeaderProps {
 	value: string;
 }
 
-const emptyParent: React.FC<{ children: ReactNode }> = ({ children }) =>
-	children;
+const emptyParent: React.FC<{
+	children: ReactNode;
+}> = ({ children }) => children;
 
 const Tabs: React.FC<{
 	headers: HeaderProps[];
 	content: Record<string, ReactNode>;
 	style?: CSSProperties;
 	ContentParent?: typeof emptyParent;
-}> = ({ headers, content, style, ContentParent = emptyParent }) => {
-	const [selectTab, setSelectTab] = useState<HeaderProps | null>(headers[0]);
+}> = ({
+	headers,
+	content,
+	style,
+	ContentParent = emptyParent,
+}) => {
+	const [selectTab, setSelectTab] =
+		useState<HeaderProps | null>(headers[0]);
 	const { t } = useTranslation();
 
 	return (
@@ -34,10 +41,13 @@ const Tabs: React.FC<{
 			</div>
 			<div key={selectTab?.value}>
 				<ContentParent>
-					{(content && content[(selectTab as HeaderProps).value]) || (
+					{(content &&
+						content[(selectTab as HeaderProps).value]) || (
 						<div className="w-full h-full flex-1 justify-center items-center gap-1 flex flex-col text-disabled">
 							<BiFolder className="text-4xl" />
-							<p className="text-placeholder">{t("tabs.nodata")}</p>
+							<p className="text-placeholder">
+								{t("tabs.nodata")}
+							</p>
 						</div>
 					)}
 				</ContentParent>

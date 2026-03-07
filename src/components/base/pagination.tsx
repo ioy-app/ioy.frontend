@@ -23,11 +23,18 @@ const Pagination: React.FC<{
 		const setter = new Set<number>();
 
 		setter.add(1);
-		if (current < 4) for (let i = 1; i <= Math.min(6, max); i++) setter.add(i);
+		if (current < 4)
+			for (let i = 1; i <= Math.min(6, max); i++)
+				setter.add(i);
 		if (current > max - 3)
-			for (let i = Math.max(max - 5, 1); i <= max; i++) setter.add(i);
+			for (let i = Math.max(max - 5, 1); i <= max; i++)
+				setter.add(i);
 
-		for (let i = Math.max(current - 2, 1); i <= Math.min(current + 2, max); i++)
+		for (
+			let i = Math.max(current - 2, 1);
+			i <= Math.min(current + 2, max);
+			i++
+		)
 			setter.add(i);
 		setter.add(max);
 
@@ -44,8 +51,14 @@ const Pagination: React.FC<{
 					return (
 						<Button
 							key={i}
-							disabled={Boolean(current == page) || disabled}
-							variant={((!i || i == pages?.length - 1) && "primary") || "text"}
+							disabled={
+								Boolean(current == page) || disabled
+							}
+							variant={
+								((!i || i == pages?.length - 1) &&
+									"primary") ||
+								"text"
+							}
 							onClick={(e) => {
 								e.preventDefault();
 								onChange && onChange(offset, page);

@@ -23,8 +23,17 @@ import { useModal, useNotify } from "@/hooks";
 import { paths } from "@/routes";
 import { dashboard_paths } from "@/routes/dashboard";
 import GameProps from "@/types/game";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import {
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import {
+	FormProvider,
+	useForm,
+	useWatch,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiChevronsLeft, BiX } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -37,7 +46,9 @@ export default function JamEdit() {
 	const { notify } = useNotify();
 	const { modal } = useModal();
 
-	const isCreate: boolean = Boolean(typeof params.id == "undefined");
+	const isCreate: boolean = Boolean(
+		typeof params.id == "undefined",
+	);
 
 	const methods = useForm();
 	const handleSubmit = async (data: FormData) => {
@@ -75,39 +86,48 @@ export default function JamEdit() {
 	};
 
 	const handleDelete = async () => {
-		modal(t("games.warnings.delete"), (onClose: () => void) => (
-			<>
-				<Button variant="clear" onClick={() => onClose()} disabled={isLoading}>
-					{t("buttons.cancel")}
-				</Button>
-				<Button
-					variant="danger"
-					disabled={isLoading}
-					onClick={async (e) => {
-						setLoading(true);
+		modal(
+			t("games.warnings.delete"),
+			(onClose: () => void) => (
+				<>
+					<Button
+						variant="clear"
+						onClick={() => onClose()}
+						disabled={isLoading}
+					>
+						{t("buttons.cancel")}
+					</Button>
+					<Button
+						variant="danger"
+						disabled={isLoading}
+						onClick={async (e) => {
+							setLoading(true);
 
-						try {
-							const response = await games_delete(Number(params.id));
-							onClose();
+							try {
+								const response = await games_delete(
+									Number(params.id),
+								);
+								onClose();
 
-							modal("", (onClosed: () => void) => (
-								<Code
-									onSubmit={(data) => {
-										handleVerify(data);
-										onClosed();
-									}}
-									onCancel={() => onClosed()}
-								/>
-							));
-						} finally {
-							setLoading(false);
-						}
-					}}
-				>
-					{t("buttons.delete")}
-				</Button>
-			</>
-		));
+								modal("", (onClosed: () => void) => (
+									<Code
+										onSubmit={(data) => {
+											handleVerify(data);
+											onClosed();
+										}}
+										onCancel={() => onClosed()}
+									/>
+								));
+							} finally {
+								setLoading(false);
+							}
+						}}
+					>
+						{t("buttons.delete")}
+					</Button>
+				</>
+			),
+		);
 	};
 
 	useEffect(() => {
@@ -119,12 +139,16 @@ export default function JamEdit() {
 					const id: number = Number(params.id);
 					const response = await games_details(id);
 
-					for (const [key, value] of Object.entries(response))
+					for (const [key, value] of Object.entries(
+						response,
+					))
 						methods.setValue(key, value);
 				}
 			} catch (err) {
 				notify(t("games.errors.exists"), "error");
-				navigate("/", { replace: true });
+				navigate("/", {
+					replace: true,
+				});
 			} finally {
 				setLoading(false);
 			}
@@ -135,13 +159,15 @@ export default function JamEdit() {
 	const game = methods.watch("game");
 
 	const handlePreviewIcon = useMemo(() => {
-		if (icon && icon.length > 0) return URL.createObjectURL(icon[0]);
+		if (icon && icon.length > 0)
+			return URL.createObjectURL(icon[0]);
 
 		return null;
 	}, [icon]);
 
 	const handlePreviewGame = useMemo(() => {
-		if (game && game.length > 0) return URL.createObjectURL(game[0]);
+		if (game && game.length > 0)
+			return URL.createObjectURL(game[0]);
 
 		return null;
 	}, [game]);
@@ -150,8 +176,10 @@ export default function JamEdit() {
 	const refPreviewGame = useRef<string | null>(null);
 
 	useEffect(() => {
-		if (refPreviewIcon.current) URL.revokeObjectURL(refPreviewIcon.current);
-		if (refPreviewGame.current) URL.revokeObjectURL(refPreviewGame.current);
+		if (refPreviewIcon.current)
+			URL.revokeObjectURL(refPreviewIcon.current);
+		if (refPreviewGame.current)
+			URL.revokeObjectURL(refPreviewGame.current);
 
 		refPreviewIcon.current = handlePreviewIcon;
 		refPreviewGame.current = handlePreviewGame;
@@ -174,7 +202,10 @@ export default function JamEdit() {
 				>
 					<div className="w-[65%] max-lg:w-full flex flex-col gap-4 items-start">
 						<div className="w-full flex flex-col gap-2 items-start mb-8">
-							<Button variant="text" onClick={() => navigate(-1)}>
+							<Button
+								variant="text"
+								onClick={() => navigate(-1)}
+							>
 								<BiChevronsLeft />
 								{t("buttons.back")}
 							</Button>
@@ -198,7 +229,9 @@ export default function JamEdit() {
 										nolink
 									/>
 								</div>
-								<p className="text-placeholder">{t("jams.labels.icon")}</p>
+								<p className="text-placeholder">
+									{t("jams.labels.icon")}
+								</p>
 								<input
 									type="file"
 									accept="image/*"
@@ -218,7 +251,9 @@ export default function JamEdit() {
 							{...methods.register("theme")}
 						/>
 						<Textarea
-							placeholder={t("jams.placeholders.description")}
+							placeholder={t(
+								"jams.placeholders.description",
+							)}
 							label={t("jams.labels.description")}
 							{...methods.register("description")}
 						/>

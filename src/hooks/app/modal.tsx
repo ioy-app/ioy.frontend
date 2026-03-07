@@ -9,10 +9,12 @@ export interface ModalProps {
 }
 
 const ModalContext = createContext(null);
-export const ModalProvider: React.FC<{ children?: React.ReactNode }> = ({
-	children,
-}) => {
-	const [stack, setStack] = useState<ModalProps[] | null>(null);
+export const ModalProvider: React.FC<{
+	children?: React.ReactNode;
+}> = ({ children }) => {
+	const [stack, setStack] = useState<ModalProps[] | null>(
+		null,
+	);
 
 	const modal = (
 		message: string | React.FC<ModalProps>,
@@ -39,7 +41,9 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode }> = ({
 					const onClose = () => {
 						if (i == 0) document.body.style.overflow = "";
 						setStack((prev) =>
-							prev.filter((note: ModalProps) => id !== note.id),
+							prev.filter(
+								(note: ModalProps) => id !== note.id,
+							),
 						);
 					};
 
@@ -49,18 +53,32 @@ export const ModalProvider: React.FC<{ children?: React.ReactNode }> = ({
 							key={`modal-${i}`}
 							onClick={(e) => {
 								if (e.target === e.currentTarget) {
-									if (i == 0) document.body.style.overflow = "";
-									setStack((prev) => prev?.filter((stack) => stack != prop));
+									if (i == 0)
+										document.body.style.overflow = "";
+									setStack((prev) =>
+										prev?.filter((stack) => stack != prop),
+									);
 								}
 							}}
 						>
 							<motion.div
 								key={id}
 								layout
-								initial={{ opacity: 0, scale: 0 }}
-								animate={{ opacity: 1, scale: 1 }}
-								exit={{ opacity: 0, scale: 1.25 }}
-								transition={{ duration: 0.3 }}
+								initial={{
+									opacity: 0,
+									scale: 0,
+								}}
+								animate={{
+									opacity: 1,
+									scale: 1,
+								}}
+								exit={{
+									opacity: 0,
+									scale: 1.25,
+								}}
+								transition={{
+									duration: 0.3,
+								}}
 								className="bg-back text-text w-full max-h-full md:h-fit md:w-2xl rounded-2xl p-4 overflow-x-hidden overflow-y-auto"
 							>
 								{typeof Message == "string" ? (

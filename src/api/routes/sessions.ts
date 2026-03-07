@@ -14,7 +14,9 @@ export const sessions_list = (): Promise<Response> =>
  * @param {number} id ID
  * @returns {Promise<Response>}
  */
-export const sessions_delete = (id: number): Promise<Response> =>
+export const sessions_delete = (
+	id: number,
+): Promise<Response> =>
 	fetchAPI(Routes.sessions.details(id), {
 		method: "DELETE",
 	});

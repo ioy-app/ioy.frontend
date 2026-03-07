@@ -52,7 +52,10 @@ const Block: React.FC<{
 				</div>
 				{data?.total > 10 && (
 					<Popup label={t("helps.expand")} align="l">
-						<Button variant="text" onClick={() => onOpen && onOpen()}>
+						<Button
+							variant="text"
+							onClick={() => onOpen && onOpen()}
+						>
 							<BiExpandAlt className="text-2xl" />
 						</Button>
 					</Popup>
@@ -63,7 +66,11 @@ const Block: React.FC<{
 					<div className="grid grid-cols-5 gap-4">
 						{Component &&
 							data?.items?.map((item, i: number) => (
-								<Component {...(item as any)} key={i} size="full" />
+								<Component
+									{...(item as any)}
+									key={i}
+									size="full"
+								/>
 							))}
 					</div>
 				</Spin>

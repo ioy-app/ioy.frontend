@@ -13,7 +13,10 @@ import { useForm } from "react-hook-form";
 import Sessions from "./modals/sessions";
 
 import { useSelector, useDispatch } from "react-redux";
-import { changeLogin, clearLogin } from "../../stories/login";
+import {
+	changeLogin,
+	clearLogin,
+} from "../../stories/login";
 import { profile_logout } from "@/api/routes/profile";
 import {
 	Navigate,
@@ -21,8 +24,16 @@ import {
 	useNavigate,
 	useParams,
 } from "react-router-dom";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { users_details, users_edit } from "@/api/routes/users";
+import {
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import {
+	users_details,
+	users_edit,
+} from "@/api/routes/users";
 import Email from "./modals/email";
 import Delete from "./modals/delete";
 import {
@@ -49,7 +60,8 @@ const Edit: React.FC<{
 
 	const { notify } = useNotify();
 	const { modal } = useModal();
-	const { watch, handleSubmit, register, setValue } = useForm();
+	const { watch, handleSubmit, register, setValue } =
+		useForm();
 
 	const submit = async (fd) => {
 		try {
@@ -57,7 +69,8 @@ const Edit: React.FC<{
 
 			if (fd?.avatar?.[0]) {
 				const file = fd?.avatar?.[0];
-				if (file.type != "image/png") throw new Error("errors.avatar_type");
+				if (file.type != "image/png")
+					throw new Error("errors.avatar_type");
 				if (file.size >= 1 * 1024 * 1024)
 					throw new Error("errors.avatar_limit");
 			}
@@ -71,7 +84,10 @@ const Edit: React.FC<{
 			dispatch(changeLogin(response));
 			onClose && onClose(fd.login);
 		} catch (err) {
-			notify(t(`profile.${err?.message?.toString()}`), "error");
+			notify(
+				t(`profile.${err?.message?.toString()}`),
+				"error",
+			);
 		} finally {
 			setLoading(false);
 		}
@@ -88,7 +104,8 @@ const Edit: React.FC<{
 	const avatar = watch("avatar");
 
 	const handlePreview = useMemo(() => {
-		if (avatar && avatar.length > 0) return URL.createObjectURL(avatar[0]);
+		if (avatar && avatar.length > 0)
+			return URL.createObjectURL(avatar[0]);
 
 		return null;
 	}, [avatar]);
@@ -97,7 +114,8 @@ const Edit: React.FC<{
 	const formRef = useRef<HTMLFormElement>(null);
 
 	useEffect(() => {
-		if (refPreview.current) URL.revokeObjectURL(refPreview.current);
+		if (refPreview.current)
+			URL.revokeObjectURL(refPreview.current);
 		refPreview.current = handlePreview;
 	}, [refPreview]);
 
@@ -159,18 +177,24 @@ const Edit: React.FC<{
 					{...register("login")}
 				/>
 				<Textarea
-					placeholder={t("profile.placeholders.description")}
+					placeholder={t(
+						"profile.placeholders.description",
+					)}
 					label={t("profile.labels.description")}
 					{...register("description")}
 				/>
 				<div className="flex flex-col gap-4 w-full mt-8">
-					<p className="text-default">{t("profile.labels.privacy.title")}</p>
+					<p className="text-default">
+						{t("profile.labels.privacy.title")}
+					</p>
 					<Checkbox
 						placeholder={t("profile.labels.privacy.games")}
 						{...register("privacy.games")}
 					/>
 					<Checkbox
-						placeholder={t("profile.labels.privacy.subscribers")}
+						placeholder={t(
+							"profile.labels.privacy.subscribers",
+						)}
 						{...register("privacy.subscribers")}
 					/>
 					<Checkbox
@@ -178,7 +202,9 @@ const Edit: React.FC<{
 						{...register("privacy.likes")}
 					/>
 					<Checkbox
-						placeholder={t("profile.labels.privacy.favorites")}
+						placeholder={t(
+							"profile.labels.privacy.favorites",
+						)}
 						{...register("privacy.favorites")}
 					/>
 				</div>
@@ -188,7 +214,9 @@ const Edit: React.FC<{
 						htmlType="button"
 						onClick={(e) => {
 							e.preventDefault();
-							modal("", (onClose) => <Email onClose={onClose} />);
+							modal("", (onClose) => (
+								<Email onClose={onClose} />
+							));
 						}}
 					>
 						{t("buttons.change_email")}
@@ -222,7 +250,10 @@ const Edit: React.FC<{
 							e.preventDefault();
 							modal(t("profile.modals.save"), (onClose) => (
 								<>
-									<Button variant="default" onClick={() => onClose()}>
+									<Button
+										variant="default"
+										onClick={() => onClose()}
+									>
 										{t("buttons.cancel")}
 									</Button>
 									<Button
@@ -247,22 +278,28 @@ const Edit: React.FC<{
 						htmlType="button"
 						variant="danger"
 						onClick={() =>
-							modal(t("profile.modals.logout"), (onClose: () => void) => (
-								<>
-									<Button variant="clear" onClick={() => onClose()}>
-										{t("buttons.cancel")}
-									</Button>
-									<Button
-										variant="danger"
-										onClick={(e) => {
-											handleLogout();
-											onClose();
-										}}
-									>
-										{t("buttons.logout")}
-									</Button>
-								</>
-							))
+							modal(
+								t("profile.modals.logout"),
+								(onClose: () => void) => (
+									<>
+										<Button
+											variant="clear"
+											onClick={() => onClose()}
+										>
+											{t("buttons.cancel")}
+										</Button>
+										<Button
+											variant="danger"
+											onClick={(e) => {
+												handleLogout();
+												onClose();
+											}}
+										>
+											{t("buttons.logout")}
+										</Button>
+									</>
+								),
+							)
 						}
 					>
 						{t("buttons.logout")}

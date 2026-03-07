@@ -26,7 +26,9 @@ const Session: React.FC<SessionLocalProps> = ({
 	const browser = parse.getBrowser();
 
 	const date_created_text = date_created
-		? dayjs(date_created).locale("ru").format("HH:mm DD.MM.YYYY")
+		? dayjs(date_created)
+				.locale("ru")
+				.format("HH:mm DD.MM.YYYY")
 		: t("undefined");
 	const date_range_text = date_expires
 		? t("sessions.days", {
@@ -47,7 +49,9 @@ const Session: React.FC<SessionLocalProps> = ({
 			<div className="flex gap-4 items-start">
 				<div>
 					<p>{ip}</p>
-					<p className="text-placeholder">{date_created_text}</p>
+					<p className="text-placeholder">
+						{date_created_text}
+					</p>
 				</div>
 				<p>{date_range_text}</p>
 				<Button

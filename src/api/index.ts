@@ -3,8 +3,12 @@ import { setToken } from "@/stories/login";
 
 import Routes, { apiInstance } from "./routes";
 
-export default async function fetchAPI(path: string, init?: RequestInit) {
-	const token: string | null = Store.getState()?.login?.token;
+export default async function fetchAPI(
+	path: string,
+	init?: RequestInit,
+) {
+	const token: string | null =
+		Store.getState()?.login?.token;
 	const obj = init || {};
 
 	if (!obj.headers) obj.headers = {};
@@ -38,7 +42,10 @@ export default async function fetchAPI(path: string, init?: RequestInit) {
 	return result;
 }
 
-function jsonToFormData(obj: any, parentKey = ""): FormData {
+function jsonToFormData(
+	obj: any,
+	parentKey = "",
+): FormData {
 	const formData = new FormData();
 
 	const process = (value: any, key: string) => {
@@ -61,9 +68,16 @@ function jsonToFormData(obj: any, parentKey = ""): FormData {
 		}
 	};
 
-	if (typeof obj === "object" && !Array.isArray(obj) && obj !== null) {
+	if (
+		typeof obj === "object" &&
+		!Array.isArray(obj) &&
+		obj !== null
+	) {
 		Object.entries(obj).forEach(([key, value]) => {
-			process(value, parentKey ? `${parentKey}[${key}]` : key);
+			process(
+				value,
+				parentKey ? `${parentKey}[${key}]` : key,
+			);
 		});
 	} else {
 		// Если передали не объект — просто добавить

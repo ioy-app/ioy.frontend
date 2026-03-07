@@ -1,10 +1,21 @@
 import confOrder from "@/configs/order.json";
 
-import { Button, Game, Pagination, Select, Spin, User } from "@/components";
+import {
+	Button,
+	Game,
+	Pagination,
+	Select,
+	Spin,
+	User,
+} from "@/components";
 import { paths } from "@/routes";
 import { UserProps } from "@/types";
 import GameProps from "@/types/game";
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import {
+	useInfiniteQuery,
+	useMutation,
+	useQuery,
+} from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -15,7 +26,11 @@ import {
 	BiRightArrowAlt,
 	BiX,
 } from "react-icons/bi";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+	useNavigate,
+	useParams,
+	useSearchParams,
+} from "react-router-dom";
 
 export default function UserContent({
 	id,
@@ -24,7 +39,10 @@ export default function UserContent({
 	onClose,
 }: {
 	id: string;
-	fn: (login: string, us: URLSearchParams) => Promise<Response>;
+	fn: (
+		login: string,
+		us: URLSearchParams,
+	) => Promise<Response>;
 }) {
 	const { t } = useTranslation();
 	const [page, setPage] = useState<number>(1);
@@ -53,7 +71,9 @@ export default function UserContent({
 		<div className="w-full gap-4 flex flex-col flex-1">
 			<div className="w-full flex flex-col gap-2 items-start">
 				<div className="w-full flex flex-row items-center justify-between gap-4">
-					<p className="text-title">{t(`profile.titles.${id}`)}</p>
+					<p className="text-title">
+						{t(`profile.titles.${id}`)}
+					</p>
 					<Select
 						options={sorOptions}
 						className="w-50"
@@ -86,7 +106,10 @@ export default function UserContent({
 													nolink
 													size="full"
 													onClick={(_login) =>
-														onClose && onClose(paths.users.details(_login))
+														onClose &&
+														onClose(
+															paths.users.details(_login),
+														)
 													}
 												/>
 											</div>
@@ -100,7 +123,8 @@ export default function UserContent({
 													nolink
 													size="full"
 													onClick={(id) =>
-														onClose && onClose(paths.games.details(id))
+														onClose &&
+														onClose(paths.games.details(id))
 													}
 												/>
 											</div>

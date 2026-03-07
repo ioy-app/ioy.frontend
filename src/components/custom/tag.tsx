@@ -21,7 +21,9 @@ function stringToHSLColor(
 }
 
 function getContrastTextColor(hslColor: string): string {
-	const match = hslColor.match(/hsl\(\d+,\s*\d+%,\s*(\d+)%\)/);
+	const match = hslColor.match(
+		/hsl\(\d+,\s*\d+%,\s*(\d+)%\)/,
+	);
 	if (!match) return "#000";
 	const lightness = parseInt(match[1], 10);
 	return lightness > 60 ? "#000" : "#fff";

@@ -6,4 +6,4 @@ export default interface UserProps {
 	avatar: string;
 	subscribers: number;
 	games?: GameProps[];
-}
+};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

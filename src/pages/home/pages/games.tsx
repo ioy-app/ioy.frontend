@@ -17,7 +17,12 @@ import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiBox, BiSearch } from "react-icons/bi";
-import { Link, NavLink, useNavigate, useSearchParams } from "react-router";
+import {
+	Link,
+	NavLink,
+	useNavigate,
+	useSearchParams,
+} from "react-router";
 
 /**
  * Games pages for home
@@ -50,14 +55,22 @@ const Games: React.FC<{}> = ({}) => {
 		methods.setValue("search", null);
 
 		if (searchParams.get("search"))
-			methods.setValue("search", searchParams.get("search"));
+			methods.setValue(
+				"search",
+				searchParams.get("search"),
+			);
 		if (searchParams.get("status"))
-			methods.setValue("status", searchParams.get("status"));
+			methods.setValue(
+				"status",
+				searchParams.get("status"),
+			);
 	}, [searchParams]);
 
 	const isSearch = searchParams.get("search");
 	const max = 20;
-	const current_page = Number(searchParams.get("page") || 1);
+	const current_page = Number(
+		searchParams.get("page") || 1,
+	);
 
 	const submit = (data) => {
 		const us = new URLSearchParams(data);
@@ -99,7 +112,9 @@ const Games: React.FC<{}> = ({}) => {
 			>
 				<div className="flex gap-4">
 					<Input
-						placeholder={t("home.search.placeholders.search")}
+						placeholder={t(
+							"home.search.placeholders.search",
+						)}
 						type="search"
 						{...methods.register("search")}
 					/>
@@ -161,14 +176,18 @@ const Games: React.FC<{}> = ({}) => {
 								dataIndex: "version",
 							},
 							{
-								title: t("dashboard.table.games.date_created"),
+								title: t(
+									"dashboard.table.games.date_created",
+								),
 								dataIndex: "date_created",
 								render: (date) =>
 									dayjs(date)?.isValid() &&
 									dayjs(date).format("HH:mm DD.MM.YYYY"),
 							},
 							{
-								title: t("dashboard.table.games.date_updated"),
+								title: t(
+									"dashboard.table.games.date_updated",
+								),
 								dataIndex: "date_updated",
 								render: (date) =>
 									dayjs(date)?.isValid() &&
@@ -201,12 +220,19 @@ const Games: React.FC<{}> = ({}) => {
 					<>
 						<div className="grid grid-cols-10 gap-4 max-lg:grid-cols-7 max-md:grid-cols-4">
 							{games?.map((game: GameProps, i: number) => (
-								<Game dataSource={game} key={i} size="full" />
+								<Game
+									dataSource={game}
+									key={i}
+									size="full"
+								/>
 							))}
 						</div>
 						<div className="flex gap-4 flex-wrap justify-center items-center py-8">
 							{tags?.map((tag: string, i: number) => (
-								<NavLink to={`/?search=${tag}`} className="cursor-pointer">
+								<NavLink
+									to={`/?search=${tag}`}
+									className="cursor-pointer"
+								>
 									<Tag title={tag} key={i} />
 								</NavLink>
 							))}

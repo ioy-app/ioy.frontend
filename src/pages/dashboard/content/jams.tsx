@@ -12,7 +12,11 @@ import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
 import dayjs from "dayjs";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+	Link,
+	useNavigate,
+	useSearchParams,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { paths } from "@/routes";
 import GameProps from "@/types/game";
@@ -26,16 +30,25 @@ const Jams: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const max = 10;
-	const current_page = Number(searchParams.get("page") || 1);
+	const current_page = Number(
+		searchParams.get("page") || 1,
+	);
 	const status = searchParams.get("status");
 	const searchQS = searchParams.get("search");
 
 	const query = useQuery({
-		queryKey: ["dashboard", "jams", searchParams?.toString()],
+		queryKey: [
+			"dashboard",
+			"jams",
+			searchParams?.toString(),
+		],
 		queryFn: async () => {
 			const search = new URLSearchParams();
 
-			search.set("offset", String((current_page - 1) * max));
+			search.set(
+				"offset",
+				String((current_page - 1) * max),
+			);
 			search.set("limit", String(max));
 			if (status) search.set("status", status);
 			if (searchQS) search.set("search", searchQS);
@@ -48,7 +61,8 @@ const Jams: React.FC = () => {
 	const onSubmit = async (data) => {
 		const us = new URLSearchParams();
 		if (data.search) us.set("search", data.search);
-		if (data.status && data.status != "all") us.set("status", data.status);
+		if (data.status && data.status != "all")
+			us.set("status", data.status);
 		setSearchParams(us);
 	};
 
@@ -56,9 +70,15 @@ const Jams: React.FC = () => {
 
 	useEffect(() => {
 		if (searchParams.get("search"))
-			methods.setValue("search", searchParams.get("search"));
+			methods.setValue(
+				"search",
+				searchParams.get("search"),
+			);
 		if (searchParams.get("status"))
-			methods.setValue("status", searchParams.get("status"));
+			methods.setValue(
+				"status",
+				searchParams.get("status"),
+			);
 	}, [searchParams]);
 
 	return (
@@ -71,7 +91,9 @@ const Jams: React.FC = () => {
 					<Components.Input
 						type="search"
 						{...methods.register("search")}
-						placeholder={t("dashboard.placeholders.jams.search")}
+						placeholder={t(
+							"dashboard.placeholders.jams.search",
+						)}
 					/>
 					<Components.Select
 						placeholder={t("dashboard.placeholders.status")}
@@ -82,7 +104,10 @@ const Jams: React.FC = () => {
 						{...methods.register("status")}
 						className="w-50"
 					/>
-					<Components.Button variant="primary" htmlType="submit">
+					<Components.Button
+						variant="primary"
+						htmlType="submit"
+					>
 						<BiSearch />
 					</Components.Button>
 				</form>
@@ -116,19 +141,26 @@ const Jams: React.FC = () => {
 					{
 						title: t("dashboard.table.jams.status"),
 						dataIndex: "status",
-						render: (status) => t(`dashboard.statuses.` + status),
+						render: (status) =>
+							t(`dashboard.statuses.` + status),
 					},
 					{
-						title: t("dashboard.table.jams.started_to_finished"),
+						title: t(
+							"dashboard.table.jams.started_to_finished",
+						),
 						dataIndex: "date_created",
 						render: (date) =>
-							dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY"),
+							dayjs(date)?.isValid() &&
+							dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 					{
-						title: t("dashboard.table.jams.vote_started_to_finished"),
+						title: t(
+							"dashboard.table.jams.vote_started_to_finished",
+						),
 						dataIndex: "date_updated",
 						render: (date) =>
-							dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY"),
+							dayjs(date)?.isValid() &&
+							dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 				]}
 				data={query?.data?.items}
@@ -137,7 +169,9 @@ const Jams: React.FC = () => {
 					<>
 						<Components.Button
 							variant="second"
-							onClick={() => navigator(jams_paths.edit(row?.id))}
+							onClick={() =>
+								navigator(jams_paths.edit(row?.id))
+							}
 						>
 							<BiEditAlt />
 						</Components.Button>
@@ -169,7 +203,9 @@ const Jams: React.FC = () => {
 				nodata={
 					<>
 						<BiBox className="text-2xl" />
-						<p className="text-placeholder">{t("dashboard.labels.nodata")}</p>
+						<p className="text-placeholder">
+							{t("dashboard.labels.nodata")}
+						</p>
 					</>
 				}
 			/>

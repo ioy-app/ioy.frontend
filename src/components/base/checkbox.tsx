@@ -18,7 +18,9 @@ const Checkbox: React.FC<{
 				className="w-[70%] h-[70%] appearance-none rounded-full checked:bg-primary cursor-pointer"
 			/>
 		</div>
-		<p className="text-placeholder select-none">{placeholder}</p>
+		<p className="text-placeholder select-none">
+			{placeholder}
+		</p>
 	</label>
 );
 

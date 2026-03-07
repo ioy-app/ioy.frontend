@@ -23,7 +23,9 @@ const Player: React.FC<{
 			setLoading(true);
 			setPlay(true);
 			setError(false);
-			const file: Response = await fetch(src || `/api/v1/games/${gameId}/game`);
+			const file: Response = await fetch(
+				src || `/api/v1/games/${gameId}/game`,
+			);
 			const resource = await file.blob();
 
 			if (!file.ok) throw new Error();
@@ -57,7 +59,9 @@ const Player: React.FC<{
 					{isError ? (
 						<div className="flex w-full h-full items-center justify-center flex-col gap-2 text-danger">
 							<BiError size="2em" />
-							<p className="text-placeholder">{t("games.errors.exists")}</p>
+							<p className="text-placeholder">
+								{t("games.errors.exists")}
+							</p>
 						</div>
 					) : (
 						<iframe

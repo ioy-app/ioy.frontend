@@ -14,7 +14,11 @@ import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
 import dayjs from "dayjs";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+	Link,
+	useNavigate,
+	useSearchParams,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { games_paths } from "@/routes/games";
 import { paths } from "@/routes";
@@ -31,18 +35,29 @@ const Reports: React.FC = () => {
 	const { t } = useTranslation();
 	const navigator = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { login } = useSelector((state: StoreProps) => state.login);
+	const { login } = useSelector(
+		(state: StoreProps) => state.login,
+	);
 
 	const max = 10;
-	const current_page = Number(searchParams.get("page") || 1);
+	const current_page = Number(
+		searchParams.get("page") || 1,
+	);
 	const status = searchParams.get("status");
 	const sort = searchParams.get("sort");
 	const searchQS = searchParams.get("search");
 
 	const query = useQuery({
-		queryKey: ["dashboard", "reports", searchParams?.toString()],
+		queryKey: [
+			"dashboard",
+			"reports",
+			searchParams?.toString(),
+		],
 		queryFn: async () => {
-			const result = await reports((current_page - 1) * max, max);
+			const result = await reports(
+				(current_page - 1) * max,
+				max,
+			);
 			return result;
 		},
 	});
@@ -154,20 +169,26 @@ const Reports: React.FC = () => {
 						dataIndex: "message",
 					},
 					{
-						title: t("dashboard.table.reports.date_created"),
+						title: t(
+							"dashboard.table.reports.date_created",
+						),
 						dataIndex: "date_created",
 						render: (date) =>
-							dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY"),
+							dayjs(date)?.isValid() &&
+							dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 					{
 						title: t("dashboard.table.reports.answer"),
 						dataIndex: "answer",
 					},
 					{
-						title: t("dashboard.table.reports.date_answered"),
+						title: t(
+							"dashboard.table.reports.date_answered",
+						),
 						dataIndex: "date_updated",
 						render: (date) =>
-							dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY"),
+							dayjs(date)?.isValid() &&
+							dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 				]}
 				data={query?.data?.items}
@@ -187,7 +208,9 @@ const Reports: React.FC = () => {
 				nodata={
 					<>
 						<BiBox className="text-2xl" />
-						<p className="text-placeholder">{t("dashboard.labels.nodata")}</p>
+						<p className="text-placeholder">
+							{t("dashboard.labels.nodata")}
+						</p>
 					</>
 				}
 			/>

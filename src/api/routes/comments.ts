@@ -30,12 +30,21 @@ export const comments_answers = (
 
 export const comments_like = (id: number) =>
 	apiInstance.post(Routes.comments.like(id));
-export const comments_create = (id: number, comment: string) =>
+export const comments_create = (
+	id: number,
+	comment: string,
+) =>
 	apiInstance.post(Routes.comments.create(id), { comment });
-export const comments_delete = (id: number, commentid: number) =>
+export const comments_delete = (
+	id: number,
+	commentid: number,
+) =>
 	apiInstance.delete(Routes.comments.reply(id, commentid));
 export const comments_reply = (
 	id: number,
 	commentid: number,
 	comment: string,
-) => apiInstance.post(Routes.comments.reply(id, commentid), { comment });
+) =>
+	apiInstance.post(Routes.comments.reply(id, commentid), {
+		comment,
+	});

@@ -12,7 +12,10 @@ export const getCache = (key: string) => {
 			}
 		}
 	} catch (e) {
-		console.error("Ошибка при чтении кэша из localStorage:", e);
+		console.error(
+			"Ошибка при чтении кэша из localStorage:",
+			e,
+		);
 	}
 	return null;
 };
@@ -26,7 +29,10 @@ export const saveCache = (key: string, data: any) => {
 		};
 		localStorage.setItem(key, JSON.stringify(cacheData));
 	} catch (e) {
-		console.error("Ошибка при сохранении кэша в localStorage:", e);
+		console.error(
+			"Ошибка при сохранении кэша в localStorage:",
+			e,
+		);
 	}
 };
 
@@ -34,7 +40,10 @@ export const clearCache = (key: string) => {
 	try {
 		localStorage.removeItem(key);
 	} catch (e) {
-		console.error("Ошибка при очистке кэша из localStorage:", e);
+		console.error(
+			"Ошибка при очистке кэша из localStorage:",
+			e,
+		);
 	}
 	return null;
 };

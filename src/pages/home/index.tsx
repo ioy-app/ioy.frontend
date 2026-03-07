@@ -19,7 +19,9 @@ export default function Home() {
 						{({ isActive }) => (
 							<Button
 								variant="text"
-								className={isActive ? "text-primary" : "text-text"}
+								className={
+									isActive ? "text-primary" : "text-text"
+								}
 								disabled={isActive}
 							>
 								{t("buttons.nav.games")}
@@ -31,7 +33,9 @@ export default function Home() {
 							{({ isActive }) => (
 								<Button
 									variant="text"
-									className={isActive ? "text-primary" : "text-text"}
+									className={
+										isActive ? "text-primary" : "text-text"
+									}
 									disabled={isActive}
 								>
 									{t("buttons.nav.jams")}

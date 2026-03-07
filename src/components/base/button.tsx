@@ -8,7 +8,13 @@ const Button: React.FC<{
 	/** onClick event */
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	/** Button's type */
-	variant?: "default" | "primary" | "second" | "danger" | "text" | "clear";
+	variant?:
+		| "default"
+		| "primary"
+		| "second"
+		| "danger"
+		| "text"
+		| "clear";
 	/** Button's classes */
 	className?: string;
 	/** Loading state */

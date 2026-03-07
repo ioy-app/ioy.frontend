@@ -1,12 +1,7 @@
-type DescriptionProps = {
-	type: string;
-	content: string;
-};
-
 type ControlsProps = {
 	is_subscribe: boolean;
 	is_me: boolean;
-};
+}
 
 export default interface UserProps {
 	id: number;

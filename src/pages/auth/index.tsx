@@ -24,7 +24,11 @@ const Auth: React.FC<{
 						value: "reg",
 					},
 				]}
-				ContentParent={({ children }: { children: React.ReactNode }) => (
+				ContentParent={({
+					children,
+				}: {
+					children: React.ReactNode;
+				}) => (
 					<div className="auth_content">{children}</div>
 				)}
 				content={{

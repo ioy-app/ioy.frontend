@@ -15,7 +15,11 @@ import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
 import dayjs from "dayjs";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+	Link,
+	useNavigate,
+	useSearchParams,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { games_paths } from "@/routes/games";
 import { paths } from "@/routes";
@@ -31,20 +35,31 @@ const Following: React.FC = () => {
 	const { t } = useTranslation();
 	const navigator = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { login } = useSelector((state: StoreProps) => state.login);
+	const { login } = useSelector(
+		(state: StoreProps) => state.login,
+	);
 
 	const max = 10;
-	const current_page = Number(searchParams.get("page") || 1);
+	const current_page = Number(
+		searchParams.get("page") || 1,
+	);
 	const status = searchParams.get("status");
 	const sort = searchParams.get("sort");
 	const searchQS = searchParams.get("search");
 
 	const query = useQuery({
-		queryKey: ["dashboard", "following", searchParams?.toString()],
+		queryKey: [
+			"dashboard",
+			"following",
+			searchParams?.toString(),
+		],
 		queryFn: async () => {
 			const search = new URLSearchParams();
 
-			search.set("offset", String((current_page - 1) * max));
+			search.set(
+				"offset",
+				String((current_page - 1) * max),
+			);
 			search.set("limit", String(max));
 			if (sort) search.set("sort", sort);
 
@@ -82,10 +97,15 @@ const Following: React.FC = () => {
 						<Components.Select
 							options={sorOptions}
 							className="w-50"
-							placeholder={t("dashboard.placeholders.order")}
+							placeholder={t(
+								"dashboard.placeholders.order",
+							)}
 							{...methods.register("sort")}
 						/>
-						<Components.Button variant="primary" htmlType="submit">
+						<Components.Button
+							variant="primary"
+							htmlType="submit"
+						>
 							<BiSearch />
 						</Components.Button>
 					</div>
@@ -134,7 +154,9 @@ const Following: React.FC = () => {
 				nodata={
 					<>
 						<BiBox className="text-2xl" />
-						<p className="text-placeholder">{t("dashboard.labels.nodata")}</p>
+						<p className="text-placeholder">
+							{t("dashboard.labels.nodata")}
+						</p>
 					</>
 				}
 			/>

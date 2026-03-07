@@ -1,5 +1,8 @@
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+	RouterProvider,
+	createBrowserRouter,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import Store from "@/stories";
 
@@ -8,7 +11,10 @@ import "./global.css";
 import { ModalProvider, NotifyProvider } from "@/hooks";
 import "@/i18n";
 import routes, { paths } from "@/routes";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+	QueryClient,
+	QueryClientProvider,
+} from "@tanstack/react-query";
 import Terms from "@/pages/home/pages/terms";
 
 const routers = createBrowserRouter([
@@ -24,7 +30,8 @@ const routers = createBrowserRouter([
 	},
 ]);
 
-const app: HTMLElement | null = document.getElementById("app");
+const app: HTMLElement | null =
+	document.getElementById("app");
 if (!app) throw new Error("#app isn't found");
 
 const queryClient = new QueryClient();

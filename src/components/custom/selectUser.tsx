@@ -20,9 +20,19 @@ const SelectUser: React.FC<{
 	watch: (key: string) => any;
 	disabled?: boolean;
 	initial?: UserProps[];
-}> = ({ name, label, placeholder, setValue, disabled, watch, initial }) => {
-	const [local_value, setLocalValue] = useState<any[]>(null);
-	const [isLoading, setLoading] = useState<boolean>(disabled);
+}> = ({
+	name,
+	label,
+	placeholder,
+	setValue,
+	disabled,
+	watch,
+	initial,
+}) => {
+	const [local_value, setLocalValue] =
+		useState<any[]>(null);
+	const [isLoading, setLoading] =
+		useState<boolean>(disabled);
 	const { notify } = useNotify();
 	const { t } = useTranslation();
 
@@ -35,7 +45,9 @@ const SelectUser: React.FC<{
 				if (!value) throw false;
 				for (const id of value) {
 					try {
-						const find = initial?.find((user) => user.id == id);
+						const find = initial?.find(
+							(user) => user.id == id,
+						);
 						if (!find) throw false;
 
 						arr.push({
@@ -75,8 +87,15 @@ const SelectUser: React.FC<{
 					if (!value) return;
 
 					try {
-						if (local_value && local_value.find((user) => user.login == value))
-							throw t("profile.errors.equal", { login: value });
+						if (
+							local_value &&
+							local_value.find(
+								(user) => user.login == value,
+							)
+						)
+							throw t("profile.errors.equal", {
+								login: value,
+							});
 
 						const response = await users_details(value);
 
@@ -96,7 +115,12 @@ const SelectUser: React.FC<{
 						});
 						e.target.value = "";
 					} catch (err) {
-						notify(t("profile." + err?.message, { login: value }), "error");
+						notify(
+							t("profile." + err?.message, {
+								login: value,
+							}),
+							"error",
+						);
 					} finally {
 						setLoading(false);
 					}
@@ -110,16 +134,23 @@ const SelectUser: React.FC<{
 							className="pr-2 border border-br rounded-full cursor-pointer flex gap-2 items-center"
 							onClick={() => {
 								setLocalValue((prev) => {
-									const newarr = prev?.filter((t) => t?.login != user?.login);
+									const newarr = prev?.filter(
+										(t) => t?.login != user?.login,
+									);
 									console.log(newarr);
-									setValue?.(name, (newarr?.length && newarr) || null);
+									setValue?.(
+										name,
+										(newarr?.length && newarr) || null,
+									);
 									return newarr;
 								});
 							}}
 						>
 							<User
 								login={user.login}
-								dataSource={{ is_avatar: user.is_avatar }}
+								dataSource={{
+									is_avatar: user.is_avatar,
+								}}
 								size={12}
 								nolink
 							/>

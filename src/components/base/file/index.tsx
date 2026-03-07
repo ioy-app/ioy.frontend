@@ -10,7 +10,9 @@ const File: React.FC<{
 }> = ({ label, name, ref, onChange, accept, value }) => {
 	return (
 		<label className="inputfile_label">
-			{label && <p className="inputfile_label__title">{label}:</p>}
+			{label && (
+				<p className="inputfile_label__title">{label}:</p>
+			)}
 			<input
 				accept={accept}
 				type="file"

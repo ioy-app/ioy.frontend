@@ -1,4 +1,8 @@
-import { games_details, games_like, games_subscribe } from "@/api/routes/games";
+import {
+	games_details,
+	games_like,
+	games_subscribe,
+} from "@/api/routes/games";
 import {
 	Button,
 	Game,
@@ -13,7 +17,11 @@ import {
 import GameProps from "@/types/game";
 import { useModal, useNotify } from "@/hooks";
 import { UserProps } from "@/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+	useMutation,
+	useQuery,
+	useQueryClient,
+} from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import {
@@ -25,7 +33,11 @@ import {
 	BiMessageError,
 	BiShare,
 } from "react-icons/bi";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import {
+	NavLink,
+	useNavigate,
+	useParams,
+} from "react-router-dom";
 import Comments from "./comments";
 import Popup from "@/components/base/popup";
 import { paths } from "@/routes";
@@ -41,7 +53,9 @@ export default function GamePage() {
 	const { notify } = useNotify();
 	const { modal } = useModal();
 	const queryClient = useQueryClient();
-	const { token } = useSelector((state: StoreProps) => state.login);
+	const { token } = useSelector(
+		(state: StoreProps) => state.login,
+	);
 
 	const query = useQuery({
 		queryKey: ["games", id],
@@ -68,10 +82,13 @@ export default function GamePage() {
 				t(`notify.${is_like ? "like" : "unlike"}`),
 				is_like ? "success" : "warning",
 			);
-			queryClient.setQueryData(["games", id], (current: GameProps) => ({
-				...current,
-				is_like,
-			}));
+			queryClient.setQueryData(
+				["games", id],
+				(current: GameProps) => ({
+					...current,
+					is_like,
+				}),
+			);
 		},
 	});
 
@@ -90,13 +107,18 @@ export default function GamePage() {
 			if (!data) return;
 			const is_subscribe = data?.status == "created";
 			notify(
-				t(`notify.${is_subscribe ? "subscribe" : "unsubscribe"}`),
+				t(
+					`notify.${is_subscribe ? "subscribe" : "unsubscribe"}`,
+				),
 				is_subscribe ? "success" : "warning",
 			);
-			queryClient.setQueryData(["games", id], (current: GameProps) => ({
-				...current,
-				is_subscribe,
-			}));
+			queryClient.setQueryData(
+				["games", id],
+				(current: GameProps) => ({
+					...current,
+					is_subscribe,
+				}),
+			);
 		},
 	});
 
@@ -118,7 +140,9 @@ export default function GamePage() {
 					<p className="text-default max-w-xl line-clamp-2 text-center ...">
 						{query?.data?.description}
 					</p>
-					<p className="w-full text-placeholder">{t("games.labels.share")}</p>
+					<p className="w-full text-placeholder">
+						{t("games.labels.share")}
+					</p>
 					<div className="text-default p-4 w-full rounded-xl border border-br flex flex-row gap-4 justify-between items-center text-text">
 						<p>{url}</p>
 						<BiCopyAlt />
@@ -127,7 +151,10 @@ export default function GamePage() {
 			),
 			(onClose) => (
 				<div className="flex w-full pt-4 justify-end items-center">
-					<Button variant="primary" onClick={() => onClose()}>
+					<Button
+						variant="primary"
+						onClick={() => onClose()}
+					>
 						{t("buttons.ok")}
 					</Button>
 				</div>
@@ -153,7 +180,9 @@ export default function GamePage() {
 								}
 								nolink
 							/>
-							<h1 className="text-title">{query?.data?.title}</h1>
+							<h1 className="text-title">
+								{query?.data?.title}
+							</h1>
 						</>
 					}
 					onClose={onClose}
@@ -165,7 +194,10 @@ export default function GamePage() {
 		<Spin loading={query?.status == "pending"} key={id}>
 			<div className="w-full flex flex-col gap-4 items-center">
 				<div className="w-[65%] max-lg:w-full flex flex-col gap-4 items-start">
-					<Button variant="text" onClick={() => navigate(-1)}>
+					<Button
+						variant="text"
+						onClick={() => navigate(-1)}
+					>
 						<BiChevronsLeft />
 						{t("buttons.back")}
 					</Button>
@@ -180,7 +212,9 @@ export default function GamePage() {
 							size={12}
 							nolink
 						/>
-						<h1 className="text-title">{query?.data?.title}</h1>
+						<h1 className="text-title">
+							{query?.data?.title}
+						</h1>
 						{query?.data?.version && (
 							<span className="border px-4 py-1 font-light font-roboto rounded-xl border-gray-200">
 								{query?.data?.version}
@@ -202,10 +236,17 @@ export default function GamePage() {
 						<div className="flex gap-4 items-center">
 							<Popup
 								align="b"
-								label={t(query?.data?.is_like ? "helps.unlike" : "helps.like")}
+								label={t(
+									query?.data?.is_like
+										? "helps.unlike"
+										: "helps.like",
+								)}
 							>
 								<Button
-									variant={(query?.data?.is_like && "second") || "default"}
+									variant={
+										(query?.data?.is_like && "second") ||
+										"default"
+									}
 									onClick={() => like.mutate()}
 									disabled={like.isPending}
 									loading={like.isPending}
@@ -222,7 +263,11 @@ export default function GamePage() {
 								)}
 							>
 								<Button
-									variant={(query?.data?.is_subscribe && "second") || "default"}
+									variant={
+										(query?.data?.is_subscribe &&
+											"second") ||
+										"default"
+									}
 									onClick={() => subscribe.mutate()}
 									disabled={subscribe.isPending}
 									loading={subscribe.isPending}
@@ -237,7 +282,10 @@ export default function GamePage() {
 							</Popup>
 							{query?.data?.roledata?.is_warning_games && (
 								<Popup align="b" label={t("helps.report")}>
-									<Button variant="default" onClick={() => report()}>
+									<Button
+										variant="default"
+										onClick={() => report()}
+									>
 										<BiMessageError />
 									</Button>
 								</Popup>
@@ -246,7 +294,9 @@ export default function GamePage() {
 					</div>
 					<div className="flex gap-4 w-full">
 						<div className="flex flex-col gap-2 w-fit">
-							<p className="text-placeholder">{t("games.labels.authors")}</p>
+							<p className="text-placeholder">
+								{t("games.labels.authors")}
+							</p>
 							<div className="flex flex-col gap-4 w-fit border border-br rounded-xl p-4 h-fit">
 								{query?.data?.authors_data?.map(
 									(author: UserProps, i: number) => (
@@ -267,33 +317,49 @@ export default function GamePage() {
 									{t("games.labels.description")}
 								</p>
 								<div className="p-4 border border-br rounded-xl flex flex-col gap-4 w-full">
-									<LinkifyText>{query?.data?.description}</LinkifyText>
+									<LinkifyText>
+										{query?.data?.description}
+									</LinkifyText>
 									<div className="flex flex-row flex-wrap gap-4">
-										{query?.data?.tags?.map((tag: string, i: number) => (
-											<Tag title={tag} key={i} />
-										))}
+										{query?.data?.tags?.map(
+											(tag: string, i: number) => (
+												<Tag title={tag} key={i} />
+											),
+										)}
 									</div>
 								</div>
 							</div>
 						)}
 					</div>
 					<div className="flex flex-col gap-1 w-full items-end text-placeholder">
-						<p>{dayjs(query?.data?.date_created).format("HH:mm DD.MM.YYYY")}</p>
+						<p>
+							{dayjs(query?.data?.date_created).format(
+								"HH:mm DD.MM.YYYY",
+							)}
+						</p>
 						{query?.data?.date_updated && (
 							<p>
 								{t("games.labels.edited")}:{" "}
-								{dayjs(query?.data?.date_updated).format("HH:mm DD.MM.YYYY")}
+								{dayjs(query?.data?.date_updated).format(
+									"HH:mm DD.MM.YYYY",
+								)}
 							</p>
 						)}
 					</div>
 					{query?.data?.recommendator?.length > 0 && (
 						<div className="flex flex-col gap-2 w-full">
-							<p className="text-placeholder">{t("games.labels.recommends")}</p>
+							<p className="text-placeholder">
+								{t("games.labels.recommends")}
+							</p>
 							<div className="grid grid-cols-5 max-md:grid-cols-3 gap-4 p-4 border border-br rounded-xl w-full">
 								{query?.data?.recommendator?.map(
 									(game: GameProps, i: number) => (
 										<div>
-											<Game dataSource={game} key={i} size="full" />
+											<Game
+												dataSource={game}
+												key={i}
+												size="full"
+											/>
 										</div>
 									),
 								)}

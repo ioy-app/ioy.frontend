@@ -13,8 +13,11 @@ const Sessions: React.FC = () => {
 	const { t } = useTranslation();
 	const { notify } = useNotify();
 	const [isLoading, setLoading] = useState<boolean>(true);
-	const [isLocalLoading, setLocalLoading] = useState<boolean>(false);
-	const [data, setData] = useState<SessionProps[] | null>(null);
+	const [isLocalLoading, setLocalLoading] =
+		useState<boolean>(false);
+	const [data, setData] = useState<SessionProps[] | null>(
+		null,
+	);
 
 	useEffect(() => {
 		(async () => {
@@ -27,7 +30,10 @@ const Sessions: React.FC = () => {
 
 				setData(response as SessionProps[]);
 			} catch (err) {
-				notify(t("sessions." + err?.message?.toString()), "error");
+				notify(
+					t("sessions." + err?.message?.toString()),
+					"error",
+				);
 			} finally {
 				setLoading(false);
 				setLocalLoading(false);
@@ -35,12 +41,17 @@ const Sessions: React.FC = () => {
 		})();
 	}, []);
 
-	const handleCallback = async (func: () => Promise<void>): Promise<void> => {
+	const handleCallback = async (
+		func: () => Promise<void>,
+	): Promise<void> => {
 		try {
 			setLocalLoading(true);
 			await func();
 		} catch (err) {
-			notify(t("sessions." + err?.message?.toString()), "error");
+			notify(
+				t("sessions." + err?.message?.toString()),
+				"error",
+			);
 		} finally {
 			setLocalLoading(false);
 		}
@@ -59,8 +70,15 @@ const Sessions: React.FC = () => {
 						onDelete={(id: number) =>
 							handleCallback(async () => {
 								await sessions_delete(id);
-								notify(t("sessions.success.delete"), "success");
-								setData((prev) => prev.filter((s: SessionProps) => s.id != id));
+								notify(
+									t("sessions.success.delete"),
+									"success",
+								);
+								setData((prev) =>
+									prev.filter(
+										(s: SessionProps) => s.id != id,
+									),
+								);
 							})
 						}
 					/>
@@ -74,7 +92,10 @@ const Sessions: React.FC = () => {
 						onClick={() =>
 							handleCallback(async () => {
 								await sessions_delete_all();
-								notify(t("sessions.success.delete_all"), "success");
+								notify(
+									t("sessions.success.delete_all"),
+									"success",
+								);
 								setData(null);
 							})
 						}

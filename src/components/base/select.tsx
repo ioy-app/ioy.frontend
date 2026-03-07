@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BiChevronDown, BiChevronUp, BiFileBlank } from "react-icons/bi";
+import {
+	BiChevronDown,
+	BiChevronUp,
+	BiFileBlank,
+} from "react-icons/bi";
 
 interface Option {
 	label: React.ReactNode;
 	value: string;
 }
 
-type SelectComponentProps = { options: Option[] } & Omit<
+type SelectComponentProps = {
+	options: Option[];
+} & Omit<
 	React.SelectHTMLAttributes<HTMLSelectElement>,
 	"children"
 >;
@@ -33,7 +39,9 @@ const Select: React.FC<SelectComponentProps> = ({
 		const value = localRef?.current?.value;
 		if (!value) return;
 
-		const option = options?.find((opt) => opt.value == value);
+		const option = options?.find(
+			(opt) => opt.value == value,
+		);
 		setValue(option);
 	}, [localRef?.current]);
 
@@ -61,7 +69,9 @@ const Select: React.FC<SelectComponentProps> = ({
 		>
 			<div
 				className={`rounded-xl border ${(isOpen && "border-primary") || "border-br"} text-default h-10 flex flex-row gap-2 items-center justify-between px-4 py-2 ${className && className} transition-colors ${(disabled && "hover:border-disabled border-disabled cursor-not-allowed text-disabled-content") || "hover:border-primary cursor-pointer group"}`}
-				onClick={() => !disabled && setOpen((prev) => !prev)}
+				onClick={() =>
+					!disabled && setOpen((prev) => !prev)
+				}
 			>
 				{(localValue || placeholder) && (
 					<p className="overflow-hidden truncate ...">

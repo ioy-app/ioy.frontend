@@ -12,7 +12,9 @@ export default function Content() {
 	const { data, isError } = useQuery({
 		queryKey: ["profile", "token"],
 		queryFn: async () => {
-			const response = await apiInstance.get(Routes.profile.refresh);
+			const response = await apiInstance.get(
+				Routes.profile.refresh,
+			);
 			return response;
 		},
 		refetchInterval: 120_000,

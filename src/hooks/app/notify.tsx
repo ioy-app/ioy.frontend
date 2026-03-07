@@ -8,12 +8,17 @@ export interface NotifyProps {
 }
 
 const NotifyContext = createContext(null);
-export const NotifyProvider: React.FC<{ children: React.ReactNode }> = ({
-	children,
-}) => {
-	const [stack, setStack] = useState<NotifyProps[] | null>(null);
+export const NotifyProvider: React.FC<{
+	children: React.ReactNode;
+}> = ({ children }) => {
+	const [stack, setStack] = useState<NotifyProps[] | null>(
+		null,
+	);
 
-	const notify = (message: string, type: NotifyProps["type"] = "info") => {
+	const notify = (
+		message: string,
+		type: NotifyProps["type"] = "info",
+	) => {
 		const id: string = crypto.randomUUID();
 		setStack((prev) => [
 			...((prev && prev) || []),
@@ -25,7 +30,10 @@ export const NotifyProvider: React.FC<{ children: React.ReactNode }> = ({
 		]);
 
 		setTimeout(
-			() => setStack((prev) => prev.filter((note) => note.id !== id)),
+			() =>
+				setStack((prev) =>
+					prev.filter((note) => note.id !== id),
+				),
 			1800,
 		);
 	};
@@ -39,10 +47,21 @@ export const NotifyProvider: React.FC<{ children: React.ReactNode }> = ({
 						<motion.div
 							key={note.id}
 							layout
-							initial={{ opacity: 0, y: 50 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: 50 }}
-							transition={{ duration: 0.3 }}
+							initial={{
+								opacity: 0,
+								y: 50,
+							}}
+							animate={{
+								opacity: 1,
+								y: 0,
+							}}
+							exit={{
+								opacity: 0,
+								y: 50,
+							}}
+							transition={{
+								duration: 0.3,
+							}}
 							className={`notify notify-${note.type}`}
 						>
 							{note.message}

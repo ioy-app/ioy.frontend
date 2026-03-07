@@ -16,7 +16,8 @@ export const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use((config) => {
 	const token = localStorage.getItem("token");
-	if (Boolean(token)) config.headers.Authorization = `Bearer ${token}`;
+	if (token)
+		config.headers.Authorization = `Bearer ${token}`;
 	return config;
 });
 
@@ -25,7 +26,9 @@ apiInstance.interceptors.response.use(
 	async (err) => {
 		if (err.response.status == 401) {
 			try {
-				const response = await apiInstance.get(Routes.profile.refresh);
+				const response = await apiInstance.get(
+					Routes.profile.refresh,
+				);
 				if (response?.token) {
 					localStorage.setItem("token", response?.token);
 					return apiInstance(err.config);
@@ -52,7 +55,9 @@ apiFileInstance.interceptors.response.use(
 	async (err) => {
 		if (err?.response?.status == 401) {
 			try {
-				const response = await apiInstance.get(Routes.profile.refresh);
+				const response = await apiInstance.get(
+					Routes.profile.refresh,
+				);
 				if (response?.token) {
 					localStorage.setItem("token", response?.token);
 					return apiInstance(err.config);
@@ -85,12 +90,15 @@ const Routes = {
 	},
 	users: {
 		details: (login: string) => `/users/${login}`,
-		subscribe: (login: string) => `/users/${login}/subscribe`,
+		subscribe: (login: string) =>
+			`/users/${login}/subscribe`,
 		games: (login: string) => `/users/${login}/games`,
 		jams: (login: string) => `/users/${login}/jams`,
 		avatar: (login: string) => `/users/${login}/avatar`,
-		subscribers: (login: string) => `/users/${login}/subscribers`,
-		favorites: (login: string) => `/users/${login}/favorites`,
+		subscribers: (login: string) =>
+			`/users/${login}/subscribers`,
+		favorites: (login: string) =>
+			`/users/${login}/favorites`,
 		likes: (login: string) => `/users/${login}/likes`,
 		email: `/users/change-email`,
 		delete: `/users/delete`,
@@ -113,9 +121,11 @@ const Routes = {
 	},
 	comments: {
 		details: (id: number) => `/comments/${id}`,
-		answers: (id: number, commentid: number) => `/comments/${id}/${commentid}`,
+		answers: (id: number, commentid: number) =>
+			`/comments/${id}/${commentid}`,
 		create: (id: number) => `/comments/${id}`,
-		reply: (id: number, commentid: number) => `/comments/${id}/${commentid}`,
+		reply: (id: number, commentid: number) =>
+			`/comments/${id}/${commentid}`,
 		like: (id: number) => `/comments/${id}/like`,
 	},
 	search: `/search`,
@@ -129,4 +139,12 @@ const Routes = {
 };
 
 export default Routes;
-export { Profile, Sessions, Users, oAuth, Games, Comments, Jams };
+export {
+	Profile,
+	Sessions,
+	Users,
+	oAuth,
+	Games,
+	Comments,
+	Jams,
+};

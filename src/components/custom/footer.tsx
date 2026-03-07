@@ -9,11 +9,13 @@ const Footer: React.FC = () => {
 	const { i18n, t } = useTranslation();
 	const prefersDarkMode =
 		window.matchMedia &&
-		window.matchMedia("(prefers-color-scheme: dark)").matches;
-	const [darkMode, setDarkMode] = useState<"dark" | "light">(
-		(localStorage.getItem("theme") || (prefersDarkMode && "dark")) as
-			| "dark"
-			| "light",
+		window.matchMedia("(prefers-color-scheme: dark)")
+			.matches;
+	const [darkMode, setDarkMode] = useState<
+		"dark" | "light"
+	>(
+		(localStorage.getItem("theme") ||
+			(prefersDarkMode && "dark")) as "dark" | "light",
 	);
 
 	const handleChangeLanguage = ({ target: { value } }) => {
@@ -24,12 +26,15 @@ const Footer: React.FC = () => {
 	const toggleDarkMode = () => {
 		const htmlEl = document.documentElement;
 		htmlEl.classList.toggle("dark");
-		const value = htmlEl.classList.contains("dark") ? "dark" : "light";
+		const value = htmlEl.classList.contains("dark")
+			? "dark"
+			: "light";
 		localStorage.setItem("theme", value);
 		setDarkMode(value);
 	};
 
-	if (darkMode == "dark") document.documentElement.classList.add("dark");
+	if (darkMode == "dark")
+		document.documentElement.classList.add("dark");
 
 	return (
 		<footer className="flex flex-row gap-4 justify-between items-center w-full p-4 bg-back">
@@ -49,8 +54,13 @@ const Footer: React.FC = () => {
 						<option value="en">English</option>
 					</select>
 				</label>
-				<NavLink to={paths.about}>{t("footer.about")}</NavLink>
-				<Button variant="text" onClick={() => toggleDarkMode()}>
+				<NavLink to={paths.about}>
+					{t("footer.about")}
+				</NavLink>
+				<Button
+					variant="text"
+					onClick={() => toggleDarkMode()}
+				>
 					{darkMode != "dark" ? <BiSun /> : <BiMoon />}
 				</Button>
 			</nav>

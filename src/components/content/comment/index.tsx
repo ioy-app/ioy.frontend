@@ -27,7 +27,9 @@ const Comment: React.FC<
 > = (props) => {
 	const { t } = useTranslation();
 	const [isReply, setReply] = useState<boolean>(false);
-	const { token } = useSelector((state: StoreProps) => state.login);
+	const { token } = useSelector(
+		(state: StoreProps) => state.login,
+	);
 
 	useEffect(() => {
 		setReply(false);
@@ -56,19 +58,33 @@ const Comment: React.FC<
 					<div className="p-4 border border-gray-200 rounded-xl">
 						<p className="text-lg">{props.comment}</p>
 						<div className="flex flex-col gap-1 w-full items-end text-[13pt] font-extralight">
-							<p>{dayjs(props?.date_created).format("HH:mm DD.MM.YYYY")}</p>
+							<p>
+								{dayjs(props?.date_created).format(
+									"HH:mm DD.MM.YYYY",
+								)}
+							</p>
 							{props?.date_updated && (
 								<p>
 									{t("games.labels.edited")}:{" "}
-									{dayjs(props?.date_updated).format("HH:mm DD.MM.YYYY")}
+									{dayjs(props?.date_updated).format(
+										"HH:mm DD.MM.YYYY",
+									)}
 								</p>
 							)}
 						</div>
 					</div>
 					<div className="flex items-center gap-4 justify-between w-full">
 						<Button
-							variant={token ? (props.is_like ? "second" : "default") : "text"}
-							onClick={() => props?.onLike && props.onLike(props.id)}
+							variant={
+								token
+									? props.is_like
+										? "second"
+										: "default"
+									: "text"
+							}
+							onClick={() =>
+								props?.onLike && props.onLike(props.id)
+							}
 							disabled={!token}
 						>
 							<BiHeart />
@@ -77,7 +93,10 @@ const Comment: React.FC<
 						{token && (
 							<div className="flex items-center gap-4">
 								<Popup label={t("helps.reply")}>
-									<Button variant="default" onClick={() => setReply(true)}>
+									<Button
+										variant="default"
+										onClick={() => setReply(true)}
+									>
 										<BiReply />
 									</Button>
 								</Popup>
@@ -87,7 +106,10 @@ const Comment: React.FC<
 											variant="default"
 											onClick={() =>
 												props?.onDelete &&
-												props.onDelete(props.id, props.comment)
+												props.onDelete(
+													props.id,
+													props.comment,
+												)
 											}
 											disabled={!token}
 										>
@@ -118,24 +140,27 @@ const Comment: React.FC<
 			)}
 			{props?.answers?.length > 0 && (
 				<div className="flex flex-col gap-4 border-l border-l-gray-200 ml-4 pl-4">
-					{props?.answers?.map((comment: CommentProps, i: number) => (
-						<Comment
-							onLike={props.onLike}
-							onOk={props.onOk}
-							onDelete={props.onDelete}
-							onLoadNext={props.onLoadNext}
-							disabled={props.disabled}
-							{...comment}
-							key={`answer-${props.id}-${i}`}
-						/>
-					))}
+					{props?.answers?.map(
+						(comment: CommentProps, i: number) => (
+							<Comment
+								onLike={props.onLike}
+								onOk={props.onOk}
+								onDelete={props.onDelete}
+								onLoadNext={props.onLoadNext}
+								disabled={props.disabled}
+								{...comment}
+								key={`answer-${props.id}-${i}`}
+							/>
+						),
+					)}
 					{offset < max && (
 						<Button
 							variant="primary"
 							htmlType="button"
 							onClick={(e) => {
 								e.preventDefault();
-								props.onLoadNext && props.onLoadNext(offset);
+								props.onLoadNext &&
+									props.onLoadNext(offset);
 							}}
 							disabled={props.disabled}
 						>

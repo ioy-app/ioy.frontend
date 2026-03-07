@@ -26,7 +26,11 @@ const Report: React.FC<{
 	const handleSubmit = async (data) => {
 		try {
 			setLoading(true);
-			const response = await add_report(target_id, type, data?.message);
+			const response = await add_report(
+				target_id,
+				type,
+				data?.message,
+			);
 			notify(t("report.success"), "success");
 			onClose && onClose();
 		} catch (err) {
@@ -52,19 +56,30 @@ const Report: React.FC<{
 						label={t("report.labels.message")}
 						disabled={isLoading}
 						{...methods.register("message")}
-						onLocalChange={() => methods.clearErrors("callback")}
+						onLocalChange={() =>
+							methods.clearErrors("callback")
+						}
 					/>
 				</div>
 				<div className="flex w-full pt-4 justify-end items-center gap-4">
 					{methods.formState.errors.callback?.message && (
 						<p className="text-danger text-placeholder">
-							{t(`report.${methods.formState.errors.callback?.message}`)}
+							{t(
+								`report.${methods.formState.errors.callback?.message}`,
+							)}
 						</p>
 					)}
-					<Button onClick={() => onClose()} disabled={isLoading}>
+					<Button
+						onClick={() => onClose()}
+						disabled={isLoading}
+					>
 						{t("buttons.cancel")}
 					</Button>
-					<Button variant="primary" htmlType="submit" disabled={isLoading}>
+					<Button
+						variant="primary"
+						htmlType="submit"
+						disabled={isLoading}
+					>
 						{t("buttons.ok")}
 					</Button>
 				</div>

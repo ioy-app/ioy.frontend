@@ -1,4 +1,8 @@
-import React, { useActionState, useEffect, useState } from "react";
+import React, {
+	useActionState,
+	useEffect,
+	useState,
+} from "react";
 import { useSelector } from "react-redux";
 import * as Icons from "@/icons";
 
@@ -10,15 +14,22 @@ import { useTranslation } from "react-i18next";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNotify } from "@/hooks";
 
-const Login: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const Login: React.FC<{
+	onClose: () => void;
+}> = ({ onClose }) => {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
 	const { notify } = useNotify();
 	const methods = useForm();
-	const [isCodeForm, setFormCode] = useState<boolean>(false);
+	const [isCodeForm, setFormCode] =
+		useState<boolean>(false);
 	const [isLoading, setLoading] = useState<boolean>(false);
 
-	const handleSubmit = async ({ email }: { email: string }) => {
+	const handleSubmit = async ({
+		email,
+	}: {
+		email: string;
+	}) => {
 		try {
 			setLoading(true);
 			await auth_login({ email });
@@ -30,7 +41,12 @@ const Login: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 		}
 	};
 
-	const handleVerify = async ({ login, ...props }: { login: string }) => {
+	const handleVerify = async ({
+		login,
+		...props
+	}: {
+		login: string;
+	}) => {
 		notify(t("auth.welcome", { login }), "success");
 		dispatch(
 			setLogin({
@@ -58,7 +74,9 @@ const Login: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 			>
 				<div className="flex flex-col gap-2 items-center w-full">
 					<img src={Icons.Logo} className="w-25" />
-					<p className="text-default">{t("auth.title.login")}</p>
+					<p className="text-default">
+						{t("auth.title.login")}
+					</p>
 				</div>
 				<Input
 					{...methods.register("email")}
@@ -67,7 +85,11 @@ const Login: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 					type="email"
 					disabled={isLoading}
 				/>
-				<Button disabled={isLoading} variant="primary" htmlType="submit">
+				<Button
+					disabled={isLoading}
+					variant="primary"
+					htmlType="submit"
+				>
 					{t(isLoading ? "buttons.loading" : "buttons.ok")}
 				</Button>
 			</form>

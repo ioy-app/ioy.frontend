@@ -1,3 +1,4 @@
+import React from "react";
 import { Game, GameEdit } from "@/pages";
 import { RouteObject } from "react-router-dom";
 

@@ -1,5 +1,8 @@
 import { profile_logout } from "@/api/routes/profile";
-import { users_delete, users_games } from "@/api/routes/users";
+import {
+	users_delete,
+	users_games,
+} from "@/api/routes/users";
 import { Button, Code, Spin } from "@/components";
 import { useNotify } from "@/hooks";
 import { StoreProps } from "@/stories";
@@ -14,10 +17,13 @@ const Delete: React.FC<{
 	onClose: () => void;
 }> = ({ onClose }) => {
 	const { handleSubmit } = useForm();
-	const [isCodeForm, setCodeForm] = useState<boolean>(false);
+	const [isCodeForm, setCodeForm] =
+		useState<boolean>(false);
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const { t } = useTranslation();
-	const { login } = useSelector((state: StoreProps) => state.login);
+	const { login } = useSelector(
+		(state: StoreProps) => state.login,
+	);
 	const { notify } = useNotify();
 	const dispatch = useDispatch();
 
@@ -59,13 +65,19 @@ const Delete: React.FC<{
 		>
 			<Spin loading={query?.status == "pending"}>
 				<div className="flex flex-col gap-4">
-					<p className="text-default">{t("profile.titles.delete")}</p>
+					<p className="text-default">
+						{t("profile.titles.delete")}
+					</p>
 					<div className="border border-danger text-danger rounded-xl p-4 text-default">
 						<p>{t("profile.delete.title")}</p>
 						<ul className="list-disc pl-4">
-							<li className="font-medium">{t("profile.delete.second")}</li>
+							<li className="font-medium">
+								{t("profile.delete.second")}
+							</li>
 							<li>
-								{t("profile.delete.games", { count: query?.data?.total })}
+								{t("profile.delete.games", {
+									count: query?.data?.total,
+								})}
 							</li>
 							<li>{t("profile.delete.third")}</li>
 						</ul>
@@ -74,7 +86,9 @@ const Delete: React.FC<{
 						<Button
 							variant="danger"
 							htmlType="submit"
-							disabled={isLoading || query?.status == "pending"}
+							disabled={
+								isLoading || query?.status == "pending"
+							}
 						>
 							{t("buttons.delete")}
 						</Button>

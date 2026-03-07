@@ -25,7 +25,11 @@ const Code: React.FC<{
 	const { notify } = useNotify();
 	const { t } = useTranslation();
 
-	const handleSubmit = async ({ code }: { code: string[] }) => {
+	const handleSubmit = async ({
+		code,
+	}: {
+		code: string[];
+	}) => {
 		try {
 			console.log(code);
 			setLoading(true);
@@ -45,32 +49,43 @@ const Code: React.FC<{
 	};
 
 	const handleClear = () => {
-		for (let i = 0; i < length; i++) methods.setValue(`code.${i}`, "");
+		for (let i = 0; i < length; i++)
+			methods.setValue(`code.${i}`, "");
 		setTimeout(() => {
 			inputRefs?.current?.[0]?.focus();
 			inputRefs?.current?.[0]?.select();
 		}, 0);
 	};
 
-	const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+	const handlePaste = (
+		e: React.ClipboardEvent<HTMLInputElement>,
+	) => {
 		e.preventDefault();
 
-		const pastedData = e?.clipboardData?.getData("text")?.trim();
-		const digits = pastedData.match(/\d/g)?.slice(0, length) || [];
+		const pastedData = e?.clipboardData
+			?.getData("text")
+			?.trim();
+		const digits =
+			pastedData.match(/\d/g)?.slice(0, length) || [];
 
 		if (digits.length === 0) return;
 
 		digits.forEach((digit, idx) => {
-			if (idx < length) methods.setValue(`code.${idx}`, digit);
+			if (idx < length)
+				methods.setValue(`code.${idx}`, digit);
 		});
-		const focusIndex = Math.min(digits.length - 1, length - 1);
+		const focusIndex = Math.min(
+			digits.length - 1,
+			length - 1,
+		);
 
 		setTimeout(() => {
 			inputRefs?.current?.[focusIndex]?.focus();
 			inputRefs?.current?.[focusIndex]?.select();
 		}, 0);
 
-		if (digits.length === 6) methods.handleSubmit(handleSubmit)();
+		if (digits.length === 6)
+			methods.handleSubmit(handleSubmit)();
 	};
 
 	return (
@@ -80,7 +95,9 @@ const Code: React.FC<{
 				className="flex flex-col gap-4 items-center"
 			>
 				<p className="text-title">{t("codes.title")}</p>
-				<p className="text-default">{t("codes.description")}</p>
+				<p className="text-default">
+					{t("codes.description")}
+				</p>
 				<div className="flex flex-row gap-4 items-center w-full">
 					{Array.from({ length }, (_: any, i: number) => (
 						<Input
@@ -94,30 +111,42 @@ const Code: React.FC<{
 								inputRefs.current[i] = elem;
 								methods.register(`code.${i}`).ref(elem);
 							}}
-							onFocus={(elem: React.FocusEvent<HTMLInputElement>) =>
-								elem.target.select()
-							}
-							onPaste={(elem: React.ClipboardEvent<HTMLInputElement>) => {
+							onFocus={(
+								elem: React.FocusEvent<HTMLInputElement>,
+							) => elem.target.select()}
+							onPaste={(
+								elem: React.ClipboardEvent<HTMLInputElement>,
+							) => {
 								if (i) return;
 
 								handlePaste(elem);
 							}}
-							onKeyDown={(elem: React.KeyboardEvent<HTMLInputElement>) => {
+							onKeyDown={(
+								elem: React.KeyboardEvent<HTMLInputElement>,
+							) => {
 								if (
 									elem.key == "Backspace" &&
 									i &&
-									!Boolean(elem.currentTarget.value)
+									!elem.currentTarget.value
 								) {
 									elem.preventDefault();
 									inputRefs?.current?.[i - 1]?.focus();
 								}
 							}}
-							onChange={(elem: React.ChangeEvent<HTMLInputElement>) => {
-								const value = String(elem.currentTarget.value || "");
+							onChange={(
+								elem: React.ChangeEvent<HTMLInputElement>,
+							) => {
+								const value = String(
+									elem.currentTarget.value || "",
+								);
 
 								if (!value) return;
 								if (i < length - 1)
-									setTimeout(() => inputRefs?.current?.[i + 1]?.focus(), 0);
+									setTimeout(
+										() =>
+											inputRefs?.current?.[i + 1]?.focus(),
+										0,
+									);
 								console.log(i, length - 1, i == length - 1);
 								if (i == length - 1) {
 									methods.handleSubmit(handleSubmit)();
@@ -129,7 +158,9 @@ const Code: React.FC<{
 				<div className="w-full flex justify-end items-center">
 					<Button
 						variant="second"
-						onClick={(elem: React.MouseEvent<HTMLButtonElement>) => {
+						onClick={(
+							elem: React.MouseEvent<HTMLButtonElement>,
+						) => {
 							elem.preventDefault();
 							onCancel && onCancel();
 						}}

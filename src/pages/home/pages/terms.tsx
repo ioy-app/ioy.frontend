@@ -13,24 +13,33 @@ export default function Terms() {
 	const { t } = useTranslation();
 	const prefersDarkMode =
 		window.matchMedia &&
-		window.matchMedia("(prefers-color-scheme: dark)").matches;
-	const [darkMode, setDarkMode] = useState<"dark" | "light">(
-		(localStorage.getItem("theme") || (prefersDarkMode && "dark")) as
-			| "dark"
-			| "light",
+		window.matchMedia("(prefers-color-scheme: dark)")
+			.matches;
+	const [darkMode, setDarkMode] = useState<
+		"dark" | "light"
+	>(
+		(localStorage.getItem("theme") ||
+			(prefersDarkMode && "dark")) as "dark" | "light",
 	);
 
 	document.title = t(`footer.terms`);
-	if (darkMode == "dark") document.documentElement.classList.add("dark");
+	if (darkMode == "dark")
+		document.documentElement.classList.add("dark");
 
 	return (
 		<div className="flex flex-col gap-2 w-full text-default text-text p-4">
-			<h1 className="text-2xl text-center pb-8">{t("terms.title")}</h1>
+			<h1 className="text-2xl text-center pb-8">
+				{t("terms.title")}
+			</h1>
 			<h2 className="text-placeholder">
-				{t("terms.date", { date: "12.04.2026" })}
+				{t("terms.date", {
+					date: "12.04.2026",
+				})}
 			</h2>
 			<h2 className="text-placeholder">
-				{t("terms.contact", { contact: "support@ioy.app" })}
+				{t("terms.contact", {
+					contact: "support@ioy.app",
+				})}
 			</h2>
 			<p className="pb-4 pt-8">{t("terms.description")}</p>
 			<p className="text-danger border border-danger p-4 rounded-xl my-4">

@@ -3,7 +3,10 @@ import { Button } from "@/components";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import {
+	BiChevronLeft,
+	BiChevronRight,
+} from "react-icons/bi";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isBetween from "dayjs/plugin/isBetween";
@@ -19,8 +22,10 @@ dayjs.extend(isBetween);
  * return <Jams />
  */
 const Jams: React.FC = () => {
-	const [date_from, setDateFrom] = useState<string>("2026-02-01");
-	const [date_to, setDateTo] = useState<string>("2026-02-29");
+	const [date_from, setDateFrom] =
+		useState<string>("2026-02-01");
+	const [date_to, setDateTo] =
+		useState<string>("2026-02-29");
 
 	const query = useQuery({
 		queryKey: ["jams", date_from, date_to],
@@ -35,10 +40,9 @@ const Jams: React.FC = () => {
 	const calendar_days = [];
 	for (let i = 0; i < days; i++) {
 		const jams = query?.data?.items?.filter((jam) => {
-			const isValid = dayjs(dayjs(date_from).date(i + 1)).isBetween(
-				jam.date_started,
-				jam.date_finished,
-			);
+			const isValid = dayjs(
+				dayjs(date_from).date(i + 1),
+			).isBetween(jam.date_started, jam.date_finished);
 
 			return isValid;
 		});
@@ -46,8 +50,9 @@ const Jams: React.FC = () => {
 			day: i + 1,
 			jams,
 			isCurrent:
-				dayjs(dayjs(date_from).set("date", i + 1)).format("YYYY-MM-DD") ==
-				dayjs(Date.now()).format("YYYY-MM-DD"),
+				dayjs(dayjs(date_from).set("date", i + 1)).format(
+					"YYYY-MM-DD",
+				) == dayjs(Date.now()).format("YYYY-MM-DD"),
 		});
 	}
 
@@ -57,9 +62,14 @@ const Jams: React.FC = () => {
 				<Button
 					variant="text"
 					onClick={() => {
-						const newdate = dayjs(date_from).subtract(1, "month");
+						const newdate = dayjs(date_from).subtract(
+							1,
+							"month",
+						);
 						setDateFrom(newdate.format("YYYY-MM-DD"));
-						setDateTo(newdate.endOf("month").format("YYYY-MM-DD"));
+						setDateTo(
+							newdate.endOf("month").format("YYYY-MM-DD"),
+						);
 					}}
 				>
 					<BiChevronLeft />
@@ -68,9 +78,14 @@ const Jams: React.FC = () => {
 				<Button
 					variant="text"
 					onClick={() => {
-						const newdate = dayjs(date_from).add(1, "month");
+						const newdate = dayjs(date_from).add(
+							1,
+							"month",
+						);
 						setDateFrom(newdate.format("YYYY-MM-DD"));
-						setDateTo(newdate.endOf("month").format("YYYY-MM-DD"));
+						setDateTo(
+							newdate.endOf("month").format("YYYY-MM-DD"),
+						);
 					}}
 				>
 					<BiChevronRight />

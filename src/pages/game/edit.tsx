@@ -24,8 +24,17 @@ import { useModal, useNotify } from "@/hooks";
 import { paths } from "@/routes";
 import { dashboard_paths } from "@/routes/dashboard";
 import GameProps from "@/types/game";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import {
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import {
+	FormProvider,
+	useForm,
+	useWatch,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiChevronsLeft, BiX } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -38,7 +47,9 @@ export default function Edit() {
 	const { notify } = useNotify();
 	const { modal } = useModal();
 
-	const isCreate: boolean = Boolean(typeof params.id == "undefined");
+	const isCreate: boolean = Boolean(
+		typeof params.id == "undefined",
+	);
 
 	const methods = useForm();
 	const handleSubmit = async (data: FormData) => {
@@ -49,14 +60,18 @@ export default function Edit() {
 
 			if (data?.game?.[0]) {
 				const file = data?.game?.[0];
-				if (file.type != "text/html") throw new Error("errors.game_type");
-				if (file.size >= 25 * 1024 * 1024) throw new Error("errors.game_limit");
+				if (file.type != "text/html")
+					throw new Error("errors.game_type");
+				if (file.size >= 25 * 1024 * 1024)
+					throw new Error("errors.game_limit");
 			}
 
 			if (data?.icon?.[0]) {
 				const file = data?.icon?.[0];
-				if (file.type != "image/png") throw new Error("errors.icon_type");
-				if (file.size >= 1 * 1024 * 1024) throw new Error("errors.icon_limit");
+				if (file.type != "image/png")
+					throw new Error("errors.icon_type");
+				if (file.size >= 1 * 1024 * 1024)
+					throw new Error("errors.icon_limit");
 			}
 
 			if (isCreate) {
@@ -65,7 +80,9 @@ export default function Edit() {
 					icon: data?.icon?.[0],
 					game: data?.game?.[0],
 					tags: data?.tags || [],
-					authors: data?.authors?.map((user) => Number(user.id)) || [],
+					authors:
+						data?.authors?.map((user) => Number(user.id)) ||
+						[],
 				});
 			} else {
 				response = await games_edit(params?.id, {
@@ -73,13 +90,19 @@ export default function Edit() {
 					icon: data?.icon?.[0],
 					game: data?.game?.[0],
 					tags: data?.tags || [],
-					authors: data?.authors?.map((user) => Number(user.id)) || [],
+					authors:
+						data?.authors?.map((user) => Number(user.id)) ||
+						[],
 				});
 			}
 
-			if (isCreate && response) navigate(paths.games.edit(response.id));
+			if (isCreate && response)
+				navigate(paths.games.edit(response.id));
 		} catch (err) {
-			notify(t(`games.${err?.message || "errors.unknown"}`), "error");
+			notify(
+				t(`games.${err?.message || "errors.unknown"}`),
+				"error",
+			);
 		} finally {
 			setLoading(false);
 		}
@@ -91,39 +114,50 @@ export default function Edit() {
 	};
 
 	const handleDelete = async () => {
-		modal(t("games.modals.delete", { title }), (onClose: () => void) => (
-			<>
-				<Button variant="clear" onClick={() => onClose()} disabled={isLoading}>
-					{t("buttons.cancel")}
-				</Button>
-				<Button
-					variant="danger"
-					disabled={isLoading}
-					onClick={async (e) => {
-						setLoading(true);
+		modal(
+			t("games.modals.delete", {
+				title,
+			}),
+			(onClose: () => void) => (
+				<>
+					<Button
+						variant="clear"
+						onClick={() => onClose()}
+						disabled={isLoading}
+					>
+						{t("buttons.cancel")}
+					</Button>
+					<Button
+						variant="danger"
+						disabled={isLoading}
+						onClick={async (e) => {
+							setLoading(true);
 
-						try {
-							const response = await games_delete(Number(params.id));
-							onClose();
+							try {
+								const response = await games_delete(
+									Number(params.id),
+								);
+								onClose();
 
-							modal("", (onClosed: () => void) => (
-								<Code
-									onSubmit={(data) => {
-										handleVerify(data);
-										onClosed();
-									}}
-									onCancel={() => onClosed()}
-								/>
-							));
-						} finally {
-							setLoading(false);
-						}
-					}}
-				>
-					{t("buttons.delete")}
-				</Button>
-			</>
-		));
+								modal("", (onClosed: () => void) => (
+									<Code
+										onSubmit={(data) => {
+											handleVerify(data);
+											onClosed();
+										}}
+										onCancel={() => onClosed()}
+									/>
+								));
+							} finally {
+								setLoading(false);
+							}
+						}}
+					>
+						{t("buttons.delete")}
+					</Button>
+				</>
+			),
+		);
 	};
 
 	useEffect(() => {
@@ -135,12 +169,16 @@ export default function Edit() {
 					const id: number = Number(params.id);
 					const response = await games_details(id);
 
-					for (const [key, value] of Object.entries(response))
+					for (const [key, value] of Object.entries(
+						response,
+					))
 						methods.setValue(key, value);
 				}
 			} catch (err) {
 				notify(t("games.errors.exists"), "error");
-				navigate("/", { replace: true });
+				navigate("/", {
+					replace: true,
+				});
 			} finally {
 				setLoading(false);
 			}
@@ -151,13 +189,15 @@ export default function Edit() {
 	const game = methods.watch("game");
 
 	const handlePreviewIcon = useMemo(() => {
-		if (icon && icon.length > 0) return URL.createObjectURL(icon[0]);
+		if (icon && icon.length > 0)
+			return URL.createObjectURL(icon[0]);
 
 		return null;
 	}, [icon]);
 
 	const handlePreviewGame = useMemo(() => {
-		if (game && game.length > 0) return URL.createObjectURL(game[0]);
+		if (game && game.length > 0)
+			return URL.createObjectURL(game[0]);
 
 		return null;
 	}, [game]);
@@ -166,8 +206,10 @@ export default function Edit() {
 	const refPreviewGame = useRef<string | null>(null);
 
 	useEffect(() => {
-		if (refPreviewIcon.current) URL.revokeObjectURL(refPreviewIcon.current);
-		if (refPreviewGame.current) URL.revokeObjectURL(refPreviewGame.current);
+		if (refPreviewIcon.current)
+			URL.revokeObjectURL(refPreviewIcon.current);
+		if (refPreviewGame.current)
+			URL.revokeObjectURL(refPreviewGame.current);
 
 		refPreviewIcon.current = handlePreviewIcon;
 		refPreviewGame.current = handlePreviewGame;
@@ -199,7 +241,10 @@ export default function Edit() {
 				>
 					<div className="w-[65%] max-lg:w-full flex flex-col gap-4 items-start">
 						<div className="w-full flex flex-col gap-2 items-start mb-8">
-							<Button variant="text" onClick={() => navigate(-1)}>
+							<Button
+								variant="text"
+								onClick={() => navigate(-1)}
+							>
 								<BiChevronsLeft />
 								{t("buttons.back")}
 							</Button>
@@ -216,7 +261,8 @@ export default function Edit() {
 										dataSource={
 											{
 												id,
-												is_avatar: is_avatar || handlePreviewIcon,
+												is_avatar:
+													is_avatar || handlePreviewIcon,
 											} as GameProps
 										}
 										size="full"
@@ -225,7 +271,9 @@ export default function Edit() {
 									/>
 								</div>
 								<div className="flex flex-col text-center">
-									<p className="text-placeholder">{t("games.labels.icon")}</p>
+									<p className="text-placeholder">
+										{t("games.labels.icon")}
+									</p>
 									<p className="text-placeholder text-text/50">
 										{t("games.labels.icon_limit")}
 									</p>
@@ -249,7 +297,9 @@ export default function Edit() {
 							{...methods.register("version")}
 						/>
 						<Textarea
-							placeholder={t("games.placeholders.description")}
+							placeholder={t(
+								"games.placeholders.description",
+							)}
 							label={t("games.labels.description")}
 							{...methods.register("description")}
 						/>
@@ -279,7 +329,9 @@ export default function Edit() {
 										onClick={() => {
 											methods.setValue(
 												"tags",
-												tags.filter((t: string) => t != tag),
+												tags.filter(
+													(t: string) => t != tag,
+												),
 											);
 										}}
 									>
@@ -304,7 +356,9 @@ export default function Edit() {
 							/>
 							<label className="w-full flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer">
 								<div className="flex flex-col text-center">
-									<p className="text-placeholder">{t("games.labels.game")}</p>
+									<p className="text-placeholder">
+										{t("games.labels.game")}
+									</p>
 									<p className="text-placeholder text-text/50">
 										{t("games.labels.game_limit")}
 									</p>

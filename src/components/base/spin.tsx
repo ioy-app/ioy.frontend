@@ -7,7 +7,10 @@ interface SpinProps {
 	loading?: boolean;
 }
 
-const Spin: React.FC<SpinProps> = ({ children, loading }) => {
+const Spin: React.FC<SpinProps> = ({
+	children,
+	loading,
+}) => {
 	if (loading)
 		return (
 			<div className="flex-1 w-full h-full flex justify-center items-center">
