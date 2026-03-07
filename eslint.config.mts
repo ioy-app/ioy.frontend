@@ -15,7 +15,8 @@ export default defineConfig([
 		rules: {
 			"no-console": "warn",
 			"semi": "error",
-      "no-unused-expressions": "error"
+      "no-unused-expressions": "error",
+			"@typescript-eslint/no-explicit-any": "off"
 		},
 		languageOptions: {
 			globals: globals.browser,
