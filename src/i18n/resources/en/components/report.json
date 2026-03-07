@@ -1,0 +1,23 @@
+{
+	"title": "Report",
+	"success": "Report send",
+	"labels": {
+		"message": "Message"
+	},
+	"placeholders": {
+		"message": "Your message..."
+	},
+	"errors": {
+		"unknown": "Unknown error",
+		"invalid": {
+			"target_id": "Target ID invalid",
+			"type": "Type invalid",
+			"message": "Message invalid"
+		},
+		"required": {
+			"target_id": "Target ID required",
+			"type": "Type required",
+			"message": "Message required"
+		}
+	}
+}

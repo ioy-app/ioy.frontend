@@ -24,8 +24,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import { users_favorites } from "@/api/routes/users";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
+import { reports } from "@/api/routes/reports";
+import { UserProps } from "@/types";
 
-const Saves: React.FC = () => {
+const Reports: React.FC = () => {
 	const { t } = useTranslation();
 	const navigator = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -38,15 +40,9 @@ const Saves: React.FC = () => {
 	const searchQS = searchParams.get("search");
 
 	const query = useQuery({
-		queryKey: ["dashboard", "saves", searchParams?.toString()],
+		queryKey: ["dashboard", "reports", searchParams?.toString()],
 		queryFn: async () => {
-			const search = new URLSearchParams();
-
-			search.set("offset", String((current_page - 1) * max));
-			search.set("limit", String(max));
-			if (sort) search.set("sort", sort);
-
-			const result = await users_favorites(login, search);
+			const result = await reports((current_page - 1) * max, max);
 			return result;
 		},
 	});
@@ -71,62 +67,104 @@ const Saves: React.FC = () => {
 
 	return (
 		<div className="w-full flex flex-col gap-4">
-			<FormProvider {...methods}>
-				<form
-					className="flex gap-4 items-center flex-wrap"
-					onSubmit={methods.handleSubmit(onSubmit)}
-				>
-					<div className="flex flex-wrap items-center justify-end gap-4 w-full">
-						<Components.Select
-							options={sorOptions}
-							className="w-50"
-							placeholder={t("dashboard.placeholders.order")}
-							{...methods.register("sort")}
-						/>
-						<Components.Button variant="primary" htmlType="submit">
-							<BiSearch />
-						</Components.Button>
-					</div>
-				</form>
-			</FormProvider>
 			<Components.Table
 				columns={[
 					{
-						title: t("dashboard.table.games.game"),
-						dataIndex: "id",
-						render: (data, game) => (
+						title: t("dashboard.table.reports.target_id"),
+						dataIndex: "instance",
+						render: (instance, data) => {
+							switch (data.target_type) {
+								case "game":
+									return (
+										<Link
+											to={paths.games.details(instance?.id)}
+											className="group flex items-center gap-2 w-fit"
+										>
+											<Components.Game
+												dataSource={
+													{
+														id: instance?.id,
+														is_avatar: instance?.is_avatar,
+													} as GameProps
+												}
+												nolink
+												size={12}
+											/>
+											<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
+												{instance?.title}
+											</p>
+										</Link>
+									);
+									break;
+								case "user":
+									return (
+										<Link
+											to={paths.users.details(instance?.id)}
+											className="group flex items-center gap-2 w-fit"
+										>
+											<Components.User
+												dataSource={
+													{
+														id: instance?.id,
+														is_avatar: instance?.is_avatar,
+													} as UserProps
+												}
+												login={instance?.login}
+												nolink
+												size={12}
+											/>
+											<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
+												{instance?.login}
+											</p>
+										</Link>
+									);
+									break;
+							}
+
+							return null;
+						},
+					},
+					{
+						title: t("dashboard.table.reports.source_id"),
+						dataIndex: "sourcedata",
+						render: (data) => (
 							<Link
-								to={paths.games.details(game?.id)}
+								to={paths.users.details(data?.id)}
 								className="group flex items-center gap-2 w-fit"
 							>
-								<Components.Game
+								<Components.User
 									dataSource={
 										{
-											id: game?.id,
-											is_avatar: game?.is_avatar,
-										} as GameProps
+											id: data?.id,
+											is_avatar: data?.is_avatar,
+										} as UserProps
 									}
+									login={data?.login}
 									nolink
 									size={12}
 								/>
 								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-									{game?.title}
+									{data?.login}
 								</p>
 							</Link>
 						),
 					},
 					{
-						title: t("dashboard.table.games.version"),
-						dataIndex: "version",
+						title: t("dashboard.table.reports.message"),
+						dataIndex: "message",
 					},
 					{
-						title: t("dashboard.table.games.date_created"),
+						title: t("dashboard.table.reports.date_created"),
 						dataIndex: "date_created",
 						render: (date) =>
 							dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 					{
-						title: t("dashboard.table.games.date_updated"),
+						title: t("dashboard.table.reports.answer"),
+						dataIndex: "answer",
+					},
+					{
+						title: t("dashboard.table.reports.date_answered"),
 						dataIndex: "date_updated",
 						render: (date) =>
 							dayjs(date)?.isValid() && dayjs(date).format("HH:mm DD.MM.YYYY"),
@@ -157,4 +195,4 @@ const Saves: React.FC = () => {
 	);
 };
 
-export default Saves;
+export default Reports;

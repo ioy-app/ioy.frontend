@@ -1,8 +1,8 @@
 {
-    "title": "ioy.app",
-    "search": {
-        "placeholders": {
-            "search": "Search..."
-        }
-    }
+	"title": "ioy.app",
+	"search": {
+		"placeholders": {
+			"search": "Search..."
+		}
+	}
 }

@@ -19,27 +19,29 @@ import Block from "./custom/block";
 import Table from "./base/table";
 import Pagination from "./base/pagination";
 import SelectUser from "./custom/selectUser";
+import Report from "./custom/report";
 
 export {
-    Header,
-    Footer,
-    Game,
-    User,
-    Input,
-    Button,
-    Checkbox,
-    Code,
-    Tabs,
-    File,
-    Spin,
-    Session,
-    Select,
-    Textarea,
-    Player,
-    Tag,
-    Block,
-    LinkifyText,
-    Table,
-    Pagination,
-    SelectUser
-}
+	Header,
+	Footer,
+	Game,
+	User,
+	Input,
+	Button,
+	Checkbox,
+	Code,
+	Tabs,
+	File,
+	Spin,
+	Session,
+	Select,
+	Textarea,
+	Player,
+	Tag,
+	Block,
+	LinkifyText,
+	Table,
+	Pagination,
+	SelectUser,
+	Report,
+};

@@ -1,56 +1,56 @@
 {
-    "subscribers_one": "{{count}} subscriber",
-    "subscribers_few": "{{count}} subscribers",
-    "subscribers_many": "{{count}} subscribers",
-    "subscribers_other": "{{count}} subscribers",
-    "success": {
-        "subscribe": "You are now following {{login}}",
-        "unsubscribe": "You unfollowed {{login}}"
-    },
-    "errors": {
-        "exists": "User {{login}} not found",
-        "equal": "User {{login}} has",
-        "denied": "Access denied",
-        "avatar_limit": "Avatar limit 1mb",
-        "avatar_type": "Avatar type only .png"
-    },
-    "titles": {
-        "games": "Own games",
-        "subscribers": "Following",
-        "favorites": "Saves",
-        "likes": "Likes",
-        "email": "Change email",
-        "delete": "Delete account"
-    },
-    "placeholders": {
-        "avatar": "Upload avatar",
-        "avatar_limit": "limit 1mb",
-        "login": "Login...",
-        "description": "About me...",
-        "current_email": "example@example.test",
-        "email": "example@example.test"
-    },
-    "labels": {
-        "login": "Login",
-        "description": "Description",
-        "privacy": {
-            "title": "Privacy",
-            "games": "Own games",
-            "subscribers": "Following",
-            "favorites": "Saves",
-            "likes": "Likes"
-        },
-        "current_email": "Current email",
-        "email": "New email"
-    },
-    "delete": {
-        "title": "Do you want to delete accont?",
-        "games": "This action also deleting your {{count}} games!",
-        "second": "It's impossible to go back!",
-        "third": "Your login is free for other users!"
-    },
-    "modals": {
-        "logout": "Do you want logout?",
-        "save": "Do you want save changes?"
-    }
+	"subscribers_one": "{{count}} subscriber",
+	"subscribers_few": "{{count}} subscribers",
+	"subscribers_many": "{{count}} subscribers",
+	"subscribers_other": "{{count}} subscribers",
+	"success": {
+		"subscribe": "You are now following {{login}}",
+		"unsubscribe": "You unfollowed {{login}}"
+	},
+	"errors": {
+		"exists": "User {{login}} not found",
+		"equal": "User {{login}} has",
+		"denied": "Access denied",
+		"avatar_limit": "Avatar limit 1mb",
+		"avatar_type": "Avatar type only .png"
+	},
+	"titles": {
+		"games": "Own games",
+		"subscribers": "Following",
+		"favorites": "Saves",
+		"likes": "Likes",
+		"email": "Change email",
+		"delete": "Delete account"
+	},
+	"placeholders": {
+		"avatar": "Upload avatar",
+		"avatar_limit": "limit 1mb",
+		"login": "Login...",
+		"description": "About me...",
+		"current_email": "example@example.test",
+		"email": "example@example.test"
+	},
+	"labels": {
+		"login": "Login",
+		"description": "Description",
+		"privacy": {
+			"title": "Privacy",
+			"games": "Own games",
+			"subscribers": "Following",
+			"favorites": "Saves",
+			"likes": "Likes"
+		},
+		"current_email": "Current email",
+		"email": "New email"
+	},
+	"delete": {
+		"title": "Do you want to delete accont?",
+		"games": "This action also deleting your {{count}} games!",
+		"second": "It's impossible to go back!",
+		"third": "Your login is free for other users!"
+	},
+	"modals": {
+		"logout": "Do you want logout?",
+		"save": "Do you want save changes?"
+	}
 }

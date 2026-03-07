@@ -11,17 +11,17 @@ import codes from "./codes.json";
 import about from "./about.json";
 
 const lang = {
-    buttons,
-    sessions,
-    footer,
-    profile,
-    auth,
-    dashboard,
-    games,
-    notify,
-    home,
-    codes,
-    about
-}
+	buttons,
+	sessions,
+	footer,
+	profile,
+	auth,
+	dashboard,
+	games,
+	notify,
+	home,
+	codes,
+	about,
+};
 
 export default lang;

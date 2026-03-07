@@ -1,13 +1,13 @@
 {
-    "profile": "Your profile",
-    "like": "Like",
-    "unlike": "Unlike",
-    "subscribe": "Save",
-    "unsubscribe": "Unsave",
-    "share": "Share",
-    "report": "Report!",
-    "reply": "Reply",
-    "delete": "Delete",
-    "expand": "Open",
-    "auth": "Auth"
+	"profile": "Your profile",
+	"like": "Like",
+	"unlike": "Unlike",
+	"subscribe": "Save",
+	"unsubscribe": "Unsave",
+	"share": "Share",
+	"report": "Report!",
+	"reply": "Reply",
+	"delete": "Delete",
+	"expand": "Open",
+	"auth": "Auth"
 }

@@ -8,24 +8,20 @@ import Dashboard from "./dashboard";
 import ErrorPage from "./error";
 import About from "./about";
 
-
-import Auth, {
-    Login as AuthLogin,
-    Reg as AuthReg
-} from "./auth";
+import Auth, { Login as AuthLogin, Reg as AuthReg } from "./auth";
 
 export {
-    Content,
-    Home,
-    Auth,
-    AuthLogin,
-    AuthReg,
-    Profile,
-    ProfileEdit,
-    Game,
-    ErrorPage,
-    Dashboard,
-    GameEdit,
-    UserContent,
-    About
-}
+	Content,
+	Home,
+	Auth,
+	AuthLogin,
+	AuthReg,
+	Profile,
+	ProfileEdit,
+	Game,
+	ErrorPage,
+	Dashboard,
+	GameEdit,
+	UserContent,
+	About,
+};

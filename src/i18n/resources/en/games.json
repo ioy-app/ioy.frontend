@@ -1,65 +1,65 @@
 {
-    "titles": {
-        "create": "Create Game",
-        "edit": "Edit {{title}}"
-    },
-    "labels": {
-        "authors": "Authors",
-        "description": "Description",
-        "edited": "Edit",
-        "comments": "Comments",
-        "share": "Share link",
-        "title": "Title",
-        "version": "Version",
-        "tags": "Tags",
-        "icon": "Upload icon",
-        "icon_limit": "limit 1mb",
-        "game": "Upload index.html",
-        "game_limit": "limit 25mb",
-        "recommends": "Recommends"
-    },
-    "placeholders": {
-        "title": "My super game",
-        "version": "1.0.0",
-        "description": "The best game...",
-        "tags": "game (Enter or , to add tag)",
-        "authors": "username (Enter or , to add tag)",
-        "comment": "Send to...",
-        "order": "Order"
-    },
-    "errors": {
-        "exists": "No found",
-        "unknown": "Unknown error",
-        "game_limit": "Game limit 25mb",
-        "icon_limit": "Icon limit 1mb",
-        "icon_type": "Icon type only .png",
-        "game_type": "Game type only .html",
-        "required": {
-            "title": "Title is required",
-            "status": "Status is required",
-            "creater_id": "Creater is required"
-        },
-        "invalid": {
-            "title": "Title invalid, needed string",
-            "version": "Version invalid, needed string",
-            "description": "Description invalid, needed string",
-            "tags": "Tag invalid, needed string",
-            "authors": "Authors invalid, needed ID",
-            "status": "Status invalid, needed draft or public",
-            "jams_id": "Jam invalid, needed ID",
-            "creater_id": "Creater invalid, needed ID"
-        },
-        "max": {
-            "description": "Description max 256 symbols",
-            "title": "Title max 50 symbols"
-        }
-    },
-    "modals": {
-        "delete": "Do you really want delete Game: {{title}}?"
-    },
-    "comments": {
-        "confirm": "Do you want to delete this comment?",
-        "deleted": "This comment is deleted :(",
-        "empty": "You can say first comment!"
-    }
+	"titles": {
+		"create": "Create Game",
+		"edit": "Edit {{title}}"
+	},
+	"labels": {
+		"authors": "Authors",
+		"description": "Description",
+		"edited": "Edit",
+		"comments": "Comments",
+		"share": "Share link",
+		"title": "Title",
+		"version": "Version",
+		"tags": "Tags",
+		"icon": "Upload icon",
+		"icon_limit": "limit 1mb",
+		"game": "Upload index.html",
+		"game_limit": "limit 25mb",
+		"recommends": "Recommends"
+	},
+	"placeholders": {
+		"title": "My super game",
+		"version": "1.0.0",
+		"description": "The best game...",
+		"tags": "game (Enter or , to add tag)",
+		"authors": "username (Enter or , to add tag)",
+		"comment": "Send to...",
+		"order": "Order"
+	},
+	"errors": {
+		"exists": "No found",
+		"unknown": "Unknown error",
+		"game_limit": "Game limit 25mb",
+		"icon_limit": "Icon limit 1mb",
+		"icon_type": "Icon type only .png",
+		"game_type": "Game type only .html",
+		"required": {
+			"title": "Title is required",
+			"status": "Status is required",
+			"creater_id": "Creater is required"
+		},
+		"invalid": {
+			"title": "Title invalid, needed string",
+			"version": "Version invalid, needed string",
+			"description": "Description invalid, needed string",
+			"tags": "Tag invalid, needed string",
+			"authors": "Authors invalid, needed ID",
+			"status": "Status invalid, needed draft or public",
+			"jams_id": "Jam invalid, needed ID",
+			"creater_id": "Creater invalid, needed ID"
+		},
+		"max": {
+			"description": "Description max 256 symbols",
+			"title": "Title max 50 symbols"
+		}
+	},
+	"modals": {
+		"delete": "Do you really want delete Game: {{title}}?"
+	},
+	"comments": {
+		"confirm": "Do you want to delete this comment?",
+		"deleted": "This comment is deleted :(",
+		"empty": "You can say first comment!"
+	}
 }

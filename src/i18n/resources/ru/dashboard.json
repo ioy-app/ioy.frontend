@@ -1,25 +1,25 @@
 {
-    "title": "Управление",
-    "tabs": {
-        "games": "Игры",
-        "jams": "Джемы",
-        "comments": "Комментарии",
-        "monitoring": "Статистика"
-    },
-    "statuses": {
-        "draft": "Черновик",
-        "public": "Публичный",
-        "all": "Все"
-    },
-    "games": {
-        "search": "Поиск...",
-        "table": {
-            "game": "Игра",
-            "version": "Версия",
-            "status": "Статус",
-            "date_created": "Дата созд.",
-            "date_updated": "Дата изм.",
-            "author": "Автор"
-        }
-    }
+	"title": "Управление",
+	"tabs": {
+		"games": "Игры",
+		"jams": "Джемы",
+		"comments": "Комментарии",
+		"monitoring": "Статистика"
+	},
+	"statuses": {
+		"draft": "Черновик",
+		"public": "Публичный",
+		"all": "Все"
+	},
+	"games": {
+		"search": "Поиск...",
+		"table": {
+			"game": "Игра",
+			"version": "Версия",
+			"status": "Статус",
+			"date_created": "Дата созд.",
+			"date_updated": "Дата изм.",
+			"author": "Автор"
+		}
+	}
 }

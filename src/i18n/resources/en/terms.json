@@ -1,39 +1,35 @@
 {
-    "title": "Terms & Privacy",
-    "date": "Updated: {{date}}",
-    "contact": "Contact: {{contact}}",
-    "description": "The site is a platform where users can publish their creative work (Games, Images, Music, etc.), rate and comment on other users' creations, and create their own contests (Jams).",
-    "age": "By using the site, you confirm that you are 18+ and agree to these terms.",
-    "first": {
-        "title": "General Terms",
-        "items": [
-            "All content you upload is created by you, and you bear full responsibility for it.",
-            "Administration is not obligated to pre-screen materials, but may remove them and restrict account access for rule violations.",
-            "We may remove your content or restrict access to the site at any time without notice if site rules or applicable laws are violated."
-        ]
-    },
-    "second": {
-        "title": "Prohibited Content and Actions",
-        "description": "The following content and activities are prohibited on the site:",
-        "items": [
-            "Illegal materials of any kind;",
-            "Sexual content;",
-            "Insults, threats, harassment, discrimination, and hate speech;",
-            "Materials that infringe copyright and related rights;",
-            "Malicious files, links, viruses, exploits, and other software capable of harming other users;",
-            "Publication of third-party personal data without their consent;"
-        ]
-    },
-    "third": {
-        "title": "Privacy",
-        "subtitle": "We process the minimum amount of data necessary for the site to function.",
-        "description": "We may store:",
-        "items": [
-            "Email",
-            "IP address",
-            "User agent"
-        ]
-    },
-    "privacy": "Data is used for site functionality and security.",
-    "delete": "Data deletion is available self-service through profile settings or upon request by emailing support@ioy.app."
+	"title": "Terms & Privacy",
+	"date": "Updated: {{date}}",
+	"contact": "Contact: {{contact}}",
+	"description": "The site is a platform where users can publish their creative work (Games, Images, Music, etc.), rate and comment on other users' creations, and create their own contests (Jams).",
+	"age": "By using the site, you confirm that you are 18+ and agree to these terms.",
+	"first": {
+		"title": "General Terms",
+		"items": [
+			"All content you upload is created by you, and you bear full responsibility for it.",
+			"Administration is not obligated to pre-screen materials, but may remove them and restrict account access for rule violations.",
+			"We may remove your content or restrict access to the site at any time without notice if site rules or applicable laws are violated."
+		]
+	},
+	"second": {
+		"title": "Prohibited Content and Actions",
+		"description": "The following content and activities are prohibited on the site:",
+		"items": [
+			"Illegal materials of any kind;",
+			"Sexual content;",
+			"Insults, threats, harassment, discrimination, and hate speech;",
+			"Materials that infringe copyright and related rights;",
+			"Malicious files, links, viruses, exploits, and other software capable of harming other users;",
+			"Publication of third-party personal data without their consent;"
+		]
+	},
+	"third": {
+		"title": "Privacy",
+		"subtitle": "We process the minimum amount of data necessary for the site to function.",
+		"description": "We may store:",
+		"items": ["Email", "IP address", "User agent"]
+	},
+	"privacy": "Data is used for site functionality and security.",
+	"delete": "Data deletion is available self-service through profile settings or upon request by emailing support@ioy.app."
 }

@@ -1,13 +1,13 @@
 {
-    "save": "Save!",
-    "like": "Like!",
-    "unlike": "Unlike!",
-    "subscribe": "Save!",
-    "unsubscribe": "Unsave!",
-    "deleted": {
-        "comment": "Comment has deleted!",
-        "game": "Game has deleted!",
-        "jam": "Jam has deleted!",
-        "user": "Your accound has deleted!"
-    }
+	"save": "Save!",
+	"like": "Like!",
+	"unlike": "Unlike!",
+	"subscribe": "Save!",
+	"unsubscribe": "Unsave!",
+	"deleted": {
+		"comment": "Comment has deleted!",
+		"game": "Game has deleted!",
+		"jam": "Jam has deleted!",
+		"user": "Your accound has deleted!"
+	}
 }

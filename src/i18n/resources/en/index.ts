@@ -15,24 +15,26 @@ import helps from "./components/helps.json";
 import notify from "./components/notify.json";
 import errors from "./components/errors.json";
 import tabs from "./components/tabs.json";
+import report from "./components/report.json";
 
 const lang = {
-    buttons,
-    sessions,
-    footer,
-    profile,
-    auth,
-    order,
-    dashboard,
-    jams,
-    games,
-    codes,
-    home,
-    helps,
-    terms,
-    notify,
-    errors,
-    tabs
-}
+	buttons,
+	sessions,
+	footer,
+	profile,
+	auth,
+	order,
+	dashboard,
+	jams,
+	games,
+	codes,
+	home,
+	helps,
+	terms,
+	notify,
+	errors,
+	tabs,
+	report,
+};
 
 export default lang;

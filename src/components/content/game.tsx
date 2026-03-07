@@ -8,74 +8,69 @@ import { useQuery } from "@tanstack/react-query";
 import { games_icon } from "@/api/routes/games";
 
 const Game: React.FC<{
-    /** Game data */
-    dataSource: GameProps;
-    /** Preview game's avatar */
-    preview?: string;
-    /** Disabled link */
-    nolink?: boolean;
-    /** Avatar size */
-    size?: number | string;
-    onClick?: (id: number) => void;
-}> = ({
-    dataSource,
-    preview,
-    nolink,
-    size=24,
-    onClick
-}) => {
-    const {
-        status,
-        data,
-        isError
-    } = useQuery({
-        queryKey: ["game", dataSource, preview],
-        queryFn: async () => {
-            if (!dataSource?.is_avatar)
-                return null;
+	/** Game data */
+	dataSource: GameProps;
+	/** Preview game's avatar */
+	preview?: string;
+	/** Disabled link */
+	nolink?: boolean;
+	/** Avatar size */
+	size?: number | string;
+	onClick?: (id: number) => void;
+}> = ({ dataSource, preview, nolink, size = 24, onClick }) => {
+	const { status, data, isError } = useQuery({
+		queryKey: ["game", dataSource, preview],
+		queryFn: async () => {
+			if (!dataSource?.is_avatar) return null;
 
-            if (preview) {
-                const file = await fetch(preview);
-                if (!file.ok)
-                    throw new Error();
+			if (preview) {
+				const file = await fetch(preview);
+				if (!file.ok) throw new Error();
 
-                const resource = await file.blob();
-                return URL.createObjectURL(resource);
-            }
+				const resource = await file.blob();
+				return URL.createObjectURL(resource);
+			}
 
-            return `/api/v1${Routes.games.icon(dataSource.id)}`;
-        },
-        retry: false
-    });
+			return `/api/v1${Routes.games.icon(dataSource.id)}`;
+		},
+		retry: false,
+	});
 
-    const root = (
-        <div className={`group flex flex-col items-center gap-1 max-w-${size} overflow-hidden`} onClick={() => onClick && nolink && onClick(dataSource?.id)}>
-            <div className={`w-full h-${size} rounded-xl overflow-hidden aspect-square border border-br ${!nolink && "group-hover:border-primary transition-colors" || ""}`}>
-                <Spin loading={status == "pending"}>
-                    {(isError || !data) ? (
-                        <div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary">
-                            <img src={Profile} />
-                        </div>
-                    ) : (
-                        <img
-                            src={data}
-                            className="w-full h-full"
-                        />
-                    )}
-                </Spin>
-                
-            </div>
-            {dataSource?.title && <p className={`max-w-${size} overflow-hidden text-placeholder wrap-anywhere line-clamp-2 text-center ... group-hover:text-primary transition-colors`}>{dataSource.title}</p>}
-        </div>
-    );
+	const root = (
+		<div
+			className={`group flex flex-col items-center gap-1 max-w-${size} overflow-hidden`}
+			onClick={() => onClick && nolink && onClick(dataSource?.id)}
+		>
+			<div
+				className={`w-full h-${size} rounded-xl overflow-hidden aspect-square border border-br ${(!nolink && "group-hover:border-primary transition-colors") || ""}`}
+			>
+				<Spin loading={status == "pending"}>
+					{isError || !data ? (
+						<div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary">
+							<img src={Profile} />
+						</div>
+					) : (
+						<img src={data} className="w-full h-full" />
+					)}
+				</Spin>
+			</div>
+			{dataSource?.title && (
+				<p
+					className={`max-w-${size} overflow-hidden text-placeholder wrap-anywhere line-clamp-2 text-center ... group-hover:text-primary transition-colors`}
+				>
+					{dataSource.title}
+				</p>
+			)}
+		</div>
+	);
 
-    return (
-        !nolink ? (
-            <Link to={`/g/${dataSource?.id}`} className={`w-${size}`}>
-                {root}
-            </Link>
-        ) : root
-    );
-}
+	return !nolink ? (
+		<Link to={`/g/${dataSource?.id}`} className={`w-${size}`}>
+			{root}
+		</Link>
+	) : (
+		root
+	);
+};
 
 export default Game;

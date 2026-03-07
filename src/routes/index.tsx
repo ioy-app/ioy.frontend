@@ -9,38 +9,38 @@ import Games from "@/pages/home/pages/games";
 import jams, { jams_paths } from "./jams";
 
 export const paths = {
-    users: user_paths,
-    games: games_paths,
-    dashboard: dashboard_paths,
-    search: "/",
-    about: "/about",
-    terms: "/terms",
-    jams: jams_paths
-}
+	users: user_paths,
+	games: games_paths,
+	dashboard: dashboard_paths,
+	search: "/",
+	about: "/about",
+	terms: "/terms",
+	jams: jams_paths,
+};
 
 const routes: RouteObject[] = [
-    {
-        path: "/",
-        Component: Home,
-        children: [
-            {
-                index: true,
-                element: <Games />
-            },
-            {
-                path: jams_paths.list,
-                element: <Jams />
-            }
-        ]
-    },
-    {
-        path: paths.about,
-        element: <About />
-    },
-    ...user,
-    ...games,
-    ...dashboard,
-    ...jams
+	{
+		path: "/",
+		Component: Home,
+		children: [
+			{
+				index: true,
+				element: <Games />,
+			},
+			{
+				path: jams_paths.list,
+				element: <Jams />,
+			},
+		],
+	},
+	{
+		path: paths.about,
+		element: <About />,
+	},
+	...user,
+	...games,
+	...dashboard,
+	...jams,
 ];
 
 export default routes;

@@ -1,12 +1,12 @@
 {
-    "title": "Активные сессии",
-    "days_one": "{{count}} день",
-    "days_few": "{{count}} дня",
-    "days_other": "{{count}} дней",
-    "days_many": "{{count}} дней",
-    "empty": "Пусто",
-    "success": {
-        "delete": "Сессия удалена",
-        "delete_all": "Все сессии удалены"
-    }
+	"title": "Активные сессии",
+	"days_one": "{{count}} день",
+	"days_few": "{{count}} дня",
+	"days_other": "{{count}} дней",
+	"days_many": "{{count}} дней",
+	"empty": "Пусто",
+	"success": {
+		"delete": "Сессия удалена",
+		"delete_all": "Все сессии удалены"
+	}
 }
