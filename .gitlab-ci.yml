@@ -1,12 +1,25 @@
 stages:
-  - test
+  - build
+  - run
 
-test:
-  stage: test
+Building:
+  stage: build
   script:
     - |
       #!/bin/bash
-      echo "$FOLDER_PATH"
+      cd "$FOLDER_PATH/repos" || exit
+      rm -rf $CI_PROJECT_NAME
+      git clone -b $$CI_COMMIT_BRANCH $$CI_REPOSITORY_URL
+      cd $$CI_PROJECT_NAME
+      npm run build
+      docker build -t frontend .
+  only:
+    - develop
+Running:
+  stage: run
+  script:
+    - |
+      echo "Success build"
   only:
     - develop
 

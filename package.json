@@ -4,6 +4,7 @@
 	"main": "index.html",
 	"scripts": {
 		"dev": "vite serve",
+		"build": "vite build",
 		"prettier": "prettier . --write"
 	},
 	"keywords": [],
