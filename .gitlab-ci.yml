@@ -7,7 +7,7 @@ Building:
   script:
     - |
       #!/bin/bash
-      ls -la .
+      ls -la
       echo $CI_FOLDER_PATH
       cd "$CI_FOLDER_PATH/repos" || exit
       rm -rf $CI_PROJECT_NAME
