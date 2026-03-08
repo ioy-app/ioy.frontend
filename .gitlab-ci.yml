@@ -4,6 +4,8 @@ stages:
 
 Building:
   stage: build
+  tags:
+    - shell 
   script:
     - |
       #!/bin/bash
@@ -19,6 +21,8 @@ Building:
     - develop
 Running:
   stage: run
+  tags:
+    - shell 
   script:
     - |
       echo "Success build"
