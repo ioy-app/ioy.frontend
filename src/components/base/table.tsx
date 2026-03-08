@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Spin from "./spin";
 import imgEmpty from "@/icons/empty.svg";
 import { useTranslation } from "react-i18next";
@@ -35,8 +35,7 @@ const Table: React.FC<{
 	header,
 	footer,
 	control,
-	loading,
-	nodata,
+	loading
 }) => {
 	const { t } = useTranslation();
 
@@ -44,16 +43,16 @@ const Table: React.FC<{
 		<div className="w-full border border-br rounded-xl text-default">
 			{header && <div className="p-4">{header}</div>}
 			<div className="w-full overflow-hidden overflow-x-auto">
-				{!data?.length ? (
-					<div className="w-full flex justify-center items-center flex-col gap-2">
-						<img
-							src={imgEmpty}
-							className="h-64 pointer-events-none select-none"
-						/>
-						<p className="text-placeholder text-2xl">{t("errors.nodata")}</p>
-					</div>
-				) : (
-					<Spin loading={loading}>
+				<Spin loading={loading}>
+					{!data?.length ? (
+						<div className="w-full flex justify-center items-center flex-col gap-2">
+							<img
+								src={imgEmpty}
+								className="h-64 pointer-events-none select-none"
+							/>
+							<p className="text-placeholder text-2xl">{t("errors.nodata")}</p>
+						</div>
+					) : (
 						<table className="w-full table-auto border-separate border-spacing-4 text-nowrap">
 							<thead className="text-placeholder">
 								<tr>
@@ -110,8 +109,8 @@ const Table: React.FC<{
 								})}
 							</tbody>
 						</table>
-					</Spin>
-				)}
+					)}
+				</Spin>
 			</div>
 			{footer && <div className="p-4">{footer}</div>}
 		</div>

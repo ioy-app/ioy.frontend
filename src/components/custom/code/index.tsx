@@ -40,7 +40,7 @@ const Code: React.FC<{
 
 			onSubmit && onSubmit(response);
 		} catch (err) {
-			notify(`codes.${err?.message}`, "error");
+			notify(t(`codes.${err?.message}`), "error");
 			handleClear();
 			onCancel && onCancel();
 		} finally {
@@ -87,6 +87,10 @@ const Code: React.FC<{
 		if (digits.length === 6)
 			methods.handleSubmit(handleSubmit)();
 	};
+
+
+	const inputs = methods.watch("code");
+	console.log(inputs);
 
 	return (
 		<FormProvider {...methods}>
@@ -140,22 +144,22 @@ const Code: React.FC<{
 									elem.currentTarget.value || "",
 								);
 
+								methods.setValue(`code.${i}`, value);
+
 								if (!value) return;
+
+								
 								if (i < length - 1)
 									setTimeout(
 										() =>
 											inputRefs?.current?.[i + 1]?.focus(),
 										0,
 									);
-								console.log(i, length - 1, i == length - 1);
-								if (i == length - 1) {
-									methods.handleSubmit(handleSubmit)();
-								}
 							}}
 						/>
 					))}
 				</div>
-				<div className="w-full flex justify-end items-center">
+				<div className="w-full gap-4 flex justify-end items-center">
 					<Button
 						variant="second"
 						onClick={(
@@ -167,6 +171,14 @@ const Code: React.FC<{
 						disabled={isLoading}
 					>
 						{t("buttons.back")}
+					</Button>
+					<Button
+						variant="primary"
+						htmlType="submit"
+						disabled={isLoading || inputs?.join("")?.length < 6}
+						key="code-ok"
+					>
+						{t("buttons.ok")}
 					</Button>
 				</div>
 			</form>

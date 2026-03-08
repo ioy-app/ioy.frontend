@@ -20,7 +20,7 @@ export const ModalProvider: React.FC<{
 		message: string | React.FC<ModalProps>,
 		footer: () => React.ReactNode,
 	) => {
-		const id: string = crypto.randomUUID();
+		const id: string = Math.random().toString(36).substring(2, 15);
 		document.body.style.overflow = "hidden";
 		setStack((prev) => [
 			...((prev && prev) || []),

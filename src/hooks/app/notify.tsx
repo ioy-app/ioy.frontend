@@ -19,7 +19,7 @@ export const NotifyProvider: React.FC<{
 		message: string,
 		type: NotifyProps["type"] = "info",
 	) => {
-		const id: string = crypto.randomUUID();
+		const id: string = Math.random().toString(36).substring(2, 15);
 		setStack((prev) => [
 			...((prev && prev) || []),
 			{

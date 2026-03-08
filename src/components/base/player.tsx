@@ -45,11 +45,11 @@ const Player: React.FC<{
 
 	return (
 		<div
-			className="flex justify-center items-center w-full aspect-video border border-disabled-content rounded-xl box-border bg-gray-900 overflow-hidden"
+			className="flex justify-center items-center w-full aspect-video border border-br rounded-xl box-border bg-br/15 overflow-hidden"
 			ref={ref}
 		>
 			{!isPlay ? (
-				<div className="flex w-full h-full items-center justify-center bg-disabled">
+				<div className="flex w-full h-full items-center justify-center bg-br/15">
 					<Button variant="primary" onClick={handleLoad}>
 						<BiPlay size="2em" />
 					</Button>
