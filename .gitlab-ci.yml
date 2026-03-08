@@ -1,3 +1,4 @@
+image: node:lts
 stages:
   - build
   - run
@@ -7,6 +8,7 @@ Building:
   script:
     - |
       #!/bin/bash
+      npm i
       npm run build
       docker build -t registry.gitlab.com/ioy.app/frontend .
       docker push registry.gitlab.com/ioy.app/frontend
