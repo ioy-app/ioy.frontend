@@ -6,8 +6,8 @@ import ru from "./resources/ru";
 import en from "./resources/en";
 
 const resources = {
-	ru: { translation: ru },
 	en: { translation: en },
+	ru: { translation: ru }
 } as const;
 
 const languageDetector = new LanguageDetector();
