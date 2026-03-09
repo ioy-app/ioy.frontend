@@ -20,6 +20,6 @@ Running:
     - shell 
   script:
     - |
-      echo "Success build"
+      echo "Success buil a"
   only:
     - develop
