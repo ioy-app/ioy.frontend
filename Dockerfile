@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 nginx:alpine
+FROM nginx:alpine
 RUN apk add --no-cache tzdata
 RUN rm -rf /etc/nginx/conf.d/default.conf
 ENV TZ=Europe/Moscow
