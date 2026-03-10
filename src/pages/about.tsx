@@ -25,7 +25,7 @@ export default function About({}) {
 				</div>
 				<div className="flex justify-center w-full">
 					<BackgroundScene
-						model={"/src/resources/gltf/ufo.gltf"}
+						model={"/resources/gltf/ufo.gltf"}
 						speedY={.2}
 						scale={3.5}
 					/>
@@ -49,7 +49,7 @@ export default function About({}) {
 				<div className="flex justify-center w-full relative">
 					<div className="absolute right-[30%] top-[10%]">
 						<BackgroundScene
-							model={"/src/resources/gltf/computer.gltf"}
+							model={"/resources/gltf/computer.gltf"}
 							speedY={-.5}
 							speedX={.2}
 						/>
@@ -130,5 +130,5 @@ export const BackgroundScene: React.FC = ({ model, speedX, speedY, scale=2.5 }) 
   );
 };
 
-useGLTF.preload('/src/resources/gltf/computer.gltf');
-useGLTF.preload('/src/resources/gltf/ufo.gltf');
+useGLTF.preload('/resources/gltf/computer.gltf');
+useGLTF.preload('/resources/gltf/ufo.gltf');
