@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import * as Icons from "@/icons";
 import { BiLogoTelegram } from "react-icons/bi";
 import { SiBluesky } from "react-icons/si";
 import { NavLink } from "react-router";
+import imgLabel from "@/icons/label.svg";
+import imgEmpty from "@/icons/empty.svg";
 
 /**
  * About page
@@ -14,29 +15,120 @@ export default function About({}) {
 	document.title = t("about.title");
 
 	return (
-		<div className="flex-1 flex justify-center items-center w-full min-h-full">
-			<div className="flex flex-col items-center justify-center gap-4 flex-1 max-w-[60%] max-md:max-w-full">
-				<p className="text-4xl">
-					<span className="text-primary">ioy</span>
-					<span className="text-second">.app</span>
-				</p>
-				<div className="p-4 border border-br rounded-xl w-full text-xl">
-					<p>{t("about.description")}</p>
+		<div className="flex-1 flex justify-center flex-col items-center w-full min-h-full">
+			
+			<div className="flex flex-col justify-center gap-4 flex-1 max-w-[60%] max-md:max-w-full z-2">
+				<div className="flex justify-center w-full">
+					<div className="w-[60%] max-md:w-full flex justify-center items-center">
+						<img src={imgLabel} className="w-full p-8" />
+					</div>
 				</div>
-				<div className="flex gap-6 text-2xl w-full justify-end items-center">
-					<NavLink to="mailto:support@wmgcat.net">
-						<address className="text-[14pt] text-second">
-							support@wmgcat.net
+				<div className="flex justify-center w-full">
+					<BackgroundScene
+						model={"/src/resources/gltf/ufo.gltf"}
+						speedY={.2}
+						scale={3.5}
+					/>
+				</div>
+				<div className="p-4 w-full text-primary">
+					<p className="text-default text-2xl text-center text-text">{t("about.description")}</p>
+				</div>
+				<div className="flex gap-6 text-2xl w-full justify-center items-center">
+					<NavLink to="mailto:support@ioy.app">
+						<address className="text-2xl text-second">
+							support@ioy.app
 						</address>
 					</NavLink>
-					<NavLink to="/">
-						<BiLogoTelegram />
+					<NavLink to="https://t.me/wmgcat" target="_blank">
+						<BiLogoTelegram className="text-second text-2xl" />
 					</NavLink>
-					<NavLink to="/">
-						<SiBluesky />
+					<NavLink to="https://bsky.app/profile/wmgcat.bsky.social" target="_blank">
+						<SiBluesky className="text-second text-2xl" />
 					</NavLink>
 				</div>
+				<div className="flex justify-center w-full relative">
+					<div className="absolute right-[30%] top-[10%]">
+						<BackgroundScene
+							model={"/src/resources/gltf/computer.gltf"}
+							speedY={-.5}
+							speedX={.2}
+						/>
+					</div>
+					<div className="w-[40%] max-md:w-full flex justify-center items-center">
+						<img src={imgEmpty} className="w-full p-8" />
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	);
 }
+
+
+import React, { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useGLTF, Environment, ContactShadows } from '@react-three/drei';
+import * as THREE from 'three';
+
+type ModelProps = {
+  position?: [number, number, number];
+  scale?: number;
+  url: string;
+  // Разделяем скорости для независимого контроля осей
+  rotationSpeedX?: number;
+  rotationSpeedY?: number;
+};
+
+const RotatingModel: React.FC<ModelProps> = ({ 
+  position = [0, 0, 0], 
+  scale = 1,
+  url,
+  rotationSpeedX = 0,
+  rotationSpeedY = 0.01,
+}) => {
+  const meshRef = useRef<THREE.Group>(null);
+  const { scene } = useGLTF(url);
+
+  useFrame((state, delta) => {
+    if (meshRef.current) {
+      // Вращение по оси X (наклон вперед/назад)
+      if (rotationSpeedX !== 0) {
+        meshRef.current.rotation.x += rotationSpeedX * delta;
+      }
+      // Вращение по оси Y (вокруг своей оси)
+      if (rotationSpeedY !== 0) {
+        meshRef.current.rotation.y += rotationSpeedY * delta;
+      }
+    }
+  });
+
+  return (
+    <group ref={meshRef} position={position} scale={scale}>
+      <primitive object={scene} />
+    </group>
+  );
+};
+
+export const BackgroundScene: React.FC = ({ model, speedX, speedY, scale=2.5 }) => {
+  return (
+    <div className="inset-0 h-50 aspect-square pointer-events-none overflow-hidden">
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 50 }}
+        dpr={[1, 2]}
+        gl={{ antialias: false }}
+      >
+        <Environment preset="city" />
+        <RotatingModel 
+          url={model}
+          position={[0, 0, scale]} 
+          rotationSpeedX={speedX}
+					rotationSpeedY={speedY}
+        />
+        <ContactShadows resolution={800} scale={1} blur={2} opacity={0.5} far={10} color="#000000" />
+      </Canvas>
+    </div>
+  );
+};
+
+useGLTF.preload('/src/resources/gltf/computer.gltf');
+useGLTF.preload('/src/resources/gltf/ufo.gltf');
