@@ -34,6 +34,8 @@ export default function Reg({
 		}
 	};
 
+	const terms = methods.watch("rules")
+
 	return (
 		<FormProvider {...methods}>
 			<form
@@ -86,7 +88,7 @@ export default function Reg({
 								</a>
 							</div>
 						}
-						{...methods.register("rule")}
+						{...methods.register("rules")}
 					/>
 				</div>
 				{methods.formState.errors.valid && (
@@ -99,7 +101,7 @@ export default function Reg({
 				<Button
 					variant="primary"
 					htmlType="submit"
-					disabled={methods.formState.errors.valid}
+					disabled={methods.formState.errors.valid || !terms}
 				>
 					{t("buttons.create")}
 				</Button>
