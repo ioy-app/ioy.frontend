@@ -1,20 +1,30 @@
 {
 	"delete": "Удалить",
-	"delete_all_sessions": "Удалить все сессии",
+	"delete_all_sessions": "Удалить все",
 	"settings": "Настройки",
 	"save": "Сохранить",
-	"cancel": "Отмена",
+	"cancel": "Отменить",
 	"stats": "Статистика",
 	"add_game": "Добавить игру",
+	"add_jam": "Добавить джем",
 	"subscribe": "Подписаться",
 	"unsubscribe": "Отписаться",
 	"create": "Создать",
-	"ok": "ОК",
+	"ok": "OK",
+	"loading": "Загрузка",
 	"login": "Вход",
 	"reg": "Регистрация",
-	"loading": "Загрузка...",
 	"back": "Назад",
+	"main": "Домой",
 	"dashboard": "Управление",
+	"nav": {
+		"games": "Игры",
+		"jams": "Джемы"
+	},
+	"change_email": "Изменить почту",
+	"sessions": "Сессии",
+	"logout": "Выйти из аккаунта",
 	"edit": "Редактировать",
-	"open": "Открыть"
+	"delete_account": "Удалить аккаунт",
+	"report": "Пожаловаться"
 }

@@ -1,37 +1,56 @@
 {
 	"subscribers_one": "{{count}} подписчик",
-	"subscribers_few": "{{count}} подписчика",
+	"subscribers_few": "{{count}} подписчиков",
 	"subscribers_many": "{{count}} подписчиков",
-	"subscribers_other": "{{count}} подписчиков",
-	"placeholders": {
-		"avatar": "Выберите изображение",
-		"login": "Введите логин...",
-		"description": "Введите описание..."
-	},
-	"labels": {
-		"login": "Логин",
-		"description": "Описание",
-		"privacy": {
-			"title": "Настройки отобажения",
-			"games": "Собственные игры",
-			"subscribers": "Подписки",
-			"likes": "Понравилось",
-			"favorites": "Избранное"
-		}
-	},
+	"subscribers_other": "{{count}} подписчика",
 	"success": {
 		"subscribe": "Вы подписались на {{login}}",
 		"unsubscribe": "Вы отписались от {{login}}"
 	},
 	"errors": {
-		"exists": "Пользователя {{login}} не существует",
-		"denied": "Нет доступа"
+		"exists": "Пользователь {{login}} не найден",
+		"equal": "Пользователь {{login}} уже существует",
+		"denied": "Доступ запрещен",
+		"avatar_limit": "Для аватара лимит 1МБ",
+		"avatar_type": "Аватар может быть только .png"
 	},
 	"titles": {
 		"games": "Игры",
-		"subscribers": "Подписки на пользователей",
-		"favorites": "Избранные игры",
+		"subscribers": "Подписан на",
+		"favorites": "Сохраненные",
 		"likes": "Понравилось",
-		"edit": "Редактирование профиля"
+		"email": "Изменить почту",
+		"delete": "Удалить аккаунт"
+	},
+	"placeholders": {
+		"avatar": "Загрузить .png",
+		"avatar_limit": "Лимит 1МБ",
+		"login": "Логин...",
+		"description": "Расскажите о себе...",
+		"current_email": "example@example.test",
+		"email": "example@example.test"
+	},
+	"labels": {
+		"login": "Логин",
+		"description": "Описание",
+		"privacy": {
+			"title": "Видимость витрин",
+			"games": "Ваши игры",
+			"subscribers": "Ваши подписки на пользователей",
+			"favorites": "Ваши сохраненные игры",
+			"likes": "Ваши понравившиеся игры"
+		},
+		"current_email": "Текущая почта",
+		"email": "Новая почта"
+	},
+	"delete": {
+		"title": "Вы действительно хотите удалить аккаунт?",
+		"games": "Это действие так же удалит {{count}} игр!",
+		"second": "Это невозможно вернуть, данные удалятся навсегда!",
+		"third": "Ваш логин освободится для других пользователей!"
+	},
+	"modals": {
+		"logout": "Вы действительно хотите выйти из аккаунта?",
+		"save": "Вы действительно хотите сохранить изменения?"
 	}
 }
