@@ -9,6 +9,7 @@
 	},
 	"errors": {
 		"unknown": "Unknown error",
+		"denied": "Access denied",
 		"invalid": {
 			"target_id": "Target ID invalid",
 			"type": "Type invalid",

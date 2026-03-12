@@ -124,7 +124,7 @@ export default function Profile() {
 				},
 			}));
 		} catch (err) {
-			notify(err?.message?.toString(), "error");
+			notify(t(err?.message?.toString()), "error");
 		}
 	};
 
@@ -163,7 +163,7 @@ export default function Profile() {
 	document.title = login;
 
 	if (status == "error") {
-		return <ErrorPage msg={"errors.exists"} />;
+		return <ErrorPage msg={error?.message || "errors.exists"} />;
 	}
 
 	return (

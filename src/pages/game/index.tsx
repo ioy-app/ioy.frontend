@@ -74,7 +74,7 @@ export default function GamePage() {
 			const response = await games_like(Number(id));
 			return response;
 		},
-		onError: (err) => notify(t(err.toString()), "error"),
+		onError: (err) => notify(t(err?.message?.toString()), "error"),
 		onSuccess: (data) => {
 			if (!data) return;
 			const is_like = data?.status == "liked";
@@ -102,7 +102,7 @@ export default function GamePage() {
 			const response = await games_subscribe(Number(id));
 			return response;
 		},
-		onError: (err) => notify(t(err.toString()), "error"),
+		onError: (err) => notify(t(err?.message?.toString()), "error"),
 		onSuccess: (data) => {
 			if (!data) return;
 			const is_subscribe = data?.status == "created";
