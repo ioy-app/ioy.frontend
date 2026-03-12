@@ -80,6 +80,7 @@ export default function Edit() {
 					icon: data?.icon?.[0],
 					game: data?.game?.[0],
 					tags: data?.tags || [],
+					status: data?.status || "draft",
 					authors:
 						data?.authors?.map((user) => Number(user.id)) ||
 						[],
@@ -90,6 +91,7 @@ export default function Edit() {
 					icon: data?.icon?.[0],
 					game: data?.game?.[0],
 					tags: data?.tags || [],
+					status: data?.status || "draft",
 					authors:
 						data?.authors?.map((user) => Number(user.id)) ||
 						[],
@@ -373,7 +375,7 @@ export default function Edit() {
 						<div className="flex gap-4 items-center justify-between w-full">
 							<Select
 								options={status}
-								value={status?.[0]}
+								value={status?.[1]}
 								{...methods.register("status")}
 								align="top"
 							/>
