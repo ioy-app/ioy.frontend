@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { BiBox, BiSearch } from "react-icons/bi";
+import { BiBox, BiChevronsLeft, BiSearch } from "react-icons/bi";
 import {
 	Link,
 	NavLink,
@@ -110,6 +110,17 @@ const Games: React.FC<{}> = ({}) => {
 				className="col-span-4 flex flex-col gap-4 w-full h-fit"
 				onSubmit={methods.handleSubmit(submit)}
 			>
+				{isSearch && (
+					<NavLink to="/" className="w-fit">
+						<Button
+							variant="text"
+							htmlType="button"
+						>
+							<BiChevronsLeft />
+							{t("buttons.back")}
+						</Button>
+					</NavLink>
+				)}
 				<div className="flex gap-4">
 					<Input
 						placeholder={t(
