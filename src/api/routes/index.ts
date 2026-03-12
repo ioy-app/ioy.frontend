@@ -106,6 +106,7 @@ const Routes = {
 	auth: {
 		login: `/auth/login`,
 		reg: `/auth/reg`,
+		verify: `/auth/verify`
 	},
 	games: {
 		list: `/games`,

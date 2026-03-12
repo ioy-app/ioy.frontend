@@ -16,7 +16,7 @@ export default function ErrorPage({
 
 	return (
 		<div className="flex-1 w-full h-screen flex justify-center items-center flex-col gap-4 bg-back text-text">
-			<img src={Icons.Logo} className="h-25" />
+			<img src={Icons.Empty} className="h-25" />
 			<p className="text-title">{t("errors.title")}</p>
 			<p className="text-default">
 				{msg ? t(msg) : t("errors.unknown")}

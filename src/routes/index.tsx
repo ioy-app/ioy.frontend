@@ -15,6 +15,7 @@ export const paths = {
 	search: "/",
 	about: "/about",
 	terms: "/terms",
+	verify: "/verify",
 	jams: jams_paths,
 };
 

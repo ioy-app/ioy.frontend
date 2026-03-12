@@ -23,11 +23,15 @@ const routers = createBrowserRouter([
 		element: <Terms />,
 	},
 	{
+		path: paths.verify,
+		element: <Pages.Verify />
+	},
+	{
 		path: "/",
 		Component: Pages.Content,
 		errorElement: <Pages.ErrorPage />,
 		children: routes,
-	},
+	}
 ]);
 
 const app: HTMLElement | null =

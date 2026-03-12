@@ -7,6 +7,7 @@ import GameEdit from "./game/edit";
 import Dashboard from "./dashboard";
 import ErrorPage from "./error";
 import About from "./about";
+import Verify from "./verify";
 
 import Auth, {
 	Login as AuthLogin,
@@ -27,4 +28,5 @@ export {
 	GameEdit,
 	UserContent,
 	About,
+	Verify
 };

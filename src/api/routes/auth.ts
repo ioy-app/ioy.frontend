@@ -7,3 +7,10 @@ export const auth_reg = (data: {
 	login: string;
 	email: string;
 }) => apiInstance.post(Routes.auth.reg, data);
+
+export const auth_verify = (code: string) =>
+	apiInstance.get(Routes.auth.verify, {
+		params: {
+			code
+		}
+	});
