@@ -1,5 +1,5 @@
 import confStatus from "../dashboard/status.json";
-
+import JSZip from "jszip";
 import { Routes } from "@/api";
 import {
 	games_create,
@@ -38,6 +38,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { BiChevronsLeft, BiX } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
+import Uploader from "./uploader";
 
 export default function Edit() {
 	const params = useParams();
@@ -58,14 +59,6 @@ export default function Edit() {
 			const isCreate = typeof params?.id == "undefined";
 			let response;
 
-			if (data?.game?.[0]) {
-				const file = data?.game?.[0];
-				if (file.type != "text/html")
-					throw new Error("errors.game_type");
-				if (file.size >= 25 * 1024 * 1024)
-					throw new Error("errors.game_limit");
-			}
-
 			if (data?.icon?.[0]) {
 				const file = data?.icon?.[0];
 				if (file.type != "image/png")
@@ -74,11 +67,12 @@ export default function Edit() {
 					throw new Error("errors.icon_limit");
 			}
 
+
 			if (isCreate) {
 				response = await games_create({
 					...data,
 					icon: data?.icon?.[0],
-					game: data?.game?.[0],
+					game: data?.game,
 					tags: data?.tags || [],
 					status: data?.status || "draft",
 					authors:
@@ -89,7 +83,7 @@ export default function Edit() {
 				response = await games_edit(params?.id, {
 					...data,
 					icon: data?.icon?.[0],
-					game: data?.game?.[0],
+					game: data?.game,
 					tags: data?.tags || [],
 					status: data?.status || "draft",
 					authors:
@@ -189,33 +183,23 @@ export default function Edit() {
 
 	const icon = methods.watch("icon");
 	const game = methods.watch("game");
+	console.log(game);
 
 	const handlePreviewIcon = useMemo(() => {
 		if (icon && icon.length > 0)
 			return URL.createObjectURL(icon[0]);
 
 		return null;
-	}, [icon]);
-
-	const handlePreviewGame = useMemo(() => {
-		if (game && game.length > 0)
-			return URL.createObjectURL(game[0]);
-
-		return null;
-	}, [game]);
+	}, [ icon ]);
 
 	const refPreviewIcon = useRef<string | null>(null);
-	const refPreviewGame = useRef<string | null>(null);
 
 	useEffect(() => {
 		if (refPreviewIcon.current)
 			URL.revokeObjectURL(refPreviewIcon.current);
-		if (refPreviewGame.current)
-			URL.revokeObjectURL(refPreviewGame.current);
 
 		refPreviewIcon.current = handlePreviewIcon;
-		refPreviewGame.current = handlePreviewGame;
-	}, [refPreviewIcon, refPreviewGame]);
+	}, [ refPreviewIcon ]);
 
 	const title = methods.watch("title");
 	const id = methods.watch("id");
@@ -350,28 +334,11 @@ export default function Edit() {
 							initial={authors_data}
 							{...methods}
 						/>
-						<div className="flex w-full justify-center flex-col gap-4">
-							<Player
-								gameId={id}
-								src={handlePreviewGame}
-								key={handlePreviewGame}
-							/>
-							<label className="w-full flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer">
-								<div className="flex flex-col text-center">
-									<p className="text-placeholder">
-										{t("games.labels.game")}
-									</p>
-									<p className="text-placeholder text-text/50">
-										{t("games.labels.game_limit")}
-									</p>
-								</div>
-								<input
-									type="file"
-									{...methods.register("game")}
-									className="hidden"
-								/>
-							</label>
-						</div>
+						<Uploader
+							onChange={(files, total_size) => {
+								methods.setValue("game", files);
+							}}
+						/>
 						<div className="flex gap-4 items-center justify-between w-full">
 							<Select
 								options={status}
@@ -402,3 +369,60 @@ export default function Edit() {
 		</FormProvider>
 	);
 }
+
+
+
+
+
+// import React, { useState } from 'react';
+// import JSZip from 'jszip';
+
+// const ZipHandler = () => {
+//   const [iframeSrc, setIframeSrc] = useState('');
+
+//   const handleFileChange = async (event) => {
+//     const file = event.target.files?.[0];
+//     if (!file) return;
+
+//     const zip = new JSZip();
+//     try {
+//       const contents = await zip.loadAsync(file);
+//       // Find the main HTML file (e.g., index.html)
+//       const indexHtmlEntry = Object.values(contents.files).find(
+//         (file) => file.name.toLowerCase().endsWith('.html') && !file.dir
+//       );
+
+//       if (indexHtmlEntry) {
+//         const htmlContent = await indexHtmlEntry.async('blob');
+//         // Create a local URL for the HTML content
+//         const url = URL.createObjectURL(htmlContent);
+//         setIframeSrc(url);
+//       } else {
+//         console.error('No HTML file found in the zip archive.');
+//       }
+//     } catch (error) {
+//       console.error('Error extracting zip file:', error);
+//     }
+//   };
+  
+//   // Clean up the URL when the component unmounts or the src changes
+//   React.useEffect(() => {
+//     return () => {
+//       if (iframeSrc) {
+//         URL.revokeObjectURL(iframeSrc);
+//       }
+//     };
+//   }, [iframeSrc]);
+
+//   return (
+//     <div>
+//       <input type="file" accept=".zip" onChange={handleFileChange} />
+//       {iframeSrc && (
+//         // Set the iframe source to the local URL
+//         <iframe src={iframeSrc} title="Extracted Content" width="100%" height="500px" />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default ZipHandler;

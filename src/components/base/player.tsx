@@ -23,14 +23,14 @@ const Player: React.FC<{
 			setLoading(true);
 			setPlay(true);
 			setError(false);
-			const file: Response = await fetch(
-				src || `/api/v1/games/${gameId}/game`,
-			);
-			const resource = await file.blob();
+			// const file: Response = await fetch(
+			// 	src || `/api/v1/games/${gameId}/index.html`,
+			// );
+			// const resource = await file.blob();
 
-			if (!file.ok) throw new Error();
+			// if (!file.ok) throw new Error();
 
-			setGameFile(URL.createObjectURL(resource));
+			// setGameFile(URL.createObjectURL(resource));
 		} catch (err) {
 			setError(true);
 		} finally {
@@ -65,7 +65,7 @@ const Player: React.FC<{
 						</div>
 					) : (
 						<iframe
-							src={gameFile}
+							src={`/api/v1/games/${gameId}/game`}
 							className="w-full h-full"
 							onLoad={() => URL.revokeObjectURL(gameFile)}
 						/>

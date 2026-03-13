@@ -36,7 +36,7 @@ export const games_icon = async (id: number) => {
 export const games_create = (obj: FormData) =>
 	apiInstance.post(
 		Routes.games.create,
-		jsonToFormData(obj),
+		jsonToFormData(obj)
 	);
 // fetchAPI(Routes.games.create, {
 //     method: "POST",
@@ -48,7 +48,7 @@ export const games_create = (obj: FormData) =>
 export const games_edit = (id: number, obj: FormData) =>
 	apiInstance.put(
 		Routes.games.details(id),
-		jsonToFormData(obj),
+		jsonToFormData(obj)
 	);
 // fetchAPI(Routes.games.details(id), {
 //     method: "PUT",

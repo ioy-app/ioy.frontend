@@ -14,9 +14,10 @@
 		"tags": "Теги",
 		"icon": "Загрузите .png",
 		"icon_limit": "Лимит 1МБ",
-		"game": "Загрузите index.html",
-		"game_limit": "Лимит 25МБ",
-		"recommends": "Рекомендации"
+		"game": "Загрузите index.html или .zip (с index.html)",
+		"game_limit": "Лимит 32МБ",
+		"recommends": "Рекомендации",
+		"total_size": "Общий размер:"
 	},
 	"placeholders": {
 		"title": "Моя крутая игра",
@@ -29,8 +30,9 @@
 	},
 	"errors": {
 		"exists": "Игра не найдена",
+		"indexhtml": "В корневой папке должен быть index.html",
 		"unknown": "Неизвестная ошибка",
-		"game_limit": "Лимит на загрузку 25МБ для index.html",
+		"game_limit": "Лимит на загрузку 32МБ для index.html или .zip",
 		"icon_limit": "Лимит на загрузку 1МБ для иконки",
 		"icon_type": "Иконка может быть только .png",
 		"game_type": "Игра может быть только .html",

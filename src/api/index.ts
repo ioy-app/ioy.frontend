@@ -42,33 +42,66 @@ export default async function fetchAPI(
 	return result;
 }
 
-function jsonToFormData(
-	obj: any,
-	parentKey = "",
-): FormData {
-	const formData = new FormData();
+function jsonToFormData(obj: any, parentKey = ""): FormData {
+  const formData = new FormData();
 
-	const process = (value: any, key: string) => {
-		if (value == null) return;
+  const process = (value: any, key: string) => {
+    // Пропускаем пустые значения
+    if (value == null) return;
 
-		if (Array.isArray(value)) {
-			value.forEach((item, i) => {
-				process(item, `${key}[${i}]`);
-			});
-		} else if (
-			typeof value === "object" &&
-			!(value instanceof File) &&
-			!(value instanceof Blob)
-		) {
-			Object.entries(value).forEach(([k, v]) => {
-				process(v, `${key}[${k}]`);
-			});
-		} else {
+    // Обработка массивов
+    if (Array.isArray(value)) {
+      // Проверяем, содержит ли массив файлы (для полей типа game[])
+      const hasFiles = value.some(
+        (item) => item instanceof File || item instanceof Blob
+      );
+
+      if (hasFiles) {
+        // Файлы: добавляем каждый с одинаковым ключом (без индексов!)
+        value.forEach((item) => {
+          if (item instanceof File || item instanceof Blob) {
+            formData.append(key, item);
+          }
+        });
+      } else if (
+				typeof value === "object" &&
+				!(value instanceof File) &&
+				!(value instanceof Blob)
+			) {
+				Object.entries(value).forEach(([k, v]) => {
+					process(v, `${key}[${k}]`);
+				});
+			} else {
+				formData.append(key, value);
+			}
+      return;
+    }
+
+    // Обработка вложенных объектов (не файлов)
+    if (
+      typeof value === "object" &&
+      !(value instanceof File) &&
+      !(value instanceof Blob)
+    ) {
+      Object.entries(value).forEach(([k, v]) => {
+        // Для вложенных объектов сохраняем нотацию с квадратными скобками
+        // Это стандарт для парсинга вложенных структур на бэкенде
+        process(v, `${key}[${k}]`);
+      });
+      return;
+    }
+
+		if (value instanceof File || value instanceof Blob) {
 			formData.append(key, value);
+			return;
 		}
-	};
 
-	if (
+    // Базовый случай: строки, числа, булевы значения
+    formData.append(key, String(value));
+  };
+
+  // Точка входа: обработка корневого объекта
+  if (
 		typeof obj === "object" &&
 		!Array.isArray(obj) &&
 		obj !== null
@@ -84,7 +117,7 @@ function jsonToFormData(
 		formData.append(parentKey, obj);
 	}
 
-	return formData;
+  return formData;
 }
 
 export { Routes, jsonToFormData };

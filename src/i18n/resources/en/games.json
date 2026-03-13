@@ -14,9 +14,10 @@
 		"tags": "Tags",
 		"icon": "Upload icon",
 		"icon_limit": "limit 1mb",
-		"game": "Upload index.html",
-		"game_limit": "limit 25mb",
-		"recommends": "Recommends"
+		"game": "Upload index.html or .zip (with index.html)",
+		"game_limit": "limit 32mb",
+		"recommends": "Recommends",
+		"total_size": "Total size:"
 	},
 	"placeholders": {
 		"title": "My super game",
@@ -29,11 +30,12 @@
 	},
 	"errors": {
 		"exists": "No found",
+		"indexhtml": "index.html is needed in root folder",
 		"unknown": "Unknown error",
-		"game_limit": "Game limit 25mb",
+		"game_limit": "Game limit 32mb",
 		"icon_limit": "Icon limit 1mb",
 		"icon_type": "Icon type only .png",
-		"game_type": "Game type only .html",
+		"game_type": "Game type only .html or .zip",
 		"required": {
 			"title": "Title is required",
 			"status": "Status is required",
