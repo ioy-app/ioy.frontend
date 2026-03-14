@@ -35,6 +35,7 @@ const Uploader: React.FC<{
   const totalSize = useMemo(() => {
     return files?.reduce((a, b) => a + b.size, 0) / 1024 / 1024;
   }, [ files ]);
+  
 
   return (
     <div className="flex w-full justify-center flex-col gap-4">
