@@ -14,7 +14,7 @@
 		"tags": "Теги",
 		"icon": "Загрузите .png",
 		"icon_limit": "Лимит 1МБ",
-		"game": "Загрузите index.html или .zip (с index.html)",
+		"game": "Загрузите index.html или папку (с index.html)",
 		"game_limit": "Лимит 32МБ",
 		"recommends": "Рекомендации",
 		"total_size": "Общий размер:"

@@ -14,7 +14,7 @@
 		"tags": "Tags",
 		"icon": "Upload icon",
 		"icon_limit": "limit 1mb",
-		"game": "Upload index.html or .zip (with index.html)",
+		"game": "Upload index.html or folder (with index.html)",
 		"game_limit": "limit 32mb",
 		"recommends": "Recommends",
 		"total_size": "Total size:"
