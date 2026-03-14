@@ -29,6 +29,7 @@ import {
 	BiChevronsLeft,
 	BiCopyAlt,
 	BiEdit,
+	BiFullscreen,
 	BiHeart,
 	BiMessageError,
 	BiShare,
@@ -44,6 +45,7 @@ import { paths } from "@/routes";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
 import Auth from "../auth";
+import { useRef } from "react";
 
 export default function GamePage() {
 	const params = useParams();
@@ -56,6 +58,7 @@ export default function GamePage() {
 	const { token } = useSelector(
 		(state: StoreProps) => state.login,
 	);
+	const gameRef = useRef(null);
 
 	const query = useQuery({
 		queryKey: ["games", id],
@@ -221,18 +224,11 @@ export default function GamePage() {
 							</span>
 						)}
 					</div>
-					<Player gameId={Number(id)} />
+					<Player
+						gameId={Number(id)}
+						ref={gameRef}
+					/>
 					<div className="flex gap-4 w-full justify-between items-center">
-						<div className="flex gap-4 items-center">
-							{query?.data?.is_me && (
-								<NavLink to={paths.games.edit(id)}>
-									<Button variant="second">
-										<BiEdit />
-										{t("buttons.edit")}
-									</Button>
-								</NavLink>
-							)}
-						</div>
 						<div className="flex gap-4 items-center">
 							<Popup
 								align="b"
@@ -288,6 +284,36 @@ export default function GamePage() {
 									<BiMessageError />
 								</Button>
 							</Popup>
+						</div>
+						<div className="flex gap-4 items-center">
+							<Button
+								variant="default"
+								onClick={() => {
+									if (!gameRef?.current)
+										return;
+
+									const elem = gameRef?.current;
+									if (elem.requestFullscreen) {
+										elem.requestFullscreen();
+									} else if (elem.mozRequestFullScreen) {
+										elem.mozRequestFullScreen();
+									} else if (elem.webkitRequestFullscreen) {
+										elem.webkitRequestFullscreen();
+									} else if (elem.msRequestFullscreen) {
+										elem.msRequestFullscreen();
+									}
+								}}
+							>
+								<BiFullscreen />
+							</Button>
+							{query?.data?.is_me && (
+								<NavLink to={paths.games.edit(id)}>
+									<Button variant="second">
+										<BiEdit />
+										{t("buttons.edit")}
+									</Button>
+								</NavLink>
+							)}
 						</div>
 					</div>
 					<div className="flex gap-4 w-full">
