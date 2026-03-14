@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import Spin from "./spin";
 import Button from "./button";
 import { BiError, BiPlay } from "react-icons/bi";
@@ -9,8 +9,12 @@ const Player: React.FC<{
 	gameId?: number;
 	/** Other link for game */
 	src?: string;
-}> = ({ gameId, src }) => {
-	const ref = useRef(null);
+	ref?: () => void;
+}> = ({
+	gameId,
+	src,
+	ref
+}) => {
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const [gameFile, setGameFile] = useState<string>(null);
 	const [isPlay, setPlay] = useState<boolean>(false);
@@ -23,14 +27,6 @@ const Player: React.FC<{
 			setLoading(true);
 			setPlay(true);
 			setError(false);
-			// const file: Response = await fetch(
-			// 	src || `/api/v1/games/${gameId}/index.html`,
-			// );
-			// const resource = await file.blob();
-
-			// if (!file.ok) throw new Error();
-
-			// setGameFile(URL.createObjectURL(resource));
 		} catch (err) {
 			setError(true);
 		} finally {
