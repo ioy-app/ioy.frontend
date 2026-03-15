@@ -26,6 +26,7 @@
 	"params": {
 		"ban_instance_3d": "Ban instance's author to 3 days",
 		"ban_instance_30d": "Ban instance's author to 30 days",
-		"delete_instance": "Delete instance"
+		"delete_instance": "Delete instance",
+		"unban_instance": "Unban instance's author"
 	}
 }

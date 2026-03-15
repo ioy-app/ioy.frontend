@@ -136,6 +136,7 @@ const Routes = {
 	},
 	reports: {
 		list: "/reports",
+		details: (id: number) => `/reports/${id}`
 	},
 };
 

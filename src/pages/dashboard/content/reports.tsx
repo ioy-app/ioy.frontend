@@ -26,7 +26,7 @@ import { paths } from "@/routes";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
-import { reports } from "@/api/routes/reports";
+import { answer_report, reports } from "@/api/routes/reports";
 import { UserProps } from "@/types";
 import { useModal } from "@/hooks";
 
@@ -114,6 +114,31 @@ const Reports: React.FC = () => {
 							dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 					{
+						title: t("dashboard.table.reports.answer_id"),
+						dataIndex: "answerdata",
+						render: (data) => (
+							<Link
+								to={paths.users.details(data?.login)}
+								className="group flex items-center gap-2 w-fit"
+							>
+								<Components.User
+									dataSource={
+										{
+											id: data?.id,
+											is_avatar: data?.is_avatar,
+										} as UserProps
+									}
+									login={data?.login}
+									nolink
+									size={12}
+								/>
+								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
+									{data?.login}
+								</p>
+							</Link>
+						),
+					},
+					{
 						title: t("dashboard.table.reports.answer"),
 						dataIndex: "answer",
 					},
@@ -121,7 +146,7 @@ const Reports: React.FC = () => {
 						title: t(
 							"dashboard.table.reports.date_answered",
 						),
-						dataIndex: "date_updated",
+						dataIndex: "date_answered",
 						render: (date) =>
 							dayjs(date)?.isValid() &&
 							dayjs(date).format("HH:mm DD.MM.YYYY"),
@@ -165,9 +190,20 @@ const ReportAnswer: React.FC<{
 }) => {
 	const { t } = useTranslation();
 	const local = useForm();
+	const [ isLoading, setLoading ] = useState<boolean>(false);
 
-	const handleSubmit = async (data) => {
-		console.log(data);
+	const handleSubmit = async (fd) => {
+		try {
+			setLoading(true);
+			const response = await answer_report(data?.id, fd);
+			console.log(response);
+			onClose && onClose();
+		}
+		catch(err) {
+			console.log(err);
+		}
+		finally { setLoading(false); }
+		//console.log(data, fd);
 	}
 
 	return (
@@ -208,25 +244,35 @@ const ReportAnswer: React.FC<{
 					<Components.Checkbox
 						{...local.register("params.ban_instance_3d")}
 						placeholder={t("report.params.ban_instance_3d")}
+						disabled={isLoading}
 					/>
 					<Components.Checkbox
 						{...local.register("params.ban_instance_30d")}
 						placeholder={t("report.params.ban_instance_30d")}
+						disabled={isLoading}
 					/>
 					<Components.Checkbox
 						{...local.register("params.delete_instance")}
 						placeholder={t("report.params.delete_instance")}
+						disabled={isLoading}
+					/>
+					<Components.Checkbox
+						{...local.register("params.unban_instance")}
+						placeholder={t("report.params.unban_instance")}
+						disabled={isLoading}
 					/>
 				</div>
 				<Components.Textarea
 					{...local.register("answer")}
 					placeholder={t("report.placeholders.answer")}
 					label={t("report.labels.answer")}
+					disabled={isLoading}
 				/>
 				<div className="flex justify-end items-center gap-4">
 					<Components.Button
 						variant="primary"
 						htmlType="submit"
+						disabled={isLoading}
 					>
 						{t("buttons.save")}
 						<BiCheck />

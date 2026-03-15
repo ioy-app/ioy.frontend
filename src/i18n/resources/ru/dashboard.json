@@ -49,6 +49,7 @@
 			"target_id": "Сущность",
 			"source_id": "Заявитель",
 			"message": "Описание",
+			"answer_id": "Автор ответа",
 			"answer": "Ответ",
 			"date_created": "Дата созд.",
 			"date_answered": "Дата ответа"

@@ -18,3 +18,16 @@ export const reports = (offset: number, limit: number) =>
 			limit,
 		},
 	});
+
+export const answer_report = (
+	report_id: number,
+	data: {
+		answer: string,
+		params: {
+			ban_instance_3d?: boolean;
+			ban_instance_30d?: boolean;
+			delete_instance?: boolean;
+			unban_instance?: boolean;
+		}
+	}
+) => apiInstance.put(Routes.reports.details(report_id), data);
