@@ -12,11 +12,14 @@ import imgEmpty from "@/icons/empty.svg";
  */
 export default function About({}) {
 	const { t } = useTranslation();
-	document.title = t("about.title");
 
 	return (
 		<div className="flex-1 flex justify-center flex-col items-center w-full min-h-full">
-			
+			<Meta
+				title="ioy.app"
+				description={t("about.description")}
+				url="https://ioy.app/"
+			/>
 			<div className="flex flex-col justify-center gap-4 flex-1 max-w-[60%] max-md:max-w-full z-2">
 				<div className="flex justify-center w-full">
 					<div className="w-[60%] max-md:w-full flex justify-center items-center">
@@ -69,6 +72,7 @@ import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
+import { Meta } from "@/components";
 
 type ModelProps = {
   position?: [number, number, number];

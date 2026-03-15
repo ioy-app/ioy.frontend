@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import Store from "@/stories";
+import { HelmetProvider } from "react-helmet-async";
 
 import * as Pages from "@/pages";
 import "./global.css";
@@ -45,7 +46,9 @@ createRoot(app).render(
 		<QueryClientProvider client={queryClient}>
 			<NotifyProvider>
 				<ModalProvider>
-					<RouterProvider router={routers} />
+					<HelmetProvider>
+						<RouterProvider router={routers} />
+					</HelmetProvider>
 				</ModalProvider>
 			</NotifyProvider>
 		</QueryClientProvider>

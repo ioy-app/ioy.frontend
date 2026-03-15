@@ -4,6 +4,7 @@ import {
 	Button,
 	Game,
 	Input,
+	Meta,
 	Pagination,
 	Table,
 	Tag,
@@ -14,6 +15,7 @@ import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiBox, BiChevronsLeft, BiSearch } from "react-icons/bi";
@@ -33,8 +35,6 @@ const Games: React.FC<{}> = ({}) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const methods = useForm();
 	const { t } = useTranslation();
-
-	document.title = t("home.title");
 
 	const {
 		isFetching,
@@ -106,6 +106,11 @@ const Games: React.FC<{}> = ({}) => {
 
 	return (
 		<FormProvider {...methods}>
+			<Meta
+				title="ioy.app"
+				description={t("about.description")}
+				url=""
+			/>
 			<form
 				className="col-span-4 flex flex-col gap-4 w-full h-fit"
 				onSubmit={methods.handleSubmit(submit)}

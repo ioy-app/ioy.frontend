@@ -7,6 +7,7 @@ import {
 	Button,
 	Game,
 	LinkifyText,
+	Meta,
 	Player,
 	Report,
 	Spin,
@@ -46,6 +47,7 @@ import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
 import Auth from "../auth";
 import { useRef } from "react";
+import { Routes } from "@/api";
 
 export default function GamePage() {
 	const params = useParams();
@@ -195,6 +197,15 @@ export default function GamePage() {
 
 	return (
 		<Spin loading={query?.status == "pending"} key={id}>
+			<Meta
+				title={query?.data?.title}
+				description={query?.data?.description}
+				url={paths.games.details(id)}
+				keywords={query?.data?.tags?.join(",")}
+				banner={`/api/v1${Routes.games.icon(id)}`}
+				favicon={`/api/v1${Routes.games.icon(id)}`}
+				author={query?.data?.authors_data?.map(author => author?.login)?.join(", ")}
+			/>
 			<div className="w-full flex flex-col gap-4 items-center">
 				<div className="w-[65%] max-lg:w-full flex flex-col gap-4 items-start">
 					<Button

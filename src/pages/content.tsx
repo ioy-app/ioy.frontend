@@ -5,6 +5,7 @@ import { fetchMe, setToken } from "@/stories/login";
 import { Routes } from "@/api";
 import { useQuery } from "@tanstack/react-query";
 import { apiInstance } from "@/api/routes";
+import { Helmet } from "react-helmet-async";
 
 export default function Content() {
 	const dispatch = useDispatch();
@@ -29,12 +30,14 @@ export default function Content() {
 	}
 
 	return (
-		<div className="flex flex-col w-full min-h-screen bg-back text-text">
-			<Components.Header />
-			<main className="flex-1 py-2 px-4 w-full min-h-full">
-				<Outlet />
-			</main>
-			<Components.Footer />
-		</div>
+		<>
+			<div className="flex flex-col w-full min-h-screen bg-back text-text">
+				<Components.Header />
+				<main className="flex-1 py-2 px-4 w-full min-h-full">
+					<Outlet />
+				</main>
+				<Components.Footer />
+			</div>
+		</>
 	);
 }

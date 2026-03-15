@@ -7,7 +7,6 @@ import { FEATURE_JAMS } from "@/features";
 
 export default function Home() {
 	const { t } = useTranslation();
-	document.title = t("home.title");
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="w-full flex justify-center flex-col items-center gap-2">
