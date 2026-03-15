@@ -28,6 +28,10 @@ i18n
 		interpolation: {
 			escapeValue: false,
 		},
+		detection: {
+			lookupLocalStorage: "lang",
+			convertDetectedLanguage: (lng) => lng?.split("-")?.at(0) || "en"
+		},
 		react: { useSuspense: false },
 	});
 
