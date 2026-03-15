@@ -3,6 +3,7 @@ import pdfTerms from "@/../assets/policies/ru/terms.pdf";
 import pdfPrivacy from "@/../assets/policies/ru/privacy.pdf";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { Meta } from "@/components";
 
 /**
  * Terms
