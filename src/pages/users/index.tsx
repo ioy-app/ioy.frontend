@@ -19,6 +19,7 @@ import {
 	Game,
 	LinkifyText,
 	Report,
+	Meta,
 } from "@/components";
 
 import { UserProps } from "@/types";
@@ -65,6 +66,7 @@ import {
 import UserContent from "./content";
 import { paths } from "@/routes";
 import ErrorPage from "../error";
+import { Helmet } from "react-helmet-async";
 
 export default function Profile() {
 	const context = useOutletContext();
@@ -160,14 +162,17 @@ export default function Profile() {
 		if (value <= 200) setScrollable(false);
 	});
 
-	document.title = login;
-
 	if (status == "error") {
 		return <ErrorPage msg={error?.message || "errors.exists"} />;
 	}
 
 	return (
 		<Spin loading={isLoading}>
+			<Meta
+				title={login}
+				description={data?.description}
+				url={paths.users.details(login)}
+			/>
 			<div className="w-full px-4 py-4 flex gap-4 flex-col items-center">
 				{token && (
 					<div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">

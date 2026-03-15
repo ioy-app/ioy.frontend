@@ -227,13 +227,23 @@ export default function Edit() {
 				>
 					<div className="w-[65%] max-lg:w-full flex flex-col gap-4 items-start">
 						<div className="w-full flex flex-col gap-2 items-start mb-8">
-							<Button
-								variant="text"
-								onClick={() => navigate(-1)}
-							>
-								<BiChevronsLeft />
-								{t("buttons.back")}
-							</Button>
+							<div className="flex w-full items-center justify-between gap-4">
+								<Button
+									variant="text"
+									onClick={() => navigate(-1)}
+								>
+									<BiChevronsLeft />
+									{t("buttons.back")}
+								</Button>
+								{id && (
+									<Button
+										variant="second"
+										onClick={() => navigate(paths.games.details(id))}
+									>
+										{t("buttons.play")}
+									</Button>
+								)}
+							</div>
 							<p className="text-title">
 								{isCreate
 									? t("games.titles.create")

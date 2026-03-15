@@ -20,6 +20,7 @@ import Table from "./base/table";
 import Pagination from "./base/pagination";
 import SelectUser from "./custom/selectUser";
 import Report from "./custom/report";
+import Meta from "./custom/meta";
 
 export {
 	Header,
@@ -44,4 +45,5 @@ export {
 	Pagination,
 	SelectUser,
 	Report,
+	Meta
 };
