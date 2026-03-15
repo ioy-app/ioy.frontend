@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 /**
@@ -22,24 +23,46 @@ const Meta: React.FC<{
   favicon,
   url
 }) => {
+  const [ localData, setLocalData ] = useState<Record<string, string>>(null);
+
+  useEffect(() => {
+    setLocalData({
+      title,
+      description,
+      keywords,
+      author,
+      banner,
+      favicon,
+      url
+    });
+  }, [
+    title,
+    description,
+    keywords,
+    author,
+    banner,
+    favicon,
+    url
+  ]);
+
   return (
     <Helmet>
-      <title>{title}</title>
-      <link rel="icon" href={(favicon && `https://ioy.app${favicon}`) || "/favicon.ico"} type="image/x-icon" />
+      <title>{localData?.title}</title>
+      <link rel="icon" href={(localData?.favicon && `https://ioy.app${localData?.favicon}`) || "/favicon.ico"} type="image/x-icon" />
       <meta name="robots" content="index, follow" />
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords || "gamedev,indiedev,games,game,web,webplatform,webgames,html"} />
-      <meta name="author" content={author || "ioxy.app"} />
+      <meta name="description" content={localData?.description} />
+      <meta name="keywords" content={localData?.keywords || "gamedev,indiedev,games,game,web,webplatform,webgames,html"} />
+      <meta name="author" content={localData?.author || "ioy.app"} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`https://ioy.app${url}`} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={(banner && `https://ioy.app${banner}`) || "https://ioy.app/resources/banner.png"} />
+      <meta property="og:url" content={`https://ioy.app${localData?.url}`} />
+      <meta property="og:title" content={localData?.title} />
+      <meta property="og:description" content={localData?.description} />
+      <meta property="og:image" content={(localData?.banner && `https://ioy.app${localData?.banner}`) || "https://ioy.app/resources/banner.png"} />
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={`https://ioy.app${url}`} />
-      <meta property="twitter:title" content={title} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={(banner && `https://ioy.app${banner}`) || "https://ioy.app/resources/banner.png"} />
+      <meta property="twitter:url" content={`https://ioy.app${localData?.url}`} />
+      <meta property="twitter:title" content={localData?.title} />
+      <meta property="twitter:description" content={localData?.description} />
+      <meta property="twitter:image" content={(localData?.banner && `https://ioy.app${localData?.banner}`) || "https://ioy.app/resources/banner.png"} />
     </Helmet>
   );
 }
