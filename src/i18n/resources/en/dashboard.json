@@ -49,6 +49,7 @@
 			"target_id": "Target",
 			"source_id": "Author",
 			"message": "Message",
+			"answer_id": "Answer Author",
 			"answer": "Answer",
 			"date_created": "Date created",
 			"date_answered": "Date answered"

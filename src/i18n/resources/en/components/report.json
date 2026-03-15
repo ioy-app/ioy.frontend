@@ -2,10 +2,12 @@
 	"title": "Report",
 	"success": "Report send",
 	"labels": {
-		"message": "Message"
+		"message": "Message",
+		"answer": "Answer"
 	},
 	"placeholders": {
-		"message": "Your message..."
+		"message": "Your message...",
+		"answer": "Send your answer"
 	},
 	"errors": {
 		"unknown": "Unknown error",
@@ -20,5 +22,11 @@
 			"type": "Type required",
 			"message": "Message required"
 		}
+	},
+	"params": {
+		"ban_instance_3d": "Ban instance's author to 3 days",
+		"ban_instance_30d": "Ban instance's author to 30 days",
+		"delete_instance": "Delete instance",
+		"unban_instance": "Unban instance's author"
 	}
 }
