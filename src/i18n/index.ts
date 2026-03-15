@@ -10,20 +10,20 @@ const resources = {
 	ru: { translation: ru }
 } as const;
 
-const languageDetector = new LanguageDetector();
-languageDetector.addDetector({
-	name: "localStorageDetector",
-	lookup: () => localStorage.getItem("lang"),
-	cacheUserLanguage: (lng) =>
-		localStorage.setItem("lang", lng),
-});
+// const languageDetector = new LanguageDetector();
+// languageDetector.addDetector({
+// 	name: "localStorageDetector",
+// 	lookup: () => localStorage.getItem("lang"),
+// 	cacheUserLanguage: (lng) =>
+// 		localStorage.setItem("lang", lng),
+// });
 
 i18n
-	.use(languageDetector)
 	.use(initReactI18next)
 	.init({
 		resources,
 		fallbackLng: "en",
+		lng: localStorage.getItem("lang") || "en",
 		debug: process.env.NODE_ENV === "development",
 		interpolation: {
 			escapeValue: false,
