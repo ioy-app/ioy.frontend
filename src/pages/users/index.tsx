@@ -171,7 +171,6 @@ export default function Profile() {
 			<Meta
 				title={login}
 				description={data?.description}
-				banner={`/api/v1${Routes.users.avatar(login)}`}
 				url={paths.users.details(login)}
 			/>
 			<div className="w-full px-4 py-4 flex gap-4 flex-col items-center">

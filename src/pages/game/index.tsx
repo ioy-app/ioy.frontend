@@ -202,7 +202,6 @@ export default function GamePage() {
 				description={query?.data?.description}
 				url={paths.games.details(id)}
 				keywords={query?.data?.tags?.join(",")}
-				banner={`/api/v1${Routes.games.icon(id)}`}
 				favicon={`/api/v1${Routes.games.icon(id)}`}
 				author={query?.data?.authors_data?.map(author => author?.login)?.join(", ")}
 			/>
