@@ -1,6 +1,5 @@
 stages:
   - build
-  - run
 
 Building:
   stage: build
@@ -13,14 +12,8 @@ Building:
       npm run build
       docker image prune -f
       docker build -t frontend .
+      cd /opt/ioy.app
+      docker image prune -f
+      docker compose up -d
   only:
-    - develop
-Running:
-  stage: run
-  tags:
-    - shell 
-  script:
-    - |
-      echo "Success buil a"
-  only:
-    - develop
+    - master
