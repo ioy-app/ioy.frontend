@@ -1,23 +1,32 @@
 import Home from "./home";
-import Stories from "./stories";
 import Content from "./content";
-import Profile from "./profile";
+import Profile, { ProfileEdit } from "./users";
+import UserContent from "./users/content";
 import Game from "./game";
-import Error from "./error";
+import GameEdit from "./game/edit";
+import Dashboard from "./dashboard";
+import ErrorPage from "./error";
+import About from "./about";
+import Verify from "./verify";
 
-import oAuth, {
-    Login as oAuthLogin,
-    Reg as oAuthReg
-} from "./oauth";
+import Auth, {
+	Login as AuthLogin,
+	Reg as AuthReg,
+} from "./auth";
 
 export {
-    Content,
-    Home,
-    Stories,
-    oAuth,
-    oAuthLogin,
-    oAuthReg,
-    Profile,
-    Game,
-    Error
-}
+	Content,
+	Home,
+	Auth,
+	AuthLogin,
+	AuthReg,
+	Profile,
+	ProfileEdit,
+	Game,
+	ErrorPage,
+	Dashboard,
+	GameEdit,
+	UserContent,
+	About,
+	Verify
+};

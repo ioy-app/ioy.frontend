@@ -1,0 +1,17 @@
+{
+	"title": "Active sessions",
+	"days_one": "{{count}} day",
+	"days_few": "{{count}} days",
+	"days_other": "{{count}} days",
+	"days_many": "{{count}} days",
+	"empty": "Empty",
+	"success": {
+		"delete": "Session deleted",
+		"delete_all": "All sessions deleted"
+	},
+	"errors": {
+		"exists": {
+			"sessions": "No found sessions"
+		}
+	}
+}
