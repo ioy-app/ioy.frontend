@@ -1,0 +1,38 @@
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+
+import ru from "./resources/ru";
+import en from "./resources/en";
+
+const resources = {
+	en: { translation: en },
+	ru: { translation: ru }
+} as const;
+
+// const languageDetector = new LanguageDetector();
+// languageDetector.addDetector({
+// 	name: "localStorageDetector",
+// 	lookup: () => localStorage.getItem("lang"),
+// 	cacheUserLanguage: (lng) =>
+// 		localStorage.setItem("lang", lng),
+// });
+
+i18n
+	.use(initReactI18next)
+	.init({
+		resources,
+		fallbackLng: "en",
+		lng: localStorage.getItem("lang") || "en",
+		debug: process.env.NODE_ENV === "development",
+		interpolation: {
+			escapeValue: false,
+		},
+		detection: {
+			lookupLocalStorage: "lang",
+			convertDetectedLanguage: (lng) => lng?.split("-")?.at(0) || "en"
+		},
+		react: { useSuspense: false },
+	});
+
+export default i18n;

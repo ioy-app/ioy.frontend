@@ -1,0 +1,14 @@
+[
+	{
+		"label": "dashboard.statuses.all",
+		"value": "all"
+	},
+	{
+		"label": "dashboard.statuses.public",
+		"value": "public"
+	},
+	{
+		"label": "dashboard.statuses.draft",
+		"value": "draft"
+	}
+]

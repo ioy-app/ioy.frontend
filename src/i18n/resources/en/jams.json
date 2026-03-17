@@ -1,0 +1,17 @@
+{
+	"titles": {
+		"create": "Create Jam",
+		"edit": "Edit {{title}}"
+	},
+	"labels": {
+		"icon": "Upload icon",
+		"title": "Title",
+		"theme": "Theme",
+		"description": "Description"
+	},
+	"placeholders": {
+		"title": "Input title...",
+		"theme": "Input theme...",
+		"description": "About jam..."
+	}
+}

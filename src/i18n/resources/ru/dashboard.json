@@ -1,0 +1,58 @@
+{
+	"tabs": {
+		"games": "Игры",
+		"jams": "Джемы",
+		"following": "Подписки",
+		"saves": "Сохраненные",
+		"likes": "Понравилось",
+		"reports": "Жалобы"
+	},
+	"statuses": {
+		"all": "Все",
+		"draft": "Черновик",
+		"public": "Опубликован"
+	},
+	"placeholders": {
+		"status": "Статус",
+		"order": "Сортировка по",
+		"games": {
+			"search": "Поиск..."
+		},
+		"jams": {
+			"search": "Поиск..."
+		}
+	},
+	"labels": {
+		"nodata": "Пусто :("
+	},
+	"table": {
+		"games": {
+			"game": "Игра",
+			"version": "Версия",
+			"status": "Статус",
+			"date_created": "Дата созд.",
+			"date_updated": "Дата ред.",
+			"author": "Автор",
+			"likes": "Понравилось",
+			"saves": "Сохранили"
+		},
+		"jams": {
+			"jam": "Джем",
+			"status": "Статус",
+			"started_to_finished": "Дата нач/оконч",
+			"vote_started_to_finished": "Дата голосования"
+		},
+		"following": {
+			"user": "Пользователь"
+		},
+		"reports": {
+			"target_id": "Сущность",
+			"source_id": "Заявитель",
+			"message": "Описание",
+			"answer_id": "Автор ответа",
+			"answer": "Ответ",
+			"date_created": "Дата созд.",
+			"date_answered": "Дата ответа"
+		}
+	}
+}

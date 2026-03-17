@@ -1,0 +1,26 @@
+[
+	{
+		"label": "dashboard.tabs.games",
+		"value": "games"
+	},
+	{
+		"label": "dashboard.tabs.jams",
+		"value": "jams"
+	},
+	{
+		"label": "dashboard.tabs.following",
+		"value": "following"
+	},
+	{
+		"label": "dashboard.tabs.saves",
+		"value": "saves"
+	},
+	{
+		"label": "dashboard.tabs.likes",
+		"value": "likes"
+	},
+	{
+		"label": "dashboard.tabs.reports",
+		"value": "reports"
+	}
+]

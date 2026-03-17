@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--font-roboto: "Roboto";
+	--color-primary: #739441;
+	--color-primary-br: #5a783d;
+	--color-primary-hover: #7e9e49;
+	--color-second: #e07f72;
+	--color-second-br: #cf6572;
+	--color-second-hover: #e78c78;
+	--color-danger: #ff3131;
+	--color-back: #fff;
+	--color-br: #e0e0e0;
+	--color-disabled: #c8c8c8;
+	--color-disabled-content: #a8a8a8;
+	--color-text: #000;
+}
+
+.dark {
+	--color-primary: #739441;
+	--color-primary-br: #5a783d;
+	--color-primary-hover: #7e9e49;
+	--color-second: #e07f72;
+	--color-second-br: #cf6572;
+	--color-second-hover: #e78c78;
+	--color-danger: #cc1d1d;
+	--color-back: #1b1523;
+	--color-br: #2f2446;
+	--color-disabled: #c8c8c8;
+	--color-disabled-content: #a8a8a8;
+	--color-text: #fff;
+}
+
+@layer components {
+	.text-title {
+		@apply text-2xl font-normal font-roboto;
+	}
+	.text-default {
+		@apply text-xl font-light font-roboto;
+	}
+	.text-placeholder {
+		@apply text-lg font-thin font-roboto;
+	}
+
+	.button {
+		@apply bg-back text-text h-10 px-4 py-2 border border-br rounded-xl flex flex-row gap-2 items-center justify-center cursor-pointer transition-colors text-nowrap flex-nowrap;
+		@apply disabled:bg-disabled disabled:border-disabled-content disabled:hover:bg-disabled disabled:cursor-not-allowed disabled:text-disabled-content;
+	}
+
+	.button-primary {
+		@apply bg-primary text-white border-primary-br hover:bg-primary-hover;
+	}
+
+	.button-second {
+		@apply bg-second text-white border-second-br hover:bg-second-hover;
+	}
+
+	.button-danger {
+		@apply bg-back text-danger border-danger;
+	}
+
+	.button-clear {
+		@apply bg-transparent border-none not-disabled:hover:opacity-50 transition-opacity;
+		@apply disabled:bg-transparent disabled:border-none disabled:hover:bg-transparent;
+	}
+
+	.button-text {
+		@apply px-2 py-2 border-none not-disabled:hover:opacity-50 transition-opacity rounded-none;
+		@apply disabled:bg-transparent disabled:border-none disabled:hover:bg-transparent;
+	}
+
+	.notify {
+		@apply rounded-xl border px-4 py-2 flex justify-center h-fit items-center gap-4 shadow-md;
+	}
+
+	.notify-success {
+		@apply bg-primary text-white border-primary-br;
+	}
+
+	.notify-warning {
+		@apply bg-second text-white border-second-br;
+	}
+
+	.notify-error {
+		@apply bg-back text-danger border-danger;
+	}
+
+	.notify-info {
+		@apply border-br bg-back text-text;
+	}
+}
+
+@layer utilities {
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+}
