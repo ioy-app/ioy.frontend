@@ -13,7 +13,6 @@ Building:
       docker image prune -f
       docker build -t frontend .
       cd /opt/ioy.app
-      docker image prune -f
       docker compose up -d
   only:
     - master
