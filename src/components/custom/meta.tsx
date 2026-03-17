@@ -47,7 +47,7 @@ const Meta: React.FC<{
 
   return (
     <Helmet>
-      <title>{localData?.title}</title>
+      <title>{localData?.title || "ioy.app"}</title>
       <link rel="icon" href={(localData?.favicon && `https://ioy.app${localData?.favicon}`) || "/favicon.ico"} type="image/x-icon" />
       <meta name="robots" content="index, follow" />
       <meta name="description" content={localData?.description} />
@@ -55,12 +55,12 @@ const Meta: React.FC<{
       <meta name="author" content={localData?.author || "ioy.app"} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={`https://ioy.app${localData?.url}`} />
-      <meta property="og:title" content={localData?.title} />
+      <meta property="og:title" content={localData?.title || "ioy.app"} />
       <meta property="og:description" content={localData?.description} />
       <meta property="og:image" content={(localData?.banner && `https://ioy.app${localData?.banner}`) || "https://ioy.app/resources/banner.png"} />
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={`https://ioy.app${localData?.url}`} />
-      <meta property="twitter:title" content={localData?.title} />
+      <meta property="twitter:title" content={localData?.title || "ioy.app"} />
       <meta property="twitter:description" content={localData?.description} />
       <meta property="twitter:image" content={(localData?.banner && `https://ioy.app${localData?.banner}`) || "https://ioy.app/resources/banner.png"} />
     </Helmet>
