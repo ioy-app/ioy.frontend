@@ -119,6 +119,7 @@ const Routes = {
 	},
 	dashboard: {
 		games: `/games/my`,
+		jams: `/jams/my`
 	},
 	comments: {
 		details: (id: number) => `/comments/${id}`,
@@ -133,6 +134,7 @@ const Routes = {
 	jams: {
 		list: `/jams`,
 		details: (id: number) => `/jams/${id}`,
+		icon: (id: number) => `/jams/${id}/icon`
 	},
 	reports: {
 		list: "/reports",

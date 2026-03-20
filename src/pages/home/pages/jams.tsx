@@ -10,6 +10,7 @@ import {
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isBetween from "dayjs/plugin/isBetween";
+import { Routes } from "@/api";
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -23,9 +24,9 @@ dayjs.extend(isBetween);
  */
 const Jams: React.FC = () => {
 	const [date_from, setDateFrom] =
-		useState<string>("2026-02-01");
+		useState<string>(dayjs().startOf('month').format("YYYY-MM-DD"));
 	const [date_to, setDateTo] =
-		useState<string>("2026-02-29");
+		useState<string>(dayjs().endOf('month').format("YYYY-MM-DD"));
 
 	const query = useQuery({
 		queryKey: ["jams", date_from, date_to],
@@ -37,7 +38,10 @@ const Jams: React.FC = () => {
 
 	const days = dayjs(date_from).daysInMonth();
 	const placeholder = dayjs(date_from).format("MM/YYYY");
+	const start_day = dayjs(date_from).startOf('month').day() - 1;
 	const calendar_days = [];
+	for (let i = 0; i < start_day; i++)
+		calendar_days.push(null);
 	for (let i = 0; i < days; i++) {
 		const jams = query?.data?.items?.filter((jam) => {
 			const isValid = dayjs(
@@ -93,25 +97,42 @@ const Jams: React.FC = () => {
 			</div>
 			<div className="grid grid-cols-7 gap-0">
 				{calendar_days?.length &&
-					calendar_days.map((node, i) => (
-						<div
-							key={i}
-							className={`w-full aspect-square text-default flex flex-col items-stretch ${(node.isCurrent && "bg-br") || "bg-back"}`}
-						>
-							<p className="px-4 py-2">{node.day}</p>
-							<div className="flex flex-col gap-1">
-								{node?.jams?.slice(0, 3)?.map((jam, i) => (
-									<div
-										className={`w-full h-6 bg-primary flex justify-center items-center nth-[2n]:bg-second`}
-									>
-										<p className="text-white text-[10pt] w-[60%] overflow-hidden text-nowrap truncate">
-											{jam.title}
-										</p>
-									</div>
-								))}
+					calendar_days.map((node, i) => {
+						if (!node)
+							return (
+								<div
+									key={i}
+									className={`w-full aspect-square text-default flex flex-col items-stretch "bg-back"}`}
+								/>
+							);
+						return (
+							<div
+								key={i}
+								className={`w-full aspect-square text-default flex flex-col items-stretch ${(node.isCurrent && "bg-br") || "bg-back"}`}
+							>
+								<p className="px-4 py-2">{node.day}</p>
+								<div className="flex flex-col gap-1">
+									{node?.jams?.slice(0, 3)?.map((jam, i) => (
+										<div
+											className={`w-full h-6 bg-primary flex justify-center items-center nth-[2n]:bg-second`}
+										>
+											<p className="text-white text-default w-[60%] overflow-hidden text-nowrap truncate flex items-center gap-2">
+												{jam.is_avatar && (
+													<div className="w-6 h-6">
+														<img
+															src={`/api/v1${Routes.jams.icon(jam.id)}`}
+															className="w-full h-full"
+														/>
+													</div>
+												)}
+												{jam.title}
+											</p>
+										</div>
+									))}
+								</div>
 							</div>
-						</div>
-					))}
+						);
+				})}
 			</div>
 		</div>
 	);

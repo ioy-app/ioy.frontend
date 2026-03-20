@@ -1,3 +1,4 @@
+import confOrder from "@/configs/order.json";
 import {
 	BiBox,
 	BiEditAlt,
@@ -5,9 +6,8 @@ import {
 	BiSearch,
 	BiSearchAlt,
 } from "react-icons/bi";
-import confStatus from "../status.json";
 
-import { dashboard_games } from "@/api/routes/dashboard";
+import { dashboard_games, dashboard_jams } from "@/api/routes/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
@@ -33,7 +33,7 @@ const Jams: React.FC = () => {
 	const current_page = Number(
 		searchParams.get("page") || 1,
 	);
-	const status = searchParams.get("status");
+	const sort = searchParams.get("sort");
 	const searchQS = searchParams.get("search");
 
 	const query = useQuery({
@@ -50,10 +50,10 @@ const Jams: React.FC = () => {
 				String((current_page - 1) * max),
 			);
 			search.set("limit", String(max));
-			if (status) search.set("status", status);
+			if (sort) search.set("sort", sort);
 			if (searchQS) search.set("search", searchQS);
 
-			const result = await dashboard_games(search);
+			const result = await dashboard_jams(search);
 			return result;
 		},
 	});
@@ -61,8 +61,7 @@ const Jams: React.FC = () => {
 	const onSubmit = async (data) => {
 		const us = new URLSearchParams();
 		if (data.search) us.set("search", data.search);
-		if (data.status && data.status != "all")
-			us.set("status", data.status);
+		if (data.sort) us.set("sort", data.sort);
 		setSearchParams(us);
 	};
 
@@ -74,12 +73,17 @@ const Jams: React.FC = () => {
 				"search",
 				searchParams.get("search"),
 			);
-		if (searchParams.get("status"))
+		if (searchParams.get("sort"))
 			methods.setValue(
-				"status",
-				searchParams.get("status"),
+				"sort",
+				searchParams.get("sort"),
 			);
 	}, [searchParams]);
+
+	const sorOptions = confOrder?.map((item) => {
+		item.label = t(item.label);
+		return item;
+	});
 
 	return (
 		<div className="w-full flex flex-col gap-4">
@@ -96,13 +100,12 @@ const Jams: React.FC = () => {
 						)}
 					/>
 					<Components.Select
-						placeholder={t("dashboard.placeholders.status")}
-						options={confStatus.map((record) => ({
-							...record,
-							label: t(record.label),
-						}))}
-						{...methods.register("status")}
+						options={sorOptions}
 						className="w-50"
+						placeholder={t(
+							"dashboard.placeholders.order",
+						)}
+						{...methods.register("sort")}
 					/>
 					<Components.Button
 						variant="primary"
@@ -117,50 +120,52 @@ const Jams: React.FC = () => {
 					{
 						title: t("dashboard.table.jams.jam"),
 						dataIndex: "id",
-						render: (data, game) => (
+						render: (data, jam) => (
 							<Link
-								to={paths.games.details(game?.id)}
+								to={paths.jams.details(jam?.id)}
 								className="group flex items-center gap-2 w-fit"
 							>
-								<Components.Game
+								<Components.Jam
 									dataSource={
 										{
-											id: game?.id,
-											is_avatar: game?.is_avatar,
+											id: jam?.id,
+											is_avatar: jam?.is_avatar,
 										} as GameProps
 									}
 									nolink
 									size={12}
 								/>
 								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-									{game?.title}
+									{jam?.title}
 								</p>
 							</Link>
 						),
-					},
-					{
-						title: t("dashboard.table.jams.status"),
-						dataIndex: "status",
-						render: (status) =>
-							t(`dashboard.statuses.` + status),
 					},
 					{
 						title: t(
 							"dashboard.table.jams.started_to_finished",
 						),
 						dataIndex: "date_created",
-						render: (date) =>
-							dayjs(date)?.isValid() &&
-							dayjs(date).format("HH:mm DD.MM.YYYY"),
+						render: (_, row) => (
+							<div className="flex items-center gap-1 text-default">
+								<p>{dayjs(row.date_started)?.isValid() && dayjs(row.date_started).format("HH:mm DD.MM.YYYY")}</p>
+								<p>—</p>
+								<p>{dayjs(row.date_finished)?.isValid() && dayjs(row.date_finished).format("HH:mm DD.MM.YYYY")}</p>
+							</div>
+						)
 					},
 					{
 						title: t(
 							"dashboard.table.jams.vote_started_to_finished",
 						),
-						dataIndex: "date_updated",
-						render: (date) =>
-							dayjs(date)?.isValid() &&
-							dayjs(date).format("HH:mm DD.MM.YYYY"),
+						dataIndex: "date_vote_started",
+						render: (_, row) => (
+							<div className="flex items-center gap-1 text-default">
+								<p>{dayjs(row.date_vote_started)?.isValid() && dayjs(row.date_vote_started).format("HH:mm DD.MM.YYYY")}</p>
+								<p>—</p>
+								<p>{dayjs(row.date_vote_finished)?.isValid() && dayjs(row.date_vote_finished).format("HH:mm DD.MM.YYYY")}</p>
+							</div>
+						)
 					},
 				]}
 				data={query?.data?.items}

@@ -2,6 +2,7 @@ import Header from "./custom/header";
 import Footer from "./custom/footer";
 import Game from "./content/game";
 import User from "./content/user";
+import Jam from "./content/jam";
 import Input from "./base/input";
 import Button from "./base/button";
 import Checkbox from "./base/checkbox";
@@ -21,6 +22,7 @@ import Pagination from "./base/pagination";
 import SelectUser from "./custom/selectUser";
 import Report from "./custom/report";
 import Meta from "./custom/meta";
+import DatePicker from "./base/datePicker";
 
 export {
 	Header,
@@ -45,5 +47,7 @@ export {
 	Pagination,
 	SelectUser,
 	Report,
-	Meta
+	Meta,
+	DatePicker,
+	Jam
 };

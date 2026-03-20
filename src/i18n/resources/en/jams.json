@@ -7,11 +7,25 @@
 		"icon": "Upload icon",
 		"title": "Title",
 		"theme": "Theme",
-		"description": "Description"
+		"games": "Jam's games",
+		"description": "Description",
+		"nominations": "Nominations",
+		"judges": "Judges",
+		"date_range": "Date range",
+		"vote_range": "Vote range",
+		"status": "Status",
+		"vote_type": {
+			"title": "Vote type",
+			"all": "All",
+			"judges": "Judges",
+			"members": "Members"
+		}
 	},
 	"placeholders": {
 		"title": "Input title...",
 		"theme": "Input theme...",
-		"description": "About jam..."
+		"description": "About jam...",
+		"nominations": "Example: Graphics (Enter or , to add nomination)",
+		"judges": "username (Enter or , to add tag)"
 	}
 }

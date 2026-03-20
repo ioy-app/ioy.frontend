@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
 					<select
 						onChange={(e) => handleChangeLanguage(e)}
 						value={i18n.language}
-						className="outline-0"
+						className="outline-0 dark:scheme-dark"
 					>
 						<option value="ru">Русский</option>
 						<option value="en">English</option>

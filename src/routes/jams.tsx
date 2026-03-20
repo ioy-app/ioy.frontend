@@ -1,4 +1,5 @@
 import Jam from "@/pages/jams";
+import JamDetails from "@/pages/jams/details";
 import JamEdit from "@/pages/jams/edit";
 import { RouteObject } from "react-router-dom";
 
@@ -16,7 +17,7 @@ const jams: RouteObject[] = [
 	},
 	{
 		path: jams_paths.details(":id"),
-		element: <Jam />,
+		element: <JamDetails />,
 	},
 	{
 		path: jams_paths.edit(":id"),

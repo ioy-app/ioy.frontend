@@ -27,5 +27,7 @@
 	"logout": "Logout",
 	"edit": "Edit",
 	"delete_account": "Delete account",
-	"report": "Report"
+	"report": "Report",
+	"join": "Join",
+	"leave": "Leave"
 }
