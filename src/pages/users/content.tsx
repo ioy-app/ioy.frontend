@@ -94,7 +94,7 @@ export default function UserContent({
 			</div>
 			<div className="flex flex-col gap-8 flex-1">
 				<Spin loading={query.status == "pending"}>
-					<div className="grid grid-cols-5 gap-4 w-full h-fit">
+					<div className="grid grid-cols-5 max-lg::grid-cols-4 max-md:grid-cols-3 gap-4 w-full h-fit">
 						{query?.data?.items?.map(
 							(item: GameProps | UserProps, i: number) => {
 								switch (id) {
