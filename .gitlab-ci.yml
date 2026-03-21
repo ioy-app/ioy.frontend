@@ -13,12 +13,13 @@ Test:Components:
       npm run test:components
   only:
     - master
+    - develop
 
 Test:Units:
   stage: test
   tags:
     - shell
-  scripts:
+  script:
     - |
       #!/bin/bash
       npm i
@@ -29,6 +30,9 @@ Test:Units:
       docker compose up -d
       cd $CI_PROJECT_DIR
       npm run test:units
+  only:
+    - master
+    - develop
 
 Building:
   stage: build
