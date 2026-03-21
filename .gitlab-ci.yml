@@ -1,19 +1,6 @@
 stages:
   - test
   - build
-  - test
-
-Test:Components:
-  stage: test
-  tags:
-    - shell
-  script:
-    - |
-      #!/bin/bash
-      npm i --force
-      npm run test:components
-  only:
-    - master
 
 Test:Components:
   stage: test
@@ -27,6 +14,22 @@ Test:Components:
   only:
     - master
 
+Test:Units:
+  stage: test
+  tags:
+    - shell
+  scripts:
+    - |
+      #!/bin/bash
+      npm i
+      npm run build
+      docker image prune -f
+      docker build -t frontend:develop .
+      cd /opt/ioy.app
+      docker compose up -d
+      cd $CI_PROJECT_DIR
+      npm run test:units
+
 Building:
   stage: build
   tags:
@@ -34,23 +37,11 @@ Building:
   script:
     - |
       #!/bin/bash
-      npm i --force
+      npm i
       npm run build
       docker image prune -f
       docker build -t frontend .
       cd /opt/ioy.app
       docker compose up -d
-  only:
-    - master
-
-Test:Components:
-  stage: test
-  tags:
-    - shell
-  script:
-    - |
-      #!/bin/bash
-      npm i --force
-      npm run test:components
   only:
     - master
