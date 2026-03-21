@@ -43,6 +43,7 @@ import {
 	BiExit,
 	BiSave,
 	BiSolidChevronLeft,
+	BiX,
 } from "react-icons/bi";
 import { useTranslation } from "react-i18next";
 import { UserProps } from "@/types";
@@ -138,175 +139,187 @@ const Edit: React.FC<{
 	}, [login]);
 
 	return (
-		<div className="flex w-full items-center px-4 py-4 flex-col gap-4 p-4">
-			<form
-				ref={formRef}
-				className="flex flex-col gap-4 w-full items-center"
-				onSubmit={handleSubmit(submit)}
-			>
-				<label className="flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer">
-					<div className="w-32 h-32" key={data?.is_avatar}>
-						<User
-							login={login}
-							dataSource={{
-								is_avatar: data?.is_avatar || handlePreview,
-							}}
-							size="full"
-							preview={handlePreview}
-							nolink
+		<div className="flex flex-col gap-2 w-full">
+			<div className="w-full flex items-center justify-end">
+				<Button
+					onClick={() => onClose && onClose()}
+					variant="text"
+					className="text-2xl"
+				>
+					<BiX />
+				</Button>
+			</div>
+			<div className="flex w-full items-center px-4 py-4 flex-col gap-4 p-4">
+				<form
+					ref={formRef}
+					className="flex flex-col gap-4 w-full items-center"
+					onSubmit={handleSubmit(submit)}
+				>
+					
+					<label className="flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer">
+						<div className="w-32 h-32" key={data?.is_avatar}>
+							<User
+								login={login}
+								dataSource={{
+									is_avatar: data?.is_avatar || handlePreview,
+								}}
+								size="full"
+								preview={handlePreview}
+								nolink
+							/>
+						</div>
+						<div className="flex flex-col text-center">
+							<p className="text-placeholder">
+								{t("profile.placeholders.avatar")}
+							</p>
+							<p className="text-placeholder text-text/50">
+								{t("profile.placeholders.avatar_limit")}
+							</p>
+						</div>
+						<input
+							type="file"
+							accept="image/*"
+							{...register("avatar")}
+							className="hidden"
+						/>
+					</label>
+					<Input
+						placeholder={t("profile.placeholders.login")}
+						label={t("profile.labels.login")}
+						{...register("login")}
+					/>
+					<Textarea
+						placeholder={t(
+							"profile.placeholders.description",
+						)}
+						label={t("profile.labels.description")}
+						{...register("description")}
+					/>
+					<div className="flex flex-col gap-4 w-full mt-8">
+						<p className="text-default">
+							{t("profile.labels.privacy.title")}
+						</p>
+						<Checkbox
+							placeholder={t("profile.labels.privacy.games")}
+							{...register("privacy.games")}
+						/>
+						<Checkbox
+							placeholder={t(
+								"profile.labels.privacy.subscribers",
+							)}
+							{...register("privacy.subscribers")}
+						/>
+						<Checkbox
+							placeholder={t("profile.labels.privacy.likes")}
+							{...register("privacy.likes")}
+						/>
+						<Checkbox
+							placeholder={t(
+								"profile.labels.privacy.favorites",
+							)}
+							{...register("privacy.favorites")}
 						/>
 					</div>
-					<div className="flex flex-col text-center">
-						<p className="text-placeholder">
-							{t("profile.placeholders.avatar")}
-						</p>
-						<p className="text-placeholder text-text/50">
-							{t("profile.placeholders.avatar_limit")}
-						</p>
+					<div className="flex flex-col gap-4 w-full mt-8">
+						<Button
+							variant="default"
+							htmlType="button"
+							onClick={(e) => {
+								e.preventDefault();
+								modal("", (onClose) => (
+									<Email onClose={onClose} />
+								));
+							}}
+						>
+							{t("buttons.change_email")}
+						</Button>
+						<Button
+							variant="default"
+							htmlType="button"
+							onClick={(e) => {
+								e.preventDefault();
+								modal(Sessions, (onClose) => <></>);
+							}}
+						>
+							{t("buttons.sessions")}
+						</Button>
+						<Button
+							variant="danger"
+							htmlType="button"
+							onClick={(e) => {
+								e.preventDefault();
+								modal(Delete, (onClose) => <></>);
+							}}
+						>
+							{t("buttons.delete_account")}
+						</Button>
 					</div>
-					<input
-						type="file"
-						accept="image/*"
-						{...register("avatar")}
-						className="hidden"
-					/>
-				</label>
-				<Input
-					placeholder={t("profile.placeholders.login")}
-					label={t("profile.labels.login")}
-					{...register("login")}
-				/>
-				<Textarea
-					placeholder={t(
-						"profile.placeholders.description",
-					)}
-					label={t("profile.labels.description")}
-					{...register("description")}
-				/>
-				<div className="flex flex-col gap-4 w-full mt-8">
-					<p className="text-default">
-						{t("profile.labels.privacy.title")}
-					</p>
-					<Checkbox
-						placeholder={t("profile.labels.privacy.games")}
-						{...register("privacy.games")}
-					/>
-					<Checkbox
-						placeholder={t(
-							"profile.labels.privacy.subscribers",
-						)}
-						{...register("privacy.subscribers")}
-					/>
-					<Checkbox
-						placeholder={t("profile.labels.privacy.likes")}
-						{...register("privacy.likes")}
-					/>
-					<Checkbox
-						placeholder={t(
-							"profile.labels.privacy.favorites",
-						)}
-						{...register("privacy.favorites")}
-					/>
-				</div>
-				<div className="flex flex-col gap-4 w-full mt-8">
-					<Button
-						variant="default"
-						htmlType="button"
-						onClick={(e) => {
-							e.preventDefault();
-							modal("", (onClose) => (
-								<Email onClose={onClose} />
-							));
-						}}
-					>
-						{t("buttons.change_email")}
-					</Button>
-					<Button
-						variant="default"
-						htmlType="button"
-						onClick={(e) => {
-							e.preventDefault();
-							modal(Sessions, (onClose) => <></>);
-						}}
-					>
-						{t("buttons.sessions")}
-					</Button>
-					<Button
-						variant="danger"
-						htmlType="button"
-						onClick={(e) => {
-							e.preventDefault();
-							modal(Delete, (onClose) => <></>);
-						}}
-					>
-						{t("buttons.delete_account")}
-					</Button>
-				</div>
-				<div className="flex flex-row gap-4 justify-end items-center w-full py-8">
-					<Button
-						variant="primary"
-						htmlType="button"
-						onClick={(e) => {
-							e.preventDefault();
-							modal(t("profile.modals.save"), (onClose) => (
-								<>
-									<Button
-										variant="default"
-										onClick={() => onClose()}
-									>
-										{t("buttons.cancel")}
-									</Button>
-									<Button
-										variant="primary"
-										onClick={(e) => {
-											formRef.current.requestSubmit();
-											onClose();
-										}}
-									>
-										{t("buttons.save")}
-									</Button>
-								</>
-							));
-						}}
-					>
-						{t("buttons.save")}
-						<BiCheck />
-					</Button>
-				</div>
-				<div className="flex flex-col w-full mt-8">
-					<Button
-						htmlType="button"
-						variant="danger"
-						onClick={() =>
-							modal(
-								t("profile.modals.logout"),
-								(onClose: () => void) => (
+					<div className="flex flex-row gap-4 justify-end items-center w-full py-8">
+						<Button
+							variant="primary"
+							htmlType="button"
+							onClick={(e) => {
+								e.preventDefault();
+								modal(t("profile.modals.save"), (onClose) => (
 									<>
 										<Button
-											variant="clear"
+											variant="default"
 											onClick={() => onClose()}
 										>
 											{t("buttons.cancel")}
 										</Button>
 										<Button
-											variant="danger"
+											variant="primary"
 											onClick={(e) => {
-												handleLogout();
+												formRef.current.requestSubmit();
 												onClose();
 											}}
 										>
-											{t("buttons.logout")}
+											{t("buttons.save")}
 										</Button>
 									</>
-								),
-							)
-						}
-					>
-						{t("buttons.logout")}
-						<BiExit />
-					</Button>
-				</div>
-			</form>
+								));
+							}}
+						>
+							{t("buttons.save")}
+							<BiCheck />
+						</Button>
+					</div>
+					<div className="flex flex-col w-full mt-8">
+						<Button
+							htmlType="button"
+							variant="danger"
+							onClick={() =>
+								modal(
+									t("profile.modals.logout"),
+									(onClose: () => void) => (
+										<>
+											<Button
+												variant="clear"
+												onClick={() => onClose()}
+											>
+												{t("buttons.cancel")}
+											</Button>
+											<Button
+												variant="danger"
+												onClick={(e) => {
+													handleLogout();
+													onClose();
+												}}
+											>
+												{t("buttons.logout")}
+											</Button>
+										</>
+									),
+								)
+							}
+						>
+							{t("buttons.logout")}
+							<BiExit />
+						</Button>
+					</div>
+				</form>
+			</div>
 		</div>
 	);
 };

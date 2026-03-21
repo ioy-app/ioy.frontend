@@ -63,7 +63,7 @@ const Block: React.FC<{
 			</div>
 			<div>
 				<Spin loading={isFetching}>
-					<div className="grid grid-cols-5 gap-4">
+					<div className="grid grid-cols-5 max-md:grid-cols-3 gap-4">
 						{Component &&
 							data?.items?.map((item, i: number) => (
 								<Component
