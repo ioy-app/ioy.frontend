@@ -26,9 +26,7 @@ Test:Units:
       npm run build
       docker image prune -f
       docker build -t frontend:develop .
-      cd /opt/ioy.app
-      docker compose up -d
-      cd $CI_PROJECT_DIR
+      docker compose up -f /opt/ioy.app/docker-compose.yml -d
       npm run test:units
   only:
     - master
