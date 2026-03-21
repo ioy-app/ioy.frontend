@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "vite serve",
 		"build": "vite build",
-		"test:components": "vitest ."
+		"test:components": "vitest run __tests__",
+		"test:units": "cypress run ."
 	},
 	"keywords": [],
 	"author": "",
@@ -58,6 +59,7 @@
 		"@vitest/coverage-v8": "^4.0.18",
 		"babel-jest": "^30.3.0",
 		"baseline-browser-mapping": "^2.8.32",
+		"cypress": "^15.12.0",
 		"framer-motion": "^12.23.24",
 		"install": "^0.13.0",
 		"jest": "^30.3.0",
