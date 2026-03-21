@@ -15,6 +15,18 @@ Test:Components:
   only:
     - master
 
+Test:Components:
+  stage: test
+  tags:
+    - shell
+  script:
+    - |
+      #!/bin/bash
+      npm i
+      npm run test:components
+  only:
+    - master
+
 Building:
   stage: build
   tags:
