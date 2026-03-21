@@ -7,14 +7,25 @@ const Checkbox: React.FC<{
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 	/** Link to original checkbox */
 	ref?: React.Ref<HTMLInputElement>;
-}> = ({ name, placeholder, onChange, ref }) => (
-	<label className="w-fit inline-flex flex-row gap-2 items-center has-checked:text-primary cursor-pointer text-text">
+	/** Disabled component */
+	disabled?: boolean;
+}> = ({
+	name,
+	placeholder,
+	onChange,
+	ref,
+	disabled
+}) => (
+	<label
+		className="w-fit inline-flex flex-row gap-2 items-center has-checked:text-primary cursor-pointer text-text"
+	>
 		<div className="flex justify-center items-center border border-br rounded-full w-6 h-6 overflow-hidden has-checked:border-primary">
 			<input
 				type="checkbox"
 				name={name}
 				ref={ref}
 				onChange={onChange}
+				disabled={disabled}
 				className="w-[70%] h-[70%] appearance-none rounded-full checked:bg-primary cursor-pointer"
 			/>
 		</div>
