@@ -234,7 +234,7 @@ const Games: React.FC<{}> = ({}) => {
 					/>
 				) : (
 					<>
-						<div className="grid grid-cols-10 gap-4 max-lg:grid-cols-7 max-md:grid-cols-4">
+						<div className="grid grid-cols-10 gap-4 max-lg:grid-cols-7 max-md:grid-cols-4 max-sm:grid-cols-3">
 							{games?.map((game: GameProps, i: number) => (
 								<Game
 									dataSource={game}

@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
 import Login from "./login";
 import Reg from "./reg";
-import { Tabs } from "@/components";
+import { Button, Tabs } from "@/components";
+import { BiX } from "react-icons/bi";
 
 /**
  * Содержания блока авторизации/регистрации
@@ -13,6 +14,15 @@ const Auth: React.FC<{
 	const { t } = useTranslation();
 	return (
 		<div className="flex flex-col gap-4 justify-center items-center w-full">
+			<div className="w-full flex items-center justify-end">
+				<Button
+					onClick={() => onClose && onClose()}
+					variant="text"
+					className="text-2xl"
+				>
+					<BiX />
+				</Button>
+			</div>
 			<Tabs
 				headers={[
 					{

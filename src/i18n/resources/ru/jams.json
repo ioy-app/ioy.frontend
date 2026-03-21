@@ -7,11 +7,13 @@
 		"icon": "Upload icon",
 		"title": "Title",
 		"theme": "Theme",
-		"description": "Description"
+		"description": "Description",
+		"nominations": "Nominations (Enter or , to add nomination)"
 	},
 	"placeholders": {
 		"title": "Input title...",
 		"theme": "Input theme...",
-		"description": "About jam..."
+		"description": "About jam...",
+		"nominations": "Nominations (Enter or , to add nomination)"
 	}
 }

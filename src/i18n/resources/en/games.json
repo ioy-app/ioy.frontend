@@ -33,6 +33,7 @@
 		"indexhtml": "index.html is needed in root folder",
 		"unknown": "Unknown error",
 		"game_limit": "Game limit 32mb",
+		"draft_limit": "Max 5 drafts",
 		"icon_limit": "Icon limit 1mb",
 		"icon_type": "Icon type only .png",
 		"game_type": "Game type only .html or .zip",

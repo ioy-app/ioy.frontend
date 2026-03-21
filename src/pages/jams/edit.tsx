@@ -1,27 +1,19 @@
-import confStatus from "../dashboard/status.json";
-
-import { Routes } from "@/api";
-import {
-	games_create,
-	games_delete,
-	games_details,
-	games_edit,
-} from "@/api/routes/games";
+import { jams_create, jams_delete, jams_details, jams_edit } from "@/api/routes/jams";
 import {
 	Button,
 	Code,
-	File,
+	DatePicker,
 	Game,
 	Input,
-	Player,
+	Jam,
 	Select,
+	SelectUser,
 	Spin,
 	Tag,
 	Textarea,
 } from "@/components";
 import { useModal, useNotify } from "@/hooks";
 import { paths } from "@/routes";
-import { dashboard_paths } from "@/routes/dashboard";
 import GameProps from "@/types/game";
 import {
 	useEffect,
@@ -32,7 +24,6 @@ import {
 import {
 	FormProvider,
 	useForm,
-	useWatch,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiChevronsLeft, BiX } from "react-icons/bi";
@@ -56,23 +47,23 @@ export default function JamEdit() {
 			setLoading(true);
 			const isCreate = typeof params?.id == "undefined";
 			let response;
+
+			console.log(data);
+
 			if (isCreate) {
-				response = await games_create({
+				response = await jams_create({
 					...data,
-					icon: data?.icon?.[0],
-					game: data?.game?.[0],
-					tags: data?.tags || [],
+					icon: data?.icon?.[0]
 				});
 			} else {
-				response = await games_edit(params?.id, {
+				response = await jams_edit(params?.id, {
 					...data,
-					icon: data?.icon?.[0],
-					game: data?.game?.[0],
-					tags: data?.tags || [],
+					icon: data?.icon?.[0]
 				});
 			}
 
-			if (isCreate) navigate(paths.jams.edit(response.id));
+			if (isCreate && response?.id)
+				navigate(paths.jams.details(response.id));
 		} catch (err) {
 			notify(err);
 		} finally {
@@ -81,7 +72,7 @@ export default function JamEdit() {
 	};
 
 	const handleVerify = async () => {
-		notify(t("games.notify.delete_success"), "success");
+		notify(t("jams.notify.delete_success"), "success");
 		navigate(-1, { replace: true });
 	};
 
@@ -104,7 +95,7 @@ export default function JamEdit() {
 							setLoading(true);
 
 							try {
-								const response = await games_delete(
+								const response = await jams_delete(
 									Number(params.id),
 								);
 								onClose();
@@ -137,7 +128,7 @@ export default function JamEdit() {
 
 				if (!isCreate) {
 					const id: number = Number(params.id);
-					const response = await games_details(id);
+					const response = await jams_details(id);
 
 					for (const [key, value] of Object.entries(
 						response,
@@ -145,7 +136,7 @@ export default function JamEdit() {
 						methods.setValue(key, value);
 				}
 			} catch (err) {
-				notify(t("games.errors.exists"), "error");
+				notify(t("errors.exists"), "error");
 				navigate("/", {
 					replace: true,
 				});
@@ -153,10 +144,9 @@ export default function JamEdit() {
 				setLoading(false);
 			}
 		})();
-	}, [params?.id]);
+	}, [ params?.id ]);
 
 	const icon = methods.watch("icon");
-	const game = methods.watch("game");
 
 	const handlePreviewIcon = useMemo(() => {
 		if (icon && icon.length > 0)
@@ -165,29 +155,25 @@ export default function JamEdit() {
 		return null;
 	}, [icon]);
 
-	const handlePreviewGame = useMemo(() => {
-		if (game && game.length > 0)
-			return URL.createObjectURL(game[0]);
-
-		return null;
-	}, [game]);
-
 	const refPreviewIcon = useRef<string | null>(null);
-	const refPreviewGame = useRef<string | null>(null);
 
 	useEffect(() => {
 		if (refPreviewIcon.current)
 			URL.revokeObjectURL(refPreviewIcon.current);
-		if (refPreviewGame.current)
-			URL.revokeObjectURL(refPreviewGame.current);
 
 		refPreviewIcon.current = handlePreviewIcon;
-		refPreviewGame.current = handlePreviewGame;
-	}, [refPreviewIcon, refPreviewGame]);
+	}, [ refPreviewIcon ]);
 
 	const title = methods.watch("title");
 	const id = methods.watch("id");
-	const tags = methods.watch("tags") || [];
+	const nominations = methods.watch("nominations") || [];
+	const judges_data = methods.watch("judges_data");
+
+	const date_started = methods.watch("date_started");
+	const date_finished = methods.watch("date_finished");
+	const date_vote_started = methods.watch("date_vote_started");
+	const date_vote_finished = methods.watch("date_vote_finished");
+	const is_avatar = methods.watch("is_avatar");
 
 	return (
 		<FormProvider {...methods}>
@@ -218,10 +204,12 @@ export default function JamEdit() {
 						<div className="flex w-full justify-center">
 							<label className="flex flex-col justify-center gap-4 items-center p-4 border-4 border-dotted border-br rounded-2xl cursor-pointer">
 								<div className="w-32 h-32">
-									<Game
+									<Jam
 										dataSource={
 											{
 												id,
+												is_avatar:
+													is_avatar || handlePreviewIcon,
 											} as GameProps
 										}
 										size="full"
@@ -257,15 +245,95 @@ export default function JamEdit() {
 							label={t("jams.labels.description")}
 							{...methods.register("description")}
 						/>
+						<div className="flex w-full flex-col gap-4">
+							<Input
+								name="nominations"
+								placeholder={t("jams.placeholders.nominations")}
+								label={t("jams.labels.nominations")}
+								onKeyPress={(e) => {
+									if (e.key == "Enter" || e.key == ",") {
+										if (e.target.value.trim()) {
+											nominations.push(e.target.value);
+											e.target.value = "";
+											methods.setValue("nominations", nominations);
+										}
+										e.preventDefault();
+									}
+								}}
+							/>
+							<div className="flex flex-row gap-4 flex-wrap">
+								{nominations?.map((tag: string, i: number) => (
+									<span
+										className="pr-2 border border-br rounded-xl cursor-pointer flex gap-2 items-center"
+										onClick={() => {
+											methods.setValue(
+												"nominations",
+												nominations.filter(
+													(t: string) => t != tag,
+												),
+											);
+										}}
+									>
+										<Tag title={tag} key={i} />
+										<BiX className="text-2xl" />
+									</span>
+								))}
+							</div>
+						</div>
+						<SelectUser
+							name="judges"
+							placeholder={t("jams.placeholders.judges")}
+							label={t("jams.labels.judges")}
+							initial={judges_data}
+							{...methods}
+						/>
+						<div className="flex flex-col gap-2 text-placeholder">
+							<p>{t("jams.labels.date_range")}</p>
+							<div className="flex items-center gap-2">
+								<DatePicker
+									value={date_started ? (new Date(date_started))?.toISOString?.()?.slice?.(0, 16) : undefined}
+									{...methods.register("date_started")}
+								/>
+								<p>—</p>
+								<DatePicker
+									value={date_finished ? (new Date(date_finished))?.toISOString?.()?.slice?.(0, 16) : undefined}
+									{...methods.register("date_finished")}
+								/>
+							</div>
+						</div>
+						<div className="flex flex-col gap-2 text-placeholder">
+							<p>{t("jams.labels.vote_range")}</p>
+							<div className="flex items-center gap-2">
+								<DatePicker
+									value={date_vote_started ? (new Date(date_vote_started))?.toISOString?.()?.slice?.(0, 16) : undefined}
+									{...methods.register("date_vote_started")}
+								/>
+								<p>—</p>
+								<DatePicker
+									value={date_vote_finished ? (new Date(date_vote_finished))?.toISOString?.()?.slice?.(0, 16) : undefined}
+									{...methods.register("date_vote_finished")}
+								/>
+							</div>
+						</div>
 						<div className="flex gap-4 items-center justify-between w-full">
 							<Select
-								options={confStatus
-									.filter((record) => record.value != "all")
-									.map((record) => ({
-										...record,
-										label: t(record.label),
-									}))}
-								{...methods.register("status")}
+								placeholder={t("jams.labels.vote_type.title")}
+								options={[
+									{
+										label: t("jams.labels.vote_type.all"),
+										value: "all"
+									},
+									{
+										label: t("jams.labels.vote_type.judges"),
+										value: "judges"
+									},
+									{
+										label: t("jams.labels.vote_type.members"),
+										value: "members"
+									}
+								]}
+								align="top"
+								{...methods.register("vote_type")}
 							/>
 							<Button variant="primary" htmlType="submit">
 								{t("buttons.save")}
