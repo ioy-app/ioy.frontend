@@ -1,6 +1,19 @@
 stages:
+  - test
   - build
   - test
+
+Test:Components:
+  stage: test
+  tags:
+    - shell
+  script:
+    - |
+      #!/bin/bash
+      npm i --force
+      npm run test:components
+  only:
+    - master
 
 Building:
   stage: build
