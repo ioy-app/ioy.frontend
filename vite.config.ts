@@ -16,6 +16,10 @@ export default defineConfig({
 	build: {
 		outDir: "./app/",
 	},
+	test: {
+    globals: true,
+    environment: "jsdom"
+  },
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),
