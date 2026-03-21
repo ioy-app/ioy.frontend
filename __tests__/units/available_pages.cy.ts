@@ -1,6 +1,6 @@
 describe("Main", () => {
   beforeEach(() => {
-    cy.visit("https://ioy.app");
+    cy.visit("http://localhost:444");
   });
 
   it("Home", () => {
@@ -41,7 +41,7 @@ describe("Main", () => {
   });
 
   it("Terms & Privacy", () => {
-    cy.visit("https://ioy.app/terms");
+    cy.visit("http://localhost:444/terms");
     cy.contains("Contact: support@ioy.app");
     cy.contains("Updated");
     cy.contains("Terms & Privacy");
