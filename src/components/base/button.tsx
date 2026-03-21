@@ -30,7 +30,7 @@ const Button: React.FC<{
 }) => (
 	<button
 		className={`button button-${variant} text-default ${(className && className) || ""} ${(loading && "animate-pulse") || ""}`}
-		disabled={disabled}
+		disabled={disabled || loading}
 		type={htmlType}
 		onClick={onClick}
 	>
