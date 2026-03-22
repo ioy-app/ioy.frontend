@@ -33,6 +33,7 @@ import {
 import {
 	users_details,
 	users_edit,
+	users_self,
 } from "@/api/routes/users";
 import Email from "./modals/email";
 import Delete from "./modals/delete";
@@ -48,6 +49,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { UserProps } from "@/types";
 import { StoreProps } from "@/stories";
+import { FEATURE_JAMS } from "@/features";
 
 const Edit: React.FC<{
 	onClose: (login?: string) => void;
@@ -124,7 +126,7 @@ const Edit: React.FC<{
 		setLoading(true);
 		(async () => {
 			try {
-				const response = await users_details(login);
+				const response = await users_self();
 				for (const [key, value] of Object.entries(response))
 					setValue(key, value);
 
@@ -219,6 +221,35 @@ const Edit: React.FC<{
 							)}
 							{...register("privacy.favorites")}
 						/>
+					</div>
+					<div className="flex flex-col gap-4 w-full mt-8">
+						<p className="text-default">
+							{t("profile.labels.notify.title")}
+						</p>
+						<Checkbox
+							placeholder={t("profile.labels.notify.new_game")}
+							{...register("notify.new_game")}
+						/>
+						{FEATURE_JAMS && (
+							<>
+								<Checkbox
+									placeholder={t("profile.labels.notify.new_jam")}
+									{...register("notify.new_jam")}
+								/>
+								<Checkbox
+									placeholder={t("profile.labels.notify.jam_started")}
+									{...register("notify.jam_started")}
+								/>
+								<Checkbox
+									placeholder={t("profile.labels.notify.jam_ended")}
+									{...register("notify.jam_ended")}
+								/>
+								<Checkbox
+									placeholder={t("profile.labels.notify.jam_finish")}
+									{...register("notify.jam_finish")}
+								/>
+							</>
+						)}
 					</div>
 					<div className="flex flex-col gap-4 w-full mt-8">
 						<Button
