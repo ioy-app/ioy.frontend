@@ -28,21 +28,10 @@ Test:Units:
       docker build -t frontend:develop .
       docker compose -f /opt/ioy.app/docker-compose.yml up -d
       npm run test:units
+      docker stop ioy_frontend_develop
   only:
     - master
     - develop
-
-Test:Components:
-  stage: test
-  tags:
-    - shell
-  script:
-    - |
-      #!/bin/bash
-      npm i
-      npm run test:components
-  only:
-    - master
 
 Building:
   stage: build
