@@ -40,6 +40,14 @@
 			"favorites": "Saves",
 			"likes": "Likes"
 		},
+		"notify": {
+			"title": "Notify",
+			"new_game": "New Game",
+			"new_jam": "New Jam",
+			"jam_started": "Before 1 hour to start Jam",
+			"jam_ended": "Before 1 hour to end Jam",
+			"jam_finish": "Jam's result"
+		},
 		"current_email": "Current email",
 		"email": "New email"
 	},

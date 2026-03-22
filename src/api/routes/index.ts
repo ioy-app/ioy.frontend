@@ -89,6 +89,7 @@ const Routes = {
 		logout: `/auth/logout`,
 	},
 	users: {
+		self: `/users/self`,
 		details: (login: string) => `/users/${login}`,
 		subscribe: (login: string) =>
 			`/users/${login}/subscribe`,
