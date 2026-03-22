@@ -23,6 +23,7 @@ import { BiComment, BiDownArrowAlt } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { BackgroundScene } from "../about";
 
 const Comments: React.FC = () => {
 	const params = useParams();
@@ -331,9 +332,13 @@ const Comments: React.FC = () => {
 			<Spin loading={query.status == "pending"}>
 				<div className="flex flex-col gap-4 w-full mb-8">
 					{!comments?.length && (
-						<div className="flex justify-center items-center py-4 text-xl gap-4 text-text/35">
-							<BiComment />
-							{t("games.comments.empty")}
+						<div className="flex flex-col justify-center items-center py-4 gap-2 text-xl text-text/35">
+							<BackgroundScene
+								model={"/resources/gltf/computer.gltf"}
+								speedY={-.5}
+								speedX={.2}
+							/>
+							<p>{t("games.comments.empty")}</p>
 						</div>
 					)}
 					{comments?.map((comment, i) => (
