@@ -78,7 +78,7 @@ export default function JamEdit() {
 
 	const handleDelete = async () => {
 		modal(
-			t("games.warnings.delete"),
+			t("jams.warnings.delete"),
 			(onClose: () => void) => (
 				<>
 					<Button
@@ -343,6 +343,7 @@ export default function JamEdit() {
 							<div className="w-full mt-20 mb-5 flex flex-col">
 								<Button
 									variant="danger"
+									htmlType="button"
 									onClick={(e) => {
 										e.preventDefault();
 										handleDelete();

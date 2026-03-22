@@ -364,6 +364,7 @@ export default function Edit() {
 							<div className="w-full mt-20 mb-5 flex flex-col">
 								<Button
 									variant="danger"
+									htmlType="button"
 									onClick={(e) => {
 										e.preventDefault();
 										handleDelete();
