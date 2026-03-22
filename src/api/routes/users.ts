@@ -1,6 +1,9 @@
 import Routes, { apiInstance } from ".";
 import fetchAPI, { jsonToFormData } from "..";
 
+export const users_self = () =>
+	apiInstance.get(Routes.users.self);
+
 export const users_details = (login: string) =>
 	apiInstance.get(Routes.users.details(login));
 
