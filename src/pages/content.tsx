@@ -11,7 +11,7 @@ export default function Content() {
 	const dispatch = useDispatch();
 
 	const { data, isError } = useQuery({
-		queryKey: ["profile", "token"],
+		queryKey: [ "profile", "token" ],
 		queryFn: async () => {
 			const response = await apiInstance.get(
 				Routes.profile.refresh,

@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Spin from "./spin";
 import Button from "./button";
 import { BiError, BiPlay } from "react-icons/bi";
@@ -7,18 +7,15 @@ import { useTranslation } from "react-i18next";
 const Player: React.FC<{
 	/** Game id */
 	gameId?: number;
-	/** Other link for game */
-	src?: string;
-	ref?: () => void;
+	/** Link ref */
+	ref?: React.Ref<HTMLDivElement>;
 }> = ({
 	gameId,
-	src,
 	ref
 }) => {
-	const [isLoading, setLoading] = useState<boolean>(true);
-	const [gameFile, setGameFile] = useState<string>(null);
-	const [isPlay, setPlay] = useState<boolean>(false);
-	const [isError, setError] = useState<boolean>(false);
+	const [ isLoading, setLoading ] = useState<boolean>(true);
+	const [ isPlay, setPlay ] = useState<boolean>(false);
+	const [ isError, setError ] = useState<boolean>(false);
 
 	const { t } = useTranslation();
 
@@ -27,17 +24,15 @@ const Player: React.FC<{
 			setLoading(true);
 			setPlay(true);
 			setError(false);
-		} catch (err) {
-			setError(true);
-		} finally {
-			setLoading(false);
 		}
+		catch (err) { setError(true); }
+		finally { setLoading(false); }
 	};
 
 	useEffect(() => {
 		setPlay(false);
 		setError(false);
-	}, [gameId]);
+	}, [ gameId ]);
 
 	return (
 		<div
@@ -46,7 +41,10 @@ const Player: React.FC<{
 		>
 			{!isPlay ? (
 				<div className="flex w-full h-full items-center justify-center bg-br/15">
-					<Button variant="primary" onClick={handleLoad}>
+					<Button
+						variant="primary"
+						onClick={handleLoad}
+					>
 						<BiPlay size="2em" />
 					</Button>
 				</div>
@@ -63,7 +61,6 @@ const Player: React.FC<{
 						<iframe
 							src={`/api/v1/games/${gameId}/game`}
 							className="w-full h-full"
-							onLoad={() => URL.revokeObjectURL(gameFile)}
 						/>
 					)}
 				</Spin>

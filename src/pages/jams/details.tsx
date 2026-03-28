@@ -72,7 +72,7 @@ export default function JamDetails({}) {
                     />
                   ))}
                 </div>
-                {query?.data?.judges_data?.length && (
+                {query?.data?.judges_data?.length > 0 && (
                   <>
                     <p className="text-placeholder">{t("jams.labels.judges")}</p>
                     <div className="flex gap-4 flex-wrap justify-center items-center">

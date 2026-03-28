@@ -2,15 +2,10 @@ import Button from "@/components/base/button";
 import Textarea from "@/components/base/textarea";
 import {
 	FormProvider,
-	useForm,
-	useWatch,
+	useForm
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-	BiCheck,
-	BiLeftArrowAlt,
-	BiX,
-} from "react-icons/bi";
+import { BiCheck } from "react-icons/bi";
 
 const CommentForm: React.FC<{
 	isReply?: boolean;

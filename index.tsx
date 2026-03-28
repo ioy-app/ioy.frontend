@@ -6,7 +6,6 @@ import {
 import { Provider } from "react-redux";
 import Store from "@/stories";
 import { HelmetProvider } from "react-helmet-async";
-
 import * as Pages from "@/pages";
 import "./global.css";
 import { ModalProvider, NotifyProvider } from "@/hooks";
@@ -52,5 +51,5 @@ createRoot(app).render(
 				</ModalProvider>
 			</NotifyProvider>
 		</QueryClientProvider>
-	</Provider>,
+	</Provider>
 );

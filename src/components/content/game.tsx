@@ -1,11 +1,9 @@
 import GameProps from "@/types/game";
-
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Routes } from "@/api";
 import Spin from "@/components/base/spin";
 import { Profile } from "@/icons";
 import { useQuery } from "@tanstack/react-query";
-import { games_icon } from "@/api/routes/games";
 
 const Game: React.FC<{
 	/** Game data */

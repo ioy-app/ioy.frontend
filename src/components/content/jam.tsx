@@ -1,11 +1,8 @@
-import GameProps from "@/types/game";
-
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Routes } from "@/api";
 import Spin from "@/components/base/spin";
 import { Profile } from "@/icons";
 import { useQuery } from "@tanstack/react-query";
-import { games_icon } from "@/api/routes/games";
 
 const Jam: React.FC<{
 	/** Game data */
@@ -54,7 +51,7 @@ const Jam: React.FC<{
 			>
 				<Spin loading={status == "pending"}>
 					{isError || !data ? (
-						<div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary">
+						<div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-second">
 							<img src={Profile} />
 						</div>
 					) : (
