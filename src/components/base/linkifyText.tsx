@@ -7,21 +7,19 @@ import "linkify-plugin-hashtag";
 const LinkifyText: React.FC<{
 	children: React.ReactNode;
 	className?: string;
-}> = ({ children, className }) => {
-	const renderLink = ({ attributes, content }) => {
-		const { href, ...props } = attributes;
-
-		return (
-			<Link to={href} className="text-second">
-				{content}
-			</Link>
-		);
-	};
-
-	const renderHashtag = ({ attributes, content }) => {
-		const { href, ...props } = attributes;
-		return <Tag title={content} />;
-	};
+}> = ({
+	children,
+	className
+}) => {
+	const renderLink = ({ attributes, content }) => (
+		<Link
+			to={attributes.href}
+			className="text-second"
+		>
+			{content}
+		</Link>
+	);
+	const renderHashtag = ({ content }) => (<Tag title={content} />);
 
 	const options: Opts = {
 		render: {

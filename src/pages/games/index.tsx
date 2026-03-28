@@ -15,14 +15,12 @@ import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiBox, BiChevronsLeft, BiSearch } from "react-icons/bi";
 import {
 	Link,
 	NavLink,
-	useNavigate,
 	useSearchParams,
 } from "react-router";
 

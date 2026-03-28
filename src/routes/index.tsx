@@ -4,8 +4,8 @@ import { Home, About } from "@/pages";
 import games, { games_paths } from "./games";
 import user, { user_paths } from "./user";
 import dashboard, { dashboard_paths } from "./dashboard";
-import Jams from "@/pages/home/pages/jams";
-import Games from "@/pages/home/pages/games";
+import Jams from "@/pages/jams";
+import Games from "@/pages/games";
 import jams, { jams_paths } from "./jams";
 
 export const paths = {

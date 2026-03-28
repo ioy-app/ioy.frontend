@@ -22,8 +22,7 @@ const Tabs: React.FC<{
 	style,
 	ContentParent = emptyParent,
 }) => {
-	const [selectTab, setSelectTab] =
-		useState<HeaderProps | null>(headers[0]);
+	const [ selectTab, setSelectTab ] = useState<HeaderProps | null>(headers[0]);
 	const { t } = useTranslation();
 
 	return (

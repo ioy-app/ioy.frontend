@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import User from "../user";
-import CommentProps from "./interface";
+import CommentProps from "@/types/comment";
 import {
 	BiDownArrowAlt,
 	BiHeart,

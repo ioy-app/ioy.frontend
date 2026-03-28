@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Spin from "./spin";
 import imgEmpty from "@/icons/empty.svg";
 import { useTranslation } from "react-i18next";
