@@ -12,6 +12,12 @@
 		"draft": "Draft",
 		"public": "Public"
 	},
+	"jams": {
+		"all": "All",
+		"author": "Author",
+		"judge": "Judge",
+		"join": "Join"
+	},
 	"placeholders": {
 		"status": "Status",
 		"order": "Sort order",
@@ -19,7 +25,8 @@
 			"search": "Search..."
 		},
 		"jams": {
-			"search": "Search..."
+			"search": "Search...",
+			"sort": "Jams type"
 		}
 	},
 	"labels": {

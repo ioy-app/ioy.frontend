@@ -1,11 +1,11 @@
-import { jams_details } from "@/api/routes/jams";
+import { jams_details, jams_join, jams_leave } from "@/api/routes/jams";
 import { Button, Game, Jam, Pagination, Spin, Table, Tag, User } from "@/components";
 import { paths } from "@/routes";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { BiCalendarPlus, BiChevronsLeft, BiPlus } from "react-icons/bi";
+import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiPlus } from "react-icons/bi";
 import { Link, useNavigate, useParams } from "react-router";
 
 /**
@@ -28,18 +28,42 @@ export default function JamDetails({}) {
     }
   });
 
+  const handleJoin = async () => {
+    await jams_join(id);
+    query.refetch();
+  }
+
+  const handleLeave = async () => {
+    await jams_leave(id);
+    query.refetch();
+  }
+
   return (
     <Spin loading={query?.status == "pending"}>
       <div className="w-full flex flex-col gap-4 items-center">
-        <div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">
-          <Button
-            variant="primary"
-            htmlType="button"
-          >
-            {t("buttons.join")}
-            <BiCalendarPlus />
-          </Button>
-        </div>
+        {!query?.data?.is_author && (
+          <div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">
+            {(!query?.data?.is_join) ? (
+              <Button
+                variant="primary"
+                htmlType="button"
+                onClick={() => handleJoin()}
+              >
+                {t("buttons.join")}
+                <BiCalendarPlus />
+              </Button>
+            ) : (
+              <Button
+                variant="second"
+                htmlType="button"
+                onClick={() => handleLeave()}
+              >
+                {t("buttons.leave")}
+                <BiCalendarMinus />
+              </Button>
+            )}
+          </div>
+        )}
         <div className="w-[65%] max-lg:w-full flex flex-col gap-4 items-start">
           <Button
             variant="text"

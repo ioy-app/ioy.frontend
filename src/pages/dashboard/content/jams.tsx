@@ -1,13 +1,13 @@
 import confOrder from "@/configs/order.json";
+import confJamsTypes from "../configs/jams.json";
 import {
 	BiBox,
 	BiEditAlt,
 	BiPlus,
-	BiSearch,
-	BiSearchAlt,
+	BiSearch
 } from "react-icons/bi";
 
-import { dashboard_games, dashboard_jams } from "@/api/routes/dashboard";
+import { dashboard_jams } from "@/api/routes/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
@@ -34,6 +34,7 @@ const Jams: React.FC = () => {
 		searchParams.get("page") || 1,
 	);
 	const sort = searchParams.get("sort");
+	const jams = searchParams.get("jams");
 	const searchQS = searchParams.get("search");
 
 	const query = useQuery({
@@ -51,6 +52,7 @@ const Jams: React.FC = () => {
 			);
 			search.set("limit", String(max));
 			if (sort) search.set("sort", sort);
+			if (jams) search.set("jams", jams);
 			if (searchQS) search.set("search", searchQS);
 
 			const result = await dashboard_jams(search);
@@ -60,27 +62,28 @@ const Jams: React.FC = () => {
 
 	const onSubmit = async (data) => {
 		const us = new URLSearchParams();
-		if (data.search) us.set("search", data.search);
-		if (data.sort) us.set("sort", data.sort);
+		for (const [ key, value ] of Object.entries(data)) {
+			if (!value)
+				continue;
+
+			us.set(key, String(value));
+		}
 		setSearchParams(us);
 	};
 
 	const methods = useForm();
 
 	useEffect(() => {
-		if (searchParams.get("search"))
-			methods.setValue(
-				"search",
-				searchParams.get("search"),
-			);
-		if (searchParams.get("sort"))
-			methods.setValue(
-				"sort",
-				searchParams.get("sort"),
-			);
-	}, [searchParams]);
+		for (const [ key, value ] of searchParams.entries())
+			methods.setValue(key, value);
+	}, [ searchParams ]);
 
 	const sorOptions = confOrder?.map((item) => {
+		item.label = t(item.label);
+		return item;
+	});
+
+	const jamsOptions = confJamsTypes?.map((item) => {
 		item.label = t(item.label);
 		return item;
 	});
@@ -98,6 +101,15 @@ const Jams: React.FC = () => {
 						placeholder={t(
 							"dashboard.placeholders.jams.search",
 						)}
+					/>
+					<Components.Select
+						options={jamsOptions}
+						className="w-50"
+						placeholder={t(
+							"dashboard.placeholders.jams.sort",
+						)}
+						{...methods.register("jams")}
+						isFirstOption
 					/>
 					<Components.Select
 						options={sorOptions}
@@ -170,18 +182,6 @@ const Jams: React.FC = () => {
 				]}
 				data={query?.data?.items}
 				loading={query?.isPending}
-				control={(row, i) => (
-					<>
-						<Components.Button
-							variant="second"
-							onClick={() =>
-								navigator(jams_paths.edit(row?.id))
-							}
-						>
-							<BiEditAlt />
-						</Components.Button>
-					</>
-				)}
 				header={
 					<div className="w-full flex items-center justify-end gap-4">
 						<Components.Button

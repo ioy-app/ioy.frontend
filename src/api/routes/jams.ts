@@ -25,3 +25,9 @@ export const jams_details = async (id: number) =>
 /** Delete Jam  */
 export const jams_delete = async (id: number) =>
 	apiInstance.delete(Routes.jams.details(id));
+
+export const jams_join = async (id: number) =>
+	apiInstance.post(Routes.jams.join(id));
+
+export const jams_leave = async (id: number) =>
+	apiInstance.post(Routes.jams.leave(id));
