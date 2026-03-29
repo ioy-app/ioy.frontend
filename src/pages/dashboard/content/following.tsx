@@ -8,7 +8,7 @@ import {
 	BiSearchAlt,
 	BiUserMinus,
 } from "react-icons/bi";
-import confStatus from "../status.json";
+import confStatus from "../configs/status.json";
 
 import { dashboard_games } from "@/api/routes/dashboard";
 import { useEffect, useState } from "react";

@@ -291,13 +291,13 @@ export default function JamEdit() {
 							<p>{t("jams.labels.date_range")}</p>
 							<div className="flex items-center gap-2">
 								<DatePicker
-									value={date_started ? (new Date(date_started))?.toISOString?.()?.slice?.(0, 16) : undefined}
 									{...methods.register("date_started")}
+									hasTime
 								/>
 								<p>—</p>
 								<DatePicker
-									value={date_finished ? (new Date(date_finished))?.toISOString?.()?.slice?.(0, 16) : undefined}
 									{...methods.register("date_finished")}
+									hasTime
 								/>
 							</div>
 						</div>
@@ -305,13 +305,13 @@ export default function JamEdit() {
 							<p>{t("jams.labels.vote_range")}</p>
 							<div className="flex items-center gap-2">
 								<DatePicker
-									value={date_vote_started ? (new Date(date_vote_started))?.toISOString?.()?.slice?.(0, 16) : undefined}
 									{...methods.register("date_vote_started")}
+									hasTime
 								/>
 								<p>—</p>
 								<DatePicker
-									value={date_vote_finished ? (new Date(date_vote_finished))?.toISOString?.()?.slice?.(0, 16) : undefined}
 									{...methods.register("date_vote_finished")}
+									hasTime
 								/>
 							</div>
 						</div>

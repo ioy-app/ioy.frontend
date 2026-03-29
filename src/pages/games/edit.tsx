@@ -1,6 +1,4 @@
-import confStatus from "../dashboard/status.json";
-import JSZip from "jszip";
-import { Routes } from "@/api";
+import confStatus from "../dashboard/configs/status.json";
 import {
 	games_create,
 	games_delete,
@@ -10,10 +8,8 @@ import {
 import {
 	Button,
 	Code,
-	File,
 	Game,
 	Input,
-	Player,
 	Select,
 	SelectUser,
 	Spin,
@@ -22,7 +18,6 @@ import {
 } from "@/components";
 import { useModal, useNotify } from "@/hooks";
 import { paths } from "@/routes";
-import { dashboard_paths } from "@/routes/dashboard";
 import GameProps from "@/types/game";
 import {
 	useEffect,
@@ -32,8 +27,7 @@ import {
 } from "react";
 import {
 	FormProvider,
-	useForm,
-	useWatch,
+	useForm
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiChevronsLeft, BiX } from "react-icons/bi";

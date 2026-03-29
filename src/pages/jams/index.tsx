@@ -1,16 +1,21 @@
 import { jams_list } from "@/api/routes/jams";
-import { Button } from "@/components";
+import { Button, Jam, Spin } from "@/components";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useState } from "react";
 import {
 	BiChevronLeft,
 	BiChevronRight,
+	BiX,
 } from "react-icons/bi";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isBetween from "dayjs/plugin/isBetween";
 import { Routes } from "@/api";
+import { useModal } from "@/hooks";
+import ModalJams from "./modal";
+import { paths } from "@/routes";
+import { useNavigate } from "react-router";
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -23,13 +28,15 @@ dayjs.extend(isBetween);
  * return <Jams />
  */
 const Jams: React.FC = () => {
-	const [date_from, setDateFrom] =
+	const navigator = useNavigate();
+	const [ date_from, setDateFrom ] =
 		useState<string>(dayjs().startOf('month').format("YYYY-MM-DD"));
-	const [date_to, setDateTo] =
+	const [ date_to, setDateTo ] =
 		useState<string>(dayjs().endOf('month').format("YYYY-MM-DD"));
+	const { modal } = useModal();
 
 	const query = useQuery({
-		queryKey: ["jams", date_from, date_to],
+		queryKey: [ "jams", date_from, date_to ],
 		queryFn: async () => {
 			const response = await jams_list(date_from, date_to);
 			return response;
@@ -53,12 +60,29 @@ const Jams: React.FC = () => {
 		calendar_days.push({
 			day: i + 1,
 			jams,
+			date: dayjs(dayjs(date_from).set("date", i + 1)).format(
+				"YYYY-MM-DD",
+			),
 			isCurrent:
 				dayjs(dayjs(date_from).set("date", i + 1)).format(
 					"YYYY-MM-DD",
 				) == dayjs(Date.now()).format("YYYY-MM-DD"),
 		});
 	}
+
+	const handleDayDetails = (date: string) => modal(
+		"",
+		(onClose) => (
+			<ModalJams
+				onClose={(jam_id?: number) => {
+					onClose && onClose();
+					if (jam_id)
+						navigator(paths.jams.details(jam_id));
+				}}
+				date={date}	
+			/>
+		)
+	);
 
 	return (
 		<div className="flex flex-col gap-2 p-4 border border-br rounded-xl w-full">
@@ -108,7 +132,8 @@ const Jams: React.FC = () => {
 						return (
 							<div
 								key={i}
-								className={`w-full aspect-square text-default flex flex-col items-stretch ${(node.isCurrent && "bg-br") || "bg-back"}`}
+								className={`transition-colors cursor-pointer rounded-xl w-full aspect-square text-default flex flex-col items-stretch hover:bg-br/80 ${(node.isCurrent && "bg-br/40") || "bg-back"}`}
+								onClick={() => handleDayDetails(node.date)}
 							>
 								<p className="px-4 py-2">{node.day}</p>
 								<div className="flex flex-col gap-1">
@@ -129,6 +154,11 @@ const Jams: React.FC = () => {
 											</p>
 										</div>
 									))}
+									{node?.jams?.length > 3 && (
+										<div className="w-full h-6 bg-second flex justify-center items-center">
+											<p>+{node?.jams?.length - 3}</p>
+										</div>
+									)}
 								</div>
 							</div>
 						);
