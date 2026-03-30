@@ -6,6 +6,7 @@ import {
 import {
 	Button,
 	Game,
+	Jam,
 	LinkifyText,
 	Meta,
 	Player,
@@ -48,6 +49,7 @@ import { StoreProps } from "@/stories";
 import Auth from "../auth";
 import { useRef } from "react";
 import { Routes } from "@/api";
+import JamBlock from "./jam";
 
 export default function GamePage() {
 	const params = useParams();
@@ -317,7 +319,7 @@ export default function GamePage() {
 								>
 									<BiFullscreen />
 								</Button>
-								{query?.data?.is_me && (
+								{(query?.data?.is_me && (!query?.data?.jamdata || ["init", "in_process"].includes(query?.data?.jamdata?.status))) && (
 									<NavLink to={paths.games.edit(id)}>
 										<Button variant="second">
 											<BiEdit />
@@ -327,12 +329,17 @@ export default function GamePage() {
 								)}
 							</div>
 						</div>
+						{query?.data?.jamdata && (
+							<JamBlock
+								data={query?.data?.jamdata}
+							/>
+						)}
 						<div className="flex gap-4 w-full">
-							<div className="flex flex-col gap-2 w-fit">
+							<div className="flex flex-col gap-2 w-full">
 								<p className="text-placeholder">
 									{t("games.labels.authors")}
 								</p>
-								<div className="flex flex-col gap-4 w-fit border border-br rounded-xl p-4 h-fit">
+								<div className="flex flex-col gap-4 w-full border border-br rounded-xl p-4 h-fit">
 									{query?.data?.authors_data?.map(
 										(author: UserProps, i: number) => (
 											<User
@@ -366,6 +373,7 @@ export default function GamePage() {
 								</div>
 							)}
 						</div>
+						
 						<div className="flex flex-col gap-1 w-full items-end text-placeholder">
 							<p>
 								{dayjs(query?.data?.date_created).format(

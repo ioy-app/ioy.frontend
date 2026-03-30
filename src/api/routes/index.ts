@@ -138,6 +138,7 @@ const Routes = {
 		icon: (id: number) => `/jams/${id}/icon`,
 		join: (id: number) => `/jams/${id}/join`,
 		leave: (id: number) => `/jams/${id}/leave`,
+		games: (id: number) => `/jams/${id}/games`
 	},
 	reports: {
 		list: "/reports",

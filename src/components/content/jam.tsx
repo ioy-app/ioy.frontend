@@ -11,6 +11,7 @@ const Jam: React.FC<{
 	preview?: string;
 	/** Disabled link */
 	nolink?: boolean;
+	className?: string;
 	/** Avatar size */
 	size?: number | string;
 	onClick?: (id: number) => void;
@@ -19,6 +20,7 @@ const Jam: React.FC<{
 	preview,
 	nolink,
 	size = 24,
+	className,
 	onClick,
 }) => {
 	const { status, data, isError } = useQuery({
@@ -41,13 +43,13 @@ const Jam: React.FC<{
 
 	const root = (
 		<div
-			className={`group flex flex-col items-center gap-1 max-w-${size} overflow-hidden`}
+			className={`group flex flex-col items-center gap-1 max-w-${size} w-${size} overflow-hidden ${(className && className) || ""}`}
 			onClick={() =>
 				onClick && nolink && onClick(dataSource?.id)
 			}
 		>
 			<div
-				className={`w-full h-${size} rounded-xl overflow-hidden aspect-square border border-br ${(!nolink && "group-hover:border-primary transition-colors") || ""}`}
+				className={`w-${size} h-${size} rounded-xl overflow-hidden aspect-square border border-br ${(!nolink && "group-hover:border-primary transition-colors") || ""}`}
 			>
 				<Spin loading={status == "pending"}>
 					{isError || !data ? (

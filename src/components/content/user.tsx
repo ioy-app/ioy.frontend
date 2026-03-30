@@ -76,7 +76,10 @@ const User: React.FC<{
 	);
 
 	return !nolink ? (
-		<NavLink to={`/u/${login}`} className={`w-${size}`}>
+		<NavLink
+			to={`/u/${login}`}
+			className={`w-${size}`}
+		>
 			{root}
 		</NavLink>
 	) : (

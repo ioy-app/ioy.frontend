@@ -21,6 +21,12 @@
 			"members": "Members"
 		}
 	},
+	"statuses": {
+		"init": "Init",
+		"in_process": "In process",
+		"voting": "Voting",
+		"finished": "Finished"
+	},
 	"placeholders": {
 		"title": "Input title...",
 		"theme": "Input theme...",

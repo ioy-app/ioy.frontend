@@ -31,3 +31,9 @@ export const jams_join = async (id: number) =>
 
 export const jams_leave = async (id: number) =>
 	apiInstance.post(Routes.jams.leave(id));
+
+export const jams_games = (id: number, query?: URLSearchParams) =>
+	apiInstance.get(
+		Routes.jams.games(id) +
+			((query && `?${query.toString()}`) || ""),
+	);
