@@ -19,7 +19,8 @@
 			"all": "All",
 			"judges": "Judges",
 			"members": "Members"
-		}
+		},
+		"voting": "Vote for the Nominations"
 	},
 	"statuses": {
 		"init": "Init",

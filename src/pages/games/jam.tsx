@@ -1,6 +1,8 @@
-import { Jam } from "@/components";
+import { Jam, Vote } from "@/components";
+import { VotingOne, VotingThird, VotingTwo } from "@/icons";
 import JamProps from "@/types/jam";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 
 /**
  * Jam component for game details
@@ -13,7 +15,8 @@ const JamBlock: React.FC<{
   data
 }) => {
   const { t } = useTranslation();
-
+  const params = useParams();
+  const game_id = Number(params.id);
 
 
   return (
@@ -30,8 +33,19 @@ const JamBlock: React.FC<{
           {t(`jams.statuses.${data?.status}`)}
         </div>
       </div>
-      {data?.status == "voting" && (
-        <div className="flex flex-col gap-4 border border-br rounded-xl p-4 h-fit w-full">
+      {(data?.status != "voting") && (
+        <div className="flex flex-col items-center gap-4">
+          <p className="text-placeholder">{t("jams.labels.voting")}</p>
+          <div className="grid grid-cols-3 max-md:grid-cols-2 place-content-stretch gap-4 h-fit w-full">
+            {data?.nominations?.map((nomination: string, i: number) => (
+              <Vote
+                jam_id={data?.id}
+                game_id={game_id}
+                nomination={nomination}
+                key={i}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -5,7 +5,7 @@ import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiPlus } from "react-icons/bi";
+import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiPlus, BiTrophy } from "react-icons/bi";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 
 /**
@@ -116,6 +116,7 @@ export default function JamDetails({}) {
                     <Tag
                       title={title}
                       nolink
+                      icon={<BiTrophy />}
                     />
                   ))}
                 </div>
