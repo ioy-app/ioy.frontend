@@ -8,6 +8,7 @@ import Dashboard from "./dashboard";
 import ErrorPage from "./error";
 import About from "./home/pages/about";
 import Verify from "./verify";
+import Feed from "./home/pages/feed";
 
 import Auth, {
 	Login as AuthLogin,
@@ -28,5 +29,6 @@ export {
 	GameEdit,
 	UserContent,
 	About,
-	Verify
+	Verify,
+	Feed
 };

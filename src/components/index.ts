@@ -22,6 +22,7 @@ import SelectUser from "./custom/selectUser";
 import Report from "./custom/report";
 import Meta from "./custom/meta";
 import DatePicker from "./base/datePicker";
+import Post from "./custom/post";
 
 export {
 	Header,
@@ -47,5 +48,6 @@ export {
 	Report,
 	Meta,
 	DatePicker,
-	Jam
+	Jam,
+	Post
 };

@@ -4,9 +4,14 @@ import imgLabel from "@/icons/label.svg";
 import { Button } from "@/components";
 import { paths } from "@/routes";
 import { FEATURE_JAMS } from "@/features";
+import { useSelector } from "react-redux";
 
 export default function Home() {
 	const { t } = useTranslation();
+	const { login, loading } = useSelector(
+		(state: any) => state?.login
+	);
+
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="w-full flex justify-center flex-col items-center gap-2">
@@ -14,6 +19,21 @@ export default function Home() {
 					<img src={imgLabel} className="w-full p-8" />
 				</div>
 				<div className="flex gap-6 items-center">
+					{(!loading && login) && (
+						<NavLink to="/feed">
+							{({ isActive }) => (
+								<Button
+									variant="text"
+									className={
+										isActive ? "text-primary" : "text-text"
+									}
+									disabled={isActive}
+								>
+									{t("buttons.nav.feed")}
+								</Button>
+							)}
+						</NavLink>
+					)}
 					<NavLink to="/">
 						{({ isActive }) => (
 							<Button

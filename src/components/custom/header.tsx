@@ -45,7 +45,7 @@ const Header: React.FC<{}> = () => {
 			className={`transition-shadow sticky top-0 flex flex-row gap-4 items-center justify-between box-border w-full h-12 bg-back px-2 py-1 z-10 border-b ${(isScrollable && "border-b-br shadow-md shadow-[rgba(0, 0, 0, .05)]") || "border-b-transparent"}`}
 		>
 			<div className="h-full">
-				{![paths.jams.list, "/"].includes(
+				{![paths.jams.list, "/", "/feed"].includes(
 					location.pathname,
 				) && (
 					<NavLink

@@ -144,6 +144,9 @@ const Routes = {
 		list: "/reports",
 		details: (id: number) => `/reports/${id}`
 	},
+	feed: {
+		global: "/feed/global"
+	}
 };
 
 export default Routes;
