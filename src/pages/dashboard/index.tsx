@@ -1,4 +1,4 @@
-import confTabs from "./tabs.json";
+import confTabs from "./configs/tabs.json";
 
 import * as Components from "@/components";
 import Games from "./content/games";

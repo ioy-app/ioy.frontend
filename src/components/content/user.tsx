@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Profile } from "@/icons";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Routes } from "@/api";
-import { users_details } from "@/api/routes/users";
-import { useNotify } from "@/hooks";
-import Spin from "../../base/spin";
-import { paths } from "@/routes";
+import Spin from "../base/spin";
 import { useQuery } from "@tanstack/react-query";
 import { UserProps } from "@/types";
 
@@ -79,7 +76,10 @@ const User: React.FC<{
 	);
 
 	return !nolink ? (
-		<NavLink to={`/u/${login}`} className={`w-${size}`}>
+		<NavLink
+			to={`/u/${login}`}
+			className={`w-${size}`}
+		>
 			{root}
 		</NavLink>
 	) : (

@@ -6,11 +6,7 @@ import { useSearchParams } from "react-router";
 import ErrorPage from "./error";
 import { Spin, Button } from "@/components";
 import * as Icons from "@/icons";
-import {
-	NavLink,
-	useAsyncError,
-	useRouteError,
-} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 /**
  * Verify account
@@ -19,14 +15,12 @@ import {
 */
 export default function Verify({}) {
   const { t } = useTranslation();
-  const [ searchParam, setSearchParams ] = useSearchParams();
+  const [ searchParam ] = useSearchParams();
   const prefersDarkMode =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)")
       .matches;
-  const [darkMode, setDarkMode] = useState<
-    "dark" | "light"
-  >(
+  const [ darkMode ] = useState<"dark" | "light">(
     (localStorage.getItem("theme") ||
       (prefersDarkMode && "dark")) as "dark" | "light",
   );

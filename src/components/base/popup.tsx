@@ -11,7 +11,7 @@ const Popup: React.FC<{
 	align?: "l" | "r" | "t" | "b";
 	label: string;
 }> = ({ children, align = "b", label }) => {
-	const [isHover, setHover] = useState<boolean>(false);
+	const [ isHover, setHover ] = useState<boolean>(false);
 
 	let left,
 		top,

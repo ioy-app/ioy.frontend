@@ -15,14 +15,12 @@ import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiBox, BiChevronsLeft, BiSearch } from "react-icons/bi";
 import {
 	Link,
 	NavLink,
-	useNavigate,
 	useSearchParams,
 } from "react-router";
 
@@ -115,28 +113,33 @@ const Games: React.FC<{}> = ({}) => {
 				className="col-span-4 flex flex-col gap-4 w-full h-fit"
 				onSubmit={methods.handleSubmit(submit)}
 			>
-				{isSearch && (
-					<NavLink to="/" className="w-fit">
-						<Button
-							variant="text"
-							htmlType="button"
-						>
-							<BiChevronsLeft />
-							{t("buttons.back")}
+				
+				<div className="flex flex-col gap-4 items-center w-full">
+					{isSearch && (
+						<div className="w-4xl max-xl:w-full">
+							<NavLink to="/" className="flex w-fit">
+								<Button
+									variant="text"
+									htmlType="button"
+								>
+									<BiChevronsLeft />
+									{t("buttons.back")}
+								</Button>
+							</NavLink>
+						</div>
+					)}
+					<div className="w-4xl max-xl:w-full flex gap-4 items-center">
+						<Input
+							placeholder={t(
+								"home.search.placeholders.search",
+							)}
+							type="search"
+							{...methods.register("search")}
+						/>
+						<Button variant="primary" htmlType="submit">
+							<BiSearch />
 						</Button>
-					</NavLink>
-				)}
-				<div className="flex gap-4">
-					<Input
-						placeholder={t(
-							"home.search.placeholders.search",
-						)}
-						type="search"
-						{...methods.register("search")}
-					/>
-					<Button variant="primary" htmlType="submit">
-						<BiSearch />
-					</Button>
+					</div>
 				</div>
 				{isSearch ? (
 					<Table

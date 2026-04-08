@@ -1,13 +1,11 @@
 import { Logo } from "@/icons";
 
-interface SpinProps {
+const Spin: React.FC<{
 	/** Content */
 	children: React.ReactNode;
 	/** Loading state */
 	loading?: boolean;
-}
-
-const Spin: React.FC<SpinProps> = ({
+}> = ({
 	children,
 	loading,
 }) => {

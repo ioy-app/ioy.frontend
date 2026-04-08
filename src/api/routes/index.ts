@@ -135,12 +135,18 @@ const Routes = {
 	jams: {
 		list: `/jams`,
 		details: (id: number) => `/jams/${id}`,
-		icon: (id: number) => `/jams/${id}/icon`
+		icon: (id: number) => `/jams/${id}/icon`,
+		join: (id: number) => `/jams/${id}/join`,
+		leave: (id: number) => `/jams/${id}/leave`,
+		games: (id: number) => `/jams/${id}/games`
 	},
 	reports: {
 		list: "/reports",
 		details: (id: number) => `/reports/${id}`
 	},
+	feed: {
+		global: "/feed/global"
+	}
 };
 
 export default Routes;

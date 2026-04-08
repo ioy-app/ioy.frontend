@@ -15,4 +15,4 @@ export default interface CommentProps {
 	likes?: number;
 	is_like?: boolean;
 	is_me?: boolean;
-};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+}

@@ -10,7 +10,7 @@ import {
 import { Button, Select, Spin } from "@/components";
 import Comment from "@/components/content/comment";
 import CommentForm from "@/components/content/comment/form";
-import CommentProps from "@/components/content/comment/interface";
+import CommentProps from "@/types/comment";
 import { useModal, useNotify } from "@/hooks";
 import { StoreProps } from "@/stories";
 import {
@@ -23,7 +23,7 @@ import { BiComment, BiDownArrowAlt } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { BackgroundScene } from "../about";
+import { BackgroundScene } from "@/pages/home/pages/about";
 
 const Comments: React.FC = () => {
 	const params = useParams();

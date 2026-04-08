@@ -1,0 +1,14 @@
+[
+	{
+		"label": "dashboard.jams.join",
+		"value": "join"
+	},
+	{
+		"label": "dashboard.jams.author",
+		"value": "author"
+	},
+	{
+		"label": "dashboard.jams.judge",
+		"value": "judge"
+	}
+]

@@ -1,6 +1,4 @@
-import confStatus from "../dashboard/status.json";
-import JSZip from "jszip";
-import { Routes } from "@/api";
+import confStatus from "../dashboard/configs/status.json";
 import {
 	games_create,
 	games_delete,
@@ -10,10 +8,8 @@ import {
 import {
 	Button,
 	Code,
-	File,
 	Game,
 	Input,
-	Player,
 	Select,
 	SelectUser,
 	Spin,
@@ -22,7 +18,6 @@ import {
 } from "@/components";
 import { useModal, useNotify } from "@/hooks";
 import { paths } from "@/routes";
-import { dashboard_paths } from "@/routes/dashboard";
 import GameProps from "@/types/game";
 import {
 	useEffect,
@@ -32,8 +27,7 @@ import {
 } from "react";
 import {
 	FormProvider,
-	useForm,
-	useWatch,
+	useForm
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BiChevronsLeft, BiX } from "react-icons/bi";
@@ -53,6 +47,9 @@ export default function Edit() {
 	);
 
 	const methods = useForm();
+
+	const jam_id = (params?.jam_id && Number(params.jam_id)) || methods?.watch("jam_id");
+	
 	const handleSubmit = async (data: FormData) => {
 		try {
 			setLoading(true);
@@ -74,7 +71,8 @@ export default function Edit() {
 					icon: data?.icon?.[0],
 					game: data?.game,
 					tags: data?.tags || [],
-					status: data?.status || "draft",
+					status: data?.status || (!jam_id ? "draft" : "public"),
+					jam_id,
 					authors:
 						data?.authors?.map((user) => Number(user.id)) ||
 						[],
@@ -85,7 +83,8 @@ export default function Edit() {
 					icon: data?.icon?.[0],
 					game: data?.game,
 					tags: data?.tags || [],
-					status: data?.status || "draft",
+					status: data?.status || (!jam_id ? "draft" : "public"),
+					jam_id,
 					authors:
 						data?.authors?.map((user) => Number(user.id)) ||
 						[],
@@ -349,21 +348,26 @@ export default function Edit() {
 								methods.setValue("game", files);
 							}}
 						/>
-						<div className="flex gap-4 items-center justify-between w-full">
-							<Select
-								options={status}
-								value={status?.[1]}
-								{...methods.register("status")}
-								align="top"
-							/>
-							<Button variant="primary" htmlType="submit">
-								{t("buttons.save")}
-							</Button>
-						</div>
+						
+							<div className="flex gap-4 items-center justify-between w-full">
+								{!jam_id ? (
+									<Select
+										options={status}
+										value={status?.[1]}
+										{...methods.register("status")}
+										align="top"
+									/>
+								) : <div />}
+								<Button variant="primary" htmlType="submit">
+									{t("buttons.save")}
+								</Button>
+							</div>
+						
 						{!isCreate && (
 							<div className="w-full mt-20 mb-5 flex flex-col">
 								<Button
 									variant="danger"
+									htmlType="button"
 									onClick={(e) => {
 										e.preventDefault();
 										handleDelete();

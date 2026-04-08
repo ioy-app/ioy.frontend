@@ -37,6 +37,7 @@
 		"icon_limit": "Icon limit 1mb",
 		"icon_type": "Icon type only .png",
 		"game_type": "Game type only .html or .zip",
+		"jams_denied": "Create/Edit is closed by Jam",
 		"required": {
 			"title": "Title is required",
 			"status": "Status is required",

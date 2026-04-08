@@ -1,12 +1,12 @@
-import { jams_details } from "@/api/routes/jams";
+import { jams_details, jams_games, jams_join, jams_leave } from "@/api/routes/jams";
 import { Button, Game, Jam, Pagination, Spin, Table, Tag, User } from "@/components";
 import { paths } from "@/routes";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { BiCalendarPlus, BiChevronsLeft, BiPlus } from "react-icons/bi";
-import { Link, useNavigate, useParams } from "react-router";
+import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiPlus } from "react-icons/bi";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 
 /**
  * Jam details
@@ -16,6 +16,7 @@ import { Link, useNavigate, useParams } from "react-router";
 export default function JamDetails({}) {
   const params = useParams();
   const navigate = useNavigate();
+  const [ searchParams, setSearchParams ] = useSearchParams();
   const { t } = useTranslation();
 
   const id = Number(params.id);
@@ -28,18 +29,61 @@ export default function JamDetails({}) {
     }
   });
 
+  const max = 10;
+  const current_page = Number(searchParams.get("page") || 1);
+  const queryGames = useQuery({
+    queryKey: [ "jam", id, "games", current_page ],
+    queryFn: async () => {
+      const search = new URLSearchParams();
+
+			search.set(
+				"offset",
+				String((current_page - 1) * max),
+			);
+			search.set("limit", String(max));
+			// if (sort) search.set("sort", sort);
+			// if (status) search.set("status", status);
+			// if (searchQS) search.set("search", searchQS);
+      return (await jams_games(id, search));
+    }
+  });
+
+  const handleJoin = async () => {
+    await jams_join(id);
+    query.refetch();
+  }
+
+  const handleLeave = async () => {
+    await jams_leave(id);
+    query.refetch();
+  }
+
   return (
     <Spin loading={query?.status == "pending"}>
       <div className="w-full flex flex-col gap-4 items-center">
-        <div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">
-          <Button
-            variant="primary"
-            htmlType="button"
-          >
-            {t("buttons.join")}
-            <BiCalendarPlus />
-          </Button>
-        </div>
+        {!query?.data?.is_author && (
+          <div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">
+            {(!query?.data?.is_join) ? (
+              <Button
+                variant="primary"
+                htmlType="button"
+                onClick={() => handleJoin()}
+              >
+                {t("buttons.join")}
+                <BiCalendarPlus />
+              </Button>
+            ) : (
+              <Button
+                variant="second"
+                htmlType="button"
+                onClick={() => handleLeave()}
+              >
+                {t("buttons.leave")}
+                <BiCalendarMinus />
+              </Button>
+            )}
+          </div>
+        )}
         <div className="w-[65%] max-lg:w-full flex flex-col gap-4 items-start">
           <Button
             variant="text"
@@ -60,6 +104,9 @@ export default function JamDetails({}) {
               />
             </div>
             <p className="text-title">{query?.data?.title}</p>
+            <div className="border border-br text-placeholder px-4 py-2 rounded-xl">
+              {t(`jams.statuses.${query?.data?.status}`)}
+            </div>
             <p className="text-default">{query?.data?.description}</p>
             <div className="w-full grid grid-cols-2 max-md:grid-cols-1 gap-4">
               <div className="flex flex-col gap-4 p-4 rounded-2xl border border-br items-center">
@@ -72,7 +119,7 @@ export default function JamDetails({}) {
                     />
                   ))}
                 </div>
-                {query?.data?.judges_data?.length && (
+                {query?.data?.judges_data?.length > 0 && (
                   <>
                     <p className="text-placeholder">{t("jams.labels.judges")}</p>
                     <div className="flex gap-4 flex-wrap justify-center items-center">
@@ -107,7 +154,18 @@ export default function JamDetails({}) {
             </div>
           </div>
           <div className="w-full flex flex-col gap-4">
-            <p className="text-title">{t("jams.labels.games")}</p>
+            <div className="flex gap-4 flex-wrap items-center w-full justify-between">
+              <p className="text-title">{t("jams.labels.games")}</p>
+              {(!query?.data?.is_author && query?.data?.is_join && query?.data?.status == "in_process") && (
+                <Button
+                  variant="primary"
+                  onClick={() => navigate(paths.jams.create_game(id))}
+                >
+                  <BiPlus />
+                  {t("buttons.add_game")}
+                </Button>
+              )}
+            </div>
             <Table
               columns={[
                 {
@@ -179,19 +237,19 @@ export default function JamDetails({}) {
                     dayjs(date).format("HH:mm DD.MM.YYYY"),
                 },
               ]}
-              data={[]}
-              loading={false}
-              // footer={
-              //   <Pagination
-              //     total={searchQuery?.data?.total || 1}
-              //     current={current_page}
-              //     per_page={max}
-              //     onChange={(offset, page) => {
-              //       searchParams.set("page", String(page));
-              //       setSearchParams(searchParams);
-              //     }}
-              //   />
-              // }
+              data={queryGames?.data?.items}
+              loading={queryGames?.status == "pending"}
+              footer={
+                <Pagination
+                  total={queryGames?.data?.total || 1}
+                  current={current_page}
+                  per_page={max}
+                  onChange={(offset, page) => {
+                    searchParams.set("page", String(page));
+                    setSearchParams(searchParams);
+                  }}
+                />
+              }
             />
           </div>
         </div>

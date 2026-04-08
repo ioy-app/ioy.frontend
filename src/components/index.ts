@@ -8,7 +8,6 @@ import Button from "./base/button";
 import Checkbox from "./base/checkbox";
 import Code from "./custom/code";
 import Tabs from "./base/tabs";
-import File from "./base/file";
 import LinkifyText from "./base/linkifyText";
 import Spin from "./base/spin";
 import Session from "./custom/session";
@@ -23,6 +22,7 @@ import SelectUser from "./custom/selectUser";
 import Report from "./custom/report";
 import Meta from "./custom/meta";
 import DatePicker from "./base/datePicker";
+import Post from "./custom/post";
 
 export {
 	Header,
@@ -34,7 +34,6 @@ export {
 	Checkbox,
 	Code,
 	Tabs,
-	File,
 	Spin,
 	Session,
 	Select,
@@ -49,5 +48,6 @@ export {
 	Report,
 	Meta,
 	DatePicker,
-	Jam
+	Jam,
+	Post
 };

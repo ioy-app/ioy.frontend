@@ -18,7 +18,14 @@ type SelectComponentProps = {
 	"children"
 >;
 
-const Select: React.FC<SelectComponentProps> = ({
+const Select: React.FC<SelectComponentProps & {
+	placeholder?: string;
+	isFirstOption?: boolean;
+	align?: "buttom" | "top";
+	ref?: React.Ref<HTMLDivElement>;
+	onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+	value?: Option;
+}> = ({
 	name,
 	options,
 	value,
@@ -31,8 +38,8 @@ const Select: React.FC<SelectComponentProps> = ({
 	disabled,
 }) => {
 	const { t } = useTranslation();
-	const [isOpen, setOpen] = useState<boolean>(false);
-	const [localValue, setValue] = useState<unknown>(value);
+	const [ isOpen, setOpen ] = useState<boolean>(false);
+	const [ localValue, setValue ] = useState<Option>(value);
 	const localRef = useRef(null);
 
 	useEffect(() => {
@@ -43,7 +50,7 @@ const Select: React.FC<SelectComponentProps> = ({
 			(opt) => opt.value == value,
 		);
 		setValue(option);
-	}, [localRef?.current]);
+	}, [ localRef?.current ]);
 
 	useEffect(() => {
 		if (isFirstOption) {
@@ -51,7 +58,7 @@ const Select: React.FC<SelectComponentProps> = ({
 				onChange({
 					target: {
 						name: name,
-						value: option?.[0]?.value,
+						value: options?.[0]?.value,
 					},
 				});
 			setValue(options?.[0]);

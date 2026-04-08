@@ -1,14 +1,10 @@
 import * as Icons from "@/icons";
 import { Button } from "@/components";
-import {
-	NavLink,
-	useAsyncError,
-	useRouteError,
-} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export default function ErrorPage({
-	msg,
+	msg
 }: {
 	msg?: string;
 }) {
