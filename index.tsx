@@ -38,7 +38,13 @@ const app: HTMLElement | null =
 	document.getElementById("app");
 if (!app) throw new Error("#app isn't found");
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+    queries: {
+      retry: false
+		}
+	}
+});
 
 createRoot(app).render(
 	<Provider store={Store}>

@@ -34,12 +34,14 @@ const Post: React.FC<{
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <User
-          dataSource={author_data}
-          login={author_data?.login}
-          size={12}
-          className="flex-row flex w-fit"
-        />
+        <div>
+          <User
+            dataSource={author_data}
+            login={author_data?.login}
+            size={12}
+            className="flex-row flex w-fit"
+          />
+        </div>
         <p className="text-placeholder">{t(`feed.label.${type}`)}</p>
       </div>
       <div className="p-4 border border-br rounded-xl w-full flex flex-col gap-4 justify-center items-center">

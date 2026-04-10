@@ -19,7 +19,8 @@
 			"all": "All",
 			"judges": "Judges",
 			"members": "Members"
-		}
+		},
+		"voting": "Vote for the Nominations"
 	},
 	"statuses": {
 		"init": "Init",
@@ -33,5 +34,6 @@
 		"description": "About jam...",
 		"nominations": "Example: Graphics (Enter or , to add nomination)",
 		"judges": "username (Enter or , to add tag)"
-	}
+	},
+	"no_theme": "No available"
 }

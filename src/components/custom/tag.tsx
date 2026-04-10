@@ -32,9 +32,11 @@ function getContrastTextColor(hslColor: string): string {
 const Tag: React.FC<{
 	title: string;
 	nolink?: boolean;
+	icon?: React.ReactNode;
 }> = ({
 	title,
-	nolink
+	nolink,
+	icon
 }) => {
 	const bg = stringToHSLColor(title);
 
@@ -46,7 +48,7 @@ const Tag: React.FC<{
 				color: getContrastTextColor(bg),
 			}}
 		>
-			<BiHash />
+			{!icon ? <BiHash /> : icon}
 			<p>{title}</p>
 		</div>
 	)

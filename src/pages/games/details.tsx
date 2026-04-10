@@ -331,7 +331,10 @@ export default function GamePage() {
 						</div>
 						{query?.data?.jamdata && (
 							<JamBlock
-								data={query?.data?.jamdata}
+								data={{
+									...query?.data?.jamdata,
+									is_vote: query?.data?.is_vote
+								}}
 							/>
 						)}
 						<div className="flex gap-4 w-full">

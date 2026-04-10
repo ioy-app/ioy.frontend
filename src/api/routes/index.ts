@@ -117,6 +117,7 @@ const Routes = {
 		game: (id: number) => `/games/${id}/game`,
 		like: (id: number) => `/games/${id}/like`,
 		create: `/games/create`,
+		votes: (id: number) => `/games/${id}/my-votes`
 	},
 	dashboard: {
 		games: `/games/my`,
