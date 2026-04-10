@@ -23,6 +23,7 @@ import Report from "./custom/report";
 import Meta from "./custom/meta";
 import DatePicker from "./base/datePicker";
 import Vote from "./custom/vote";
+import Post from "./custom/post";
 
 export {
 	Header,
@@ -49,5 +50,6 @@ export {
 	Meta,
 	DatePicker,
 	Jam,
-	Vote
+	Vote,
+	Post
 };

@@ -53,7 +53,13 @@ const Jams: React.FC = () => {
 		const jams = query?.data?.items?.filter((jam) => {
 			const isValid = dayjs(
 				dayjs(date_from).date(i + 1),
-			).isBetween(jam.date_started, jam.date_finished);
+			).isBetween(jam.date_started, jam.date_finished) || 
+			dayjs(
+				dayjs(date_from).date(i + 1),
+			).isSame(jam.date_started) ||
+			dayjs(
+				dayjs(date_from).date(i + 1),
+			).isSame(jam.date_finished);
 
 			return isValid;
 		});

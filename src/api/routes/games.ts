@@ -38,22 +38,21 @@ export const games_create = (obj: FormData) =>
 		Routes.games.create,
 		jsonToFormData(obj)
 	);
-// fetchAPI(Routes.games.create, {
-//     method: "POST",
-//     headers: {
-//         "Content-Type": "no-content"
-//     },
-//     body: jsonToFormData(obj)
-//})
+
 export const games_edit = (id: number, obj: FormData) =>
 	apiInstance.put(
 		Routes.games.details(id),
 		jsonToFormData(obj)
 	);
-// fetchAPI(Routes.games.details(id), {
-//     method: "PUT",
-//     headers: {
-//         "Content-Type": "no-content"
-//     },
-//     body: jsonToFormData(obj)
-// })
+
+export const games_votes_list = (id: number) =>
+	apiInstance.get(Routes.games.votes(id))
+
+export const games_votes_put = (
+	id: number,
+	nomination: string,
+	score: number
+) => apiInstance.put(Routes.games.votes(id), {
+	nomination,
+	score
+});

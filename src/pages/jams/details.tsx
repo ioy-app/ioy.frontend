@@ -61,7 +61,7 @@ export default function JamDetails({}) {
   return (
     <Spin loading={query?.status == "pending"}>
       <div className="w-full flex flex-col gap-4 items-center">
-        {!query?.data?.is_author && (
+        {!query?.data?.is_author && !["voting", "finished"].includes(query?.data?.status) && (
           <div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">
             {(!query?.data?.is_join) ? (
               <Button
@@ -108,8 +108,13 @@ export default function JamDetails({}) {
               {t(`jams.statuses.${query?.data?.status}`)}
             </div>
             <p className="text-default">{query?.data?.description}</p>
+            
             <div className="w-full grid grid-cols-2 max-md:grid-cols-1 gap-4">
               <div className="flex flex-col gap-4 p-4 rounded-2xl border border-br items-center">
+                <p className="text-placeholder">{t("jams.labels.theme")}</p>
+                <div className="border border-primary text-placeholder px-4 py-2 rounded-xl">
+                  {query?.data?.theme || t("jams.no_theme")}
+                </div>
                 <p className="text-placeholder">{t("jams.labels.nominations")}</p>
                 <div className="flex gap-4 flex-wrap justify-center items-center">
                   {query?.data?.nominations?.map((title) => (

@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import { Home, About } from "@/pages";
+import { Home, About, Feed } from "@/pages";
 
 import games, { games_paths } from "./games";
 import user, { user_paths } from "./user";
@@ -32,6 +32,10 @@ const routes: RouteObject[] = [
 				path: jams_paths.list,
 				element: <Jams />,
 			},
+			{
+				path: "/feed",
+				element: <Feed />
+			}
 		],
 	},
 	{

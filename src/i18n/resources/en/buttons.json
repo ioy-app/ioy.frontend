@@ -18,6 +18,7 @@
 	"main": "Home",
 	"dashboard": "Dashboard",
 	"nav": {
+		"feed": "Feed",
 		"games": "Games",
 		"jams": "Jams"
 	},

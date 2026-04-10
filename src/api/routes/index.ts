@@ -117,6 +117,7 @@ const Routes = {
 		game: (id: number) => `/games/${id}/game`,
 		like: (id: number) => `/games/${id}/like`,
 		create: `/games/create`,
+		votes: (id: number) => `/games/${id}/my-votes`
 	},
 	dashboard: {
 		games: `/games/my`,
@@ -144,6 +145,9 @@ const Routes = {
 		list: "/reports",
 		details: (id: number) => `/reports/${id}`
 	},
+	feed: {
+		global: "/feed/global"
+	}
 };
 
 export default Routes;
