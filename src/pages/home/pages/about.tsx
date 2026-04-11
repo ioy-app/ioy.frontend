@@ -68,7 +68,7 @@ export default function About({}) {
 }
 
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
@@ -88,10 +88,23 @@ const RotatingModel: React.FC<ModelProps> = ({
   scale = 1,
   url,
   rotationSpeedX = 0,
-  rotationSpeedY = 0.01,
+  rotationSpeedY = 0,
+	rotationSpeedZ = 0,
+	rotateX=0,
+	rotateY=0,
+	rotateZ=0
 }) => {
   const meshRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF(url);
+
+	useEffect(() => {
+		if (!meshRef)
+			return;
+
+		meshRef.current.rotation.x = rotateX;
+		meshRef.current.rotation.y = rotateY;
+		meshRef.current.rotation.z = rotateZ;
+	}, [ meshRef, rotateX, rotateY, rotateZ ]);
 
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -103,6 +116,10 @@ const RotatingModel: React.FC<ModelProps> = ({
       if (rotationSpeedY !== 0) {
         meshRef.current.rotation.y += rotationSpeedY * delta;
       }
+
+			if (rotationSpeedZ !== 0) {
+        meshRef.current.rotation.z += rotationSpeedZ * delta;
+      }
     }
   });
 
@@ -113,7 +130,16 @@ const RotatingModel: React.FC<ModelProps> = ({
   );
 };
 
-export const BackgroundScene: React.FC = ({ model, speedX, speedY, scale=2.5 }) => {
+export const BackgroundScene: React.FC = ({
+	model,
+	speedX,
+	speedY,
+	speedZ,
+	scale=2.5,
+	rotateX=0,
+	rotateY=0,
+	rotateZ=0
+}) => {
   return (
     <div className="inset-0 h-50 aspect-square pointer-events-none overflow-hidden">
       <Canvas
@@ -127,6 +153,10 @@ export const BackgroundScene: React.FC = ({ model, speedX, speedY, scale=2.5 }) 
           position={[0, 0, scale]} 
           rotationSpeedX={speedX}
 					rotationSpeedY={speedY}
+					rotationSpeedZ={speedZ}
+					rotateX={rotateX}
+					rotateY={rotateY}
+					rotateZ={rotateZ}
         />
         <ContactShadows resolution={800} scale={1} blur={2} opacity={0.5} far={10} color="#000000" />
       </Canvas>
