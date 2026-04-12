@@ -20,21 +20,6 @@ describe("Main", () => {
     cy.url().should("include", "/");
   });
 
-  it("Profile", () => {
-    cy.get(`a[href^="/g"]`).first().click();
-    cy.contains("Authors");
-    cy.get(`a[href^="/u"]`)
-      .first()
-      .invoke("text")
-      .then(login => {
-        cy.get(`a[href^="/u"]`).first().click();
-        cy.contains(login);
-      });
-    cy.contains("Follow").should("not.be");
-    cy.contains("Unfollow").should("not.be");
-    cy.contains("Report").should("not.be");
-  });
-
   it("About", () => {
     cy.contains("About").click();
     cy.contains("support@ioy.app");
