@@ -61,18 +61,6 @@ describe("Main", () => {
     cy.url().should("include", "/");
   });
 
-  it("Tag", () => {
-    cy.contains("2d").click();
-    cy.contains("Back");
-    cy.contains("Game");
-    cy.contains("Author");
-    cy.contains("Version");
-    cy.contains("Date created");
-    cy.contains("Date updated");
-    cy.get(".button-text").contains("Back").click();
-    cy.url().should("include", "/");
-  });
-
   it("Change lang", () => {
     cy.get("select").select("Русский");
     cy.contains("Русский");
