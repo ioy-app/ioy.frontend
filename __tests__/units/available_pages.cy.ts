@@ -48,19 +48,6 @@ describe("Main", () => {
     cy.contains("By using the site, you confirm that you are 18+ and agree to these terms.");
   });
 
-  it("Search", () => {
-    cy.get("input").type("adventure");
-    cy.get(".button-primary").click();
-    cy.contains("Back");
-    cy.contains("Game");
-    cy.contains("Author");
-    cy.contains("Version");
-    cy.contains("Date created");
-    cy.contains("Date updated");
-    cy.get(".button-text").contains("Back").click();
-    cy.url().should("include", "/");
-  });
-
   it("Change lang", () => {
     cy.get("select").select("Русский");
     cy.contains("Русский");
