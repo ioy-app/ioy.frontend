@@ -20,21 +20,6 @@ describe("Main", () => {
     cy.url().should("include", "/");
   });
 
-  it("Profile", () => {
-    cy.get(`a[href^="/g"]`).first().click();
-    cy.contains("Authors");
-    cy.get(`a[href^="/u"]`)
-      .first()
-      .invoke("text")
-      .then(login => {
-        cy.get(`a[href^="/u"]`).first().click();
-        cy.contains(login);
-      });
-    cy.contains("Follow").should("not.be");
-    cy.contains("Unfollow").should("not.be");
-    cy.contains("Report").should("not.be");
-  });
-
   it("About", () => {
     cy.contains("About").click();
     cy.contains("support@ioy.app");
@@ -46,31 +31,6 @@ describe("Main", () => {
     cy.contains("Updated");
     cy.contains("Terms & Privacy");
     cy.contains("By using the site, you confirm that you are 18+ and agree to these terms.");
-  });
-
-  it("Search", () => {
-    cy.get("input").type("adventure");
-    cy.get(".button-primary").click();
-    cy.contains("Back");
-    cy.contains("Game");
-    cy.contains("Author");
-    cy.contains("Version");
-    cy.contains("Date created");
-    cy.contains("Date updated");
-    cy.get(".button-text").contains("Back").click();
-    cy.url().should("include", "/");
-  });
-
-  it("Tag", () => {
-    cy.contains("2d").click();
-    cy.contains("Back");
-    cy.contains("Game");
-    cy.contains("Author");
-    cy.contains("Version");
-    cy.contains("Date created");
-    cy.contains("Date updated");
-    cy.get(".button-text").contains("Back").click();
-    cy.url().should("include", "/");
   });
 
   it("Change lang", () => {

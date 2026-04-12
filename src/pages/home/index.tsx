@@ -5,6 +5,7 @@ import { Button } from "@/components";
 import { paths } from "@/routes";
 import { FEATURE_JAMS } from "@/features";
 import { useSelector } from "react-redux";
+import { BackgroundScene } from "./pages/about";
 
 export default function Home() {
 	const { t } = useTranslation();
@@ -15,8 +16,41 @@ export default function Home() {
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="w-full flex justify-center flex-col items-center gap-2">
-				<div className="w-[40%] max-md:w-full flex justify-center items-center">
-					<img src={imgLabel} className="w-full p-8" />
+				<div className="w-[40%] max-md:w-full flex justify-center items-center relative">
+					<img src={imgLabel} className="w-full p-8 z-1" />
+					<div className="absolute -top-10 left-6.25 z-2">
+						<BackgroundScene
+							key="title-rocket"
+							model={"/resources/gltf/rocket.gltf"}
+							rotateY={3.1}
+							rotateZ={-1}
+							speedY={.5}
+							speedZ={.1}
+							scale={1}
+						/>
+					</div>
+					<div className="absolute -bottom-20 -right-8.25 z-0">
+						<BackgroundScene
+							key="title-ufo"
+							model={"/resources/gltf/ufo.gltf"}
+							rotateY={3.1}
+							rotateZ={-1}
+							speedY={-.5}
+							speedZ={.1}
+							scale={1}
+						/>
+					</div>
+					<div className="absolute -top-10 right-15.25 z-0">
+						<BackgroundScene
+							key="title-computer"
+							model={"/resources/gltf/computer.gltf"}
+							rotateY={3.1}
+							rotateZ={-1}
+							speedY={-.5}
+							speedZ={.1}
+							scale={.25}
+						/>
+					</div>
 				</div>
 				<div className="flex gap-6 items-center">
 					{(!loading && login) && (
