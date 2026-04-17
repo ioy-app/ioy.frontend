@@ -3,5 +3,40 @@
 	"unknown": "Unknown",
 	"title": "Error!",
 	"nodata": "Nothink :(",
-	"denied": "Access denied"
+	"denied": "Access denied",
+	"invalid": {
+		"theme": "Invalid theme",
+		"title": "Invalid title",
+		"nominations": "Invalid nominations",
+		"date_started": "Invalid Start date",
+		"date_finished": "Invalid Finish date",
+		"date_vote_started": "Invalid Vote start date",
+		"date_vote_finished": "Invalid Vote finish date",
+		"vote_type": "Invalid vote type",
+		"judge": "Invalid judge",
+		"creater_id": "Invalid creater ID",
+		"description": "Invalid description"
+	},
+	"date": {
+		"date_finished": {
+			"date_started": "Finish date is before Start date"
+		},
+		"date_started": {
+			"now": "Start date is before current date"
+		},
+		"date_vote_started": {
+			"date_started": "Vote start date is before Start date",
+			"date_finished": "Vote start date is after Finish date"
+		}
+	},
+	"required": {
+		"title": "Title is required",
+		"theme": "Theme is required",
+		"nominations": "Nominations is required",
+		"creater_id": "Creater ID is required",
+		"date_started": "Start date is required",
+		"date_finished": "Finish date is required",
+		"date_vote_started": "Start vote date is required",
+		"date_vote_finished": "Finish vote date is required"
+	}
 }

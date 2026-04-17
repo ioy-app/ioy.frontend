@@ -48,8 +48,6 @@ export default function JamEdit() {
 			const isCreate = typeof params?.id == "undefined";
 			let response;
 
-			console.log(data);
-
 			if (isCreate) {
 				response = await jams_create({
 					...data,
@@ -64,11 +62,9 @@ export default function JamEdit() {
 
 			if (isCreate && response?.id)
 				navigate(paths.jams.details(response.id));
-		} catch (err) {
-			notify(err);
-		} finally {
-			setLoading(false);
 		}
+		catch (err) { notify(t(err?.message?.toString?.())); }
+		finally { setLoading(false); }
 	};
 
 	const handleVerify = async () => {
@@ -302,15 +298,10 @@ export default function JamEdit() {
 							</div>
 						</div>
 						<div className="flex flex-col gap-2 text-placeholder">
-							<p>{t("jams.labels.vote_range")}</p>
+							<p>{t("jams.labels.vote_started")}</p>
 							<div className="flex items-center gap-2">
 								<DatePicker
 									{...methods.register("date_vote_started")}
-									hasTime
-								/>
-								<p>—</p>
-								<DatePicker
-									{...methods.register("date_vote_finished")}
 									hasTime
 								/>
 							</div>
