@@ -72,51 +72,6 @@ export default function JamEdit() {
 		navigate(-1, { replace: true });
 	};
 
-	const handleDelete = async () => {
-		modal(
-			t("jams.warnings.delete"),
-			(onClose: () => void) => (
-				<>
-					<Button
-						variant="clear"
-						onClick={() => onClose()}
-						disabled={isLoading}
-					>
-						{t("buttons.cancel")}
-					</Button>
-					<Button
-						variant="danger"
-						disabled={isLoading}
-						onClick={async (e) => {
-							setLoading(true);
-
-							try {
-								const response = await jams_delete(
-									Number(params.id),
-								);
-								onClose();
-
-								modal("", (onClosed: () => void) => (
-									<Code
-										onSubmit={(data) => {
-											handleVerify(data);
-											onClosed();
-										}}
-										onCancel={() => onClosed()}
-									/>
-								));
-							} finally {
-								setLoading(false);
-							}
-						}}
-					>
-						{t("buttons.delete")}
-					</Button>
-				</>
-			),
-		);
-	};
-
 	useEffect(() => {
 		(async () => {
 			try {

@@ -1,12 +1,15 @@
-import { jams_details, jams_games, jams_join, jams_leave } from "@/api/routes/jams";
-import { Button, Game, Jam, Pagination, Spin, Table, Tag, User } from "@/components";
+import { jams_delete, jams_details, jams_games, jams_join, jams_leave } from "@/api/routes/jams";
+import { Button, Code, Game, Jam, Pagination, Spin, Table, Tag, User } from "@/components";
+import { useModal } from "@/hooks";
 import { paths } from "@/routes";
+import { StoreProps } from "@/stories";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiPlus, BiTrophy } from "react-icons/bi";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiPlus, BiTrash, BiTrophy } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router";
 
 /**
  * Jam details
@@ -20,6 +23,10 @@ export default function JamDetails({}) {
   const { t } = useTranslation();
 
   const id = Number(params.id);
+  const { token } = useSelector(
+		(state: StoreProps) => state.login,
+	);
+  const { modal } = useModal();
 
   const query = useQuery({
     queryKey: [ "jam", id ],
@@ -58,28 +65,87 @@ export default function JamDetails({}) {
     query.refetch();
   }
 
+  const handleDelete = async () => {
+    modal(
+      t("jams.warnings.delete"),
+      (onClose: () => void) => (
+        <>
+          <Button
+            variant="clear"
+            onClick={() => onClose()}
+          >
+            {t("buttons.cancel")}
+          </Button>
+          <Button
+            variant="danger"
+            onClick={async (e) => {
+
+              try {
+                const response = await jams_delete(
+                  Number(id),
+                );
+                onClose();
+
+                modal("", (onClosed: () => void) => (
+                  <Code
+                    onSubmit={(data) => {
+                      query?.refetch();
+                      onClosed();
+                    }}
+                    onCancel={() => onClosed()}
+                  />
+                ));
+              } finally {
+
+              }
+            }}
+          >
+            {t("buttons.delete")}
+          </Button>
+        </>
+      ),
+    );
+  };
+
+  if (query?.status == "error")
+    return <Navigate to="/" />;
+
   return (
     <Spin loading={query?.status == "pending"}>
       <div className="w-full flex flex-col gap-4 items-center">
-        {!query?.data?.is_author && !["voting", "finished"].includes(query?.data?.status) && (
+        {token && (
           <div className="fixed right-0 top-12 p-4 flex flex-col gap-4 z-25">
-            {(!query?.data?.is_join) ? (
+            {!query?.data?.is_author && !["voting", "finished"].includes(query?.data?.status) && (
+              <>
+                {(!query?.data?.is_join) ? (
+                  <Button
+                    variant="primary"
+                    htmlType="button"
+                    onClick={() => handleJoin()}
+                  >
+                    {t("buttons.join")}
+                    <BiCalendarPlus />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="second"
+                    htmlType="button"
+                    onClick={() => handleLeave()}
+                  >
+                    {t("buttons.leave")}
+                    <BiCalendarMinus />
+                  </Button>
+                )}
+              </>
+            )}
+            {query?.data?.is_author && (
               <Button
-                variant="primary"
+                variant="danger"
                 htmlType="button"
-                onClick={() => handleJoin()}
+                onClick={() => handleDelete()}
               >
-                {t("buttons.join")}
-                <BiCalendarPlus />
-              </Button>
-            ) : (
-              <Button
-                variant="second"
-                htmlType="button"
-                onClick={() => handleLeave()}
-              >
-                {t("buttons.leave")}
-                <BiCalendarMinus />
+                {t("buttons.delete")}
+                <BiTrash />
               </Button>
             )}
           </div>
