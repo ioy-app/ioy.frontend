@@ -13,6 +13,7 @@
 		"judges": "Judges",
 		"date_range": "Date range",
 		"vote_range": "Vote range",
+		"vote_started": "Start voting",
 		"status": "Status",
 		"vote_type": {
 			"title": "Vote type",
