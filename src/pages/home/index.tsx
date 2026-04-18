@@ -17,8 +17,8 @@ export default function Home() {
 		<div className="flex flex-col gap-4">
 			<div className="w-full flex justify-center flex-col items-center gap-2">
 				<div className="w-[40%] max-md:w-full flex justify-center items-center relative">
-					<img src={imgLabel} className="w-full p-8 z-1" />
-					<div className="absolute -top-10 left-6.25 z-2">
+					<img src={imgLabel} className="w-full p-8 z-1 pointer-events-none" />
+					<div className="absolute -top-10 left-6.25 z-2 pointer-events-none">
 						<BackgroundScene
 							key="title-rocket"
 							model={"/resources/gltf/rocket.gltf"}

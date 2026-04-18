@@ -41,7 +41,9 @@
 			"date_updated": "Date updated",
 			"author": "Author",
 			"likes": "Likes",
-			"saves": "Saves"
+			"saves": "Saves",
+			"place": "Place",
+			"score": "Score"
 		},
 		"jams": {
 			"jam": "Jam",

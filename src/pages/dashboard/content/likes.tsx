@@ -127,6 +127,7 @@ const Likes: React.FC = () => {
 										{
 											id: game?.id,
 											is_avatar: game?.is_avatar,
+											jam_result: game?.jam_result
 										} as GameProps
 									}
 									nolink

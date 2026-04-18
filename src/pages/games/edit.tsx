@@ -257,7 +257,7 @@ export default function Edit() {
 											{
 												id,
 												is_avatar:
-													is_avatar || handlePreviewIcon,
+													is_avatar || handlePreviewIcon
 											} as GameProps
 										}
 										size="full"
