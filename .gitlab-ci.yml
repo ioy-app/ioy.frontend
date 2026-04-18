@@ -8,6 +8,7 @@ Building:
   script:
     - |
       #!/bin/bash
+      cp $APP_ENV .env
       npm i
       npm run build
       docker image prune -f
