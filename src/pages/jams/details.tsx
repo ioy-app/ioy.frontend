@@ -362,7 +362,7 @@ export default function JamDetails({}) {
                     "dashboard.table.games.score",
                   ),
                   dataIndex: "title",
-                  render: (_, data) => data?.jam_result?.score
+                  render: (_, data) => data?.jam_result?.score?.toFixed(2)
                 }
               ]}
               data={queryGames?.data?.items}
