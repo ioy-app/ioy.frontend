@@ -1,6 +1,37 @@
 stages:
   - build
 
+# Test:Components:
+#   stage: test
+#   tags:
+#     - shell
+#   script:
+#     - |
+#       #!/bin/bash
+#       npm i
+#       npm run test:components
+#   only:
+#     - master
+#     - develop
+
+# Test:Units:
+#   stage: test
+#   tags:
+#     - shell
+#   script:
+#     - |
+#       #!/bin/bash
+#       npm i
+#       npm run build
+#       docker image prune -f
+#       docker build -t frontend:develop .
+#       docker compose -f /opt/ioy.app/docker-compose.yml up -d
+#       npm run test:units
+#       docker stop ioy_frontend_develop
+#   only:
+#     - master
+#     - develop
+
 Building:
   stage: build
   tags:
