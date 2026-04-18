@@ -48,9 +48,6 @@ export default function JamDetails({}) {
 				String((current_page - 1) * max),
 			);
 			search.set("limit", String(max));
-			// if (sort) search.set("sort", sort);
-			// if (status) search.set("status", status);
-			// if (searchQS) search.set("search", searchQS);
       return (await jams_games(id, search));
     }
   });
@@ -210,7 +207,6 @@ export default function JamDetails({}) {
               {t(`jams.statuses.${query?.data?.status}`)}
             </div>
             <p className="text-default">{query?.data?.description}</p>
-            
             <div className="w-full grid grid-cols-2 max-md:grid-cols-1 gap-4">
               <div className="flex flex-col gap-4 p-4 rounded-2xl border border-br items-center">
                 <p className="text-placeholder">{t("jams.labels.theme")}</p>
@@ -260,6 +256,15 @@ export default function JamDetails({}) {
                 <p className="text-primary text-title">{t(`jams.labels.vote_type.${query?.data?.vote_type}`)}</p>
               </div>
             </div>
+            <p className="text-placeholder">{t("jams.labels.author")}</p>
+              <div className="flex gap-4 flex-wrap justify-center items-center">
+                <div>
+                  <User
+                    login={query?.data?.creater_data?.login}
+                    dataSource={query?.data?.creater_data}
+                  />
+                </div>
+              </div>
           </div>
           <div className="w-full flex flex-col gap-4">
             <div className="flex gap-4 flex-wrap items-center w-full justify-between">
@@ -289,6 +294,7 @@ export default function JamDetails({}) {
                           {
                             id: game?.id,
                             is_avatar: game?.is_avatar,
+                            jam_result: game?.jam_result
                           } as GameProps
                         }
                         nolink
@@ -344,6 +350,20 @@ export default function JamDetails({}) {
                     dayjs(date)?.isValid() &&
                     dayjs(date).format("HH:mm DD.MM.YYYY"),
                 },
+                {
+                  title: t(
+                    "dashboard.table.games.place",
+                  ),
+                  dataIndex: "jam_result",
+                  render: (_, data) => data?.jam_result?.place
+                },
+                {
+                  title: t(
+                    "dashboard.table.games.score",
+                  ),
+                  dataIndex: "title",
+                  render: (_, data) => data?.jam_result?.score
+                }
               ]}
               data={queryGames?.data?.items}
               loading={queryGames?.status == "pending"}

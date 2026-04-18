@@ -223,6 +223,7 @@ export default function GamePage() {
 									{
 										id: Number(id),
 										is_avatar: query?.data?.is_avatar,
+										jam_result: query?.data?.jam_result
 									} as any
 								}
 								size={12}

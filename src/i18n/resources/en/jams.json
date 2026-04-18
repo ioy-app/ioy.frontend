@@ -15,6 +15,7 @@
 		"vote_range": "Vote range",
 		"vote_started": "Start voting",
 		"status": "Status",
+		"author": "Author",
 		"vote_type": {
 			"title": "Vote type",
 			"all": "All",

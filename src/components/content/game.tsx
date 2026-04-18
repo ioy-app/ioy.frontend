@@ -4,6 +4,7 @@ import { Routes } from "@/api";
 import Spin from "@/components/base/spin";
 import { Profile } from "@/icons";
 import { useQuery } from "@tanstack/react-query";
+import { BiSolidCrown } from "react-icons/bi";
 
 const Game: React.FC<{
 	/** Game data */
@@ -42,23 +43,31 @@ const Game: React.FC<{
 
 	const root = (
 		<div
-			className={`group flex flex-col items-center gap-1 max-w-${size} overflow-hidden`}
+			className={`group flex flex-col items-center gap-1 max-w-${size}`}
 			onClick={() =>
 				onClick && nolink && onClick(dataSource?.id)
 			}
 		>
 			<div
-				className={`w-full h-${size} rounded-xl overflow-hidden aspect-square border border-br ${(!nolink && "group-hover:border-primary transition-colors") || ""}`}
+				className={`relative w-full h-${size} aspect-square ${(!nolink && "transition-colors") || ""}`}
 			>
 				<Spin loading={status == "pending"}>
 					{isError || !data ? (
-						<div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary">
+						<div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary rounded-xl overflow-hidden">
 							<img src={Profile} />
 						</div>
 					) : (
-						<img src={data} className="w-full h-full" />
+						<img src={data} className="w-full h-full rounded-xl overflow-hidden" />
 					)}
 				</Spin>
+				{dataSource?.jam_result && (
+					<div className="absolute -top-2 -right-2">
+						{dataSource?.jam_result?.place == 1 && <BiSolidCrown className="text-amber-300 text-xl bg-back rounded-full p-0.5" />}
+						{dataSource?.jam_result?.place == 2 && <BiSolidCrown className="text-blue-100 text-xl bg-back rounded-full p-0.5" />}
+						{dataSource?.jam_result?.place == 3 && <BiSolidCrown className="text-second text-xl bg-back rounded-full p-0.5" />}
+					</div>
+				)}
+				
 			</div>
 			{dataSource?.title && (
 				<p

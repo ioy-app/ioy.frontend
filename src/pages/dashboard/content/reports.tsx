@@ -317,6 +317,7 @@ const RenderInstance: React.FC<{}> = ({ instance, data }) => {
 							{
 								id: instance?.id,
 								is_avatar: instance?.is_avatar,
+								jam_result: instance?.jam_result
 							} as GameProps
 						}
 						nolink
