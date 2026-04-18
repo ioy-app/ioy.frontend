@@ -29,6 +29,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { answer_report, reports } from "@/api/routes/reports";
 import { UserProps } from "@/types";
 import { useModal } from "@/hooks";
+import JamProps from "@/types/jam";
 
 const Reports: React.FC = () => {
 	const { t } = useTranslation();
@@ -285,6 +286,27 @@ const ReportAnswer: React.FC<{
 
 const RenderInstance: React.FC<{}> = ({ instance, data }) => {
 	switch (data.target_type) {
+		case "jam":
+			return (
+				<div
+					className="group flex items-center gap-2 w-fit"
+				>
+					<Components.Jam
+						dataSource={
+							{
+								id: instance?.id,
+								is_avatar: instance?.is_avatar,
+							} as JamProps
+						}
+						nolink
+						size={12}
+					/>
+					<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
+						{instance?.title}
+					</p>
+				</div>
+			);
+		break;
 		case "game":
 			return (
 				<div
@@ -305,7 +327,7 @@ const RenderInstance: React.FC<{}> = ({ instance, data }) => {
 					</p>
 				</div>
 			);
-			break;
+		break;
 		case "user":
 			return (
 				<div

@@ -1,5 +1,5 @@
 import { jams_delete, jams_details, jams_games, jams_join, jams_leave } from "@/api/routes/jams";
-import { Button, Code, Game, Jam, Pagination, Spin, Table, Tag, User } from "@/components";
+import { Button, Code, Game, Jam, Pagination, Report, Spin, Table, Tag, User } from "@/components";
 import { useModal } from "@/hooks";
 import { paths } from "@/routes";
 import { StoreProps } from "@/stories";
@@ -7,7 +7,7 @@ import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiPlus, BiTrash, BiTrophy } from "react-icons/bi";
+import { BiCalendarMinus, BiCalendarPlus, BiChevronsLeft, BiMessageError, BiPlus, BiTrash, BiTrophy } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router";
 
@@ -107,6 +107,34 @@ export default function JamDetails({}) {
     );
   };
 
+  const handleReport = () =>
+		modal(
+			() => <></>,
+			(onClose) => (
+				<Report
+					type="jam"
+					target_id={query?.data?.id}
+					Instance={
+						<>
+							<Jam
+								dataSource={
+									{
+										id: Number(id),
+										is_avatar: query?.data?.is_avatar,
+									} as any
+								}
+								nolink
+							/>
+							<h1 className="text-title">
+								{query?.data?.title}
+							</h1>
+						</>
+					}
+					onClose={onClose}
+				/>
+			),
+		);
+
   if (query?.status == "error")
     return <Navigate to="/" />;
 
@@ -138,7 +166,7 @@ export default function JamDetails({}) {
                 )}
               </>
             )}
-            {query?.data?.is_author && (
+            {query?.data?.is_author ? (
               <Button
                 variant="danger"
                 htmlType="button"
@@ -146,6 +174,14 @@ export default function JamDetails({}) {
               >
                 {t("buttons.delete")}
                 <BiTrash />
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                onClick={() => handleReport()}
+              >
+                <BiMessageError />
+                {t("buttons.report")}
               </Button>
             )}
           </div>
