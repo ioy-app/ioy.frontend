@@ -33,7 +33,7 @@ export default function Feed({}) {
   return (
     <div className="w-full flex flex-col items-center">
       <InfiniteScroll
-        className="w-2xl max-md:w-full"
+        className="w-full"
         dataLength={items?.length}
         next={() => query.fetchNextPage()}
         hasMore={query.hasNextPage}
