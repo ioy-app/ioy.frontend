@@ -22,21 +22,7 @@ export const paths = {
 const routes: RouteObject[] = [
 	{
 		path: "/",
-		Component: Home,
-		children: [
-			{
-				index: true,
-				element: <Games />,
-			},
-			{
-				path: jams_paths.list,
-				element: <Jams />,
-			},
-			{
-				path: "/feed",
-				element: <Feed />
-			}
-		],
+		element: <Home />
 	},
 	{
 		path: paths.about,

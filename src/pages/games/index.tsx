@@ -113,151 +113,25 @@ const Games: React.FC<{}> = ({}) => {
 				className="col-span-4 flex flex-col gap-4 w-full h-fit"
 				onSubmit={methods.handleSubmit(submit)}
 			>
-				
-				<div className="flex flex-col gap-4 items-center w-full">
-					{isSearch && (
-						<div className="w-4xl max-xl:w-full">
-							<NavLink to="/" className="flex w-fit">
-								<Button
-									variant="text"
-									htmlType="button"
-								>
-									<BiChevronsLeft />
-									{t("buttons.back")}
-								</Button>
-							</NavLink>
-						</div>
-					)}
-					<div className="w-4xl max-xl:w-full flex gap-4 items-center">
-						<Input
-							placeholder={t(
-								"home.search.placeholders.search",
-							)}
-							type="search"
-							{...methods.register("search")}
+				<div className="grid grid-cols-5 gap-4 max-lg:grid-cols-3 max-md:grid-cols-2">
+					{games?.map((game: GameProps, i: number) => (
+						<Game
+							dataSource={game}
+							key={i}
+							size="full"
 						/>
-						<Button variant="primary" htmlType="submit">
-							<BiSearch />
-						</Button>
-					</div>
+					))}
 				</div>
-				{isSearch ? (
-					<Table
-						columns={[
-							{
-								title: t("dashboard.table.games.game"),
-								dataIndex: "id",
-								render: (data, game) => (
-									<Link
-										to={paths.games.details(game?.id)}
-										className="group flex items-center gap-2 w-fit"
-									>
-										<Game
-											dataSource={
-												{
-													id: game?.id,
-													is_avatar: game?.is_avatar,
-												} as GameProps
-											}
-											nolink
-											size={12}
-										/>
-										<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-											{game?.title}
-										</p>
-									</Link>
-								),
-							},
-							{
-								title: t("dashboard.table.games.author"),
-								dataIndex: "creater_data",
-								render: (data, game) => (
-									<Link
-										to={paths.users.details(data?.login)}
-										className="group flex items-center gap-2 w-fit"
-									>
-										<User
-											login={data.login}
-											dataSource={{
-												is_avatar: data?.is_avatar,
-											}}
-											nolink
-											size={12}
-										/>
-										<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-											{data?.login}
-										</p>
-									</Link>
-								),
-							},
-							{
-								title: t("dashboard.table.games.version"),
-								dataIndex: "version",
-							},
-							{
-								title: t(
-									"dashboard.table.games.date_created",
-								),
-								dataIndex: "date_created",
-								render: (date) =>
-									dayjs(date)?.isValid() &&
-									dayjs(date).format("HH:mm DD.MM.YYYY"),
-							},
-							{
-								title: t(
-									"dashboard.table.games.date_updated",
-								),
-								dataIndex: "date_updated",
-								render: (date) =>
-									dayjs(date)?.isValid() &&
-									dayjs(date).format("HH:mm DD.MM.YYYY"),
-							},
-						]}
-						data={searchQuery?.data?.items}
-						loading={searchQuery?.isPending}
-						footer={
-							<Pagination
-								total={searchQuery?.data?.total || 1}
-								current={current_page}
-								per_page={max}
-								onChange={(offset, page) => {
-									searchParams.set("page", String(page));
-									setSearchParams(searchParams);
-								}}
-							/>
-						}
-						nodata={
-							<>
-								<BiBox className="text-2xl mt-8" />
-								<p className="text-placeholder">
-									{t("dashboard.labels.nodata")}
-								</p>
-							</>
-						}
-					/>
-				) : (
-					<>
-						<div className="grid grid-cols-10 gap-4 max-lg:grid-cols-7 max-md:grid-cols-4 max-sm:grid-cols-3">
-							{games?.map((game: GameProps, i: number) => (
-								<Game
-									dataSource={game}
-									key={i}
-									size="full"
-								/>
-							))}
-						</div>
-						<div className="flex gap-4 flex-wrap justify-center items-center py-8">
-							{tags?.map((tag: string, i: number) => (
-								<NavLink
-									to={`/?search=${tag}`}
-									className="cursor-pointer"
-								>
-									<Tag title={tag} key={i} />
-								</NavLink>
-							))}
-						</div>
-					</>
-				)}
+				<div className="flex gap-4 flex-wrap justify-center items-center py-8">
+					{tags?.map((tag: string, i: number) => (
+						<NavLink
+							to={`/?search=${tag}`}
+							className="cursor-pointer"
+						>
+							<Tag title={tag} key={i} />
+						</NavLink>
+					))}
+				</div>
 			</form>
 		</FormProvider>
 	);
