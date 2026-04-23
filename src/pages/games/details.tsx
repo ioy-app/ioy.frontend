@@ -338,8 +338,8 @@ export default function GamePage() {
 								}}
 							/>
 						)}
-						<div className="flex gap-4 w-full">
-							<div className="flex flex-col gap-2 w-full">
+						<div className="gap-4 w-full grid grid-cols-5 max-md:flex max-md:flex-wrap">
+							<div className="flex flex-col gap-2 w-full col-span-2">
 								<p className="text-placeholder">
 									{t("games.labels.authors")}
 								</p>
@@ -358,7 +358,7 @@ export default function GamePage() {
 								</div>
 							</div>
 							{query?.data?.description && (
-								<div className="flex flex-col gap-2 w-full">
+								<div className="flex flex-col gap-2 w-full col-span-3">
 									<p className="text-placeholder">
 										{t("games.labels.description")}
 									</p>

@@ -51,28 +51,23 @@ const Jams: React.FC = () => {
 		calendar_days.push(null);
 	for (let i = 0; i < days; i++) {
 		const jams = query?.data?.items?.filter((jam) => {
-			const isValid = dayjs(
-				dayjs(date_from).date(i + 1),
-			).isBetween(jam.date_started, jam.date_finished) || 
-			dayjs(
-				dayjs(date_from).date(i + 1),
-			).isSame(jam.date_started) ||
-			dayjs(
-				dayjs(date_from).date(i + 1),
-			).isSame(jam.date_finished);
+			const date = dayjs(date_from).add(i + 1, "day");
+			const isValid = dayjs(date).isBetween(jam.date_started, jam.date_finished) || 
+						dayjs(date).isSame(jam.date_started) ||
+						dayjs(date).isSame(jam.date_finished);
 
 			return isValid;
 		});
 		calendar_days.push({
 			day: i + 1,
 			jams,
-			date: dayjs(dayjs(date_from).set("date", i + 1)).format(
+			date: dayjs(dayjs(date_from).set("day", i + 1)).format(
 				"YYYY-MM-DD",
 			),
 			isCurrent:
-				dayjs(dayjs(date_from).set("date", i + 1)).format(
+				dayjs(dayjs(date_from).set("day", i + 1)).format(
 					"YYYY-MM-DD",
-				) == dayjs(Date.now()).format("YYYY-MM-DD"),
+				) == dayjs().format("YYYY-MM-DD"),
 		});
 	}
 
@@ -85,7 +80,7 @@ const Jams: React.FC = () => {
 					if (jam_id)
 						navigator(paths.jams.details(jam_id));
 				}}
-				date={date}	
+				date={dayjs(date)?.toISOString()}	
 			/>
 		)
 	);
