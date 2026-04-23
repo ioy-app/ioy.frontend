@@ -61,11 +61,11 @@ const Jams: React.FC = () => {
 		calendar_days.push({
 			day: i + 1,
 			jams,
-			date: dayjs(dayjs(date_from).set("date", i + 1)).format(
+			date: dayjs(dayjs(date_from).set("day", i + 1)).format(
 				"YYYY-MM-DD",
 			),
 			isCurrent:
-				dayjs(dayjs(date_from).set("date", i + 1)).format(
+				dayjs(dayjs(date_from).set("day", i + 1)).format(
 					"YYYY-MM-DD",
 				) == dayjs().format("YYYY-MM-DD"),
 		});
@@ -80,7 +80,7 @@ const Jams: React.FC = () => {
 					if (jam_id)
 						navigator(paths.jams.details(jam_id));
 				}}
-				date={date}	
+				date={dayjs(date)?.toISOString()}	
 			/>
 		)
 	);
