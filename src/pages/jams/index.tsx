@@ -65,7 +65,7 @@ const Jams: React.FC = () => {
 		calendar_days.push({
 			jams,
 			date: date.format("YYYY-MM-DD"),
-			isCurrent: date.isSame(dayjs())
+			isCurrent: date.format("YYYY-MM-DD") == dayjs().format("YYYY-MM-DD")
 		});
 	}
 
