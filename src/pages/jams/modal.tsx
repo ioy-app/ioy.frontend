@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
+import imgEmpty from "@/icons/empty.svg";
 
 /**
  * Modal window for jams
@@ -29,7 +30,7 @@ const ModalJams: React.FC<{
   return (
     <div className="flex flex-col gap-4 items-center w-full">
       <div className="flex gap-4 justify-between items-center w-full">
-        <p className="text-description">{dayjs(date).format("DD/MM/YYYY")}</p>
+        <p className="text-placeholder text-xl">{dayjs(date).format("DD.MM.YYYY")}</p>
         <Button
           variant="text"
           onClick={() => onClose()}
@@ -60,6 +61,15 @@ const ModalJams: React.FC<{
               </p>
             </div>
           ))}
+          {!query?.data?.items?.length && (
+            <div className="w-full flex justify-center items-center flex-col gap-2">
+              <img
+                src={imgEmpty}
+                className="h-64 pointer-events-none select-none"
+              />
+              <p className="text-placeholder text-2xl">{t("errors.nodata")}</p>
+            </div>
+          )}
         </div>
       </Spin>
     </div>

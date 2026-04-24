@@ -50,24 +50,22 @@ const Jams: React.FC = () => {
 	for (let i = 0; i < start_day; i++)
 		calendar_days.push(null);
 	for (let i = 0; i < days; i++) {
+		const date = dayjs(date_from).set("day", i + start_day + 1);
 		const jams = query?.data?.items?.filter((jam) => {
-			const date = dayjs(date_from).add(i + 1, "day");
-			const isValid = dayjs(date).isBetween(jam.date_started, jam.date_finished) || 
-						dayjs(date).isSame(jam.date_started) ||
-						dayjs(date).isSame(jam.date_finished);
+			const current_date = dayjs(date?.format("YYYY-MM-DD"));
+			const date_start = dayjs(jam?.date_started)?.format("YYYY-MM-DD");
+			const date_end = dayjs(jam?.date_finished)?.format("YYYY-MM-DD");
+
+			const isValid = current_date.isBetween(date_start, date_end) || 
+						current_date.isSame(date_start) ||
+						current_date.isSame(date_end);
 
 			return isValid;
 		});
 		calendar_days.push({
-			day: i + 1,
 			jams,
-			date: dayjs(dayjs(date_from).set("day", i + 1)).format(
-				"YYYY-MM-DD",
-			),
-			isCurrent:
-				dayjs(dayjs(date_from).set("day", i + 1)).format(
-					"YYYY-MM-DD",
-				) == dayjs().format("YYYY-MM-DD"),
+			date: date.format("YYYY-MM-DD"),
+			isCurrent: date.isSame(dayjs())
 		});
 	}
 
@@ -80,7 +78,7 @@ const Jams: React.FC = () => {
 					if (jam_id)
 						navigator(paths.jams.details(jam_id));
 				}}
-				date={dayjs(date)?.toISOString()}	
+				date={date}	
 			/>
 		)
 	);
@@ -136,9 +134,9 @@ const Jams: React.FC = () => {
 								className={`transition-colors cursor-pointer rounded-xl w-full aspect-square text-default flex flex-col items-stretch hover:bg-br/80 ${(node.isCurrent && "bg-br/40") || "bg-back"}`}
 								onClick={() => handleDayDetails(node.date)}
 							>
-								<p className="px-4 py-2">{node.day}</p>
+								<p className="px-4 py-2">{dayjs(node.date)?.format("DD")}</p>
 								<div className="flex flex-col gap-1">
-									{node?.jams?.slice(0, 3)?.map((jam, i) => (
+									{node?.jams?.slice(0, 2)?.map((jam, i) => (
 										<div
 											className={`w-full h-6 bg-primary flex justify-center items-center nth-[2n]:bg-second`}
 										>
@@ -155,9 +153,9 @@ const Jams: React.FC = () => {
 											</p>
 										</div>
 									))}
-									{node?.jams?.length > 3 && (
+									{node?.jams?.length > 2 && (
 										<div className="w-full h-6 bg-second flex justify-center items-center">
-											<p>+{node?.jams?.length - 3}</p>
+											<p>+{node?.jams?.length - 2}</p>
 										</div>
 									)}
 								</div>
