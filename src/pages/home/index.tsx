@@ -83,7 +83,7 @@ export default function Home() {
 		<FormProvider {...methods}>
 			<div className="flex flex-col gap-4">
 				<div className="w-full flex justify-center flex-col items-center gap-2 z-0">
-					<div className="w-[40%] max-md:w-full flex justify-center items-center relative -z-2">
+					<div className="w-[40%] max-md:w-full flex justify-center items-center relative -z-2 overflow-hidden">
 						<img src={imgLabel} className="w-full p-8 z-1 pointer-events-none" />
 						<div className="absolute -top-10 left-6.25 z-2 pointer-events-none">
 							<BackgroundScene
