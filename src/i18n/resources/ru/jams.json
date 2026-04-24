@@ -4,16 +4,41 @@
 		"edit": "Редактирование {{title}}"
 	},
 	"labels": {
-		"icon": "Upload icon",
-		"title": "Title",
-		"theme": "Theme",
-		"description": "Description",
-		"nominations": "Nominations (Enter or , to add nomination)"
+		"icon": "Загрузите .png",
+		"title": "Название",
+		"theme": "Тема",
+		"games": "Игры джема",
+		"description": "Описание",
+		"nominations": "Номинации",
+		"judges": "Судьи",
+		"date_range": "Дата нач./оконч.",
+		"vote_range": "Дата голосования",
+		"vote_started": "Начало голосования",
+		"status": "Статус",
+		"author": "Автор",
+		"vote_type": {
+			"title": "Тип голосования",
+			"all": "Все",
+			"judges": "Только судьи",
+			"members": "Только участники"
+		},
+		"voting": "Проголосуйте за номинации"
+	},
+	"statuses": {
+		"init": "Создан",
+		"in_process": "В процессе",
+		"voting": "Голосование",
+		"finished": "Завершен"
 	},
 	"placeholders": {
-		"title": "Input title...",
-		"theme": "Input theme...",
-		"description": "About jam...",
-		"nominations": "Nominations (Enter or , to add nomination)"
+		"title": "Введите название...",
+		"theme": "Введите тему...",
+		"description": "Расскажите о джеме...",
+		"nominations": "Пример: Графика (Enter или , для добавления)",
+		"judges": "username (Enter или , для добавления)"
+	},
+	"no_theme": "Секрет",
+	"warnings": {
+		"delete": "Вы действительно хотите удалить джем?"
 	}
 }
