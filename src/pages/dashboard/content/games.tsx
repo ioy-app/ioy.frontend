@@ -197,6 +197,10 @@ const Games: React.FC = () => {
 						title: t("dashboard.table.games.saves"),
 						dataIndex: "saves",
 					},
+					{
+						title: t("dashboard.table.games.comments"),
+						dataIndex: "comments",
+					}
 				]}
 				data={query?.data?.items}
 				loading={query?.isPending}
