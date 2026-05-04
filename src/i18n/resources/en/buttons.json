@@ -20,7 +20,9 @@
 	"nav": {
 		"feed": "Feed",
 		"games": "Games",
-		"jams": "Jams"
+		"jams": "Jams",
+		"pictures": "Pictures",
+		"search": "Search"
 	},
 	"play": "To gamepage",
 	"change_email": "Change email",

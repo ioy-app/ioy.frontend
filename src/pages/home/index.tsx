@@ -9,7 +9,7 @@ import { BackgroundScene } from "./pages/about";
 import Games from "../games";
 import Feed from "./pages/feed";
 import Jams from "../jams";
-import { BiBox, BiChevronsLeft, BiSearch } from "react-icons/bi";
+import { BiBox, BiCalendar, BiChevronsLeft, BiComment, BiImage, BiPlay, BiPlayCircle, BiSearch } from "react-icons/bi";
 import { search } from "@/api/routes/search";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -80,77 +80,83 @@ export default function Home() {
 	});
 
 	return (
+		<div className="flex flex-col gap-4 w-full">
+			<div className="flex w-fit h-40">
+				<img src={imgLabel} className="w-full h-full p-8 z-1 pointer-events-none select-none" />
+			</div>
+			<div className="w-full flex gap-4 flex-1 h-full">
+				<nav className="sticky top-16 left-0 border border-br rounded-2xl h-fit px-4 py-2 bg-back">
+					<ul className="flex flex-col gap-4 w-full overflow-hidden">
+						<li>
+							<NavLink to="/search">
+								{({ isActive }) => (
+									<Button
+										variant="clear"
+										className={isActive ? "text-primary" : "text-text"}
+									>
+										<BiSearch className="max-md:text-2xl" />
+										<span className="max-md:hidden">{t("buttons.nav.search")}</span>
+									</Button>
+								)}
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="/">
+								{({ isActive }) => (
+									<Button
+										variant="clear"
+										className={isActive ? "text-primary" : "text-text"}
+									>
+										<BiPlay className="max-md:text-2xl" />
+										<span className="max-md:hidden">{t("buttons.nav.games")}</span>
+									</Button>
+								)}
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="/jams">
+								{({ isActive }) => (
+									<Button
+										variant="clear"
+										className={isActive ? "text-primary" : "text-text"}
+									>
+										<BiCalendar className="max-md:text-2xl" />
+										<span className="max-md:hidden">{t("buttons.nav.jams")}</span>
+									</Button>
+								)}
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="/feed">
+								{({ isActive }) => (
+									<Button
+										variant="clear"
+										className={isActive ? "text-primary" : "text-text"}
+									>
+										<BiComment className="max-md:text-2xl" />
+										<span className="max-md:hidden">{t("buttons.nav.feed")}</span>
+									</Button>
+								)}
+							</NavLink>
+						</li>
+					</ul>
+				</nav>
+				<div className="col-span-12 flex flex-col gap-4 flex-1 h-full w-full">
+					<Outlet />
+				</div>
+			</div>
+		</div>
+	);
+
+	return (
 		<FormProvider {...methods}>
 			<div className="flex flex-col gap-4">
-				<div className="w-full flex justify-center flex-col items-center gap-2 z-0">
-					<div className="w-[40%] max-md:w-full flex justify-center items-center relative -z-2 overflow-hidden">
-						<img src={imgLabel} className="w-full p-8 z-1 pointer-events-none" />
-						<div className="absolute -top-10 left-6.25 z-2 pointer-events-none">
-							<BackgroundScene
-								key="title-rocket"
-								model={"/resources/gltf/rocket.gltf"}
-								rotateY={3.1}
-								rotateZ={-1}
-								speedY={.5}
-								speedZ={.1}
-								scale={1}
-							/>
-						</div>
-						<div className="absolute -bottom-20 -right-8.25 z-0">
-							<BackgroundScene
-								key="title-ufo"
-								model={"/resources/gltf/ufo.gltf"}
-								rotateY={3.1}
-								rotateZ={-1}
-								speedY={-.5}
-								speedZ={.1}
-								scale={1}
-							/>
-						</div>
-						<div className="absolute -top-10 right-15.25 z-0">
-							<BackgroundScene
-								key="title-computer"
-								model={"/resources/gltf/computer.gltf"}
-								rotateY={3.1}
-								rotateZ={-1}
-								speedY={-.5}
-								speedZ={.1}
-								scale={.25}
-							/>
-						</div>
+				<div className="w-full flex justify-start flex-col items-start gap-2 z-0">
+					<div className="w-md max-md:w-full flex justify-center items-center relative -z-2 overflow-hidden">
+						<img src={imgLabel} className="w-full p-8 z-1 pointer-events-none select-none" />
 					</div>
 				</div>
 				<div className="w-full flex flex-col items-center gap-4 z-2">
-					<form
-						className="w-4xl max-xl:w-full flex gap-4 items-end"
-						onSubmit={methods.handleSubmit(submit)}	
-					>
-						<div className="flex flex-col gap-4 items-center w-full">
-							{isSearch && (
-								<div className="w-4xl max-xl:w-full">
-									<NavLink to="/" className="flex w-fit">
-										<Button
-											variant="text"
-											htmlType="button"
-										>
-											<BiChevronsLeft />
-											{t("buttons.back")}
-										</Button>
-									</NavLink>
-								</div>
-							)}
-							<Input
-								placeholder={t(
-									"home.search.placeholders.search",
-								)}
-								type="search"
-								{...methods.register("search")}
-							/>
-						</div>
-						<Button variant="primary" htmlType="submit">
-							<BiSearch />
-						</Button>
-					</form>
 					{isSearch ? (
 						<Table
 							columns={[
@@ -240,10 +246,43 @@ export default function Home() {
 					) : (
 						<div className="grid grid-cols-5 gap-4 w-full max-md:flex max-md:flex-col-reverse">
 							<div className="flex flex-col gap-4 col-span-2">
-								<p className="text-xl text-text">{t("buttons.nav.feed")}</p>
+								<p className="text-xl text-text flex items-center gap-2">
+									<BiComment />
+									{t("buttons.nav.feed")}
+								</p>
 								<Feed />
 							</div>
 							<div className="flex flex-col gap-4 col-span-3">
+								<form
+									className="w-4xl max-xl:w-full flex gap-4 items-end"
+									onSubmit={methods.handleSubmit(submit)}	
+								>
+									<div className="flex flex-col gap-4 items-center w-full">
+										{isSearch && (
+											<div className="w-4xl max-xl:w-full">
+												<NavLink to="/" className="flex w-fit">
+													<Button
+														variant="text"
+														htmlType="button"
+													>
+														<BiChevronsLeft />
+														{t("buttons.back")}
+													</Button>
+												</NavLink>
+											</div>
+										)}
+										<Input
+											placeholder={t(
+												"home.search.placeholders.search",
+											)}
+											type="search"
+											{...methods.register("search")}
+										/>
+									</div>
+									<Button variant="primary" htmlType="submit">
+										<BiSearch />
+									</Button>
+								</form>
 								<p className="text-xl text-text">{t("buttons.nav.games")}</p>
 								<Games />
 								<p className="text-xl text-text">{t("buttons.nav.jams")}</p>

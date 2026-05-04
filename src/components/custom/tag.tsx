@@ -57,7 +57,7 @@ const Tag: React.FC<{
 		return root;
 
 	return (
-		<NavLink to={`${paths.search}?search=${title}`}>
+		<NavLink to={`${paths.search}?query=${title}`}>
 			{root}
 		</NavLink>
 	);
