@@ -9,6 +9,7 @@ import ErrorPage from "./error";
 import About from "./home/pages/about";
 import Verify from "./verify";
 import Feed from "./home/pages/feed";
+import Search from "./home/pages/search";
 
 import Auth, {
 	Login as AuthLogin,
@@ -30,5 +31,6 @@ export {
 	UserContent,
 	About,
 	Verify,
-	Feed
+	Feed,
+	Search
 };
