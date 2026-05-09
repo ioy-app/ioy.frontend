@@ -26,7 +26,8 @@
 		"tags": "game (Enter or , to add tag)",
 		"authors": "username (Enter or , to add tag)",
 		"comment": "Send to...",
-		"order": "Order"
+		"order": "Order",
+		"is_background": "Allow fun arts on game player"
 	},
 	"errors": {
 		"exists": "No found",
