@@ -7,7 +7,7 @@ import {
 	comments_list,
 	comments_reply,
 } from "@/api/routes/comments";
-import { Button, Select, Spin } from "@/components";
+import { Button, Select, Spin, ViewModel } from "@/components";
 import Comment from "@/components/content/comment";
 import CommentForm from "@/components/content/comment/form";
 import CommentProps from "@/types/comment";
@@ -23,7 +23,6 @@ import { BiComment, BiDownArrowAlt } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { BackgroundScene } from "@/pages/home/pages/about";
 
 const Comments: React.FC = () => {
 	const params = useParams();
@@ -333,10 +332,11 @@ const Comments: React.FC = () => {
 				<div className="flex flex-col gap-4 w-full mb-8">
 					{!comments?.length && (
 						<div className="flex flex-col justify-center items-center py-4 gap-2 text-xl text-text/35">
-							<BackgroundScene
-								model={"/resources/gltf/computer.gltf"}
-								speedY={-.5}
-								speedX={.2}
+							<ViewModel
+								name="computer-comments"
+								href="/resources/gltf/computer.gltf"
+								spdX={.2}
+								spdY={-.5}
 							/>
 							<p>{t("games.comments.empty")}</p>
 						</div>

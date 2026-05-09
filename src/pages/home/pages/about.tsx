@@ -4,6 +4,7 @@ import { SiBluesky } from "react-icons/si";
 import { NavLink } from "react-router";
 import imgLabel from "@/icons/label.svg";
 import imgEmpty from "@/icons/empty.svg";
+import { Meta, ViewModel } from "@/components";
 
 /**
  * About page
@@ -27,10 +28,11 @@ export default function About({}) {
 					</div>
 				</div>
 				<div className="flex justify-center w-full">
-					<BackgroundScene
-						model={"/resources/gltf/ufo.gltf"}
-						speedY={.2}
-						scale={3.5}
+					<ViewModel
+						name="ufo-about"
+						href="/resources/gltf/ufo.gltf"
+						spdY={.2}
+						scale={1.75}
 					/>
 				</div>
 				<div className="p-4 w-full text-primary">
@@ -51,118 +53,18 @@ export default function About({}) {
 				</div>
 				<div className="flex justify-center w-full relative">
 					<div className="absolute right-[30%] top-[10%]">
-						<BackgroundScene
-							model={"/resources/gltf/computer.gltf"}
-							speedY={-.5}
-							speedX={.2}
+						<ViewModel
+							name="computer-about"
+							href="/resources/gltf/computer.gltf"
+							spdX={.2}
+							spdY={-.5}
 						/>
 					</div>
 					<div className="w-[40%] max-md:w-full flex justify-center items-center">
 						<img src={imgEmpty} className="w-full p-8" />
 					</div>
 				</div>
-				
 			</div>
 		</div>
 	);
 }
-
-
-import React, { useEffect, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, Environment, ContactShadows } from '@react-three/drei';
-import * as THREE from 'three';
-import { Meta } from "@/components";
-
-type ModelProps = {
-  position?: [number, number, number];
-  scale?: number;
-  url: string;
-  // Разделяем скорости для независимого контроля осей
-  rotationSpeedX?: number;
-  rotationSpeedY?: number;
-};
-
-const RotatingModel: React.FC<ModelProps> = ({ 
-  position = [0, 0, 0], 
-  scale = 1,
-  url,
-  rotationSpeedX = 0,
-  rotationSpeedY = 0,
-	rotationSpeedZ = 0,
-	rotateX=0,
-	rotateY=0,
-	rotateZ=0
-}) => {
-  const meshRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF(url);
-
-	useEffect(() => {
-		if (!meshRef)
-			return;
-
-		meshRef.current.rotation.x = rotateX;
-		meshRef.current.rotation.y = rotateY;
-		meshRef.current.rotation.z = rotateZ;
-	}, [ meshRef, rotateX, rotateY, rotateZ ]);
-
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      // Вращение по оси X (наклон вперед/назад)
-      if (rotationSpeedX !== 0) {
-        meshRef.current.rotation.x += rotationSpeedX * delta;
-      }
-      // Вращение по оси Y (вокруг своей оси)
-      if (rotationSpeedY !== 0) {
-        meshRef.current.rotation.y += rotationSpeedY * delta;
-      }
-
-			if (rotationSpeedZ !== 0) {
-        meshRef.current.rotation.z += rotationSpeedZ * delta;
-      }
-    }
-  });
-
-  return (
-    <group ref={meshRef} position={position} scale={scale}>
-      <primitive object={scene} />
-    </group>
-  );
-};
-
-export const BackgroundScene: React.FC = ({
-	model,
-	speedX,
-	speedY,
-	speedZ,
-	scale=2.5,
-	rotateX=0,
-	rotateY=0,
-	rotateZ=0
-}) => {
-  return (
-    <div className="inset-0 h-50 aspect-square pointer-events-none overflow-hidden">
-      <Canvas
-        camera={{ position: [0, 0, 5], fov: 50 }}
-        dpr={[1, 2]}
-        gl={{ antialias: false }}
-      >
-        <Environment preset="city" />
-        <RotatingModel 
-          url={model}
-          position={[0, 0, scale]} 
-          rotationSpeedX={speedX}
-					rotationSpeedY={speedY}
-					rotationSpeedZ={speedZ}
-					rotateX={rotateX}
-					rotateY={rotateY}
-					rotateZ={rotateZ}
-        />
-        <ContactShadows resolution={800} scale={1} blur={2} opacity={0.5} far={10} color="#000000" />
-      </Canvas>
-    </div>
-  );
-};
-
-useGLTF.preload('/resources/gltf/computer.gltf');
-useGLTF.preload('/resources/gltf/ufo.gltf');
