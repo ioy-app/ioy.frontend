@@ -2,7 +2,7 @@ import { Logo } from "@/icons";
 
 const Spin: React.FC<{
 	/** Content */
-	children: React.ReactNode;
+	children?: React.ReactNode;
 	/** Loading state */
 	loading?: boolean;
 }> = ({

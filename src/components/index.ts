@@ -24,6 +24,7 @@ import Meta from "./custom/meta";
 import DatePicker from "./base/datePicker";
 import Vote from "./custom/vote";
 import Post from "./custom/post";
+import ViewModel from "./custom/viewModel";
 
 export {
 	Header,
@@ -51,5 +52,6 @@ export {
 	DatePicker,
 	Jam,
 	Vote,
-	Post
+	Post,
+	ViewModel
 };
