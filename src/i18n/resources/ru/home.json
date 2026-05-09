@@ -1,5 +1,6 @@
 {
 	"title": "ioy.app",
+	"welcome": "Привет",
 	"search": {
 		"placeholders": {
 			"search": "Поиск..."
