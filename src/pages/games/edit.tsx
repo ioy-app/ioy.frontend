@@ -303,9 +303,6 @@ export default function Edit() {
 								name="tags"
 								placeholder={t("games.placeholders.tags")}
 								label={t("games.labels.tags")}
-								onChange={({ target: { value } }) => {
-									console.log(value);
-								}}
 								onKeyPress={(e) => {
 									if (e.key == "Enter" || e.key == ",") {
 										if (e.target.value.trim()) {
@@ -329,8 +326,9 @@ export default function Edit() {
 												),
 											);
 										}}
+										key={i}
 									>
-										<Tag title={tag} key={i} />
+										<Tag title={tag} />
 										<BiX className="text-2xl" />
 									</span>
 								))}
