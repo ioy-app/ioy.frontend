@@ -87,13 +87,13 @@ const Table: React.FC<{
 																row[col],
 																row,
 																i,
-															) || "–"}
+															) ?? "–"}
 														</td>
 													);
 
 												return (
 													<td key={j}>
-														<div>{row[col] || "–"}</div>
+														<div>{row[col] ?? "–"}</div>
 													</td>
 												);
 											})}

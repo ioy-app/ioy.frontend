@@ -1,8 +1,12 @@
 import confOrder from "@/configs/order.json";
 
 import {
+	BiBookmark,
 	BiBox,
+	BiComment,
 	BiEditAlt,
+	BiHeart,
+	BiLike,
 	BiPlus,
 	BiSearch,
 	BiSearchAlt,
@@ -190,15 +194,15 @@ const Games: React.FC = () => {
 							dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 					{
-						title: t("dashboard.table.games.likes"),
+						title: <BiHeart />,
 						dataIndex: "likes",
 					},
 					{
-						title: t("dashboard.table.games.saves"),
+						title: <BiBookmark />,
 						dataIndex: "saves",
 					},
 					{
-						title: t("dashboard.table.games.comments"),
+						title: <BiComment />,
 						dataIndex: "comments",
 					}
 				]}
