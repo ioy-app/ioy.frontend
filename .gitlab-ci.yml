@@ -40,7 +40,7 @@ Building:
     - |
       #!/bin/bash
       cp $APP_ENV .env
-      npm i
+      pnpm i
       npm run build
       docker image prune -f
       docker build -t frontend .
