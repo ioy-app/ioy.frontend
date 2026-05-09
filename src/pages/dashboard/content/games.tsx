@@ -198,10 +198,6 @@ const Games: React.FC = () => {
 						dataIndex: "likes",
 					},
 					{
-						title: <BiBookmark />,
-						dataIndex: "saves",
-					},
-					{
 						title: <BiComment />,
 						dataIndex: "comments",
 					}

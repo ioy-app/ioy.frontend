@@ -404,49 +404,6 @@ export default function Profile() {
 								}}
 							/>
 						)}
-						{data?.privacy?.favorites && (
-							<Block
-								title={t("profile.titles.favorites")}
-								id="favorites"
-								request={async (
-									page: number,
-									count: number,
-								) => {
-									const search = new URLSearchParams();
-									search.set(
-										"offset",
-										String((page - 1) * count),
-									);
-									search.set("limit", String(count));
-
-									const games = await users_favorites(
-										login,
-										search,
-									);
-
-									return {
-										items: games.items.map((item) => ({
-											dataSource: item,
-										})),
-										total: games.total,
-									};
-								}}
-								Component={Game}
-								onOpen={() => {
-									modal("", (onClose) => (
-										<UserContent
-											onClose={(path) => {
-												navigator(path);
-												onClose && onClose();
-											}}
-											id="favorites"
-											login={login}
-											fn={users_favorites}
-										/>
-									));
-								}}
-							/>
-						)}
 						{data?.privacy?.likes && (
 							<Block
 								title={t("profile.titles.likes")}

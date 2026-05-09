@@ -12,10 +12,6 @@
 		"value": "following"
 	},
 	{
-		"label": "dashboard.tabs.saves",
-		"value": "saves"
-	},
-	{
 		"label": "dashboard.tabs.likes",
 		"value": "likes"
 	},
