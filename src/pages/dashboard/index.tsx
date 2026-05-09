@@ -15,7 +15,6 @@ import { paths } from "@/routes";
 import Jams from "./content/jams";
 import { FEATURE_JAMS } from "@/features";
 import Following from "./content/following";
-import Saves from "./content/saves";
 import Likes from "./content/likes";
 import Reports from "./content/reports";
 
@@ -60,7 +59,6 @@ export default function Dashboard() {
 					games: <Games />,
 					jams: <Jams />,
 					following: <Following />,
-					saves: <Saves />,
 					likes: <Likes />,
 					reports: <Reports />,
 				}}

@@ -99,36 +99,6 @@ export default function GamePage() {
 		},
 	});
 
-	const subscribe = useMutation({
-		mutationFn: async () => {
-			if (!token) {
-				modal(Auth, () => <></>);
-				return false;
-			}
-
-			const response = await games_subscribe(Number(id));
-			return response;
-		},
-		onError: (err) => notify(t(err?.message?.toString()), "error"),
-		onSuccess: (data) => {
-			if (!data) return;
-			const is_subscribe = data?.status == "created";
-			notify(
-				t(
-					`notify.${is_subscribe ? "subscribe" : "unsubscribe"}`,
-				),
-				is_subscribe ? "success" : "warning",
-			);
-			queryClient.setQueryData(
-				["games", id],
-				(current: GameProps) => ({
-					...current,
-					is_subscribe,
-				}),
-			);
-		},
-	});
-
 	const repost = () => {
 		const url = window.location.href;
 		modal(
@@ -262,27 +232,6 @@ export default function GamePage() {
 										loading={like.isPending}
 									>
 										<BiHeart />
-									</Button>
-								</Popup>
-								<Popup
-									align="b"
-									label={t(
-										query?.data?.is_subscribe
-											? "helps.unsubscribe"
-											: "helps.subscribe",
-									)}
-								>
-									<Button
-										variant={
-											(query?.data?.is_subscribe &&
-												"second") ||
-											"default"
-										}
-										onClick={() => subscribe.mutate()}
-										disabled={subscribe.isPending}
-										loading={subscribe.isPending}
-									>
-										<BiBookmark />
 									</Button>
 								</Popup>
 								<Popup align="b" label={t("helps.share")}>
