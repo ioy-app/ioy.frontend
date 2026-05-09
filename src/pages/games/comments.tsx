@@ -23,6 +23,7 @@ import { BiComment, BiDownArrowAlt } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Comments: React.FC = () => {
 	const params = useParams();
@@ -328,9 +329,14 @@ const Comments: React.FC = () => {
 					onOk={(comment) => create.mutate({ comment })}
 				/>
 			)}
-			<Spin loading={query.status == "pending"}>
-				<div className="flex flex-col gap-4 w-full mb-8">
-					{!comments?.length && (
+			<Spin loading={query?.isPending}>
+				<InfiniteScroll
+					className="w-full gap-4 flex flex-col"
+					dataLength={comments?.length}
+					next={() => query.fetchNextPage()}
+					hasMore={query.hasNextPage}
+					loader={(<Spin loading/>)}
+					endMessage={(
 						<div className="flex flex-col justify-center items-center py-4 gap-2 text-xl text-text/35">
 							<ViewModel
 								name="computer-comments"
@@ -341,6 +347,7 @@ const Comments: React.FC = () => {
 							<p>{t("games.comments.empty")}</p>
 						</div>
 					)}
+				>
 					{comments?.map((comment, i) => (
 						<Comment
 							{...comment}
@@ -391,17 +398,7 @@ const Comments: React.FC = () => {
 							disabled={loadNext.isPending}
 						/>
 					))}
-					{query.hasNextPage && (
-						<Button
-							variant="primary"
-							onClick={() => query.fetchNextPage()}
-							disabled={query.isFetchingNextPage}
-							loading={query.isFetchingNextPage}
-						>
-							<BiDownArrowAlt />
-						</Button>
-					)}
-				</div>
+				</InfiniteScroll>
 			</Spin>
 		</div>
 	);
