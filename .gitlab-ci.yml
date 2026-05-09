@@ -41,6 +41,7 @@ Building:
       #!/bin/bash
       cp $APP_ENV .env
       pnpm i
+      pnpm i i18next
       npm run build
       docker image prune -f
       docker build -t frontend .
