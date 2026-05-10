@@ -85,9 +85,9 @@ export default function Home() {
 				<img src={imgLabel} className="w-full h-full z-1 pointer-events-none select-none" />
 			</div>
 			{login && <p className="text-default">{t("home.welcome")}, <span className="text-primary">{login}!</span></p>}
-			<div className="w-full flex gap-4 flex-1 h-full">
-				<nav className="sticky top-16 left-0 border border-br rounded-2xl h-fit px-4 py-2 bg-back">
-					<ul className="flex flex-col gap-4 w-full overflow-hidden">
+			<div className="w-full flex gap-4 flex-1 h-full max-md:flex-col">
+				<nav className="md:sticky top-16 left-0 border border-br rounded-2xl h-fit px-4 py-2 bg-back">
+					<ul className="flex flex-col max-md:flex-row max-md:justify-center gap-4 w-full overflow-hidden">
 						<li>
 							<NavLink to="/search">
 								{({ isActive }) => (
