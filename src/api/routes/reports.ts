@@ -2,7 +2,7 @@ import Routes, { apiInstance } from ".";
 
 export const add_report = (
 	target_id: number,
-	type: "jam" | "game" | "user" | "comment",
+	type: "jam" | "game" | "user" | "comment" | "picture",
 	message: string,
 ) =>
 	apiInstance.post(Routes.reports.list, {

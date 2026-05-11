@@ -19,13 +19,16 @@ import {
 	useQueryClient,
 } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { BiComment, BiDownArrowAlt } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Comments: React.FC = () => {
+const Comments: React.FC<{
+	type: "game" | "picture"
+}> = ({
+	type="game"
+}) => {
 	const params = useParams();
 	const id = params?.id;
 	const { t } = useTranslation();
@@ -38,7 +41,7 @@ const Comments: React.FC = () => {
 	);
 
 	const query = useInfiniteQuery({
-		queryKey: ["comments", id, order],
+		queryKey: [ "comments", type, id, order ],
 		initialPageParam: 0,
 		queryFn: async ({ pageParam }) => {
 			const response = await comments_list(
@@ -46,6 +49,7 @@ const Comments: React.FC = () => {
 				pageParam,
 				undefined,
 				order,
+				type
 			);
 			return response;
 		},
@@ -67,7 +71,7 @@ const Comments: React.FC = () => {
 		onSuccess: (data, params) => {
 			const is_like = data?.status == "liked";
 			queryClient.setQueryData(
-				["comments", id, order],
+				["comments", type, id, order],
 				({ pages, pageParams }) => {
 					const recursiveFind = (
 						obj: CommentProps,
@@ -126,7 +130,7 @@ const Comments: React.FC = () => {
 				is_deleted ? "success" : "warning",
 			);
 			queryClient.setQueryData(
-				["comments", id, order],
+				["comments", type, id, order],
 				({ pages, pageParams }) => {
 					const recursiveFind = (
 						obj: CommentProps,
@@ -175,6 +179,7 @@ const Comments: React.FC = () => {
 				response = await comments_create(
 					Number(id),
 					props.comment,
+					type
 				);
 			else
 				response = await comments_reply(
@@ -197,7 +202,7 @@ const Comments: React.FC = () => {
 				is_me: true,
 			};
 			queryClient.setQueryData(
-				["comments", id, order],
+				["comments", type, id, order],
 				({ pages, pageParams }) => {
 					const recursiveFind = (
 						obj: CommentProps,
@@ -257,7 +262,7 @@ const Comments: React.FC = () => {
 		onError: (err) => notify(t(err.toString()), "error"),
 		onSuccess: (data, params) => {
 			queryClient.setQueryData(
-				["comments", id, order],
+				["comments", type, id, order],
 				({ pages, pageParams }) => {
 					const recursiveFind = (
 						obj: CommentProps,

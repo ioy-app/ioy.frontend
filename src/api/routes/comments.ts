@@ -6,12 +6,14 @@ export const comments_list = (
 	offset: number = 0,
 	limit: number = 5,
 	sort: "new" | "old" = "new",
+	type: "picture" | "game"
 ) =>
 	apiInstance.get(Routes.comments.details(id), {
 		params: {
 			offset,
 			limit,
 			sort,
+			type
 		},
 	});
 
@@ -33,8 +35,12 @@ export const comments_like = (id: number) =>
 export const comments_create = (
 	id: number,
 	comment: string,
+	type: "picture" | "game"
 ) =>
-	apiInstance.post(Routes.comments.create(id), { comment });
+	apiInstance.post(Routes.comments.create(id), {
+		comment,
+		type
+	});
 export const comments_delete = (
 	id: number,
 	commentid: number,

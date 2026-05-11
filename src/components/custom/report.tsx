@@ -13,7 +13,7 @@ import { useState } from "react";
  */
 const Report: React.FC<{
 	target_id: number;
-	type: "game" | "user" | "jam" | "comment";
+	type: "game" | "user" | "jam" | "comment" | "picture";
 	Instance: React.ReactNode;
 	onClose: () => void;
 }> = ({ target_id, type, Instance, onClose }) => {

@@ -25,6 +25,8 @@ import DatePicker from "./base/datePicker";
 import Vote from "./custom/vote";
 import Post from "./custom/post";
 import ViewModel from "./custom/viewModel";
+import Picture from "./content/picture";
+import MasonryTable from "./custom/masonryTable";
 
 export {
 	Header,
@@ -53,5 +55,7 @@ export {
 	Jam,
 	Vote,
 	Post,
-	ViewModel
+	ViewModel,
+	Picture,
+	MasonryTable
 };
