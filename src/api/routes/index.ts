@@ -147,6 +147,13 @@ const Routes = {
 	},
 	feed: {
 		global: "/feed/global"
+	},
+	pictures: {
+		list: "/pictures",
+		details: (id: number) => `/pictures/${id}`,
+		like: (id: number) => `/pictures/${id}/like`,
+		image: (id: number) => `/pictures/${id}/image`,
+		votes: (id: number) => `/pictures/${id}/my-votes`
 	}
 };
 

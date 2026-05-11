@@ -115,6 +115,19 @@ export default function Home() {
 							</NavLink>
 						</li>
 						<li>
+							<NavLink to="/pictures">
+								{({ isActive }) => (
+									<Button
+										variant="clear"
+										className={isActive ? "text-primary" : "text-text"}
+									>
+										<BiImage className="max-md:text-2xl" />
+										<span className="max-md:hidden">{t("buttons.nav.pictures")}</span>
+									</Button>
+								)}
+							</NavLink>
+						</li>
+						<li>
 							<NavLink to="/jams">
 								{({ isActive }) => (
 									<Button
