@@ -42,9 +42,7 @@ const Picture: React.FC<{
 	const root = (
 		<div
 			className={`group flex flex-col items-center gap-1 max-w-${size}`}
-			onClick={() =>
-				onClick && nolink && onClick(dataSource?.id)
-			}
+			onClick={() => onClick && onClick(dataSource?.id)}
 		>
 			<div
 				className={`relative w-full h-fit ${(!nolink && "transition-colors") || ""}`}

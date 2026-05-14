@@ -19,6 +19,15 @@ export const users_games = (
 			((us && `?${us.toString()}`) || ""),
 	);
 
+export const users_pictures = (
+	login: string,
+	us?: URLSearchParams,
+) =>
+	apiInstance.get(
+		Routes.users.pictures(login) +
+			((us && `?${us.toString()}`) || ""),
+	);
+
 export const users_likes = (
 	login: string,
 	us?: URLSearchParams,

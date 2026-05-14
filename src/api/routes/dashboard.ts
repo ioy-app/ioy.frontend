@@ -11,3 +11,10 @@ export const dashboard_jams = (query?: URLSearchParams) =>
 		Routes.dashboard.jams +
 		((query && `?${query.toString()}`) || "")
 	);
+
+
+export const dashboard_pictures = (query?: URLSearchParams) =>
+	apiInstance.post(
+		Routes.dashboard.pictures +
+		((query && `?${query.toString()}`) || "")
+	);

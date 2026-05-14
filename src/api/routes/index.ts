@@ -94,6 +94,7 @@ const Routes = {
 		subscribe: (login: string) =>
 			`/users/${login}/subscribe`,
 		games: (login: string) => `/users/${login}/games`,
+		pictures: (login: string) => `/users/${login}/pictures`,
 		jams: (login: string) => `/users/${login}/jams`,
 		avatar: (login: string) => `/users/${login}/avatar`,
 		subscribers: (login: string) =>
@@ -121,7 +122,8 @@ const Routes = {
 	},
 	dashboard: {
 		games: `/games/my`,
-		jams: `/jams/my`
+		jams: `/jams/my`,
+		pictures: `/pictures/my`
 	},
 	comments: {
 		details: (id: number) => `/comments/${id}`,

@@ -5,7 +5,8 @@
 		"following": "Подписки",
 		"saves": "Сохраненные",
 		"likes": "Понравилось",
-		"reports": "Жалобы"
+		"reports": "Жалобы",
+		"pictures": "Картинки"
 	},
 	"statuses": {
 		"all": "Все",
@@ -19,6 +20,9 @@
 			"search": "Поиск..."
 		},
 		"jams": {
+			"search": "Поиск..."
+		},
+		"pictures": {
 			"search": "Поиск..."
 		}
 	},
@@ -56,6 +60,12 @@
 			"answer": "Ответ",
 			"date_created": "Дата созд.",
 			"date_answered": "Дата ответа"
+		},
+		"pictures": {
+			"picture": "Картинка",
+			"status": "Статус",
+			"date_created": "Дата созд.",
+			"date_updated": "Дата ред."
 		}
 	}
 }

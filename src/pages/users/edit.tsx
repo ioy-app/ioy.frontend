@@ -215,6 +215,10 @@ const Edit: React.FC<{
 							placeholder={t("profile.labels.privacy.likes")}
 							{...register("privacy.likes")}
 						/>
+						<Checkbox
+							placeholder={t("profile.labels.privacy.pictures")}
+							{...register("privacy.pictures")}
+						/>
 					</div>
 					<div className="flex flex-col gap-4 w-full mt-8">
 						<p className="text-default">

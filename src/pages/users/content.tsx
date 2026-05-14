@@ -3,7 +3,9 @@ import confOrder from "@/configs/order.json";
 import {
 	Button,
 	Game,
+	MasonryTable,
 	Pagination,
+	Picture,
 	Select,
 	Spin,
 	User,
@@ -94,46 +96,67 @@ export default function UserContent({
 			</div>
 			<div className="flex flex-col gap-8 flex-1">
 				<Spin loading={query.status == "pending"}>
-					<div className="grid grid-cols-5 max-lg::grid-cols-4 max-md:grid-cols-3 gap-4 w-full h-fit">
-						{query?.data?.items?.map(
-							(item: GameProps | UserProps, i: number) => {
-								switch (id) {
-									case "subscribers":
-										return (
-											<div>
-												<User
-													login={(item as UserProps).login}
-													nolink
-													size="full"
-													onClick={(_login) =>
-														onClose &&
-														onClose(
-															paths.users.details(_login),
-														)
-													}
-												/>
-											</div>
-										);
-										break;
-									default:
-										return (
-											<div>
-												<Game
-													dataSource={item as GameProps}
+					{id == "pictures" ? (
+						<MasonryTable
+							pictures={query?.data?.items}
+							nolink
+							onClick={(id: number) => onClose && onClose(paths.pictures.details(id))}
+						/>
+					) : (
+						<div className="grid grid-cols-5 max-lg::grid-cols-4 max-md:grid-cols-3 gap-4 w-full h-fit">
+							{query?.data?.items?.map(
+								(item: GameProps | UserProps, i: number) => {
+									switch (id) {
+										case "subscribers":
+											return (
+												<div>
+													<User
+														login={(item as UserProps).login}
+														nolink
+														size="full"
+														onClick={(_login) =>
+															onClose &&
+															onClose(
+																paths.users.details(_login),
+															)
+														}
+													/>
+												</div>
+											);
+											break;
+										case "pictures":
+											return (
+												<Picture
+													dataSource={item}
 													nolink
 													size="full"
 													onClick={(id) =>
 														onClose &&
-														onClose(paths.games.details(id))
+														onClose(paths.pictures.details(id))
 													}
 												/>
-											</div>
-										);
+											);
 										break;
-								}
-							},
-						)}
-					</div>
+										default:
+											return (
+												<div>
+													<Game
+														dataSource={item as GameProps}
+														nolink
+														size="full"
+														onClick={(id) =>
+															onClose &&
+															onClose(paths.games.details(id))
+														}
+													/>
+												</div>
+											);
+											break;
+									}
+								},
+							)}
+						</div>
+					)}
 				</Spin>
 				<div className="flex justify-center items-center">
 					<Pagination

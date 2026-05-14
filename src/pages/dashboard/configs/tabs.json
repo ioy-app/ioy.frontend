@@ -4,6 +4,10 @@
 		"value": "games"
 	},
 	{
+		"label": "dashboard.tabs.pictures",
+		"value": "pictures"
+	},
+	{
 		"label": "dashboard.tabs.jams",
 		"value": "jams"
 	},

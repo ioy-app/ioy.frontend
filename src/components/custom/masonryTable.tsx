@@ -67,8 +67,12 @@ const useMasonryColumns = ({
 */
 const MasonryTable: React.FC<{
   pictures: any[];
+  nolink?: boolean;
+  onClick?: (id: number) => void;
 }> = ({
-  pictures
+  pictures,
+  nolink,
+  onClick
 }) => {
   const { refElem, columns } = useMasonryColumns({ items: pictures });
 
@@ -89,6 +93,8 @@ const MasonryTable: React.FC<{
                 dataSource={item}
                 size="full"
                 className="break-inside-avoid"
+                nolink={nolink}
+                onClick={() => onClick && onClick(item?.id)}
               />
             ))}
           </div>

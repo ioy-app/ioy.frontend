@@ -17,6 +17,7 @@ import { FEATURE_JAMS } from "@/features";
 import Following from "./content/following";
 import Likes from "./content/likes";
 import Reports from "./content/reports";
+import Pictures from "./content/pictures";
 
 export default function Dashboard() {
 	const { t } = useTranslation();
@@ -61,6 +62,7 @@ export default function Dashboard() {
 					following: <Following />,
 					likes: <Likes />,
 					reports: <Reports />,
+					pictures: <Pictures />
 				}}
 			/>
 		</div>

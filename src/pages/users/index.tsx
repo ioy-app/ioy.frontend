@@ -20,6 +20,7 @@ import {
 	LinkifyText,
 	Report,
 	Meta,
+	Picture,
 } from "@/components";
 
 import { UserProps } from "@/types";
@@ -39,6 +40,7 @@ import {
 	users_favorites,
 	users_games,
 	users_likes,
+	users_pictures,
 	users_subscribe,
 	users_subscribers,
 } from "@/api/routes/users";
@@ -355,6 +357,49 @@ export default function Profile() {
 											id="games"
 											login={login}
 											fn={users_games}
+										/>
+									));
+								}}
+							/>
+						)}
+						{data?.privacy?.pictures && (
+							<Block
+								title={t("profile.titles.pictures")}
+								id="pictures"
+								request={async (
+									page: number,
+									count: number,
+								) => {
+									const search = new URLSearchParams();
+									search.set(
+										"offset",
+										String((page - 1) * count),
+									);
+									search.set("limit", String(count));
+
+									const games = await users_pictures(
+										login,
+										search,
+									);
+
+									return {
+										items: games.items.map((item) => ({
+											dataSource: item,
+										})),
+										total: games.total,
+									};
+								}}
+								Component={Picture}
+								onOpen={() => {
+									modal("", (onClose) => (
+										<UserContent
+											onClose={(path) => {
+												navigator(path);
+												onClose && onClose();
+											}}
+											id="pictures"
+											login={login}
+											fn={users_pictures}
 										/>
 									));
 								}}
