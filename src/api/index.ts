@@ -114,6 +114,7 @@ function jsonToFormData(obj: any, parentKey = ""): FormData {
 		});
 	} else {
 		// Если передали не объект — просто добавить
+		
 		formData.append(parentKey, obj);
 	}
 

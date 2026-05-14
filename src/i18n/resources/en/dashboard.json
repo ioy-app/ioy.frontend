@@ -5,7 +5,8 @@
 		"following": "Following",
 		"saves": "Saves",
 		"likes": "Likes",
-		"reports": "Reports"
+		"reports": "Reports",
+		"pictures": "Pictures"
 	},
 	"statuses": {
 		"all": "All",
@@ -27,6 +28,9 @@
 		"jams": {
 			"search": "Search...",
 			"sort": "Jams type"
+		},
+		"pictures": {
+			"search": "Search..."
 		}
 	},
 	"labels": {
@@ -63,6 +67,12 @@
 			"answer": "Answer",
 			"date_created": "Date created",
 			"date_answered": "Date answered"
+		},
+		"pictures": {
+			"picture": "Picture",
+			"status": "Status",
+			"date_created": "Date created",
+			"date_updated": "Date updated"
 		}
 	}
 }

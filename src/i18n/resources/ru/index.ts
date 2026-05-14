@@ -11,6 +11,7 @@ import home from "./home.json";
 import terms from "./terms.json";
 import about from "./about.json";
 import feed from "./feed.json";
+import pictures from "./pictures.json";
 
 import order from "./components/order.json";
 import helps from "./components/helps.json";
@@ -39,7 +40,8 @@ const lang = {
 	tabs,
 	report,
 	about,
-	feed
+	feed,
+	pictures
 };
 
 export default lang;

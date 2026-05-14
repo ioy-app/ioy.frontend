@@ -1,3 +1,4 @@
+import { PictureEdit } from "@/pages";
 import PictureDetails from "@/pages/pictures/details";
 import { RouteObject } from "react-router-dom";
 
@@ -10,7 +11,7 @@ export const pictures_paths = {
 const pictures: RouteObject[] = [
 	{
 		path: pictures_paths.create,
-		element: <></>,
+		element: <PictureEdit />,
 	},
 	{
 		path: pictures_paths.details(":id"),
@@ -18,7 +19,7 @@ const pictures: RouteObject[] = [
 	},
 	{
 		path: pictures_paths.edit(":id"),
-		element: <></>,
+		element: <PictureEdit />,
 	},
 ];
 

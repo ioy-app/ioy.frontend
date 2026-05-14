@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { BiChevronsLeft, BiCopyAlt, BiHeart, BiMessageError, BiShare } from "react-icons/bi";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 import Auth from "../auth";
 import Comments from "../games/comments";
 
@@ -126,6 +126,8 @@ export default function PictureDetails({}) {
 		},
 	});
 
+	if (query?.isError)
+		return (<Navigate to="/" />);
   
   return (
     <Spin loading={query?.isPending}>

@@ -329,6 +329,26 @@ const RenderInstance: React.FC<{}> = ({ instance, data }) => {
 				</div>
 			);
 		break;
+		case "picture":
+			return (
+				<div
+					className="group flex items-center gap-2 w-50"
+				>
+					<Components.Picture
+						dataSource={
+							{
+								id: instance?.id
+							} as GameProps
+						}
+						nolink
+						size="full"
+					/>
+					<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
+						{instance?.title}
+					</p>
+				</div>
+			);
+		break;
 		case "user":
 			return (
 				<div

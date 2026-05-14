@@ -1,0 +1,21 @@
+{
+  "titles": {
+		"create": "Add picture",
+		"edit": "Edit {{title}}"
+	},
+  "labels": {
+    "image": "Image",
+    "image_limit": "limit 3mb",
+    "title": "Title",
+    "description": "Description"
+  },
+  "placeholders": {
+    "title": "Enter title",
+    "description": "Your description about this picture",
+    "is_background": "Allow view on game player"
+  },
+  "empty": "No more pictures :(",
+  "modals": {
+    "delete": "Do you really want delete Picture: {{title}}?"
+  }
+}

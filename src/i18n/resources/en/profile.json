@@ -20,7 +20,8 @@
 		"favorites": "Saves",
 		"likes": "Likes",
 		"email": "Change email",
-		"delete": "Delete account"
+		"delete": "Delete account",
+		"pictures": "Own pictures"
 	},
 	"placeholders": {
 		"avatar": "Upload avatar",
@@ -38,7 +39,8 @@
 			"games": "Own games",
 			"subscribers": "Following",
 			"favorites": "Saves",
-			"likes": "Likes"
+			"likes": "Likes",
+			"pictures": "Own pictures"
 		},
 		"notify": {
 			"title": "Notify",
