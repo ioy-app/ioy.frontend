@@ -19,6 +19,7 @@ import notify from "./components/notify.json";
 import errors from "./components/errors.json";
 import tabs from "./components/tabs.json";
 import report from "./components/report.json";
+import modals from "./components/modals.json";
 
 
 const lang = {
@@ -41,7 +42,8 @@ const lang = {
 	report,
 	about,
 	feed,
-	pictures
+	pictures,
+	modals
 };
 
 export default lang;
