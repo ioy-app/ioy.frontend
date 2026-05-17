@@ -4,14 +4,15 @@ import {
 	MasonryTable,
 	Meta,
 	Picture,
+	SearchBlock,
 	Spin,
 	Tag,
 	ViewModel,
 } from "@/components";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router";
-import { pictures_list } from "@/api/routes/pictures";
+import { NavLink, useSearchParams } from "react-router";
+import { pictures_list, pictures_tags } from "@/api/routes/pictures";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 /**
@@ -21,11 +22,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 */
 const Pictures: React.FC<{}> = ({}) => {
 	const { t } = useTranslation();
+  const [ searchParams, setSearchParams ] = useSearchParams();
 
 	const query = useInfiniteQuery({
-    queryKey: [ "home", "pictures" ],
+    queryKey: [ "home", "pictures", searchParams?.toString() ],
     queryFn: async ({ pageParam = 0 }) => {
-      const response = await pictures_list(pageParam);
+      const response = await pictures_list(pageParam, searchParams?.get("search"));
       return response;
     },
     getNextPageParam: (lastPage) => {
@@ -37,6 +39,11 @@ const Pictures: React.FC<{}> = ({}) => {
     getPreviousPageParam: (firstPage) => firstPage.offset
   });
 
+  const tags = useQuery({
+    queryKey: [ "home", "pictures", "tags" ],
+    queryFn: () => pictures_tags()
+  });
+
   const items = [].concat(...(query?.data?.pages?.map(page => page.items) || []));
 
 	return (
@@ -46,6 +53,29 @@ const Pictures: React.FC<{}> = ({}) => {
 				description={t("about.description")}
 				url=""
 			/>
+      <SearchBlock
+        onSubmit={(data) => {
+          if (data?.search)
+            searchParams?.set("search", data?.search);
+          else
+            searchParams.delete("search");
+          setSearchParams(searchParams);
+        }}
+        value={searchParams?.get("search")}
+        disabled={query?.isPending}
+      />
+      <Spin loading={tags?.isPending}>
+        {tags?.data?.items?.length > 0 && (
+          <div className="flex gap-4 items-center justify-center flex-wrap">
+            {tags?.data?.items?.map((tag) => (
+              <Tag
+                title={tag}
+                link={""}
+              />
+            ))}
+          </div>
+        )}
+      </Spin>
 			<Spin loading={query?.isPending}>
         <InfiniteScroll
           className="col-span-4 flex flex-col gap-4 w-full overflow-hidden!"

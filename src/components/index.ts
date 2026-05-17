@@ -27,6 +27,7 @@ import Post from "./custom/post";
 import ViewModel from "./custom/viewModel";
 import Picture from "./content/picture";
 import MasonryTable from "./custom/masonryTable";
+import SearchBlock from "./custom/searchBlock";
 
 export {
 	Header,
@@ -57,5 +58,6 @@ export {
 	Post,
 	ViewModel,
 	Picture,
-	MasonryTable
+	MasonryTable,
+	SearchBlock
 };

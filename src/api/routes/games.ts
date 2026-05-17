@@ -1,8 +1,16 @@
 import Routes, { apiFileInstance, apiInstance } from ".";
 import fetchAPI, { jsonToFormData } from "..";
 
-export const games_list = () =>
-	fetchAPI(Routes.games.list as string);
+export const games_list = (offset: number, search?: string) =>
+	apiInstance.get(Routes.games.list as string, {
+		params: {
+			offset,
+			search
+		}
+	});
+
+export const games_tags = () =>
+	apiInstance.get(Routes.games.tags as string);
 
 export const games_details = (id: number) =>
 	fetchAPI(Routes.games.details(id));

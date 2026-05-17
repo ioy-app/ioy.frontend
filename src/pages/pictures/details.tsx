@@ -211,16 +211,21 @@ export default function PictureDetails({}) {
 										<LinkifyText>
 											{query?.data?.description}
 										</LinkifyText>
-										<div className="flex flex-row flex-wrap gap-4">
-											{query?.data?.tags?.map(
-												(tag: string, i: number) => (
-													<Tag title={tag} key={i} />
-												),
-											)}
-										</div>
+										
 									</div>
 								</div>
 							)}
+							<div className="flex flex-row flex-wrap gap-4">
+								{query?.data?.tags?.map(
+									(tag: string, i: number) => (
+										<Tag
+											title={tag}
+											key={i}
+											link="/pictures"
+										/>
+									),
+								)}
+							</div>
             </div>
             <Comments type="picture" />
           </div>

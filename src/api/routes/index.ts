@@ -112,6 +112,7 @@ const Routes = {
 	},
 	games: {
 		list: `/games`,
+		tags: "/games/tags",
 		details: (id: number) => `/games/${id}`,
 		icon: (id: number) => `/games/${id}/icon`,
 		subscribe: (id: number) => `/games/${id}/subscribe`,
@@ -152,6 +153,7 @@ const Routes = {
 	},
 	pictures: {
 		list: "/pictures",
+		tags: "/pictures/tags",
 		details: (id: number) => `/pictures/${id}`,
 		like: (id: number) => `/pictures/${id}/like`,
 		image: (id: number) => `/pictures/${id}/image`,

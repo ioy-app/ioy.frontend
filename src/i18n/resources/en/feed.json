@@ -1,7 +1,8 @@
 {
   "empty": "No more posts :(",
   "label": {
-    "game": "created new game",
-    "jam": "added new jam"
+    "game": "added new game",
+    "jam": "added new jam",
+    "picture": "added new picture"
   }
 }

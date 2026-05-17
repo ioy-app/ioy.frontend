@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import { Home, About, Feed, Search } from "@/pages";
+import { Home, About, Feed } from "@/pages";
 
 import games, { games_paths } from "./games";
 import user, { user_paths } from "./user";
@@ -38,10 +38,6 @@ const routes: RouteObject[] = [
 			{
 				path: "/feed",
 				element: <Feed />
-			},
-			{
-				path: "/search",
-				element: <Search />
 			},
 			{
 				path: "/pictures",

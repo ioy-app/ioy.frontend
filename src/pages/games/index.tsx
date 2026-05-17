@@ -1,15 +1,18 @@
-import { games_list } from "@/api/routes/games";
+import { games_list, games_tags } from "@/api/routes/games";
 import imgEmpty from "@/icons/empty.svg";
 import {
 	Game,
 	Meta,
+	SearchBlock,
 	Spin,
 	Tag,
+	ViewModel,
 } from "@/components";
 import GameProps from "@/types/game";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router";
+import { NavLink, useSearchParams } from "react-router";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 /**
  * Games pages for home
@@ -18,14 +21,29 @@ import { NavLink } from "react-router";
 */
 const Games: React.FC<{}> = ({}) => {
 	const { t } = useTranslation();
+  const [ searchParams, setSearchParams ] = useSearchParams();
 
-	const query = useQuery({
-		queryKey: ["home", "games"],
-		queryFn: async () => {
-			const response = await games_list();
-			return response;
-		}
-	});
+	const query = useInfiniteQuery({
+    queryKey: [ "home", "games", searchParams?.toString() ],
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await games_list(pageParam, searchParams?.get("search"));
+      return response;
+    },
+    getNextPageParam: (lastPage) => {
+      const next = lastPage.offset + lastPage.limit;
+      if (next >= lastPage?.total)
+        return null;
+      return next;
+    },
+    getPreviousPageParam: (firstPage) => firstPage.offset
+  });
+
+  const tags = useQuery({
+    queryKey: [ "home", "games", "tags" ],
+    queryFn: () => games_tags()
+  });
+
+  const items = [].concat(...(query?.data?.pages?.map(page => page.items) || []));
 
 	return (
 		<>
@@ -34,39 +52,56 @@ const Games: React.FC<{}> = ({}) => {
 				description={t("about.description")}
 				url=""
 			/>
-			<Spin loading={query.isPending}>
-				<div className="col-span-4 flex flex-col gap-4 w-full h-fit">
-					{!query?.data?.games?.length && (
-						<div className="w-full flex justify-center items-center flex-col gap-2">
-							<img
-								src={imgEmpty}
-								className="h-64 pointer-events-none select-none"
-							/>
-							<p className="text-placeholder text-2xl">{t("errors.nodata")}</p>
-						</div>
-					)}
-					<div className="grid grid-cols-5 gap-4 max-lg:grid-cols-3 max-md:grid-cols-2">
-						{query?.data?.games?.map?.((game: GameProps, i: number) => (
-							<Game
-								dataSource={game}
-								key={i}
-								size="full"
-							/>
-						))}
-					</div>
-					<div className="flex gap-4 flex-wrap justify-center items-center py-8">
-						{query?.data?.tags?.map?.((tag: string, i: number) => (
-							<NavLink
-								to={`/?search=${tag}`}
-								className="cursor-pointer"
-								key={i}
-							>
-								<Tag title={tag} />
-							</NavLink>
-						))}
-					</div>
-				</div>
-			</Spin>
+      <SearchBlock
+        onSubmit={(data) => {
+          if (data?.search)
+            searchParams?.set("search", data?.search);
+          else
+            searchParams.delete("search");
+          setSearchParams(searchParams);
+        }}
+        value={searchParams?.get("search")}
+        disabled={query?.isPending}
+      />
+      <Spin loading={tags?.isPending}>
+        {tags?.data?.items?.length > 0 && (
+          <div className="flex gap-4 items-center justify-center flex-wrap">
+            {tags?.data?.items?.map((tag) => (
+              <Tag
+                title={tag}
+                link={""}
+              />
+            ))}
+          </div>
+        )}
+      </Spin>
+			<Spin loading={query?.isPending}>
+        <InfiniteScroll
+          className="grid grid-cols-5 gap-4 max-lg:grid-cols-3 max-md:grid-cols-2"
+          dataLength={items?.length}
+          next={() => query.fetchNextPage()}
+          hasMore={query.hasNextPage}
+          loader={(<Spin loading/>)}
+          endMessage={(
+            <div className="flex flex-col justify-center items-center py-4 gap-2 text-xl text-text/35">
+              <ViewModel
+                name="rocket-pictures"
+                href="/resources/gltf/computer.gltf"
+                spdX={.2}
+                spdY={-.5}
+              />
+              <p>{t("games.empty")}</p>
+            </div>
+          )}
+        >
+          {items?.map((item) => (
+            <Game
+              dataSource={item}
+							size="full"
+            />
+          ))}
+        </InfiniteScroll>
+      </Spin>
 		</>
 	);
 };
