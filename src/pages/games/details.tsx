@@ -318,7 +318,11 @@ export default function GamePage() {
 										<div className="flex flex-row flex-wrap gap-4">
 											{query?.data?.tags?.map(
 												(tag: string, i: number) => (
-													<Tag title={tag} key={i} />
+													<Tag
+														title={tag}
+														key={i}
+														link="/"
+													/>
 												),
 											)}
 										</div>

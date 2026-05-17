@@ -1,12 +1,16 @@
 import Routes, { apiFileInstance, apiInstance } from ".";
 import fetchAPI, { jsonToFormData } from "..";
 
-export const pictures_list = (offset: number) =>
+export const pictures_list = (offset: number, search?: string) =>
 	apiInstance.get(Routes.pictures.list as string, {
 		params: {
-			offset
+			offset,
+			search
 		}
 	});
+
+export const pictures_tags = () =>
+	apiInstance.get(Routes.pictures.tags as string);
 
 export const pictures_details = (id: number) =>
 	fetchAPI(Routes.pictures.details(id));

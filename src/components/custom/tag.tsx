@@ -32,10 +32,12 @@ function getContrastTextColor(hslColor: string): string {
 const Tag: React.FC<{
 	title: string;
 	nolink?: boolean;
+	link?: string;
 	icon?: React.ReactNode;
 }> = ({
 	title,
 	nolink,
+	link,
 	icon
 }) => {
 	const bg = stringToHSLColor(title);
@@ -57,7 +59,7 @@ const Tag: React.FC<{
 		return root;
 
 	return (
-		<NavLink to={`${paths.search}?query=${title}`}>
+		<NavLink to={`${link}?search=${title}`}>
 			{root}
 		</NavLink>
 	);

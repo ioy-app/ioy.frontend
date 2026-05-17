@@ -9,6 +9,8 @@ import { NavLink } from "react-router";
 import { games_paths } from "@/routes/games";
 import { jams_paths } from "@/routes/jams";
 import Jam from "../content/jam";
+import Picture from "../content/picture";
+import { pictures_paths } from "@/routes/pictures";
 
 /**
  * Post for feed
@@ -17,7 +19,7 @@ import Jam from "../content/jam";
 */
 const Post: React.FC<{
   data: JamProps | GameProps;
-  type?: "game" | "jam";
+  type?: "game" | "jam" | "picture";
 }> = ({
   data,
   type="game"
@@ -64,6 +66,7 @@ const Post: React.FC<{
                   <Tag
                     title={tag}
                     key={i}
+                    link="/"
                   />
                 ))}
               </div>
@@ -90,6 +93,33 @@ const Post: React.FC<{
                     title={tag}
                     key={i}
                     nolink
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        )}
+        {(type == "picture" && data) && (
+          <>
+            <NavLink
+              className="flex flex-col gap-4 items-center group"
+              to={pictures_paths.details(props?.id)}
+            >
+              <Picture
+                dataSource={props}
+                nolink
+                size="full"
+              />
+              <p className="text-default text-center group-hover:text-primary transition-colors">{title}</p>
+            </NavLink>
+            <p className="text-default text-center">{description}</p>
+            {data?.tags?.length > 0 && (
+              <div className="flex flex-row items-center gap-4 flex-wrap">
+                {data?.tags?.map((tag: string, i: number) => (
+                  <Tag
+                    title={tag}
+                    key={i}
+                    link="/pictures"
                   />
                 ))}
               </div>
