@@ -4,22 +4,46 @@ import {
 } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import imgLabel from "@/icons/label.svg";
-import { Button } from "@/components";
-import {
-	BiCalendar,
-	BiComment,
-	BiImage,
-	BiPlay
-} from "react-icons/bi";
+import { Button, Game, Picture, Spin } from "@/components";
 import { paths } from "@/routes";
+import { useQuery } from "@tanstack/react-query";
+import { apiInstance } from "@/api/routes";
+import { useMemo } from "react";
 
 export default function Home() {
 	const { t } = useTranslation();
+	const query = useQuery({
+		queryKey: [ "daily" ],
+		queryFn: () => apiInstance.get("/daily")
+	});
+
+	const game_hype = useMemo(() => {
+		const { title, hype, ...data } = query?.data?.gamedata || {};
+		return data;
+	}, [ query?.data ]);
+	const picture_hype = useMemo(() => {
+		const { title, hype, ...data } = query?.data?.picturedata || {};
+		return data;
+	}, [ query?.data ]);
 
 	return (
 		<div className="flex flex-col gap-4 w-full">
-			<div className="flex w-fit h-20">
-				<img src={imgLabel} className="w-full h-full z-1 pointer-events-none select-none" />
+			<div className="flex items-center gap-4 flex-wrap max-md:justify-center">
+				<div className="flex w-fit h-20">
+					<img src={imgLabel} className="w-full h-full z-1 pointer-events-none select-none" />
+				</div>
+				<Spin loading={query?.isLoading && game_hype && picture_hype}>
+					<div className="flex items-center gap-4">
+						<Game
+							dataSource={game_hype}
+							size="12"
+						/>
+						<Picture
+							dataSource={picture_hype}
+							size="12"
+						/>
+					</div>
+				</Spin>
 			</div>
 			<div className="w-full flex gap-4 flex-1 h-full max-md:flex-col">
 				<nav className="md:sticky top-16 left-0 h-fit">

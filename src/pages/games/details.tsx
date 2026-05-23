@@ -193,13 +193,14 @@ export default function GamePage() {
 									{
 										id: Number(id),
 										is_avatar: query?.data?.is_avatar,
-										jam_result: query?.data?.jam_result
+										jam_result: query?.data?.jam_result,
+										hype: query?.data?.hype
 									} as any
 								}
 								size={12}
 								nolink
 							/>
-							<h1 className="text-title">
+							<h1 className={`text-title ${query?.data?.hype && "text-amber-300" || ""}`}>
 								{query?.data?.title}
 							</h1>
 							{query?.data?.version && (

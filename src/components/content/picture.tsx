@@ -5,6 +5,7 @@ import Spin from "@/components/base/spin";
 import { Profile } from "@/icons";
 import { useQuery } from "@tanstack/react-query";
 import { BiSolidCrown } from "react-icons/bi";
+import { FaFireAlt } from "react-icons/fa";
 
 const Picture: React.FC<{
 	/** Game data */
@@ -45,7 +46,7 @@ const Picture: React.FC<{
 			onClick={() => onClick && onClick(dataSource?.id)}
 		>
 			<div
-				className={`relative w-full h-fit ${(!nolink && "transition-colors") || ""}`}
+				className={`relative w-full h-fit ${(!nolink && "transition-colors") || ""} ${dataSource?.hype && "border-4 border-amber-400 group-hover:border-amber-500 rounded-2xl" || ""}`}
 			>
 				<Spin loading={status == "pending"}>
 					{isError || !data ? (
@@ -56,18 +57,19 @@ const Picture: React.FC<{
 						<img src={data} className="w-full rounded-xl overflow-hidden" />
 					)}
 				</Spin>
-				{dataSource?.jam_result && (
+				{(dataSource?.jam_result || dataSource?.hype) && (
 					<div className="absolute -top-2 -right-2">
 						{dataSource?.jam_result?.place == 1 && <BiSolidCrown className="text-amber-300 text-xl bg-back rounded-full p-0.5" />}
 						{dataSource?.jam_result?.place == 2 && <BiSolidCrown className="text-blue-100 text-xl bg-back rounded-full p-0.5" />}
 						{dataSource?.jam_result?.place == 3 && <BiSolidCrown className="text-second text-xl bg-back rounded-full p-0.5" />}
+						{dataSource?.hype && <FaFireAlt className="text-amber-300 text-xl bg-back rounded-full p-0.5" />}
 					</div>
 				)}
 				
 			</div>
 			{dataSource?.title && (
 				<p
-					className={`max-w-${size} overflow-hidden text-placeholder wrap-anywhere line-clamp-2 w-full ... group-hover:text-primary transition-colors`}
+					className={`max-w-${size} overflow-hidden text-placeholder wrap-anywhere line-clamp-2 w-full ... group-hover:text-primary ${dataSource?.hype && "text-amber-300 group-hover:text-amber-500!" || ""} transition-colors`}
 				>
 					{dataSource.title}
 				</p>
