@@ -42,6 +42,11 @@ const Footer: React.FC = () => {
 				<NavLink to={paths.terms} target="_blank">
 					{t("footer.terms")}
 				</NavLink>
+				<NavLink to="mailto:support@ioy.app">
+					<address className="text-second text-placeholder">
+						support@ioy.app
+					</address>
+				</NavLink>
 			</div>
 			<nav className="flex flex-row items-center gap-4 text-placeholder flex-wrap justify-end">
 				<label className="flex items-center gap-2">

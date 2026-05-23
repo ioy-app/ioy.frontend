@@ -28,6 +28,7 @@ import ViewModel from "./custom/viewModel";
 import Picture from "./content/picture";
 import MasonryTable from "./custom/masonryTable";
 import SearchBlock from "./custom/searchBlock";
+import TitleColorfull from "./custom/titleColorfull";
 
 export {
 	Header,
@@ -59,5 +60,6 @@ export {
 	ViewModel,
 	Picture,
 	MasonryTable,
-	SearchBlock
+	SearchBlock,
+	TitleColorfull
 };

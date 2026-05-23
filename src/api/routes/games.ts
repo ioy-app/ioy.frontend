@@ -1,11 +1,12 @@
 import Routes, { apiFileInstance, apiInstance } from ".";
 import fetchAPI, { jsonToFormData } from "..";
 
-export const games_list = (offset: number, search?: string) =>
+export const games_list = (offset: number, search?: string, count?: number) =>
 	apiInstance.get(Routes.games.list as string, {
 		params: {
 			offset,
-			search
+			search,
+			count
 		}
 	});
 
