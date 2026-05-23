@@ -16,12 +16,14 @@ const Game: React.FC<{
 	/** Avatar size */
 	size?: number | string;
 	onClick?: (id: number) => void;
+	className?: string;
 }> = ({
 	dataSource,
 	preview,
 	nolink,
 	size = 24,
 	onClick,
+	className
 }) => {
 	const { status, data, isError } = useQuery({
 		queryKey: ["game", dataSource, preview],
@@ -82,7 +84,7 @@ const Game: React.FC<{
 	return !nolink ? (
 		<Link
 			to={`/g/${dataSource?.id}`}
-			className={`w-${size}`}
+			className={`w-${size} ${className && className || ""}`}
 		>
 			{root}
 		</Link>

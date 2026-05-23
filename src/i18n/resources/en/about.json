@@ -1,4 +1,12 @@
 {
   "title": "About",
-  "description": "Welcome to ioy.app! This is a platform for web games — simply create your games and share them with other users. Good luck!"
+  "titles": {
+    "games": "Games",
+    "pictures": "Pictures",
+    "social": "Social links"
+  },
+  "games": "Explore the world of games, create your own projects, and share them with the community - your game might just steal someone’s sleep!",
+  "pictures": "Explore the creativity of artists or create your own masterpiece and share it with others - the next legendary game cover might be waiting for its artist!",
+  "social": "Our social links",
+  "description": "Welcome to ioy.app! Explore the creativity of creators, publish your own projects, and share them with the community!"
 }

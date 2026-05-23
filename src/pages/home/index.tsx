@@ -11,6 +11,7 @@ import {
 	BiImage,
 	BiPlay
 } from "react-icons/bi";
+import { paths } from "@/routes";
 
 export default function Home() {
 	const { t } = useTranslation();
@@ -21,8 +22,8 @@ export default function Home() {
 				<img src={imgLabel} className="w-full h-full z-1 pointer-events-none select-none" />
 			</div>
 			<div className="w-full flex gap-4 flex-1 h-full max-md:flex-col">
-				<nav className="md:sticky top-16 left-0 border border-br rounded-2xl h-fit px-4 py-2 bg-back">
-					<ul className="flex flex-col max-md:flex-row max-md:justify-center gap-4 w-full overflow-hidden">
+				<nav className="md:sticky top-16 left-0 h-fit">
+					<ul className="flex flex-col max-md:flex-row gap-4 w-full overflow-hidden overflow-x-auto border border-br rounded-2xl px-4 py-2 bg-back">
 						<li>
 							<NavLink to="/feed">
 								{({ isActive }) => (
@@ -30,8 +31,7 @@ export default function Home() {
 										variant="clear"
 										className={isActive ? "text-primary" : "text-text"}
 									>
-										<BiComment className="max-md:text-2xl" />
-										<span className="max-md:hidden">{t("buttons.nav.feed")}</span>
+										<span>{t("buttons.nav.feed")}</span>
 									</Button>
 								)}
 							</NavLink>
@@ -43,8 +43,7 @@ export default function Home() {
 										variant="clear"
 										className={isActive ? "text-primary" : "text-text"}
 									>
-										<BiPlay className="max-md:text-2xl" />
-										<span className="max-md:hidden">{t("buttons.nav.games")}</span>
+										<span>{t("buttons.nav.games")}</span>
 									</Button>
 								)}
 							</NavLink>
@@ -56,8 +55,7 @@ export default function Home() {
 										variant="clear"
 										className={isActive ? "text-primary" : "text-text"}
 									>
-										<BiImage className="max-md:text-2xl" />
-										<span className="max-md:hidden">{t("buttons.nav.pictures")}</span>
+										<span>{t("buttons.nav.pictures")}</span>
 									</Button>
 								)}
 							</NavLink>
@@ -69,13 +67,17 @@ export default function Home() {
 										variant="clear"
 										className={isActive ? "text-primary" : "text-text"}
 									>
-										<BiCalendar className="max-md:text-2xl" />
-										<span className="max-md:hidden">{t("buttons.nav.jams")}</span>
+										<span>{t("buttons.nav.jams")}</span>
 									</Button>
 								)}
 							</NavLink>
 						</li>
 					</ul>
+					<div className="px-8 py-4 text-default max-md:hidden">
+						<NavLink to={paths.about}>
+							{t("footer.about")}
+						</NavLink>
+					</div>
 				</nav>
 				<div className="col-span-12 flex flex-col gap-4 flex-1 h-full w-full">
 					<Outlet />
