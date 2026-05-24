@@ -46,7 +46,7 @@ const Picture: React.FC<{
 			onClick={() => onClick && onClick(dataSource?.id)}
 		>
 			<div
-				className={`relative w-full h-fit ${(!nolink && "transition-colors") || ""} ${dataSource?.hype && "border-4 dark:group-hover:border-amber-500 border-red-400 group-hover:border-red-500 rounded-2xl" || ""}`}
+				className={`relative w-full h-fit ${(!nolink && "transition-colors") || ""} ${dataSource?.hype && "border-4 dark:border-amber-300 dark:group-hover:border-amber-500 border-red-400 group-hover:border-red-500 rounded-2xl" || ""}`}
 			>
 				<Spin loading={status == "pending"}>
 					{isError || !data ? (
