@@ -200,7 +200,7 @@ export default function GamePage() {
 								size={12}
 								nolink
 							/>
-							<h1 className={`text-title ${query?.data?.hype && "text-amber-300" || ""}`}>
+							<h1 className={`text-title ${query?.data?.hype && "dark:text-amber-300 text-red-400" || ""}`}>
 								{query?.data?.title}
 							</h1>
 							{query?.data?.version && (

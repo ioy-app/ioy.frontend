@@ -140,7 +140,7 @@ export default function PictureDetails({}) {
             <BiChevronsLeft />
             {t("buttons.back")}
           </Button>
-          <h1 className={`text-title ${query?.data?.hype && "text-amber-300" || ""}`}>
+          <h1 className={`text-title ${query?.data?.hype && "dark:text-amber-300 text-red-400" || ""}`}>
             {query?.data?.title}
           </h1>
           <div className="flex flex-col gap-4 items-center w-full">
