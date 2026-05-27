@@ -122,6 +122,7 @@ const Routes = {
 		votes: (id: number) => `/games/${id}/my-votes`
 	},
 	dashboard: {
+		instances: "/auth/dashboard/instances",
 		games: `/games/my`,
 		jams: `/jams/my`,
 		pictures: `/pictures/my`

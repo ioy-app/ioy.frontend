@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BiFolder } from "react-icons/bi";
 
@@ -16,21 +16,34 @@ const Tabs: React.FC<{
 	content: Record<string, ReactNode>;
 	style?: CSSProperties;
 	ContentParent?: typeof emptyParent;
+	onChange?: (tab: string) => void;
+	value?: string;
 }> = ({
 	headers,
 	content,
 	style,
 	ContentParent = emptyParent,
+	onChange,
+	value
 }) => {
 	const [ selectTab, setSelectTab ] = useState<HeaderProps | null>(headers[0]);
 	const { t } = useTranslation();
+
+	// useEffect(() => {
+	// 	onChange && onChange?.(selectTab?.value);
+	// }, [ selectTab, value ]);
+
+	// useEffect(() => {
+	// 	if (value != selectTab?.value)
+	// 		setSelectTab(headers?.find?.(head => head?.value == value));
+	// }, [ value ]);
 
 	return (
 		<div className="text-placeholder flex flex-col gap-4 w-full">
 			<div className="flex flex-row items-center border-b border-b-br overflow-hidden overflow-x-auto no-scrollbar">
 				{headers.map((header: HeaderProps, i: number) => (
 					<div
-						className={`px-4 py-2 select-none cursor-default rounded-t-xl ${(header.value == selectTab.value && "text-primary bg-br font-light") || "cursor-pointer"} transition-colors`}
+						className={`px-4 py-2 select-none cursor-default rounded-t-xl ${(header?.value == selectTab?.value && "text-primary bg-br font-light") || "cursor-pointer"} transition-colors`}
 						onClick={() => setSelectTab(header)}
 						key={i}
 					>
@@ -41,7 +54,7 @@ const Tabs: React.FC<{
 			<div key={selectTab?.value}>
 				<ContentParent>
 					{(content &&
-						content[(selectTab as HeaderProps).value]) || (
+						content[(selectTab as HeaderProps)?.value]) || (
 						<div className="w-full h-full flex-1 justify-center items-center gap-1 flex flex-col text-disabled">
 							<BiFolder className="text-4xl" />
 							<p className="text-placeholder">

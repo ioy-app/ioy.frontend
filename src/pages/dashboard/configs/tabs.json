@@ -1,11 +1,7 @@
 [
 	{
-		"label": "dashboard.tabs.games",
-		"value": "games"
-	},
-	{
-		"label": "dashboard.tabs.pictures",
-		"value": "pictures"
+		"label": "dashboard.tabs.instances",
+		"value": "instances"
 	},
 	{
 		"label": "dashboard.tabs.jams",

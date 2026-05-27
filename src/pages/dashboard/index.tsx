@@ -1,9 +1,9 @@
 import confTabs from "./configs/tabs.json";
 
 import * as Components from "@/components";
-import Games from "./content/games";
+import Instances from "./content/instances";
 import { user_paths } from "@/routes/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
 import { useTranslation } from "react-i18next";
@@ -18,13 +18,42 @@ import Following from "./content/following";
 import Likes from "./content/likes";
 import Reports from "./content/reports";
 import Pictures from "./content/pictures";
+import { useCallback, useMemo } from "react";
 
 export default function Dashboard() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+	const [ searchParams, setSearchParams ] = useSearchParams();
 	const { login, roledata } = useSelector(
 		(state: StoreProps) => state.login,
 	);
+
+	const tabs = useMemo(() =>
+		confTabs
+			.map((record) => ({
+				...record,
+				label: t(record.label),
+			}))
+			.filter((item) => {
+				if (item.value == "jams" && !FEATURE_JAMS)
+					return false;
+				if (
+					item.value == "reports" &&
+					!roledata.is_view_reports
+				)
+					return false;
+
+				return true;
+			})
+	, []);
+
+	// const handleChange = useCallback((tab: string) => {
+	// 	const us = new URLSearchParams();
+	// 	us.set("tab", tab);
+	// 	setSearchParams(us);
+	// }, []);
+
+	// const current_tab = useMemo(() => searchParams.get("tab"), [ searchParams ]);
 
 	return (
 		<div className="w-full">
@@ -40,29 +69,13 @@ export default function Dashboard() {
 				</Components.Button>
 			</div>
 			<Components.Tabs
-				headers={confTabs
-					.map((record) => ({
-						...record,
-						label: t(record.label),
-					}))
-					.filter((item) => {
-						if (item.value == "jams" && !FEATURE_JAMS)
-							return false;
-						if (
-							item.value == "reports" &&
-							!roledata.is_view_reports
-						)
-							return false;
-
-						return true;
-					})}
+				headers={tabs}
 				content={{
-					games: <Games />,
+					instances: <Instances />,
 					jams: <Jams />,
 					following: <Following />,
 					likes: <Likes />,
-					reports: <Reports />,
-					pictures: <Pictures />
+					reports: <Reports />
 				}}
 			/>
 		</div>
