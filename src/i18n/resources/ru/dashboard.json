@@ -1,23 +1,32 @@
 {
 	"tabs": {
-		"games": "Игры",
+		"instances": "Сущности",
 		"jams": "Джемы",
 		"following": "Подписки",
 		"saves": "Сохраненные",
 		"likes": "Понравилось",
-		"reports": "Жалобы",
-		"pictures": "Картинки"
+		"reports": "Жалобы"
 	},
 	"statuses": {
 		"all": "Все",
 		"draft": "Черновик",
 		"public": "Опубликован"
 	},
+	"types": {
+		"all": "Все",
+		"games": "Игры",
+		"pictures": "Картинки",
+		"game": "Игра",
+		"picture": "Картинка"
+	},
 	"placeholders": {
 		"status": "Статус",
 		"order": "Сортировка по",
-		"games": {
-			"search": "Поиск..."
+		"instances": {
+			"search": "Поиск...",
+			"upload": "Добавить",
+			"edit": "Редактировать",
+			"delete": "Удалить"
 		},
 		"jams": {
 			"search": "Поиск..."
@@ -30,9 +39,7 @@
 		"nodata": "Пусто :("
 	},
 	"table": {
-		"games": {
-			"game": "Игра",
-			"version": "Версия",
+		"instances": {
 			"status": "Статус",
 			"date_created": "Дата созд.",
 			"date_updated": "Дата ред.",

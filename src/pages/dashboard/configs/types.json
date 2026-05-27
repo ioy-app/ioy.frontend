@@ -1,0 +1,14 @@
+[
+	{
+		"label": "dashboard.types.all",
+		"value": "all"
+	},
+	{
+		"label": "dashboard.types.games",
+		"value": "games"
+	},
+	{
+		"label": "dashboard.types.pictures",
+		"value": "pictures"
+	}
+]

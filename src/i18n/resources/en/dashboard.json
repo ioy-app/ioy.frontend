@@ -1,12 +1,11 @@
 {
 	"tabs": {
-		"games": "Games",
+		"instances": "Instances",
 		"jams": "Jams",
 		"following": "Following",
 		"saves": "Saves",
 		"likes": "Likes",
-		"reports": "Reports",
-		"pictures": "Pictures"
+		"reports": "Reports"
 	},
 	"statuses": {
 		"all": "All",
@@ -19,27 +18,34 @@
 		"judge": "Judge",
 		"join": "Join"
 	},
+	"types": {
+		"all": "All",
+		"games": "Games",
+		"pictures": "Pictures",
+		"game": "Game",
+		"picture": "Picture"
+	},
 	"placeholders": {
 		"status": "Status",
 		"order": "Sort order",
-		"games": {
-			"search": "Search..."
+		"type": "Type",
+		"instances": {
+			"search": "Search...",
+			"upload": "Upload",
+			"edit": "Edit",
+			"delete": "Delete"
 		},
 		"jams": {
 			"search": "Search...",
 			"sort": "Jams type"
-		},
-		"pictures": {
-			"search": "Search..."
 		}
 	},
 	"labels": {
 		"nodata": "No data"
 	},
 	"table": {
-		"games": {
-			"game": "Game",
-			"version": "Version",
+		"instances": {
+			"instance": "Instance",
 			"status": "Status",
 			"date_created": "Date created",
 			"date_updated": "Date updated",
@@ -67,12 +73,6 @@
 			"answer": "Answer",
 			"date_created": "Date created",
 			"date_answered": "Date answered"
-		},
-		"pictures": {
-			"picture": "Picture",
-			"status": "Status",
-			"date_created": "Date created",
-			"date_updated": "Date updated"
 		}
 	}
 }

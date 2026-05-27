@@ -1,8 +1,8 @@
 import Routes, { apiInstance } from ".";
 
-export const dashboard_games = (query?: URLSearchParams) =>
-	apiInstance.post(
-		Routes.dashboard.games +
+export const dashboard_instances = (query?: URLSearchParams) =>
+	apiInstance.get(
+		Routes.dashboard.instances +
 			((query && `?${query.toString()}`) || ""),
 	);
 
