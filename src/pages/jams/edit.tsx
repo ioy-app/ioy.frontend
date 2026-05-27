@@ -1,4 +1,4 @@
-import { jams_create, jams_delete, jams_details, jams_edit } from "@/api/routes/jams";
+import { jams_create, jams_delete, jams_details, jams_edit } from "@/api/jams";
 import {
 	Button,
 	Code,

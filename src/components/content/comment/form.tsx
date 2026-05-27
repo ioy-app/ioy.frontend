@@ -8,8 +8,11 @@ import { useTranslation } from "react-i18next";
 import { BiCheck } from "react-icons/bi";
 
 const CommentForm: React.FC<{
+	/** Reply mode */
 	isReply?: boolean;
+	/** Close event */
 	onClose?: () => void;
+	/** Submit event */
 	onOk?: (comment: string) => void;
 }> = ({ isReply, onClose, onOk }) => {
 	const form = useForm();

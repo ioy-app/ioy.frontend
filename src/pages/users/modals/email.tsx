@@ -1,4 +1,4 @@
-import { users_edit_email } from "@/api/routes/users";
+import { users_edit_email } from "@/api/users";
 import { Button, Code, Input } from "@/components";
 import { useNotify } from "@/hooks";
 import { useState } from "react";

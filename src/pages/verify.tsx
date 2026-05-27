@@ -1,4 +1,4 @@
-import { auth_verify } from "@/api/routes/auth";
+import { auth_verify } from "@/api/auth";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

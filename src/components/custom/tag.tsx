@@ -1,4 +1,3 @@
-import { paths } from "@/routes";
 import { BiHash } from "react-icons/bi";
 import { NavLink } from "react-router";
 

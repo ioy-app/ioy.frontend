@@ -1,4 +1,4 @@
-import { games_list, games_tags } from "@/api/routes/games";
+import { games_list, games_tags } from "@/api/games";
 import imgEmpty from "@/icons/empty.svg";
 import {
 	Game,
@@ -26,7 +26,10 @@ const Games: React.FC<{}> = ({}) => {
 	const query = useInfiniteQuery({
     queryKey: [ "home", "games", searchParams?.toString() ],
     queryFn: async ({ pageParam = 0 }) => {
-      const response = await games_list(pageParam, searchParams?.get("search"));
+      const response = await games_list({
+        offset: pageParam,
+        search: searchParams?.get("search")
+      });
       return response;
     },
     getNextPageParam: (lastPage) => {

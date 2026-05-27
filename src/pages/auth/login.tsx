@@ -1,15 +1,10 @@
-import React, {
-	useActionState,
-	useEffect,
-	useState,
-} from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import * as Icons from "@/icons";
 
 import { Input, Button, Code } from "@/components";
 import { useDispatch } from "react-redux";
 import { setLogin } from "@/stories/login";
-import { auth_login } from "@/api/routes/auth";
+import { auth_login } from "@/api/auth";
 import { useTranslation } from "react-i18next";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNotify } from "@/hooks";
@@ -62,7 +57,6 @@ const Login: React.FC<{
 			<Code
 				onSubmit={handleVerify}
 				onCancel={() => setFormCode(false)}
-				className="auth_form"
 			/>
 		);
 

@@ -1,9 +1,9 @@
-import { useModal, useNotify } from "@/hooks";
+import { useNotify } from "@/hooks";
 import Textarea from "../base/textarea";
 import { useTranslation } from "react-i18next";
 import Button from "../base/button";
 import { FormProvider, useForm } from "react-hook-form";
-import { add_report } from "@/api/routes/reports";
+import { reports_create } from "@/api/reports";
 import { useState } from "react";
 
 /**
@@ -18,7 +18,6 @@ const Report: React.FC<{
 	onClose: () => void;
 }> = ({ target_id, type, Instance, onClose }) => {
 	const [isLoading, setLoading] = useState<boolean>(false);
-	const { modal } = useModal();
 	const { notify } = useNotify();
 	const { t } = useTranslation();
 
@@ -26,7 +25,7 @@ const Report: React.FC<{
 	const handleSubmit = async (data) => {
 		try {
 			setLoading(true);
-			const response = await add_report(
+			await reports_create(
 				target_id,
 				type,
 				data?.message,

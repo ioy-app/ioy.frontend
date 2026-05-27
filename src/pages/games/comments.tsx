@@ -6,7 +6,7 @@ import {
 	comments_like,
 	comments_list,
 	comments_reply,
-} from "@/api/routes/comments";
+} from "@/api/comments";
 import { Button, Select, Spin, ViewModel } from "@/components";
 import Comment from "@/components/content/comment";
 import CommentForm from "@/components/content/comment/form";
@@ -46,10 +46,11 @@ const Comments: React.FC<{
 		queryFn: async ({ pageParam }) => {
 			const response = await comments_list(
 				Number(id),
-				pageParam,
-				undefined,
-				order,
-				type
+				{
+					offset: pageParam,
+					order,
+					type
+				}
 			);
 			return response;
 		},
@@ -254,8 +255,10 @@ const Comments: React.FC<{
 			const response = await comments_answers(
 				Number(id),
 				Number(props.commentid),
-				props.offset,
-				5,
+				{
+					offset: props.offset,
+					limit: 5
+				}
 			);
 			return response;
 		},

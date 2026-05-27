@@ -2,7 +2,7 @@ import {
 	sessions_delete,
 	sessions_delete_all,
 	sessions_list,
-} from "@/api/routes/sessions";
+} from "@/api/sessions";
 import { Button, Session, Spin } from "@/components";
 import { useNotify } from "@/hooks";
 import { Session as SessionProps } from "@/types";

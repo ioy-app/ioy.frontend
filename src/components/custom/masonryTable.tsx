@@ -1,18 +1,10 @@
-// import { useEffect, useMemo, useState, useRef } from 'react';
-
-import { useEffect, useMemo, useRef, useState } from "react"
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react"
 import Picture from "../content/picture";
-
-// type GameProps = {
-//   id: string;
-//   // остальные поля
-// };
-
-// interface UseMasonryColumnsProps {
-//   items: GameProps[];
-//   minColumnWidth?: number;
-//   gap?: number;
-// }
 
 const useMasonryColumns = ({
   items,

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { fetchMe, setToken } from "@/stories/login";
 import { Routes } from "@/api";
 import { useQuery } from "@tanstack/react-query";
-import { apiInstance } from "@/api/routes";
+import { apiInstance } from "@/api";
 import { Helmet } from "react-helmet-async";
 
 export default function Content() {

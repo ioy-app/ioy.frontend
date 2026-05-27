@@ -1,4 +1,4 @@
-import { jams_list } from "@/api/routes/jams";
+import { jams_list } from "@/api/jams";
 import { Button, Jam, Spin } from "@/components";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";

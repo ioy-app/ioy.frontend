@@ -7,7 +7,7 @@ import {
 	BiSearch
 } from "react-icons/bi";
 
-import { dashboard_jams } from "@/api/routes/dashboard";
+import { dashboard_jams } from "@/api/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";

@@ -13,7 +13,7 @@ import {
 } from "react-icons/bi";
 import confStatus from "../configs/status.json";
 
-import { dashboard_games, dashboard_pictures } from "@/api/routes/dashboard";
+import { dashboard_games, dashboard_pictures } from "@/api/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";

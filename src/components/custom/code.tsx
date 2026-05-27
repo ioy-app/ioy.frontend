@@ -1,24 +1,21 @@
 import React, { useRef, useState } from "react";
 import { Button, Input } from "@/components";
 import { FormProvider, useForm } from "react-hook-form";
-
-import "./styles.less";
-import fetchAPI from "@/api";
 import { useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
-import { apiInstance } from "@/api/routes";
+import { apiInstance } from "@/api";
 
-const length: number = 6; // Длина кода подтверждения
+const length: number = 6; // Code default length
 
-/** Форма для ввода проверочного кода */
 const Code: React.FC<{
-	/** Событие успеха */
+	/** Submit event */
 	onSubmit: (data: Record<string, any>) => void;
-	/** Событие отмены */
+	/** Cancel event */
 	onCancel: () => void;
-	/** Классы */
-	className?: string;
-}> = ({ onSubmit, onCancel, className }) => {
+}> = ({
+	onSubmit,
+	onCancel
+}) => {
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const inputRefs = useRef([]);
 	const methods = useForm();
@@ -31,7 +28,6 @@ const Code: React.FC<{
 		code: string[];
 	}) => {
 		try {
-			console.log(code);
 			setLoading(true);
 
 			const response = await apiInstance.post("/codes", {
@@ -90,7 +86,6 @@ const Code: React.FC<{
 
 
 	const inputs = methods.watch("code");
-	console.log(inputs);
 
 	return (
 		<FormProvider {...methods}>

@@ -2,7 +2,7 @@ import {
 	createSlice,
 	createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { profile_me } from "@/api/routes/profile";
+import { profile_me } from "@/api/profile";
 
 interface initialStateProps {
 	token: string | null;

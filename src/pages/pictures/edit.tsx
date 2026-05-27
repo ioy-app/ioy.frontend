@@ -38,13 +38,13 @@ import {
   useMutation,
   useQuery
 } from "@tanstack/react-query";
-import { jams_details } from "@/api/routes/jams";
+import { jams_details } from "@/api/jams";
 import {
   pictures_create,
   pictures_delete,
   pictures_details,
   pictures_edit
-} from "@/api/routes/pictures";
+} from "@/api/pictures";
 
 export default function Edit() {
 	const params = useParams();

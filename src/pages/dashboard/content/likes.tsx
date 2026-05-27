@@ -9,7 +9,7 @@ import {
 } from "react-icons/bi";
 import confStatus from "../configs/status.json";
 
-import { dashboard_games } from "@/api/routes/dashboard";
+import { dashboard_games } from "@/api/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
@@ -28,7 +28,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
 	users_favorites,
 	users_likes,
-} from "@/api/routes/users";
+} from "@/api/users";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
 

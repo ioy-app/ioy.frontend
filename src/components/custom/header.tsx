@@ -1,20 +1,15 @@
 import * as Icons from "@/icons";
-import {
-	BiCalendarAlt,
-	BiLogIn,
-	BiUser,
-} from "react-icons/bi";
+import { BiUser } from "react-icons/bi";
 import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { User, Spin } from "@/components";
 import { useModal } from "@/hooks";
 import { Auth } from "@/pages";
 import {
-	motion,
 	useScroll,
 	useMotionValueEvent,
 } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Popup from "../base/popup";
 import { useTranslation } from "react-i18next";
 import { user_paths } from "@/routes/user";
@@ -34,10 +29,10 @@ const Header: React.FC<{}> = () => {
 	const location = useLocation();
 
 	const { scrollY } = useScroll();
-	const [isScrollable, setScrollable] =
-		useState<boolean>(false);
+	const [isScrollable, setScrollable] = useState<boolean>(false);
+	
 	useMotionValueEvent(scrollY, "change", (value) =>
-		setScrollable(value > 32),
+		setScrollable(value > 32)
 	);
 
 	return (

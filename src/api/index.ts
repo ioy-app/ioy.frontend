@@ -1,124 +1,171 @@
-import Store, { dispatch } from "@/stories";
-import { setToken } from "@/stories/login";
+import * as Profile from "./profile";
+import * as Sessions from "./sessions";
+import * as Users from "./users";
+import * as oAuth from "./auth";
+import * as Games from "./games";
+import * as Comments from "./comments";
+import * as Jams from "./jams";
 
-import Routes, { apiInstance } from "./routes";
+import axios from "axios";
+export const apiInstance = axios.create({
+	withCredentials: true,
+	baseURL: "/api/v1",
+});
 
-export default async function fetchAPI(
-	path: string,
-	init?: RequestInit,
-) {
-	const token: string | null =
-		Store.getState()?.login?.token;
-	const obj = init || {};
+apiInstance.interceptors.request.use((config) => {
+	const token = localStorage.getItem("token");
+	if (token)
+		config.headers.Authorization = `Bearer ${token}`;
+	return config;
+});
 
-	if (!obj.headers) obj.headers = {};
-
-	if (token) obj.headers.Authorization = `Bearer ${token}`;
-
-	if (obj?.headers?.["Content-Type"] == "no-content")
-		delete obj.headers["Content-Type"];
-	else {
-		obj.headers["Content-Type"] = "application/json";
-	}
-
-	const result = await apiInstance({
-		url: path,
-		...obj,
-	});
-
-	// if (!result.ok) {
-
-	//     switch(result.status) {
-	//         case 404: {
-	//           return result;
-	//         } break;
-	//         case 403: {
-	//             dispatch(setToken(null));
-	//             throw new Error(json?.data?.msg);
-	//         } break;
-	//     }
-	// }
-
-	return result;
-}
-
-function jsonToFormData(obj: any, parentKey = ""): FormData {
-  const formData = new FormData();
-
-  const process = (value: any, key: string) => {
-    // Пропускаем пустые значения
-    if (value == null) return;
-
-    // Обработка массивов
-    if (Array.isArray(value)) {
-      // Проверяем, содержит ли массив файлы (для полей типа game[])
-      const hasFiles = value.some(
-        (item) => item instanceof File || item instanceof Blob
-      );
-
-      if (hasFiles) {
-        // Файлы: добавляем каждый с одинаковым ключом (без индексов!)
-        value.forEach((item) => {
-          if (item instanceof File || item instanceof Blob) {
-            formData.append(key, item);
-          }
-        });
-      } else if (
-				typeof value === "object" &&
-				!(value instanceof File) &&
-				!(value instanceof Blob)
-			) {
-				Object.entries(value).forEach(([k, v]) => {
-					process(v, `${key}[${k}]`);
-				});
-			} else {
-				formData.append(key, value);
+apiInstance.interceptors.response.use(
+	(config) => config?.data,
+	async (err) => {
+		if (err.response.status == 401) {
+			try {
+				const response = await apiInstance.get(
+					Routes.profile.refresh,
+				);
+				if (response?.token) {
+					localStorage.setItem("token", response?.token);
+					return apiInstance(err.config);
+				}
+			} catch (err) {
+				localStorage.removeItem("token");
+			} finally {
+				return apiInstance(err.config);
 			}
-      return;
-    }
-
-    // Обработка вложенных объектов (не файлов)
-    if (
-      typeof value === "object" &&
-      !(value instanceof File) &&
-      !(value instanceof Blob)
-    ) {
-      Object.entries(value).forEach(([k, v]) => {
-        // Для вложенных объектов сохраняем нотацию с квадратными скобками
-        // Это стандарт для парсинга вложенных структур на бэкенде
-        process(v, `${key}[${k}]`);
-      });
-      return;
-    }
-
-		if (value instanceof File || value instanceof Blob) {
-			formData.append(key, value);
-			return;
 		}
 
-    // Базовый случай: строки, числа, булевы значения
-    formData.append(key, String(value));
-  };
-
-  // Точка входа: обработка корневого объекта
-  if (
-		typeof obj === "object" &&
-		!Array.isArray(obj) &&
-		obj !== null
-	) {
-		Object.entries(obj).forEach(([key, value]) => {
-			process(
-				value,
-				parentKey ? `${parentKey}[${key}]` : key,
-			);
+		return Promise.reject({
+			status: err?.response?.status || 0,
+			message: err?.response?.data?.msg,
+			data: err?.response?.data,
+			originalError: err,
 		});
-	} else {
-		// Если передали не объект — просто добавить
-		
-		formData.append(parentKey, obj);
+	},
+);
+
+export const apiFileInstance = apiInstance;
+apiFileInstance.interceptors.response.use(
+	(config) => config,
+	async (err) => {
+		if (err?.response?.status == 401) {
+			try {
+				const response = await apiInstance.get(
+					Routes.profile.refresh,
+				);
+				if (response?.token) {
+					localStorage.setItem("token", response?.token);
+					return apiInstance(err.config);
+				} else {
+					localStorage.removeItem("token");
+				}
+			} catch (err) {
+				console.log("???", err);
+			}
+		}
+
+		return Promise.reject({
+			status: err?.status || 0,
+			message: err?.message,
+			originalError: err,
+		});
+	},
+);
+
+const Routes = {
+	sessions: {
+		list: `/sessions`,
+		details: (id: number) => `/sessions/${id}`,
+	},
+	profile: {
+		refresh: `/sessions/update`,
+		me: `/auth/me`,
+		logout: `/auth/logout`,
+	},
+	users: {
+		self: `/users/self`,
+		details: (login: string) => `/users/${login}`,
+		subscribe: (login: string) =>
+			`/users/${login}/subscribe`,
+		games: (login: string) => `/users/${login}/games`,
+		pictures: (login: string) => `/users/${login}/pictures`,
+		jams: (login: string) => `/users/${login}/jams`,
+		avatar: (login: string) => `/users/${login}/avatar`,
+		subscribers: (login: string) =>
+			`/users/${login}/subscribers`,
+		favorites: (login: string) =>
+			`/users/${login}/favorites`,
+		likes: (login: string) => `/users/${login}/likes`,
+		email: `/users/change-email`,
+		delete: `/users/delete`,
+	},
+	auth: {
+		login: `/auth/login`,
+		reg: `/auth/reg`,
+		verify: `/auth/verify`
+	},
+	games: {
+		list: `/games`,
+		tags: "/games/tags",
+		details: (id: number) => `/games/${id}`,
+		icon: (id: number) => `/games/${id}/icon`,
+		subscribe: (id: number) => `/games/${id}/subscribe`,
+		game: (id: number) => `/games/${id}/game`,
+		like: (id: number) => `/games/${id}/like`,
+		create: `/games/create`,
+		votes: (id: number) => `/games/${id}/my-votes`
+	},
+	dashboard: {
+		instances: "/auth/dashboard/instances",
+		games: `/games/my`,
+		jams: `/jams/my`,
+		pictures: `/pictures/my`
+	},
+	comments: {
+		details: (id: number) => `/comments/${id}`,
+		answers: (id: number, commentid: number) =>
+			`/comments/${id}/${commentid}`,
+		create: (id: number) => `/comments/${id}`,
+		reply: (id: number, commentid: number) =>
+			`/comments/${id}/${commentid}`,
+		like: (id: number) => `/comments/${id}/like`,
+	},
+	search: `/search`,
+	jams: {
+		list: `/jams`,
+		details: (id: number) => `/jams/${id}`,
+		icon: (id: number) => `/jams/${id}/icon`,
+		join: (id: number) => `/jams/${id}/join`,
+		leave: (id: number) => `/jams/${id}/leave`,
+		games: (id: number) => `/jams/${id}/games`
+	},
+	reports: {
+		list: "/reports",
+		details: (id: number) => `/reports/${id}`
+	},
+	feed: {
+		global: "/feed/global"
+	},
+	pictures: {
+		list: "/pictures",
+		tags: "/pictures/tags",
+		details: (id: number) => `/pictures/${id}`,
+		like: (id: number) => `/pictures/${id}/like`,
+		image: (id: number) => `/pictures/${id}/image`,
+		votes: (id: number) => `/pictures/${id}/my-votes`
 	}
+};
 
-  return formData;
-}
-
-export { Routes, jsonToFormData };
+export {
+	Profile,
+	Sessions,
+	Users,
+	oAuth,
+	Games,
+	Comments,
+	Jams,
+	Routes
+};

@@ -12,7 +12,7 @@ import {
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { NavLink, useSearchParams } from "react-router";
-import { pictures_list, pictures_tags } from "@/api/routes/pictures";
+import { pictures_list, pictures_tags } from "@/api/pictures";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 /**
@@ -27,7 +27,10 @@ const Pictures: React.FC<{}> = ({}) => {
 	const query = useInfiniteQuery({
     queryKey: [ "home", "pictures", searchParams?.toString() ],
     queryFn: async ({ pageParam = 0 }) => {
-      const response = await pictures_list(pageParam, searchParams?.get("search"));
+      const response = await pictures_list({
+        offset: pageParam,
+        search: searchParams?.get("search")
+      });
       return response;
     },
     getNextPageParam: (lastPage) => {

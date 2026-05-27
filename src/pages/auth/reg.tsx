@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import confPackage from "@/../package.json";
 
 import { Input, Button, Checkbox } from "@/components";
-import { auth_reg } from "@/api/routes/auth";
+import { auth_reg } from "@/api/auth";
 import { useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
 import { paths } from "@/routes";

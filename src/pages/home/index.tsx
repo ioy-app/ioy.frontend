@@ -7,7 +7,7 @@ import imgLabel from "@/icons/label.svg";
 import { Button, Game, Picture, Spin } from "@/components";
 import { paths } from "@/routes";
 import { useQuery } from "@tanstack/react-query";
-import { apiInstance } from "@/api/routes";
+import { apiInstance } from "@/api";
 import { useMemo } from "react";
 
 export default function Home() {
