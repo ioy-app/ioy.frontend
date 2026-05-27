@@ -4,7 +4,7 @@ import {
 	games_delete,
 	games_details,
 	games_edit,
-} from "@/api/routes/games";
+} from "@/api/games";
 import {
 	Button,
 	Checkbox,
@@ -36,7 +36,7 @@ import { Navigate, NavLink, useNavigate, useParams } from "react-router-dom";
 import Uploader from "./uploader";
 import JamBlock from "./jam";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { jams_details } from "@/api/routes/jams";
+import { jams_details } from "@/api/jams";
 import { UserProps } from "@/types";
 
 export default function Edit() {

@@ -1,4 +1,4 @@
-import { feed_global } from "@/api/routes/feed";
+import { feed_global } from "@/api/feed";
 import { Post, Spin, ViewModel } from "@/components";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";

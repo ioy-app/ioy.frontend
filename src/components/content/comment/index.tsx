@@ -20,10 +20,15 @@ import Report from "@/components/custom/report";
 
 const Comment: React.FC<
 	CommentProps & {
+		/** Like event */
 		onLike?: (id: number) => void;
+		/** Submit event */
 		onOk?: (id: number, comment: string) => void;
+		/** Delete event */
 		onDelete?: (id: number, comment: string) => void;
+		/** Load next comments page */
 		onLoadNext?: (offset: number) => void;
+		/** Disabled */
 		disabled?: boolean;
 	}
 > = (props) => {

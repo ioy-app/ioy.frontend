@@ -10,7 +10,7 @@ import {
 } from "react-icons/bi";
 import confStatus from "../configs/status.json";
 
-import { dashboard_games } from "@/api/routes/dashboard";
+import { dashboard_games } from "@/api/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
@@ -26,7 +26,7 @@ import { paths } from "@/routes";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
-import { users_subscribers } from "@/api/routes/users";
+import { users_following } from "@/api/users";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
 import { UserProps } from "@/types";
@@ -63,7 +63,7 @@ const Following: React.FC = () => {
 			search.set("limit", String(max));
 			if (sort) search.set("sort", sort);
 
-			const result = await users_subscribers(login, search);
+			const result = await users_following(login, search);
 			return result;
 		},
 	});

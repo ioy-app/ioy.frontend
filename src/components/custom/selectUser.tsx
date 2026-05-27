@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Input from "../base/input";
 import User from "../content/user";
 import { BiX } from "react-icons/bi";
-import { users_details } from "@/api/routes/users";
+import { users_details } from "@/api/users";
 import { useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
 import { UserProps } from "@/types";

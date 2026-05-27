@@ -1,8 +1,8 @@
-import { profile_logout } from "@/api/routes/profile";
+import { profile_logout } from "@/api/profile";
 import {
 	users_delete,
 	users_games,
-} from "@/api/routes/users";
+} from "@/api/users";
 import { Button, Code, Spin } from "@/components";
 import { useNotify } from "@/hooks";
 import { StoreProps } from "@/stories";

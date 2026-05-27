@@ -2,7 +2,7 @@ import {
 	games_details,
 	games_like,
 	games_subscribe,
-} from "@/api/routes/games";
+} from "@/api/games";
 import {
 	Button,
 	Game,

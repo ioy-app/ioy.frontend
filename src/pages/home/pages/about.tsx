@@ -16,8 +16,8 @@ import {
 } from "@/components";
 import { GoLaw } from "react-icons/go";
 import { useQuery } from "@tanstack/react-query";
-import { games_list } from "@/api/routes/games";
-import { pictures_list } from "@/api/routes/pictures";
+import { games_list } from "@/api/games";
+import { pictures_list } from "@/api/pictures";
 import { FaBluesky } from "react-icons/fa6";
 import { useEffect } from "react";
 
@@ -34,12 +34,18 @@ export default function About() {
 	
 	const gamesQuery = useQuery({
 		queryKey: [ "about", "games" ],
-		queryFn: () => games_list(0, undefined, 3)
+		queryFn: () => games_list({
+			offset: 0,
+			limit: 3
+		})
 	});
 
 	const picturesQuery = useQuery({
 		queryKey: [ "about", "pictures" ],
-		queryFn: () => pictures_list(0, undefined, 3)
+		queryFn: () => pictures_list({
+			offset: 0,
+			limit: 3
+		})
 	});
 
 	return (

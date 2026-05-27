@@ -16,6 +16,7 @@ const Picture: React.FC<{
 	nolink?: boolean;
 	/** Avatar size */
 	size?: number | string;
+	/** Click event */
 	onClick?: (id: number) => void;
 }> = ({
 	dataSource,

@@ -16,7 +16,9 @@ const Game: React.FC<{
 	nolink?: boolean;
 	/** Avatar size */
 	size?: number | string;
+	/** Click event */
 	onClick?: (id: number) => void;
+	/** Class name */
 	className?: string;
 }> = ({
 	dataSource,

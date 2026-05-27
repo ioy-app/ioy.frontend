@@ -14,6 +14,7 @@ const Jam: React.FC<{
 	className?: string;
 	/** Avatar size */
 	size?: number | string;
+	/** Click event */
 	onClick?: (id: number) => void;
 }> = ({
 	dataSource,

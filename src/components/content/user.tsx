@@ -7,15 +7,21 @@ import { useQuery } from "@tanstack/react-query";
 import { UserProps } from "@/types";
 
 const User: React.FC<{
-	/** Логин */
+	/** Login */
 	login?: string;
-	/** Предпросмотр изображения */
+	/** Profile image */
 	preview?: string;
+	/** Size */
 	size?: number | string;
+	/** Disabled link */
 	nolink?: boolean;
+	/** Class name */
 	className?: string;
+	/** Profile data */
 	dataSource?: UserProps;
+	/** Ref component */
 	ref?: React.Ref<HTMLDivElement>;
+	/** Click event  */
 	onClick?: (login: string) => void;
 }> = ({
 	login,

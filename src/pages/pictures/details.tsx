@@ -1,4 +1,4 @@
-import { pictures_details, pictures_like } from "@/api/routes/pictures";
+import { pictures_details, pictures_like } from "@/api/pictures";
 import { Button, LinkifyText, Picture, Report, Spin, Tag, User } from "@/components";
 import Popup from "@/components/base/popup";
 import { useModal, useNotify } from "@/hooks";

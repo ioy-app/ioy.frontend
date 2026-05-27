@@ -1,4 +1,4 @@
-import { jams_delete, jams_details, jams_games, jams_join, jams_leave } from "@/api/routes/jams";
+import { jams_delete, jams_details, jams_games, jams_join, jams_leave } from "@/api/jams";
 import { Button, Code, Game, Jam, Pagination, Report, Spin, Table, Tag, User } from "@/components";
 import { useModal } from "@/hooks";
 import { paths } from "@/routes";

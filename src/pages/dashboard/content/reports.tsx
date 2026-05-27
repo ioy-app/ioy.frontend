@@ -10,8 +10,6 @@ import {
 	BiSearchAlt,
 } from "react-icons/bi";
 import confStatus from "../configs/status.json";
-
-import { dashboard_games } from "@/api/routes/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
@@ -26,7 +24,7 @@ import { paths } from "@/routes";
 import GameProps from "@/types/game";
 import { useQuery } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
-import { answer_report, reports } from "@/api/routes/reports";
+import { reports_answer, reports_list } from "@/api/reports";
 import { UserProps } from "@/types";
 import { useModal } from "@/hooks";
 import JamProps from "@/types/jam";
@@ -48,7 +46,7 @@ const Reports: React.FC = () => {
 			searchParams?.toString(),
 		],
 		queryFn: async () => {
-			const result = await reports(
+			const result = await reports_list(
 				(current_page - 1) * max,
 				max,
 			);
@@ -196,7 +194,7 @@ const ReportAnswer: React.FC<{
 	const handleSubmit = async (fd) => {
 		try {
 			setLoading(true);
-			const response = await answer_report(data?.id, fd);
+			const response = await reports_answer(data?.id, fd);
 			console.log(response);
 			onClose && onClose();
 		}

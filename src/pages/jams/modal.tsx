@@ -1,4 +1,4 @@
-import { jams_list } from "@/api/routes/jams";
+import { jams_list } from "@/api/jams";
 import { Button, Jam, Spin, Table } from "@/components";
 import JamProps from "@/types/jam";
 import { useQuery } from "@tanstack/react-query";

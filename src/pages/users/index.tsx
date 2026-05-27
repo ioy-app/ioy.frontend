@@ -34,16 +34,14 @@ import {
 
 import Edit from "./edit";
 
-import fetchAPI, { Routes } from "@/api";
 import {
 	users_details,
-	users_favorites,
 	users_games,
 	users_likes,
 	users_pictures,
 	users_subscribe,
-	users_subscribers,
-} from "@/api/routes/users";
+	users_following,
+} from "@/api/users";
 import { useModal, useNotify } from "@/hooks";
 import { useTranslation } from "react-i18next";
 import { user_paths } from "@/routes/user";
@@ -420,7 +418,7 @@ export default function Profile() {
 									);
 									search.set("limit", String(count));
 
-									const users = await users_subscribers(
+									const users = await users_following(
 										login,
 										search,
 									);
@@ -443,7 +441,7 @@ export default function Profile() {
 											}}
 											id="subscribers"
 											login={login}
-											fn={users_subscribers}
+											fn={users_following}
 										/>
 									));
 								}}

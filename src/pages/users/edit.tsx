@@ -17,7 +17,7 @@ import {
 	changeLogin,
 	clearLogin,
 } from "../../stories/login";
-import { profile_logout } from "@/api/routes/profile";
+import { profile_logout } from "@/api/profile";
 import {
 	Navigate,
 	NavigateFunction,
@@ -33,8 +33,8 @@ import {
 import {
 	users_details,
 	users_edit,
-	users_self,
-} from "@/api/routes/users";
+	users_me,
+} from "@/api/users";
 import Email from "./modals/email";
 import Delete from "./modals/delete";
 import {
@@ -126,7 +126,7 @@ const Edit: React.FC<{
 		setLoading(true);
 		(async () => {
 			try {
-				const response = await users_self();
+				const response = await users_me();
 				for (const [key, value] of Object.entries(response))
 					setValue(key, value);
 

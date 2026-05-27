@@ -5,6 +5,11 @@ import Button from "../base/button";
 import { BiMoon, BiSun } from "react-icons/bi";
 import { useState } from "react";
 
+/**
+ * Footer
+ * @example
+ * return <Footer />
+*/
 const Footer: React.FC = () => {
 	const { i18n, t } = useTranslation();
 	const prefersDarkMode =

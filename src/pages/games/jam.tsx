@@ -1,4 +1,4 @@
-import { games_votes_list, games_votes_put } from "@/api/routes/games";
+import { games_votes_list, games_votes_put } from "@/api/games";
 import { Jam, Spin, Vote } from "@/components";
 import { useNotify } from "@/hooks";
 import { VotingOne, VotingThird, VotingTwo } from "@/icons";

@@ -1,23 +1,17 @@
 import Button from "@/components/base/button";
 import Popup from "@/components/base/popup";
 import Spin from "@/components/base/spin";
-import { user_paths } from "@/routes/user";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import {
-	BiArrowFromRight,
-	BiArrowToRight,
-	BiChevronsRight,
-	BiExpandAlt,
-	BiLinkExternal,
-	BiRightArrow,
-	BiRightArrowAlt,
-} from "react-icons/bi";
+import { BiExpandAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const Block: React.FC<{
+	/** Title */
 	title: string;
+	/** ID */
 	id?: string;
+	/** Request function */
 	request: (
 		page: number,
 		count: number,
@@ -25,10 +19,11 @@ const Block: React.FC<{
 		items: unknown[];
 		total: number;
 	}>;
+	/** Render component */
 	Component: React.ElementType;
+	/** Open event */
 	onOpen: () => void;
 }> = ({ title, id, request, Component, onOpen }) => {
-	const navigator = useNavigate();
 	const { t } = useTranslation();
 
 	const { isFetching, data } = useQuery({
