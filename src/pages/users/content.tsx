@@ -113,7 +113,8 @@ export default function UserContent({
 													<User
 														login={(item as UserProps).login}
 														nolink
-														size="full"
+														size="large"
+														vertical
 														onClick={(_login) =>
 															onClose &&
 															onClose(

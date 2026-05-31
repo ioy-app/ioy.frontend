@@ -245,9 +245,11 @@ export default function Profile() {
 															dataSource={{
 																is_avatar: data?.is_avatar,
 															}}
-															size={24}
+															size="large"
+															hideLogin
 															className="transition-all w-full h-full"
 															nolink
+
 														/>
 													</div>
 													<p className="text-title">{login}</p>
@@ -271,7 +273,9 @@ export default function Profile() {
 							dataSource={{
 								is_avatar: data?.is_avatar,
 							}}
-							size="full"
+							vertical
+							hideLogin
+							size="large"
 							className="transition-all w-full h-full"
 							nolink
 						/>
@@ -427,6 +431,8 @@ export default function Profile() {
 										items: users.items.map((item) => ({
 											login: item.login,
 											dataSource: item,
+											size: "large",
+											vertical: true
 										})),
 										total: users.total,
 									};

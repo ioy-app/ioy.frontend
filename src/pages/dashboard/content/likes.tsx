@@ -1,5 +1,5 @@
 import confOrder from "@/configs/order.json";
-
+import confTypesFilter from "../configs/typesFilter.json";
 import {
 	BiBox,
 	BiEditAlt,
@@ -9,13 +9,14 @@ import {
 } from "react-icons/bi";
 import confStatus from "../configs/status.json";
 
-import { dashboard_games } from "@/api/dashboard";
+import { dashboard_games, dashboard_likes } from "@/api/dashboard";
 import { useEffect, useState } from "react";
 
 import * as Components from "@/components";
 import dayjs from "dayjs";
 import {
 	Link,
+	NavLink,
 	useNavigate,
 	useSearchParams,
 } from "react-router-dom";
@@ -47,6 +48,7 @@ const Likes: React.FC = () => {
 	const status = searchParams.get("status");
 	const sort = searchParams.get("sort");
 	const searchQS = searchParams.get("search");
+	const type = searchParams.get("type");
 
 	const query = useQuery({
 		queryKey: [
@@ -63,21 +65,43 @@ const Likes: React.FC = () => {
 			);
 			search.set("limit", String(max));
 			if (sort) search.set("sort", sort);
+			if (status) search.set("status", status);
+			if (type) search.set("type", type);
+			if (searchQS) search.set("search", searchQS);
 
-			const result = await users_likes(login, search);
+			const result = await dashboard_likes(search);
 			return result;
 		},
 	});
 
 	const onSubmit = async (data) => {
 		const us = new URLSearchParams();
+		if (data.search) us.set("search", data.search);
+		if (data.status && data.status != "all")
+			us.set("status", data.status);
 		if (data.sort) us.set("sort", data.sort);
+		if (data.type && data.type != "all") us.set("type", data.type);
 		setSearchParams(us);
 	};
 
 	const methods = useForm();
 
 	useEffect(() => {
+		if (searchParams.get("search"))
+			methods.setValue(
+				"search",
+				searchParams.get("search"),
+			);
+		if (searchParams.get("status"))
+			methods.setValue(
+				"status",
+				searchParams.get("status"),
+			);
+		if (searchParams.get("type"))
+			methods.setValue(
+				"type",
+				searchParams.get("type"),
+			);
 		if (searchParams.get("sort"))
 			methods.setValue("sort", searchParams.get("sort"));
 	}, [searchParams]);
@@ -94,14 +118,13 @@ const Likes: React.FC = () => {
 					className="flex gap-4 items-center flex-wrap"
 					onSubmit={methods.handleSubmit(onSubmit)}
 				>
-					<div className="flex flex-wrap items-center justify-end gap-4 w-full">
-						<Components.Select
-							options={sorOptions}
-							className="w-50"
+					<div className="flex gap-4 w-full">
+						<Components.Input
+							type="search"
+							{...methods.register("search")}
 							placeholder={t(
-								"dashboard.placeholders.order",
+								"dashboard.placeholders.instances.search",
 							)}
-							{...methods.register("sort")}
 						/>
 						<Components.Button
 							variant="primary"
@@ -110,49 +133,115 @@ const Likes: React.FC = () => {
 							<BiSearch />
 						</Components.Button>
 					</div>
+					<div className="flex flex-wrap items-center justify-between gap-4 w-full">
+						<div className="flex flex-wrap gap-4 items-center">
+							<Components.Select
+								placeholder={t(
+									"dashboard.placeholders.type",
+								)}
+								options={confTypesFilter.map((record) => ({
+									...record,
+									label: t(record.label),
+								}))}
+								{...methods.register("type")}
+								className="w-50"
+							/>
+							<Components.Select
+								options={sorOptions}
+								className="w-50"
+								placeholder={t(
+									"dashboard.placeholders.order",
+								)}
+								{...methods.register("sort")}
+							/>
+						</div>
+					</div>
 				</form>
 			</FormProvider>
 			<Components.Table
 				columns={[
 					{
-						title: t("dashboard.table.games.game"),
+						title: null,
 						dataIndex: "id",
-						render: (data, game) => (
-							<Link
-								to={paths.games.details(game?.id)}
-								className="group flex items-center gap-2 w-fit"
-							>
-								<Components.Game
-									dataSource={
-										{
-											id: game?.id,
-											is_avatar: game?.is_avatar,
-											jam_result: game?.jam_result
-										} as GameProps
-									}
-									nolink
-									size={12}
-								/>
-								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-									{game?.title}
-								</p>
-							</Link>
-						),
+						render: (_, instance) => {
+							switch(instance?.type) {
+								case "game":
+									return (
+										<NavLink
+											to={paths.games.details(instance?.id)}
+											className="group flex items-center gap-2 w-fit"
+										>
+											<Components.Game
+												dataSource={{
+													id: instance?.id,
+													is_avatar: instance?.is_avatar,
+													jam_result: instance?.jam_result,
+													hype: instance?.hype
+												}}
+												nolink
+												size={12}
+											/>
+											<p className="text-default group-hover:text-primary transition-colors">{instance?.title}</p>
+											{instance?.version && (
+												<div className="text-default border border-text text-text group-hover:text-primary group-hover:border-primary px-4 py-1 rounded-2xl transition-colors">
+													{instance?.version}
+												</div>
+											)}
+										</NavLink>
+									);
+								break;
+								case "picture":
+									return (
+										<NavLink
+											to={paths.pictures.details(instance?.id)}
+											className="group flex items-center gap-2 w-fit"
+										>
+											<div className="flex justify-center items-center w-12 aspect-square">
+												<Components.Picture
+													dataSource={{
+														id: instance?.id,
+														jam_result: instance?.jam_result,
+														hype: instance?.hype
+													}}
+													nolink
+													size="full"
+												/>
+											</div>
+											<p className="text-default group-hover:text-primary transition-colors">{instance?.title}</p>
+										</NavLink>
+									);
+								break;
+							}
+						}
 					},
 					{
-						title: t("dashboard.table.games.version"),
-						dataIndex: "version",
+						title: t("dashboard.table.instances.author"),
+						dataIndex: "creater_data",
+						render: (data, instance) => (
+							<Components.User
+								login={data.login}
+								dataSource={data}
+								size="small"
+							/>
+						)
 					},
 					{
-						title: t("dashboard.table.games.date_created"),
+						title: t("dashboard.table.instances.date_created"),
 						dataIndex: "date_created",
 						render: (date) =>
 							dayjs(date)?.isValid() &&
 							dayjs(date).format("HH:mm DD.MM.YYYY"),
 					},
 					{
-						title: t("dashboard.table.games.date_updated"),
+						title: t("dashboard.table.instances.date_updated"),
 						dataIndex: "date_updated",
+						render: (date) =>
+							dayjs(date)?.isValid() &&
+							dayjs(date).format("HH:mm DD.MM.YYYY"),
+					},
+					{
+						title: t("dashboard.table.instances.like_created"),
+						dataIndex: "like_created",
 						render: (date) =>
 							dayjs(date)?.isValid() &&
 							dayjs(date).format("HH:mm DD.MM.YYYY"),

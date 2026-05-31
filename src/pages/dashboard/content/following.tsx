@@ -127,8 +127,9 @@ const Following: React.FC = () => {
 										is_avatar: user?.is_avatar,
 									}}
 									login={user?.login}
+									hideLogin
 									nolink
-									size={12}
+									size="small"
 								/>
 								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
 									{user?.login}

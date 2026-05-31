@@ -49,6 +49,7 @@
 			"status": "Status",
 			"date_created": "Date created",
 			"date_updated": "Date updated",
+			"like_created": "Like created",
 			"author": "Author",
 			"likes": "Likes",
 			"saves": "Saves",
