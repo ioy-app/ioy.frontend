@@ -36,7 +36,7 @@ export default function About() {
 		queryKey: [ "about", "games" ],
 		queryFn: () => games_list({
 			offset: 0,
-			limit: 3
+			count: 3
 		})
 	});
 
@@ -44,7 +44,7 @@ export default function About() {
 		queryKey: [ "about", "pictures" ],
 		queryFn: () => pictures_list({
 			offset: 0,
-			limit: 3
+			count: 3
 		})
 	});
 

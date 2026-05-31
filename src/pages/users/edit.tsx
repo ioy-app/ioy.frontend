@@ -165,7 +165,8 @@ const Edit: React.FC<{
 								dataSource={{
 									is_avatar: data?.is_avatar || handlePreview,
 								}}
-								size="full"
+								hideLogin
+								size="large"
 								preview={handlePreview}
 								nolink
 							/>

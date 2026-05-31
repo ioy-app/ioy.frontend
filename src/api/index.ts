@@ -122,7 +122,8 @@ const Routes = {
 		instances: "/auth/dashboard/instances",
 		games: `/games/my`,
 		jams: `/jams/my`,
-		pictures: `/pictures/my`
+		pictures: `/pictures/my`,
+		likes: "/auth/dashboard/likes"
 	},
 	comments: {
 		details: (id: number) => `/comments/${id}`,

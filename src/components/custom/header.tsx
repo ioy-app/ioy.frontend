@@ -75,7 +75,8 @@ const Header: React.FC<{}> = () => {
 										dataSource={{
 											is_avatar,
 										}}
-										size={"full"}
+										hideLogin
+										size="small"
 									/>
 								</Popup>
 							) : (

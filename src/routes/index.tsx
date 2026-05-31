@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import { Home, About, Feed } from "@/pages";
+import { Home, About, Feed, Donut } from "@/pages";
 
 import games, { games_paths } from "./games";
 import user, { user_paths } from "./user";
@@ -16,6 +16,7 @@ export const paths = {
 	dashboard: dashboard_paths,
 	search: "/search",
 	about: "/about",
+	donut: "/donut",
 	terms: "/terms",
 	verify: "/verify",
 	jams: jams_paths,
@@ -48,6 +49,10 @@ const routes: RouteObject[] = [
 	{
 		path: paths.about,
 		element: <About />,
+	},
+	{
+		path: paths.donut,
+		element: <Donut />
 	},
 	...user,
 	...games,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Profile } from "@/icons";
 import { NavLink } from "react-router-dom";
 import { Routes } from "@/api";
@@ -9,10 +9,12 @@ import { UserProps } from "@/types";
 const User: React.FC<{
 	/** Login */
 	login?: string;
+	/** Hide Login */
+	hideLogin?: boolean;
 	/** Profile image */
 	preview?: string;
 	/** Size */
-	size?: number | string;
+	size?: "small" | "middle" | "large" | number | "full";
 	/** Disabled link */
 	nolink?: boolean;
 	/** Class name */
@@ -23,17 +25,21 @@ const User: React.FC<{
 	ref?: React.Ref<HTMLDivElement>;
 	/** Click event  */
 	onClick?: (login: string) => void;
+	/** Login place */
+	vertical?: boolean;
 }> = ({
 	login,
+	hideLogin,
+	className,
 	preview,
 	nolink,
-	size = 24,
-	className,
+	size="large",
 	dataSource,
 	ref,
 	onClick,
+	vertical
 }) => {
-	const { status, data, isError } = useQuery({
+	const query = useQuery({
 		queryKey: ["avatar", login, preview],
 		queryFn: async () => {
 			if (!dataSource?.is_avatar) return null;
@@ -51,46 +57,44 @@ const User: React.FC<{
 		retry: false,
 	});
 
+
+	const avatarSize = useMemo(() => {
+		switch(size) {
+			case "small": return 10; break;
+			case "middle": return 24; break;
+			case "large": return 32; break;
+			default: return size; break;
+		}
+	}, [ size ]);
+
+	const isDonut = useMemo(() => dataSource?.is_donut, []);
+
 	const root = (
 		<div
-			className={`group flex flex-col items-center gap-1 max-w-${size} w-${size} overflow-hidden ${(className && className) || ""}`}
-			key={`user-${login}-${size}`}
+			className={`${!nolink && "group" || ""} flex gap-2 w-fit items-center ${vertical && "flex-col" || ""} ${!nolink && "hover:opacity-75 cursor-pointer" || ""} transition-opacity ${className && className || ""}`}
+			onClick={() => onClick && onClick?.(login)}
 			ref={ref}
-			onClick={() => onClick && nolink && onClick(login)}
 		>
-			<div
-				className={`w-${size} h-${size} rounded-full overflow-hidden aspect-square border border-br ${(!nolink && "group-hover:border-primary transition-colors") || ""}`}
-			>
-				<Spin loading={status == "pending"}>
-					{isError || !data ? (
-						<div className="flex w-full h-full items-center justify-center flex-col gap-2 bg-primary">
-							<img src={Profile} />
-						</div>
-					) : (
-						<img src={data} className="w-full h-full" />
-					)}
+			<div className={`w-${avatarSize} h-${avatarSize} aspect-square bg-primary overflow-hidden rounded-full ${isDonut && "animate-donate bg-linear-to-b from-primary to-second p-0.75 bg-size-[100%_150%] [animation-duration:7s]" || ""}`}>
+				<Spin loading={query?.isLoading}>
+					<img
+						src={(query?.isError || !query?.data) ? Profile : query?.data}
+						className="w-full h-full rounded-full"
+					/>
 				</Spin>
 			</div>
-			{dataSource?.login && (
-				<p
-					className={`max-w-${size} overflow-hidden text-placeholder wrap-break-word line-clamp-2 text-center ... group-hover:text-primary transition-colors`}
-				>
-					{dataSource.login}
-				</p>
-			)}
+			{(login && !hideLogin) && <p className={`group-hover:text-primary text-placeholder ${isDonut && "text-second" || ""} transition-colors w-fit`}>{login}</p>}
 		</div>
 	);
 
 	return !nolink ? (
 		<NavLink
 			to={`/u/${login}`}
-			className={`w-${size}`}
+			className="flex w-fit"
 		>
 			{root}
 		</NavLink>
-	) : (
-		root
-	);
+	) : root;
 };
 
 export default User;

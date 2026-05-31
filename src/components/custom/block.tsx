@@ -62,9 +62,9 @@ const Block: React.FC<{
 						{Component &&
 							data?.items?.map((item, i: number) => (
 								<Component
+									size="full"
 									{...(item as any)}
 									key={i}
-									size="full"
 								/>
 							))}
 					</div>

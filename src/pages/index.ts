@@ -10,6 +10,7 @@ import About from "./home/pages/about";
 import Verify from "./verify";
 import Feed from "./home/pages/feed";
 import PictureEdit from "./pictures/edit";
+import Donut from "./home/pages/donut";
 
 import Auth, {
 	Login as AuthLogin,
@@ -32,5 +33,6 @@ export {
 	About,
 	Verify,
 	Feed,
-	PictureEdit
+	PictureEdit,
+	Donut
 };
