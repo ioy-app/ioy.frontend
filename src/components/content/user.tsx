@@ -75,7 +75,7 @@ const User: React.FC<{
 			onClick={() => onClick && onClick?.(login)}
 			ref={ref}
 		>
-			<div className={`w-${avatarSize} h-${avatarSize} aspect-square bg-primary overflow-hidden rounded-full ${isDonut && "animate-donate bg-linear-to-b from-primary to-second p-0.75 bg-size-[100%_150%] [animation-duration:7s]" || ""}`}>
+			<div className={`w-${avatarSize} h-${avatarSize} aspect-square bg-primary overflow-hidden rounded-full ${isDonut && "animate-donate bg-linear-to-b from-primary to-second group-hover:from-second group-hover:to-primary p-0.75 bg-size-[100%_150%] [animation-duration:7s]" || ""}`}>
 				<Spin loading={query?.isLoading}>
 					<img
 						src={(query?.isError || !query?.data) ? Profile : query?.data}

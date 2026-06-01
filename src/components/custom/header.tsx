@@ -22,7 +22,7 @@ import { paths } from "@/routes";
  */
 const Header: React.FC<{}> = () => {
 	const { t } = useTranslation();
-	const { token, login, loading, is_avatar } = useSelector(
+	const { token, login, loading, is_avatar, is_donut } = useSelector(
 		(state: any) => state?.login,
 	);
 	const { modal } = useModal();
@@ -74,6 +74,7 @@ const Header: React.FC<{}> = () => {
 										login={login}
 										dataSource={{
 											is_avatar,
+											is_donut
 										}}
 										hideLogin
 										size="small"

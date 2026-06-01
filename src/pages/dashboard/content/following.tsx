@@ -125,15 +125,13 @@ const Following: React.FC = () => {
 									dataSource={{
 										id: user?.id,
 										is_avatar: user?.is_avatar,
+										is_donut: user?.is_donut
 									}}
 									login={user?.login}
-									hideLogin
+									
 									nolink
 									size="small"
 								/>
-								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-									{user?.login}
-								</p>
 							</Link>
 						),
 					},

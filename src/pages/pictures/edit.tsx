@@ -106,6 +106,7 @@ export default function Edit() {
 				jam_id,
 				is_background
 			}
+
 			if (isCreate)
 				return (await pictures_create(props));
 			

@@ -8,7 +8,7 @@ const jsonToFormData = (obj: Record<string, any>, parentKey: string = ""): FormD
 	const formData = new FormData();
 
 	const process = (value: any, key: string) => {
-		if (value === null)
+		if (value === null || value === undefined)
 			return;
 
 		if (Array.isArray(value)) {
@@ -44,7 +44,7 @@ const jsonToFormData = (obj: Record<string, any>, parentKey: string = ""): FormD
 		formData.append(key, String(value));
 	}
 
-	if (typeof(obj) === "object" && !Array.isArray(obj) && obj !== null) {
+	if (typeof(obj) === "object" && !Array.isArray(obj) && (obj !== null || obj !== undefined)) {
 		Object.entries(obj)
 			.forEach(([ k, v ]) => process(v, parentKey ? `${parentKey}[${k}]` : k));
 	} else

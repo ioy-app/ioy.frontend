@@ -10,6 +10,7 @@ interface initialStateProps {
 	login: string | null;
 	loading: boolean;
 	is_avatar?: boolean;
+	is_donut?: boolean;
 }
 
 export const fetchMe = createAsyncThunk(
@@ -32,6 +33,7 @@ const initialState: initialStateProps = {
 	login: null,
 	loading: true,
 	is_avatar: false,
+	is_donut: false,
 	roledata: {},
 };
 
@@ -44,6 +46,7 @@ const authSlice = createSlice({
 			state.token = payload?.token;
 			state.login = payload?.login;
 			state.is_avatar = payload?.is_avatar;
+			state.is_donut = payload?.is_donut;
 			state.loading = false;
 			localStorage.setItem("token", payload?.token);
 		},
@@ -53,6 +56,7 @@ const authSlice = createSlice({
 				state.id = null;
 				state.login = null;
 				state.is_avatar = false;
+				state.is_donut = false;
 			}
 			state.loading = false;
 		},
@@ -62,6 +66,7 @@ const authSlice = createSlice({
 			state.login = null;
 			state.loading = false;
 			state.is_avatar = false;
+			state.is_donut = false;
 		},
 		changeLogin: (state, { payload }) => {
 			state.login = payload.login;
@@ -74,11 +79,13 @@ const authSlice = createSlice({
 					state.login = response.login;
 					state.is_avatar = response?.is_avatar;
 					state.roledata = response?.roledata;
+					state.is_donut = response?.is_donut;
 				} catch (err) {
 					state.id = null;
 					state.token = null;
 					state.login = null;
 					state.is_avatar = false;
+					state.is_donut = false;
 				}
 			})();
 		},
@@ -90,18 +97,20 @@ const authSlice = createSlice({
 				state.login = null;
 				state.id = null;
 				state.is_avatar = false;
+				state.is_donut = false;
 				state.roledata = {};
 			})
 			.addCase(
 				fetchMe.fulfilled,
 				(
 					state,
-					{ payload: { id, login, is_avatar, roledata } },
+					{ payload: { id, login, is_avatar, roledata, is_donut } },
 				) => {
 					state.login = login;
 					state.id = id;
 					state.loading = false;
 					state.is_avatar = is_avatar;
+					state.is_donut = is_donut;
 					state.roledata = roledata;
 				},
 			)
@@ -110,6 +119,7 @@ const authSlice = createSlice({
 				state.id = null;
 				state.loading = false;
 				state.is_avatar = false;
+				state.is_donut = false;
 				state.roledata = {};
 			});
 	},
