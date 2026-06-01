@@ -97,9 +97,12 @@ export default function Home() {
 							</NavLink>
 						</li>
 					</ul>
-					<div className="px-8 py-4 text-default max-md:hidden">
+					<div className="flex flex-col gap-4 px-8 py-4 text-default max-md:hidden">
 						<NavLink to={paths.about}>
 							{t("footer.about")}
+						</NavLink>
+						<NavLink to={paths.donut}>
+							{t("footer.donut")}
 						</NavLink>
 					</div>
 				</nav>

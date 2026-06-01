@@ -272,6 +272,7 @@ export default function Profile() {
 							login={login}
 							dataSource={{
 								is_avatar: data?.is_avatar,
+								is_donut: data?.is_donut
 							}}
 							vertical
 							hideLogin
@@ -296,7 +297,7 @@ export default function Profile() {
 							animate={
 								(isScrollable && "movement") || "stable"
 							}
-							className="text-title text-center"
+							className={`text-title text-center ${data?.is_donut && "text-second" || ""}`}
 						>
 							{data?.login}
 						</motion.p>

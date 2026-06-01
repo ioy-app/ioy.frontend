@@ -1,0 +1,12 @@
+{
+  "title": "Support page",
+  "description": "Here you can learn about the available ways to support ioy.app at the moment",
+  "feature": "Features",
+  "feature_description": "Available 7 days after support",
+  "steps": {
+    "title": "How to get it?",
+    "first": "Upload a new game/picture!",
+    "second": "Coming soon",
+    "third": "Coming soon"
+  }
+}

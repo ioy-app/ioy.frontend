@@ -64,8 +64,17 @@ const Footer: React.FC = () => {
 						<option value="en">English</option>
 					</select>
 				</label>
-				<NavLink to={paths.about}>
+				<NavLink
+					to={paths.about}
+					className={({ isActive }) => `${isActive && "text-second" || ""}`}
+				>
 					{t("footer.about")}
+				</NavLink>
+				<NavLink
+					to={paths.donut}
+					className={({ isActive }) => `${isActive && "text-second" || ""}`}
+				>
+					{t("footer.donut")}
 				</NavLink>
 				<Button
 					variant="text"

@@ -87,15 +87,13 @@ const Reports: React.FC = () => {
 										{
 											id: data?.id,
 											is_avatar: data?.is_avatar,
+											is_donut: data?.is_donut
 										} as UserProps
 									}
 									login={data?.login}
 									nolink
 									size={12}
 								/>
-								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-									{data?.login}
-								</p>
 							</Link>
 						),
 					},
@@ -125,15 +123,13 @@ const Reports: React.FC = () => {
 										{
 											id: data?.id,
 											is_avatar: data?.is_avatar,
+											is_donut: data?.is_donut
 										} as UserProps
 									}
 									login={data?.login}
 									nolink
 									size={12}
 								/>
-								<p className="text-default group-hover:text-primary transition-colors cursor-pointer">
-									{data?.login}
-								</p>
 							</Link>
 						),
 					},

@@ -12,6 +12,7 @@ import terms from "./terms.json";
 import about from "./about.json";
 import feed from "./feed.json";
 import pictures from "./pictures.json";
+import donut from "./donut.json";
 
 import order from "./components/order.json";
 import helps from "./components/helps.json";
@@ -43,7 +44,8 @@ const lang = {
 	about,
 	feed,
 	pictures,
-	modals
+	modals,
+	donut
 };
 
 export default lang;
