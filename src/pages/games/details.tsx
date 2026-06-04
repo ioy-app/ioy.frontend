@@ -211,6 +211,7 @@ export default function GamePage() {
 						</div>
 						<Player
 							gameId={Number(id)}
+							picture={query?.data?.picturedata}
 							ref={gameRef}
 						/>
 						<div className="flex gap-4 w-full justify-between items-center">

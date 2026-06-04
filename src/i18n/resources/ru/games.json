@@ -17,7 +17,8 @@
 		"game": "Загрузите index.html или папку (с index.html)",
 		"game_limit": "Лимит 32МБ",
 		"recommends": "Рекомендации",
-		"total_size": "Общий размер:"
+		"total_size": "Общий размер:",
+		"game_id": "Выбрать игру"
 	},
 	"placeholders": {
 		"title": "Моя крутая игра",

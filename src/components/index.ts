@@ -29,6 +29,7 @@ import Picture from "./content/picture";
 import MasonryTable from "./custom/masonryTable";
 import SearchBlock from "./custom/searchBlock";
 import TitleColorfull from "./custom/titleColorfull";
+import SelectGame from "./custom/selectors/selectGame";
 
 export {
 	Header,
@@ -61,5 +62,6 @@ export {
 	Picture,
 	MasonryTable,
 	SearchBlock,
-	TitleColorfull
+	TitleColorfull,
+	SelectGame
 };

@@ -21,6 +21,7 @@ import errors from "./components/errors.json";
 import tabs from "./components/tabs.json";
 import report from "./components/report.json";
 import modals from "./components/modals.json";
+import select from "./components/select.json";
 
 
 const lang = {
@@ -31,6 +32,7 @@ const lang = {
 	auth,
 	order,
 	dashboard,
+	select,
 	jams,
 	games,
 	codes,

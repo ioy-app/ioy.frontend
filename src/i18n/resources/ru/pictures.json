@@ -7,7 +7,8 @@
     "image": "Картинка",
     "image_limit": "Лимит 3мб",
     "title": "Название",
-    "description": "Описание"
+    "description": "Описание",
+    "game_id": "Выбрать игру"
   },
   "placeholders": {
     "title": "Введите название",
