@@ -6,6 +6,7 @@ import {
 	Input,
 	Picture,
 	Select,
+	SelectGame,
 	Spin,
 	Tag,
 	Textarea,
@@ -19,6 +20,7 @@ import {
 	useRef
 } from "react";
 import {
+	Controller,
 	FormProvider,
 	useForm
 } from "react-hook-form";
@@ -95,6 +97,7 @@ export default function Edit() {
 			const status: "draft" | "public" = !jam_id ? data?.status : "public";
 			const tags = data?.tags || [];
 			const is_background = data?.is_background;
+			const game_id = data?.game_id;
 
 			const props = {
 				title,
@@ -104,7 +107,8 @@ export default function Edit() {
 				tags,
 				image,
 				jam_id,
-				is_background
+				is_background,
+				game_id
 			}
 
 			if (isCreate)
@@ -340,6 +344,19 @@ export default function Edit() {
 								</span>
 							))}
 						</div>
+						<p className="text-placeholder">{t("pictures.labels.game_id")}</p>
+						<Controller
+							name="game_id"
+							control={methods.control}
+							render={({ field }) => (
+								<SelectGame
+									value={field.value}
+									disabled={field.disabled}
+									onChange={(value) => field.onChange(value)}
+								/>
+							)}
+						/>
+						
 					</div>
 					<div className="flex gap-4 items-center justify-between w-full flex-wrap">
 						<div className="flex gap-4 items-center">

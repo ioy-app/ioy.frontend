@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Spin from "./spin";
 import Button from "./button";
 import { BiError, BiPlay } from "react-icons/bi";
 import { useTranslation } from "react-i18next";
+import { Routes } from "@/api";
+import Picture from "../content/picture";
 
 const Player: React.FC<{
 	/** Game id */
 	gameId?: number;
 	/** Link ref */
 	ref?: React.Ref<HTMLDivElement>;
+	picture?: Record<string, any>;
 }> = ({
 	gameId,
+	picture,
 	ref
 }) => {
 	const [ isLoading, setLoading ] = useState<boolean>(true);
@@ -18,6 +22,13 @@ const Player: React.FC<{
 	const [ isError, setError ] = useState<boolean>(false);
 
 	const { t } = useTranslation();
+
+	const pictureurl = useMemo(() => {
+		if (!picture)
+			return null;
+
+		return `/api/v1${Routes.pictures.image(picture?.id)}`;
+	}, [ picture ]);
 
 	const handleLoad = async () => {
 		try {
@@ -40,10 +51,26 @@ const Player: React.FC<{
 			ref={ref}
 		>
 			{!isPlay ? (
-				<div className="flex w-full h-full items-center justify-center bg-br/15">
+				<div className="relative flex w-full h-full items-center justify-center bg-br/15">
+					{picture && pictureurl && (
+						<>
+							<img
+								src={pictureurl}
+								className="absolute z-0 w-full opacity-50 scale-125"
+							/>
+							<div
+								className="absolute right-4 bottom-4"
+							>
+								<Picture
+									dataSource={picture}
+								/>
+							</div>
+						</>
+					)}
 					<Button
 						variant="primary"
 						onClick={handleLoad}
+						className="z-1"
 					>
 						<BiPlay size="2em" />
 					</Button>

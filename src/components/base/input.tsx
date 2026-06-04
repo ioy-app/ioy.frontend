@@ -26,7 +26,7 @@ const Input: React.FC<{
 		e: React.KeyboardEvent<HTMLInputElement> &
 			React.ChangeEvent<HTMLInputElement>,
 	) => void;
-}> = ({
+} & React.DOMAttributes<HTMLInputElement>> = ({
 	className,
 	classNameChild,
 	label,

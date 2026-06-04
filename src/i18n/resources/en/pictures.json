@@ -7,7 +7,8 @@
     "image": "Image",
     "image_limit": "limit 3mb",
     "title": "Title",
-    "description": "Description"
+    "description": "Description",
+    "game_id": "Select Game"
   },
   "placeholders": {
     "title": "Enter title",

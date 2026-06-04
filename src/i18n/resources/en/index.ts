@@ -21,6 +21,7 @@ import tabs from "./components/tabs.json";
 import report from "./components/report.json";
 import pictures from "./pictures.json";
 import modals from "./components/modals.json";
+import select from "./components/select.json";
 
 
 const lang = {
@@ -45,7 +46,8 @@ const lang = {
 	feed,
 	pictures,
 	modals,
-	donut
+	donut,
+	select
 };
 
 export default lang;
