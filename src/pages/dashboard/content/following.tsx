@@ -43,15 +43,14 @@ const Following: React.FC = () => {
 	const current_page = Number(
 		searchParams.get("page") || 1,
 	);
-	const status = searchParams.get("status");
 	const sort = searchParams.get("sort");
-	const searchQS = searchParams.get("search");
 
 	const query = useQuery({
 		queryKey: [
 			"dashboard",
 			"following",
 			searchParams?.toString(),
+			login
 		],
 		queryFn: async () => {
 			const search = new URLSearchParams();

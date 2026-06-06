@@ -2,28 +2,24 @@ import confTabs from "./configs/tabs.json";
 
 import * as Components from "@/components";
 import Instances from "./content/instances";
-import { user_paths } from "@/routes/user";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { StoreProps } from "@/stories";
 import { useTranslation } from "react-i18next";
-import {
-	BiArrowBack,
-	BiChevronsLeft,
-} from "react-icons/bi";
+import { BiChevronsLeft } from "react-icons/bi";
 import { paths } from "@/routes";
 import Jams from "./content/jams";
 import { FEATURE_JAMS } from "@/features";
 import Following from "./content/following";
 import Likes from "./content/likes";
 import Reports from "./content/reports";
-import Pictures from "./content/pictures";
-import { useCallback, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function Dashboard() {
 	const { t } = useTranslation();
+	const params = useParams();
+	const tab = params?.tab;
 	const navigate = useNavigate();
-	const [ searchParams, setSearchParams ] = useSearchParams();
 	const { login, roledata } = useSelector(
 		(state: StoreProps) => state.login,
 	);
@@ -32,7 +28,11 @@ export default function Dashboard() {
 		confTabs
 			.map((record) => ({
 				...record,
-				label: t(record.label),
+				label: (
+					<NavLink to={`${paths.dashboard.list}/${record.value}`}>
+						{t(record.label)}
+					</NavLink>
+				),
 			}))
 			.filter((item) => {
 				if (item.value == "jams" && !FEATURE_JAMS)
@@ -45,24 +45,21 @@ export default function Dashboard() {
 
 				return true;
 			})
-	, []);
+	, [ roledata ]);
 
-	// const handleChange = useCallback((tab: string) => {
-	// 	const us = new URLSearchParams();
-	// 	us.set("tab", tab);
-	// 	setSearchParams(us);
-	// }, []);
-
-	// const current_tab = useMemo(() => searchParams.get("tab"), [ searchParams ]);
+	useEffect(() => {
+		document.title = t(`dashboard.tabs.${tab && tab || "instances"}`);
+	}, [
+		t,
+		tab
+	]);
 
 	return (
 		<div className="w-full">
 			<div className="w-full flex flex-col gap-2 items-start mb-4">
 				<Components.Button
 					variant="text"
-					onClick={() =>
-						navigate(paths.users.details(login))
-					}
+					onClick={() => navigate(paths.users.details(login))}
 				>
 					<BiChevronsLeft />
 					{t("buttons.back")}
@@ -70,6 +67,8 @@ export default function Dashboard() {
 			</div>
 			<Components.Tabs
 				headers={tabs}
+				value={tab}
+				onChange={(tab) => navigate(`${paths.dashboard.list}/${tab}`)}
 				content={{
 					instances: <Instances />,
 					jams: <Jams />,
