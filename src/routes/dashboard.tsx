@@ -8,8 +8,12 @@ export const dashboard_paths = {
 const dashboard: RouteObject[] = [
 	{
 		path: dashboard_paths.list,
-		element: <Dashboard />,
+		element: <Dashboard />
 	},
+	{
+		path: `${dashboard_paths.list}/:tab`,
+		element: <Dashboard />
+	}
 ];
 
 export default dashboard;

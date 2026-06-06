@@ -41,7 +41,7 @@ const Jams: React.FC = () => {
 		queryKey: [
 			"dashboard",
 			"jams",
-			searchParams?.toString(),
+			searchParams?.toString()
 		],
 		queryFn: async () => {
 			const search = new URLSearchParams();
